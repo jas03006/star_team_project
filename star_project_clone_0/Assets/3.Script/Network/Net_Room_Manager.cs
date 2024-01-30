@@ -1,0 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Net_Room_Manager 
+{
+    private Dictionary<int, Net_Room_Info> room_dict; // host_id, net_room_info
+    
+    public Net_Room_Manager() {
+        room_dict = new Dictionary<int, Net_Room_Info>();
+    }
+
+    public bool join_room(Client_Handler client, int host_id) {
+        Net_Room_Info net_room_info = null;
+        if (room_dict.ContainsKey(host_id))
+        {
+            net_room_info = room_dict[host_id];
+        }
+        if (net_room_info == null)
+        {
+            net_room_info = create_room(host_id, client);
+            room_dict[host_id] = net_room_info;
+        }
+        else {
+            net_room_info.add_client(client);
+        }
+        return true;
+    }
+
+    public Net_Room_Info create_room(int host_id, Client_Handler client) {
+        Net_Room_Info net_room_info = new Net_Room_Info(host_id, client);
+        return net_room_info;
+    }
+
+    public void room_RPC(int host_id, string msg) {
+        Net_Room_Info net_room_info = null;
+        if (room_dict.ContainsKey(host_id))
+        {
+            net_room_info = room_dict[host_id];
+        }
+        if (net_room_info != null)
+        {
+            net_room_info.every_RPC(msg);
+        }
+    }
+}
