@@ -41,6 +41,30 @@ public class Net_Room_Manager
         if (net_room_info != null)
         {
             net_room_info.every_RPC(msg);
+            //net_room_info.guest_RPC(msg);
         }
+    }
+    public void room_host_RPC(int host_id, string msg)
+    {
+        Net_Room_Info net_room_info = null;
+        if (room_dict.ContainsKey(host_id))
+        {
+            net_room_info = room_dict[host_id];
+        }
+        if (net_room_info != null)
+        {
+            net_room_info.host_RPC(msg);
+            //net_room_info.guest_RPC(msg);
+        }
+    }
+
+    public string get_people_positions(int host_id) {
+
+        if (room_dict.ContainsKey(host_id))
+        {
+            Net_Room_Info net_room_info = room_dict[host_id];
+            return net_room_info.get_people_positions();
+        }
+        return string.Empty;
     }
 }

@@ -19,7 +19,7 @@ public class Net_Room_Info
     }
 
     public void add_client(Client_Handler client) {
-        if (client.id == host_id)
+        if (client.uuid == host_id)
         {
             host = client;
             return;
@@ -28,7 +28,7 @@ public class Net_Room_Info
     }
     public void remove_client(Client_Handler client)
     {
-        if (client.id == host_id) {
+        if (client.uuid == host_id) {
             host = null;
             return;
         }
@@ -36,10 +36,15 @@ public class Net_Room_Info
     }
 
     public void every_RPC(string msg) {
-        if (host !=null) {
-            host.writer.WriteLine(msg);
-        }        
+        host_RPC(msg);
         guest_RPC(msg);
+    }
+    public void host_RPC(string msg)
+    {
+        if (host != null)
+        {
+            host.writer.WriteLine(msg);
+        }
     }
     public void guest_RPC(string msg) {
         for (int i =0; i < guest_list.Count; i++) {
@@ -47,5 +52,16 @@ public class Net_Room_Info
         }
     }
 
-    
+    public string get_people_positions() { // uuid:x:y:z|uuid:x:y:z|...
+        string data = "";
+        if (host != null) {
+            data += host.uuid +":"+ host.position.x + ":" + host.position.y + ":" + host.position.z + "|";
+        }
+        for (int i =0; i < guest_list.Count; i++) {
+            data += guest_list[i].uuid + ":" + guest_list[i].position.x + ":" + guest_list[i].position.y + ":" + guest_list[i].position.z + "|";
+        }
+        return data;
+    }
+
+
 }

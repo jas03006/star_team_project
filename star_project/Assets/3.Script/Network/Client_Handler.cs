@@ -9,11 +9,13 @@ using System.Threading;
 public class Client_Handler
 {
     public int id = -1;
+    public int uuid = -1;
     public TcpClient client;
     public TCPManger manager;
     public StreamReader reader;
     public StreamWriter writer;
     public int room_id;
+    public Vector3 position;
 
     public Client_Handler(TcpClient client_, TCPManger manager_)
     {
