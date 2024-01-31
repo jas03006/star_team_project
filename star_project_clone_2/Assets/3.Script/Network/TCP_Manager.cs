@@ -21,7 +21,7 @@ public enum command_flag {
 
 public class TCPManger : MonoBehaviour
 {
-    private string IPAdress = "127.0.0.1";
+    private string IPAdress = "54.180.24.82";
     private string Port = "7777";
 
     private Net_Room_Manager net_room_manager;
@@ -80,7 +80,7 @@ public class TCPManger : MonoBehaviour
         try
         {
             TcpListener tcp =
-                new TcpListener(IPAddress.Parse(IPAdress),
+                new TcpListener(IPAddress.Any,//IPAddress.Parse(IPAdress),
                 int.Parse(Port));
             //TcpListener 객체 생성
             tcp.Start();//서버가 시작 -> 서버가 열렸다
@@ -146,6 +146,7 @@ public class TCPManger : MonoBehaviour
 
     public void handler_removeAt(int ind) {
         client_handler_list.RemoveAt(ind);
+        //net_room_manager.
     }
 
     #region parse msg
@@ -172,6 +173,9 @@ public class TCPManger : MonoBehaviour
                 break;
             case command_flag.move:
                 req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
+                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                break;
+            case command_flag.update:
                 net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                 break;
             default:
