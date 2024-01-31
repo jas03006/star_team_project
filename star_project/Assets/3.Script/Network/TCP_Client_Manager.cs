@@ -15,7 +15,7 @@ public class TCP_Client_Manager : MonoBehaviour
 {
     public static TCP_Client_Manager instance = null;
 
-    private string IPAdress = "127.0.0.1";
+    private string IPAdress = "54.180.24.82";
     private string Port = "7777";
     private Queue<string> log = new Queue<string>();
     StreamReader reader;//데이터를 읽는 놈
@@ -110,10 +110,11 @@ public class TCP_Client_Manager : MonoBehaviour
         string[] cmd_arr = msg.Split(" ");
         try
         {
+            int uuid_;
             switch ((command_flag)int.Parse(cmd_arr[0]))
             {
                 case command_flag.join: // join rood_id host_id position_data
-                    int uuid_ = int.Parse(cmd_arr[2]);
+                    uuid_ = int.Parse(cmd_arr[2]);
                     if (my_player.object_id != uuid_)
                     {
                         create_guest(uuid_, Vector3.forward);
@@ -124,6 +125,14 @@ public class TCP_Client_Manager : MonoBehaviour
                     break;
                 case command_flag.move:
                     net_mov_obj_dict[cmd_arr[2]].move(new Vector3(float.Parse(cmd_arr[3]), 0, float.Parse(cmd_arr[4])), new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6])));
+                    break;
+                case command_flag.update:
+                    uuid_ = int.Parse(cmd_arr[1]);
+                    if (my_player.object_id != uuid_)
+                    {
+                        Debug.Log("update!");
+                    }
+                    
                     break;
                 default:
                     break;
@@ -141,6 +150,7 @@ public class TCP_Client_Manager : MonoBehaviour
         Net_Move_Object_TG nmo = new_guest.GetComponent<Net_Move_Object_TG>();
         nmo.init(uuid_, true);
         net_mov_obj_dict[uuid_.ToString()] = nmo;
+        //TODO: uuid를 이용해 DB에서 유저 정보를 받아와서 스킨 등 정보를 입히는 과정을 추가해야함
     }
     private void creat_all_guest(string position_datas)
     {
@@ -182,6 +192,11 @@ public class TCP_Client_Manager : MonoBehaviour
     public bool send_join_request(int room_id, int object_id)
     {
         return sending_Message($"{(int)command_flag.join} {room_id} {object_id}");
+    }
+
+    public bool send_update_request()
+    {
+        return sending_Message($"{(int)command_flag.update} {now_room_id}");
     }
     #endregion   
 

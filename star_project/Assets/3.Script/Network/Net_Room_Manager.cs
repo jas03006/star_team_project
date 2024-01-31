@@ -27,6 +27,22 @@ public class Net_Room_Manager
         return true;
     }
 
+    public void remove_from_room(Client_Handler client, int host_id) {
+        Net_Room_Info net_room_info = null;
+        if (room_dict.ContainsKey(host_id))
+        {
+            net_room_info = room_dict[host_id];
+        }
+        if (net_room_info == null)
+        {
+            return;
+        }
+        else
+        {
+            net_room_info.remove_client(client);
+        }
+    }
+
     public Net_Room_Info create_room(int host_id, Client_Handler client) {
         Net_Room_Info net_room_info = new Net_Room_Info(host_id, client);
         return net_room_info;
