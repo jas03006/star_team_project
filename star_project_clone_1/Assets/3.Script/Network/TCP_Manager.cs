@@ -12,8 +12,11 @@ using System.Threading;//멀티 스레딩 하기 위한 라이브러리
 using TMPro;
 
 public enum command_flag { 
-    join = 0,
-    move = 1
+    join = 0, // 하우스 참가
+    move = 1, // 이동
+    build = 2, // 건물 설치
+    remove = 3, // 건물 제거
+    update = 4 // 건물 상태 업데이트
 }
 
 public class TCPManger : MonoBehaviour
@@ -114,108 +117,6 @@ public class TCPManger : MonoBehaviour
     }
     #endregion
 
-
-
-
-
-    /*#region client
-    public void Client_Connect()
-    {
-        log.Enqueue("client_connect");
-        Thread thread = new Thread(client_connect);
-        thread.IsBackground = true;
-        thread.Start();
-    }
-    private void client_connect()//서버에 접근하는 쪽 
-    {
-        try
-        {
-            TcpClient client = new TcpClient();
-            //Server =IP Start point -> cleint = ip end point
-            IPEndPoint ipent =
-                new IPEndPoint(IPAddress.Parse(IPAdress),
-                int.Parse(Port));
-            client.Connect(ipent);
-            log.Enqueue("client Server Connect Compelete!");
-
-
-            reader = new StreamReader(client.GetStream());
-
-            writer = new StreamWriter(client.GetStream());
-            writer.AutoFlush = true;
-
-            while (client.Connected)
-            {
-                string readerData = reader.ReadLine();
-                Debug.Log(readerData);
-            }
-        }
-        catch (Exception e)
-        {
-            log.Enqueue(e.Message);
-        }
-    }
-    public void move_btn()
-    {
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
-        if (sending_Message($"{(int)command_flag.move} {now_room_id} {UnityEngine.Random.Range(0,10)}"))
-        {
-
-
-        }
-    }
-    public void join_btn2()
-    {
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
-        now_room_id = 1;
-        if (sending_Message($"{(int)command_flag.join} {now_room_id}"))
-        {
-            
-
-        }
-    }
-    public void join_btn()
-    {
-        now_room_id = 0;
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
-        if (sending_Message($"{(int)command_flag.join} {now_room_id}"))
-        {
-
-
-        }
-    }
-
-    public void Sending_btn()
-    {
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
-        if (sending_Message("hi" + UnityEngine.Random.Range(0, 10)))
-        {
-
-
-        }
-    }
-    #endregion*/
-
-
-    /*private bool sending_Message(string me)
-    {
-        if (writer != null)
-        {
-            writer.WriteLine(me);
-            return true;
-        }
-        else
-        {
-            Debug.Log("Writer Null");
-            return false;
-        }
-    }*/
-
-
     private IEnumerator process_all_client_co() {
         while (true) {
             status_Message();
@@ -258,18 +159,25 @@ public class TCPManger : MonoBehaviour
         }
     }
     public void parse_msg(Net_Request req) {
-        Debug.Log(req.client.id+": "+req.msg);
+        Debug.Log(req.client.uuid + ": "+req.msg);
         string[] cmd_arr = req.msg.Split(" ");
         switch ((command_flag)int.Parse(cmd_arr[0])) {
             case command_flag.join:
-                net_room_manager.join_room(req.client ,int.Parse(cmd_arr[1]));
+                int host_id = int.Parse(cmd_arr[1]);
+                req.client.uuid = int.Parse(cmd_arr[2]);
+                req.client.position = Vector3.forward;
+                net_room_manager.join_room(req.client , host_id); //룸 참가(서버)
+                net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
+                req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
                 break;
             case command_flag.move:
-                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.client.id + ": " + cmd_arr[2]);
+                req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
+                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                 break;
             default:
                 break;
         } 
     }
+    
     #endregion
 }
