@@ -134,6 +134,10 @@ public class TCP_Client_Manager : MonoBehaviour
                     }
                     
                     break;
+                case command_flag.chat:
+                    uuid_ = int.Parse(cmd_arr[1]);
+                    Debug.Log(cmd_arr[2]+": "+ cmd_arr[3]);
+                    break;
                 default:
                     break;
             }
@@ -198,6 +202,10 @@ public class TCP_Client_Manager : MonoBehaviour
     {
         return sending_Message($"{(int)command_flag.update} {now_room_id}");
     }
+    public bool send_chat_request(string chat_msg)
+    {
+        return sending_Message($"{(int)command_flag.chat} {now_room_id} {my_player.object_id} {chat_msg}");
+    }
     #endregion   
 
     #region test buttons
@@ -208,6 +216,12 @@ public class TCP_Client_Manager : MonoBehaviour
             button_list[i].gameObject.SetActive(false);
         }
     }
+
+    public void send_chat_button() {
+        string chat_msg = "hihi";
+        send_chat_request(chat_msg);
+    }
+
     public void set_id_btn() {
         my_player.init(11);
         Client_Connect();

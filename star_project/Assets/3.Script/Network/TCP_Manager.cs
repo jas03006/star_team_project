@@ -16,7 +16,8 @@ public enum command_flag {
     move = 1, // 이동
     build = 2, // 건물 설치
     remove = 3, // 건물 제거
-    update = 4 // 건물 상태 업데이트
+    update = 4, // 건물 상태 업데이트
+    chat = 5 //채팅 전송
 }
 
 public class TCPManger : MonoBehaviour
@@ -176,6 +177,9 @@ public class TCPManger : MonoBehaviour
                 net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                 break;
             case command_flag.update:
+                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                break;
+            case command_flag.chat:
                 net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                 break;
             default:
