@@ -19,7 +19,7 @@ public class TestBackendManager : MonoBehaviour
         {
             Debug.LogError("초기화 실패 ㅠㅜ" + bro);    //실패일경우
         }
-        Test();
+        //Test();
     }
 
     async void Test()

@@ -33,6 +33,7 @@ public class TestBackend_Login_JGD : MonoBehaviour
         else
         {
             Debug.LogError("회원가입에 실패했습니다. : " + bro);
+  
         }
 
 
@@ -49,6 +50,7 @@ public class TestBackend_Login_JGD : MonoBehaviour
         else
         {
             Debug.LogError("로그인에 실패 : " + bro);
+
         }
     }
     public void UpdateNickname(string nickname)
