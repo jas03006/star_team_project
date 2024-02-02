@@ -7,8 +7,8 @@ using System;
 //소켓 통신을 하기 위한 라이브러리
 using System.Net;
 using System.Net.Sockets;
-using System.IO;//데이터를 읽고 쓰고 하기 위한 라이브러리
-using System.Threading;//멀티 스레딩 하기 위한 라이브러리
+using System.IO; //데이터를 읽고 쓰고 하기 위한 라이브러리
+using System.Threading; //멀티 스레딩 하기 위한 라이브러리
 using TMPro;
 
 public enum command_flag { 
@@ -22,7 +22,7 @@ public enum command_flag {
 
 public class TCPManger : MonoBehaviour
 {
-    private string IPAdress = "54.180.24.82";
+    private string IPAdress = "13.125.236.235";
     private string Port = "7777";
 
     private Net_Room_Manager net_room_manager;
@@ -38,9 +38,9 @@ public class TCPManger : MonoBehaviour
 
     private List<Client_Handler> client_handler_list;
     private Queue<Net_Request> request_queue;
-
+    Thread thread;
     //client
-   // private int now_room_id = -1;
+    // private int now_room_id = -1;
     private void Start()
     {
         if (is_server)
@@ -69,7 +69,7 @@ public class TCPManger : MonoBehaviour
     // 
     public void Server_open()
     {
-        Thread thread = new Thread(ServerConnect);
+        thread = new Thread(ServerConnect);
         thread.IsBackground = true;
         thread.Start();
     }
@@ -161,31 +161,58 @@ public class TCPManger : MonoBehaviour
         }
     }
     public void parse_msg(Net_Request req) {
-        Debug.Log(req.client.uuid + ": "+req.msg);
-        string[] cmd_arr = req.msg.Split(" ");
-        switch ((command_flag)int.Parse(cmd_arr[0])) {
-            case command_flag.join:
-                int host_id = int.Parse(cmd_arr[1]);
-                req.client.uuid = int.Parse(cmd_arr[2]);
-                req.client.position = Vector3.forward;
-                net_room_manager.join_room(req.client , host_id); //룸 참가(서버)
-                net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
-                req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
-                break;
-            case command_flag.move:
-                req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
-                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
-                break;
-            case command_flag.update:
-                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
-                break;
-            case command_flag.chat:
-                net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
-                break;
-            default:
-                break;
-        } 
+        try {
+            Debug.Log(req.client.uuid + ": " + req.msg);
+            string[] cmd_arr = req.msg.Split(" ");
+            switch ((command_flag)int.Parse(cmd_arr[0]))
+            {
+                case command_flag.join:
+                    int host_id = int.Parse(cmd_arr[1]);
+                    req.client.uuid = int.Parse(cmd_arr[2]);
+                    req.client.position = Vector3.forward;
+                    net_room_manager.join_room(req.client, host_id); //룸 참가(서버)
+                    net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
+                    req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
+                    break;
+                case command_flag.move:
+                    req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
+                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    break;
+                case command_flag.update:
+                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    break;
+                case command_flag.chat:
+                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    break;
+                default:
+                    break;
+            }
+        }
+        catch { 
+        }        
+    }
+
+    #endregion
+
+    #region thread closing
+    private void close_all_thread() {
+        for (int i =0; i < client_handler_list.Count; i++) {
+            client_handler_list[i].close();
+        }
     }
     
+    private void OnApplicationQuit()
+    {
+        thread.Abort();
+        thread.Join();
+        close_all_thread();
+    }
+    private void OnDestroy()
+    {
+        thread.Abort();
+        thread.Join();
+
+        close_all_thread();
+    }
     #endregion
 }
