@@ -16,7 +16,7 @@ public class Client_Handler
     public StreamWriter writer;
     public int room_id;
     public Vector3 position;
-
+    Thread listen_thread;
     public Client_Handler(TcpClient client_, TCPManger manager_)
     {
         client = client_;
@@ -29,21 +29,35 @@ public class Client_Handler
 
     public void start()
     {
-        Thread t = new Thread(new ThreadStart(process_client));
-        t.Start();
+        listen_thread = new Thread(process_client);
+        listen_thread.IsBackground = true;
+        listen_thread.Start();
+
     }
 
     public void process_client() {
         string readerData;
         while (client.Connected)
         {
-            readerData = reader.ReadLine();
-            if (readerData != string.Empty)
-            {                
-                manager.add_request(this,  readerData);
-            }
+            if (!reader.EndOfStream) {
+                readerData = reader.ReadLine();
+                if (readerData != string.Empty)
+                {
+                    manager.add_request(this, readerData);
+                }
+            }            
         }
 
         manager.handler_removeAt(id);
+    }
+
+    public void close() {
+        if (listen_thread!=null) {
+            try { 
+                listen_thread.Abort();
+                listen_thread.Join();
+            }
+            catch { }
+        }
     }
 }

@@ -15,7 +15,7 @@ public class TCP_Client_Manager : MonoBehaviour
 {
     public static TCP_Client_Manager instance = null;
 
-    private string IPAdress = "54.180.24.82";
+    private string IPAdress = "3.38.246.236";//"13.125.236.235";
     private string Port = "7777";
     private Queue<string> log = new Queue<string>();
     StreamReader reader;//데이터를 읽는 놈
@@ -120,7 +120,9 @@ public class TCP_Client_Manager : MonoBehaviour
                         create_guest(uuid_, Vector3.forward);
                     }
                     else {
-                        creat_all_guest(cmd_arr[3]);
+                        if (cmd_arr.Length > 3) {
+                            creat_all_guest(cmd_arr[3]);
+                        }                        
                     }   
                     break;
                 case command_flag.move:
@@ -131,8 +133,7 @@ public class TCP_Client_Manager : MonoBehaviour
                     if (my_player.object_id != uuid_)
                     {
                         Debug.Log("update!");
-                    }
-                    
+                    }                    
                     break;
                 case command_flag.chat:
                     uuid_ = int.Parse(cmd_arr[1]);
@@ -158,9 +159,10 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     private void creat_all_guest(string position_datas)
     {
+        
         string[] position_datas_arr = position_datas.Split("|"); // uuid vector3
 
-        for (int i =0; i < position_datas_arr.Length;i++) {
+        for (int i =0; i < position_datas_arr.Length-1;i++) {
             string[] data_pair = position_datas_arr[i].Split(":");
             int uuid_ = int.Parse(data_pair[0]);
             Vector3 position_ = new Vector3(float.Parse(data_pair[1]), my_player.transform.position.y, float.Parse(data_pair[3]));
