@@ -27,18 +27,18 @@ public class TestBackendManager : MonoBehaviour
         await Task.Run(() =>
         {
             //추후 테스트 추가
-            TestBackend_Login_JGD.Instance.CustomLogin("user0", "1234"); // [추가] 뒤끝 로그인
+            TestBackend_Login_JGD.Instance.CustomLogin("qudtls", "1234"); // [추가] 뒤끝 로그인
             //TestBackend_Login_JGD.Instance.UpdateNickname("이름~~~"); //[추가] 닉네임 변경
 
             //게임 정보 기능 구현 로직
-            BackendGameData_JGD.Instance.GameDataInsert();
+            //BackendGameData_JGD.Instance.GameDataInsert();
+            //친구 기능 로직
+
+
+
 
             Debug.Log("테스트를 종료합니다.");
         });
     }
-
-
-
-
-
+    
 }

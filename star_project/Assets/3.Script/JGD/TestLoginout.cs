@@ -40,13 +40,34 @@ public class TestLoginout : MonoBehaviour
             {
                 BackendGameData_JGD.Instance.GameDataInsert();
             }
-            BackendGameData_JGD.Instance.LevelUp();   //레벨업인데 왜 여기있는지 모르겠음 ㄹㅇ
+            //BackendGameData_JGD.Instance.LevelUp();   //레벨업인데 왜 여기있는지 모르겠음 ㄹㅇ
 
             BackendGameData_JGD.Instance.GameDataUpdate();
 
             Debug.Log("테스트를 종료합니다.");
         });
     }
+    public void SendMakeFriend()
+    {
+        string userNickname = InputID.text;           //닉네임
+        BackendFriend_JDG.Instance.SendFriendRequest(userNickname);
+    
+        Debug.Log($"{userNickname}");
+    }
+    public void ChangeNickname()
+    {
+        string userNickname = InputID.text;           //닉네임
+        TestBackend_Login_JGD.Instance.UpdateNickname(userNickname);
 
+        Debug.Log($"{userNickname}");
+    }
+    public void ShowMyindePower()
+    {
+        BackendFriend_JDG.Instance.GetReceivedRequestFriend();
+    }
+    public void MakeFriend()
+    {
+        BackendFriend_JDG.Instance.ApplyFriend(0);
+    }
 
 }
