@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Net_Move_Object_TG : Net_Object_TG
 {
-    [SerializeField] public int object_id { get; private set; } // 오브젝트의 인스턴스를 나타낼 고유의 id (플레이어 캐릭터의 경우 uuid로 하면 될 듯 하다)
+    
     private Coroutine now_move_co = null;
     [SerializeField] protected bool is_guest = false;
     // Start is called before the first frame update

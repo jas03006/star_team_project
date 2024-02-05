@@ -21,7 +21,8 @@ public enum command_flag
     build = 3, // 건물 설치 -> 쓰지 않고 업데이트로 대체
     remove = 4, // 건물 제거 -> 쓰지 않고 업데이트로 대체
     update = 5, // 건물 상태 업데이트
-    chat = 6 //채팅 전송
+    chat = 6, //채팅 전송
+    interact = 7 // 상호작용 전송
 }
 
 // 현재
@@ -323,6 +324,12 @@ public class TCP_Client_Manager : MonoBehaviour
 
         return sending_Message($"{(int)command_flag.chat} {now_room_id} {my_player.object_id} {chat_msg}");
     }
+    public bool send_interact_request(int object_id, int interaction_id, int param)
+    {
+
+        return sending_Message($"{(int)command_flag.interact} {now_room_id} {object_id} {interaction_id} {param}");
+    }
+
     #endregion   
 
     #region test buttons
