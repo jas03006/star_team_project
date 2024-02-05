@@ -14,11 +14,12 @@ using System.Numerics;
 public enum command_flag
 {
     join = 0, // 하우스 참가
-    move = 1, // 이동
-    build = 2, // 건물 설치
-    remove = 3, // 건물 제거
-    update = 4, // 건물 상태 업데이트
-    chat = 5 //채팅 전송
+    exit = 1, // 하우스 퇴장
+    move = 2, // 이동
+    build = 3, // 건물 설치
+    remove = 4, // 건물 제거
+    update = 5, // 건물 상태 업데이트
+    chat = 6 //채팅 전송
 }
 
 public class TCPManger 
@@ -41,6 +42,8 @@ public class TCPManger
     private Queue<Net_Request> request_queue;
     Thread thread;
     Thread processing_thread;
+
+    private int respawn_flag = 7777;
     //client
     // private int now_room_id = -1;
     public void start()
@@ -57,6 +60,7 @@ public class TCPManger
         // process_all_client_co();
         while (true) {
             Thread.Sleep(500);
+            check_client_connections();
             status_Message();
         }
     }
@@ -102,18 +106,11 @@ public class TCPManger
                 log.Enqueue("Client 접속 확인 완료");
 
                 Client_Handler ch = new Client_Handler(client, this);
-                ch.id = id_;
+                ch.id = id_;                
                 id_++;
                 client_handler_list.Add(ch);
 
                 ch.start();
-
-
-                /*while (client.Connected)
-                {
-                    string readData = reader.ReadLine();
-                    Debug.Log(readData);
-                }*/
             }
 
         }
@@ -159,10 +156,33 @@ public class TCPManger
         }
     }
 
-    public void handler_removeAt(int ind)
+    public void handler_remove(Client_Handler ch)
     {
-        client_handler_list.RemoveAt(ind);
-        //net_room_manager.
+        int room_id = ch.room_id;
+        if (room_id != -1) {
+            net_room_manager.remove_from_room(ch, room_id);
+        }        
+        client_handler_list.Remove(ch);
+    }
+
+    public void check_client_connections() {
+        for (int i =0; i < client_handler_list.Count; i++) {
+            
+            if (!client_handler_list[i].client.Connected) {
+                Console.WriteLine($"Client {client_handler_list[i].uuid} disconnected");
+                client_handler_list[i].close();
+                client_handler_list.RemoveAt(i);
+                i--;
+            }
+            try
+            {
+                //Console.WriteLine($"Check Connection: {client_handler_list[i].uuid}");
+                client_handler_list[i].writer.WriteLine(BitConverter.GetBytes((int)0));
+            }
+            catch { 
+            
+            }
+        }
     }
 
     #region parse msg
@@ -189,10 +209,13 @@ public class TCPManger
                 case command_flag.join:
                     int host_id = int.Parse(cmd_arr[1]);
                     req.client.uuid = int.Parse(cmd_arr[2]);
-                    req.client.position = new Vector3(0,0,1);
+                    req.client.position = new Vector3(respawn_flag, 0,0); //첫 리스폰을 알리는 좌표
                     net_room_manager.join_room(req.client, host_id); //룸 참가(서버)
                     net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
                     req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
+                    break;
+                case command_flag.exit:
+                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                     break;
                 case command_flag.move:
                     req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
@@ -210,6 +233,7 @@ public class TCPManger
         }
         catch
         {
+            Console.WriteLine("Parse Error");
         }
     }
 

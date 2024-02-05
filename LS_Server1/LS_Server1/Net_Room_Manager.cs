@@ -22,8 +22,7 @@ public class Net_Room_Manager
             net_room_info = create_room(host_id, client);
             room_dict[host_id] = net_room_info;
         }
-        else
-        {
+        else{
             net_room_info.add_client(client);
         }
         return true;
@@ -41,8 +40,11 @@ public class Net_Room_Manager
             return;
         }
         else
-        {
+        {            
             net_room_info.remove_client(client);
+            if (net_room_info.is_empty()) {
+                room_dict.Remove(host_id);
+            }
         }
     }
 
@@ -64,6 +66,10 @@ public class Net_Room_Manager
             net_room_info.every_RPC(msg);
             //net_room_info.guest_RPC(msg);
         }
+        else {
+            Console.WriteLine($"No Room: {host_id}");
+        }
+        
     }
     public void room_host_RPC(int host_id, string msg)
     {

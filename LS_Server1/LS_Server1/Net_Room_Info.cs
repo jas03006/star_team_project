@@ -18,8 +18,19 @@ public class Net_Room_Info
         add_client(client);
     }
 
+    public bool is_empty() {
+        if (host != null) {
+            return false;
+        }
+        if (guest_list.Count != 0) {
+            return false;
+        }
+        return true;
+    }
+
     public void add_client(Client_Handler client)
     {
+        client.room_id = host_id;
         if (client.uuid == host_id)
         {
             host = client;
@@ -29,12 +40,20 @@ public class Net_Room_Info
     }
     public void remove_client(Client_Handler client)
     {
+        Console.WriteLine($"room {host_id}: remove {client.uuid}");
         if (client.uuid == host_id)
         {
             host = null;
+            client.room_id = -1;
+            string msg = $"{(int)command_flag.exit} {host_id} {client.uuid}";
+            every_RPC(msg);
             return;
         }
-        guest_list.Remove(client);
+        if (guest_list.Remove(client)){
+            client.room_id = -1;
+            string msg = $"{(int)command_flag.exit} {host_id} {client.uuid}";
+            every_RPC(msg);
+        }        
     }
 
     public void every_RPC(string msg)
