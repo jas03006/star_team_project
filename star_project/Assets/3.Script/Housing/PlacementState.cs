@@ -47,7 +47,6 @@ public class PlacementState : IBuildingState
 
         int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition));
 
-        //생성한 오브젝트 
         GridData selectedData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
         selectedData.AddObjectAt(gridPosition, database.objectData[selectedObjectIndex].size, database.objectData[selectedObjectIndex].id, index);
         previewSystem.UpdatePostition(gird.CellToWorld(gridPosition), false);
