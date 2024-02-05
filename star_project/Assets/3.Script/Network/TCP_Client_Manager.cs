@@ -205,6 +205,9 @@ public class TCP_Client_Manager : MonoBehaviour
                         chat_box_manager.chat(chat_msg);
                     }                    
                     break;
+                case command_flag.interact:
+                    //TODO: 오브젝트 인터액션 (오브젝트를 모두 담고있는 class를 하나 구현한 뒤, object id에 맞는 오브젝트의 상호작용 실행)
+                    break;
                 default:
                     break;
             }

@@ -19,7 +19,8 @@ public enum command_flag
     build = 3, // 건물 설치
     remove = 4, // 건물 제거
     update = 5, // 건물 상태 업데이트
-    chat = 6 //채팅 전송
+    chat = 6, //채팅 전송
+    interact = 7 //채팅 전송
 }
 
 public class TCPManger 
@@ -245,6 +246,9 @@ public class TCPManger
                         net_room_manager.room_RPC(host_id, req.msg);
                     }
                     
+                    break;
+                case command_flag.interact:
+                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                     break;
                 default:
                     break;
