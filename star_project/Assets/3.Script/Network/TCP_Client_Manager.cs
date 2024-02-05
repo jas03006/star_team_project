@@ -42,7 +42,9 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private GameObject guest_prefab;
     
     TcpClient client;
-    private int respawn_flag = 7777; 
+    private int respawn_flag = 7777;
+
+    [SerializeField] private ChatBoxManager chat_box_manager;
     private void Awake()
     {
         if (instance == null)
@@ -132,9 +134,10 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         Debug.Log(msg);
         string[] cmd_arr = msg.Split(" ");
-      //  try
-       // {
+        try
+        {
             int uuid_;
+            int host_id;
             switch ((command_flag)int.Parse(cmd_arr[0]))
             {
                 case command_flag.join: // join rood_id host_id position_data
@@ -146,6 +149,7 @@ public class TCP_Client_Manager : MonoBehaviour
                     }
                     else {                        
                         if (cmd_arr.Length > 3) {
+                            chat_box_manager.clear();
                             remove_all_guest(except_self: true);
                             net_mov_obj_dict[cmd_arr[2]] = my_player;
                             now_room_id = int.Parse(cmd_arr[1]);
@@ -178,22 +182,30 @@ public class TCP_Client_Manager : MonoBehaviour
                     }                    
                     break;
                 case command_flag.chat:
-                    uuid_ = int.Parse(cmd_arr[1]);
-                    Debug.Log(cmd_arr[2]+": "+ cmd_arr[3]);
+                    host_id = int.Parse(cmd_arr[1]);
+                    string chat_msg = cmd_arr[3];
+                    Debug.Log(chat_msg);
+                    if (host_id == -1)
+                    { // 글로벌 채팅인 경우 
+                        chat_box_manager.chat(chat_msg);
+                    }
+                    else {
+                        chat_box_manager.chat(chat_msg);
+                    }                    
                     break;
                 default:
                     break;
             }
-       // } catch {
-       //     Debug.Log("parse error!");
-       // }
+        } catch {
+            Debug.Log("parse error!");
+        }
        
     }
     #endregion
 
     public void exit_room() {
         now_room_id = -1;
-        client = null;
+        //client = null;
     }
 
     public Vector3 get_respawn_point(int uuid_) {
@@ -304,40 +316,52 @@ public class TCP_Client_Manager : MonoBehaviour
     }
 
     public void send_chat_button() {
-        string chat_msg = "hihi";
+        string chat_msg = my_player.object_id + ":" + chat_box_manager.chat_input.text;
         send_chat_request(chat_msg);
     }
 
     public void set_id_btn() {
         my_player.init(11);
-       
+        join_global();
     }
     public void set_id_btn2()
     {
         my_player.init(22);
-
+        join_global();
     }
     public void set_id_btn3()
     {
         my_player.init(33);
-        
+        join_global();
+    }
+    public void join_global()
+    {
+        Client_Connect();
+        now_room_id = -1;    
+        if (send_join_request(now_room_id, my_player.object_id))
+        {
+            hide_buttons();
+        }
+    }
+
+    public void exit_room_btn() {
+        now_room_id = -1;    
+        if (send_join_request(now_room_id, my_player.object_id))
+        {
+            exit_room();
+            //hide_buttons();
+        }
     }
     public void join_btn()
     {
-        Client_Connect();
-        now_room_id = 11;
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
+        now_room_id = 11;     
         if (send_join_request(now_room_id, my_player.object_id))
         {
             load_house();
         }
     }
     public void join_btn2()
-    {
-        Client_Connect();
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
+    {      
         now_room_id = 22;
         if (send_join_request(now_room_id, my_player.object_id))
         {
@@ -347,9 +371,7 @@ public class TCP_Client_Manager : MonoBehaviour
     
 
     public void Sending_btn()
-    {
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
+    {      
         if (sending_Message("hi" + UnityEngine.Random.Range(0, 10)))
         {
 
@@ -358,9 +380,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }   
 
     public void move_btn()
-    {
-        //만약 메세지를 보냈다면
-        //내가 보낸 메세지도 message box에 넣을 것        
+    {     
         if (sending_Message($"{(int)command_flag.move} {now_room_id} {UnityEngine.Random.Range(0, 10)}"))
         {
 

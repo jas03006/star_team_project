@@ -59,6 +59,9 @@ public class Net_Room_Manager
 
     public void room_RPC(int host_id, string msg)
     {
+        if (host_id == -1) {
+            return;
+        }
         Net_Room_Info net_room_info = null;
         if (room_dict.ContainsKey(host_id))
         {

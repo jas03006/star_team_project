@@ -204,14 +204,20 @@ public class TCPManger
         {
             Console.WriteLine(req.client.uuid + ": " + req.msg);
             string[] cmd_arr = req.msg.Split(" ");
+            int host_id;
             switch ((command_flag)int.Parse(cmd_arr[0]))
             {
                 case command_flag.join:
-                    int host_id = int.Parse(cmd_arr[1]);
+                    host_id = int.Parse(cmd_arr[1]);
                     req.client.uuid = int.Parse(cmd_arr[2]);
-                    req.client.position = new Vector3(respawn_flag, 0,0); //첫 리스폰을 알리는 좌표
 
-                    net_room_manager.remove_from_room(req.client, req.client.room_id);
+                    net_room_manager.remove_from_room(req.client, req.client.room_id); //기존 있던 방에서 탈퇴
+
+                    if (host_id == -1) { //글로벌 접속이라면               
+                        break;
+                    }
+
+                    req.client.position = new Vector3(respawn_flag, 0,0); //첫 리스폰을 알리는 좌표
                     net_room_manager.join_room(req.client, host_id); //룸 참가(서버)
                     net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
                     req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
@@ -227,7 +233,15 @@ public class TCPManger
                     net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                     break;
                 case command_flag.chat:
-                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    host_id = int.Parse(cmd_arr[1]);
+                    if (host_id == -1) //global chat
+                    {
+                        global_world_RPC(req.msg);
+                    }
+                    else {
+                        net_room_manager.room_RPC(host_id, req.msg);
+                    }
+                    
                     break;
                 default:
                     break;
@@ -239,6 +253,24 @@ public class TCPManger
         }
     }
 
+    #endregion
+
+    #region RPC
+    public void global_world_RPC(string msg) {
+        foreach (Client_Handler ch in client_handler_list) {
+            if (ch.room_id == -1) {
+                ch.writer.WriteLine(msg);
+            }
+        }
+    }
+
+    public void every_RPC(string msg)
+    {
+        foreach (Client_Handler ch in client_handler_list)
+        {
+            ch.writer.WriteLine(msg);           
+        }
+    }
     #endregion
 
     #region thread closing
