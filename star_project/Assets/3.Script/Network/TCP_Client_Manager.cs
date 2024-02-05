@@ -76,6 +76,9 @@ public class TCP_Client_Manager : MonoBehaviour
     #region client connection
     public void Client_Connect()
     {
+        if (client != null) {
+            return;
+        }
         log.Enqueue("client_connect");
         Thread thread = new Thread(client_connect);
         thread.IsBackground = true;
@@ -143,6 +146,8 @@ public class TCP_Client_Manager : MonoBehaviour
                     }
                     else {                        
                         if (cmd_arr.Length > 3) {
+                            remove_all_guest(except_self: true);
+                            net_mov_obj_dict[cmd_arr[2]] = my_player;
                             now_room_id = int.Parse(cmd_arr[1]);
                             creat_all_guest(cmd_arr[3]);
                         }                        
@@ -188,6 +193,7 @@ public class TCP_Client_Manager : MonoBehaviour
 
     public void exit_room() {
         now_room_id = -1;
+        client = null;
     }
 
     public Vector3 get_respawn_point(int uuid_) {
@@ -208,20 +214,13 @@ public class TCP_Client_Manager : MonoBehaviour
         net_mov_obj_dict[uuid_.ToString()] = nmo;
         //TODO: uuid를 이용해 DB에서 유저 정보를 받아와서 스킨 등 정보를 입히는 과정을 추가해야함
     }
-
-    private void remove_guest(int uuid_) {
-        Debug.Log($"remove: {uuid_}");
-        Net_Move_Object_TG guest = net_mov_obj_dict[uuid_.ToString()];
-        Destroy(guest.gameObject);
-        net_mov_obj_dict.Remove(uuid_.ToString());
-    }
-
     private void creat_all_guest(string position_datas)
     {
-        
+
         string[] position_datas_arr = position_datas.Split("|"); // uuid vector3
 
-        for (int i =0; i < position_datas_arr.Length-1;i++) {
+        for (int i = 0; i < position_datas_arr.Length - 1; i++)
+        {
             string[] data_pair = position_datas_arr[i].Split(":");
             int uuid_ = int.Parse(data_pair[0]);
             Vector3 position_ = new Vector3(float.Parse(data_pair[1]), my_player.transform.position.y, float.Parse(data_pair[3]));
@@ -233,11 +232,30 @@ public class TCP_Client_Manager : MonoBehaviour
                 }
                 my_player.transform.position = position_;
             }
-            else {
+            else
+            {
                 create_guest(uuid_, position_);
-            }            
+            }
         }
     }
+
+    private void remove_guest(int uuid_) {
+        Debug.Log($"remove: {uuid_}");
+        Net_Move_Object_TG guest = net_mov_obj_dict[uuid_.ToString()];
+        Destroy(guest.gameObject);
+        net_mov_obj_dict.Remove(uuid_.ToString());
+    }
+
+    private void remove_all_guest(bool except_self = false) {
+        foreach (string key in net_mov_obj_dict.Keys) {
+            if (except_self && my_player.object_id == int.Parse(key)) {
+                continue;
+            }
+            Destroy(net_mov_obj_dict[key].gameObject);
+        }
+        net_mov_obj_dict.Clear();
+    }
+   
     #endregion
 
     #region request

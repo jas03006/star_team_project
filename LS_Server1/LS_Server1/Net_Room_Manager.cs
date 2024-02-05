@@ -30,6 +30,9 @@ public class Net_Room_Manager
 
     public void remove_from_room(Client_Handler client, int host_id)
     {
+        if (host_id == -1) {
+            return;
+        }
         Net_Room_Info net_room_info = null;
         if (room_dict.ContainsKey(host_id))
         {

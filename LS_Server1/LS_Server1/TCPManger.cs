@@ -210,6 +210,8 @@ public class TCPManger
                     int host_id = int.Parse(cmd_arr[1]);
                     req.client.uuid = int.Parse(cmd_arr[2]);
                     req.client.position = new Vector3(respawn_flag, 0,0); //첫 리스폰을 알리는 좌표
+
+                    net_room_manager.remove_from_room(req.client, req.client.room_id);
                     net_room_manager.join_room(req.client, host_id); //룸 참가(서버)
                     net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
                     req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
