@@ -13,7 +13,7 @@ public class Player_Network_TG : Net_Move_Object_TG
     // Update is called once per frame
     void Update()
     {
-        if (!is_guest) {
+        if (!is_guest && TCP_Client_Manager.instance.now_room_id != -1) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 

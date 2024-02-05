@@ -26,6 +26,13 @@ public class Net_Move_Object_TG : Net_Object_TG
     {
         object_id = object_id_;
         is_guest = is_guest_;
+        load();
+    }
+
+    public void load()
+    {
+        //TODO: object_id(uuid)를 이용하여 뒤끝베이스에서 유저 정보(닉네임, 외형 정보 등)를 받아와 저장하고 외형을 변경
+        
     }
 
     public void net_move(Vector3 start_pos, Vector3 dest_pos) {

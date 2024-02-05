@@ -11,18 +11,22 @@ using System.IO;//데이터를 읽고 쓰고 하기 위한 라이브러리
 using System.Threading;//멀티 스레딩 하기 위한 라이브러리
 using TMPro;
 using System.Text;
+using Unity.VisualScripting;
 
 public enum command_flag
 {
     join = 0, // 하우스 참가
     exit = 1, // 하우스 퇴장
     move = 2, // 이동
-    build = 3, // 건물 설치
-    remove = 4, // 건물 제거
+    build = 3, // 건물 설치 -> 쓰지 않고 업데이트로 대체
+    remove = 4, // 건물 제거 -> 쓰지 않고 업데이트로 대체
     update = 5, // 건물 상태 업데이트
     chat = 6 //채팅 전송
 }
 
+// 현재
+// 로비 Scene(글로벌 채팅) -> 하우징 Scene(하우스 채팅)
+// my_player, TCP_Client_Manager를 DonDestory해서 계속 쓰도록 함
 public class TCP_Client_Manager : MonoBehaviour
 {
     public static TCP_Client_Manager instance = null;
@@ -32,7 +36,7 @@ public class TCP_Client_Manager : MonoBehaviour
     private Queue<string> log = new Queue<string>();
     StreamReader reader;//데이터를 읽는 놈
     StreamWriter writer;//데이터를 쓰는 놈
-    private int now_room_id = -1;
+    public int now_room_id { private set; get; } = -1;
 
     [SerializeField] private List<Button> button_list;
     private Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
@@ -151,20 +155,27 @@ public class TCP_Client_Manager : MonoBehaviour
                         if (cmd_arr.Length > 3) {
                             chat_box_manager.clear();
                             remove_all_guest(except_self: true);
-                            net_mov_obj_dict[cmd_arr[2]] = my_player;
-                            now_room_id = int.Parse(cmd_arr[1]);
+
+                            host_id = int.Parse(cmd_arr[1]);
+                            now_room_id = host_id;
+                            /*if (host_id == -1) { //글로벌 채팅 방에 접속하는 것이라면 //글로벌로 나가는 경우 RPC를 본인에게 쏘지 않는 것으로 함
+                                my_player.transform.position = Vector3.zero;
+                                break;
+                            }*/
+
+                            net_mov_obj_dict[cmd_arr[2]] = my_player;                            
                             creat_all_guest(cmd_arr[3]);
                         }                        
                     }   
                     break;
-                case command_flag.exit: // exit rood_id host_id
+                case command_flag.exit: // exit room_id host_id //게임 나가기 (방 나가기와 다른것으로 함)
                     uuid_ = int.Parse(cmd_arr[2]);
                     if (my_player.object_id != uuid_)
                     {
                         remove_guest(uuid_);
                     }
                     else {
-                        exit_room();
+                        exit_game();
                     }                    
                     break;
                 case command_flag.move:                    
@@ -202,10 +213,17 @@ public class TCP_Client_Manager : MonoBehaviour
        
     }
     #endregion
-
+    public void exit_game()
+    {
+        Application.Quit();
+        //client = null;
+    }
     public void exit_room() {
         now_room_id = -1;
-        //client = null;
+        chat_box_manager.clear();        
+        remove_all_guest(except_self: true);
+        my_player.transform.position = Vector3.zero;
+        //TODO: scene이동 추가 해야함
     }
 
     public Vector3 get_respawn_point(int uuid_) {
@@ -302,6 +320,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public bool send_chat_request(string chat_msg)
     {
+
         return sending_Message($"{(int)command_flag.chat} {now_room_id} {my_player.object_id} {chat_msg}");
     }
     #endregion   
@@ -316,8 +335,12 @@ public class TCP_Client_Manager : MonoBehaviour
     }
 
     public void send_chat_button() {
-        string chat_msg = my_player.object_id + ":" + chat_box_manager.chat_input.text;
+        if (string.IsNullOrEmpty(chat_box_manager.chat_input_field.text)) {
+            return;
+        }
+        string chat_msg = my_player.object_id + ":" + chat_box_manager.chat_input_field.text;
         send_chat_request(chat_msg);
+        chat_box_manager.clear_input();
     }
 
     public void set_id_btn() {
@@ -354,6 +377,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public void join_btn()
     {
+        //TODO: Scene이동 추가해야함
         now_room_id = 11;     
         if (send_join_request(now_room_id, my_player.object_id))
         {

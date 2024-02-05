@@ -8,6 +8,7 @@ public class ChatBoxManager : MonoBehaviour
     [SerializeField] private GameObject chat_line_prefab;
     private List<GameObject> chat_line_list;
     public TMP_Text chat_input;
+    public TMP_InputField chat_input_field;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,10 @@ public class ChatBoxManager : MonoBehaviour
         chat_line_list.Add(go);
     }
 
+    public void clear_input() {
+        chat_input.text = string.Empty;
+        chat_input_field.text = string.Empty;
+    }
     public void clear() {
         for (int i = 0; i < chat_line_list.Count; i++) {
             Destroy(chat_line_list[i]);

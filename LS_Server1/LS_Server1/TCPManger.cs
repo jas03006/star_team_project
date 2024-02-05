@@ -213,7 +213,7 @@ public class TCPManger
 
                     net_room_manager.remove_from_room(req.client, req.client.room_id); //기존 있던 방에서 탈퇴
 
-                    if (host_id == -1) { //글로벌 접속이라면               
+                    if (host_id == -1) { //글로벌 접속이라면 (방에서만 나가기)               
                         break;
                     }
 
@@ -222,8 +222,11 @@ public class TCPManger
                     net_room_manager.room_RPC(host_id, req.msg); // 기존 참여자들에게 새로운 참가자의 정보를 전송
                     req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
                     break;
-                case command_flag.exit:
-                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                case command_flag.exit: //게임에서 나가기
+                    //net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    net_room_manager.remove_from_room(req.client, req.client.room_id); //기존 있던 방에서 탈퇴
+                    handler_remove(req.client);
+                    req.client.close();
                     break;
                 case command_flag.move:
                     req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
