@@ -4,6 +4,7 @@ public enum SceneNames
 {
     Logo = 0,
     Login,
+    Lobby,
 }
 public static class SceneUtills_JGD               //æ¿¿Ãµø 
 {
