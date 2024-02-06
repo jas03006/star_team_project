@@ -44,7 +44,7 @@ public class UserData
     public List<int> Char_Item_ID_List = new List<int>();                                  //캐릭터 아이템 리스트
     public List<int> Adjective_ID_List = new List<int>();                                  //형용사 칭호 리스트
     public List<int> Noun_ID_List = new List<int>();                                       //명사 칭호 리스트
-    public List<int> House_Item_ID_List = new List<int>();                                 //하우징 아이템 리스트
+    public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
     //public List<int> Market_ID_List = new List<int>();                                   //상점 상태 정보/////////////////////////////////////////////////////////////////////
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
     public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();               //하우징 정보
