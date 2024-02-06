@@ -11,14 +11,7 @@ using System.IO; //데이터를 읽고 쓰고 하기 위한 라이브러리
 using System.Threading; //멀티 스레딩 하기 위한 라이브러리
 using TMPro;
 
-public enum command_flag { 
-    join = 0, // 하우스 참가
-    move = 1, // 이동
-    build = 2, // 건물 설치
-    remove = 3, // 건물 제거
-    update = 4, // 건물 상태 업데이트
-    chat = 5 //채팅 전송
-}
+
 
 public class TCPManger : MonoBehaviour
 {
