@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +31,8 @@ public class PathFinding : MonoBehaviour
         while (OpenList.Count > 0)
         {
             Node CurrentNode = OpenList[0];
-            for (int i = 0; i < OpenList.Count; i++)
+
+            for (int i = 1; i < OpenList.Count; i++)
             {
                 if (OpenList[i].f_cost < CurrentNode.f_cost || OpenList[i].f_cost == CurrentNode.f_cost && OpenList[i].h_cost < CurrentNode.h_cost)
                 {
@@ -44,14 +46,39 @@ public class PathFinding : MonoBehaviour
             if (CurrentNode == TargetNode)
             {
                 GetFinalPath(StartNode, TargetNode);
+                return;
             }
 
-            //0206 시작지점
-            //foreach (Node neighbornode in grid.GetNeighboringNodes(CurrentNode))
-            //{
+            foreach (Node neighbornode in grid.GetNeighboringNodes(CurrentNode))
+            {
+                if (!neighbornode.iswall || CloseList.Contains(neighbornode))
+                {
+                    continue;
+                }
 
-            //}
+                int movecost = CurrentNode.g_cost + GetManhattenDistance(CurrentNode, neighbornode);
+
+                if (movecost < neighbornode.g_cost || !OpenList.Contains(neighbornode))
+                {
+                    neighbornode.g_cost = movecost;
+                    neighbornode.h_cost = GetManhattenDistance(neighbornode, TargetNode);
+                    neighbornode.Parent = CurrentNode;
+
+                    if (!OpenList.Contains(neighbornode))
+                    {
+                        OpenList.Add(neighbornode);
+                    }
+                }
+            }
         }
+    }
+
+    private int GetManhattenDistance(Node currentNode, Node neighbornode)
+    {
+        int ix = Mathf.Abs(currentNode.gridX - neighbornode.gridX);
+        int iy = Mathf.Abs(currentNode.gridY - neighbornode.gridY);
+
+        return ix + iy;
     }
 
     private void GetFinalPath(Node a_startNode, Node a_endNode)
@@ -66,8 +93,6 @@ public class PathFinding : MonoBehaviour
         }
 
         FinalPath.Reverse();
-
         grid.finalPath = FinalPath;
-
     }
 }
