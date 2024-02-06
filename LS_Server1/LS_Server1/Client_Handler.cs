@@ -15,9 +15,9 @@ public class Client_Handler
     public TCPManger manager;
     public StreamReader reader;
     public StreamWriter writer;
-    public int room_id;
+    public int room_id = -1;
     public Vector3 position;
-    Thread listen_thread;
+    private Thread listen_thread;
     public Client_Handler(TcpClient client_, TCPManger manager_)
     {
         client = client_;
@@ -26,6 +26,7 @@ public class Client_Handler
         writer.AutoFlush = true;
 
         manager = manager_;
+
     }
 
     public void start()
@@ -40,21 +41,29 @@ public class Client_Handler
     {
         string readerData;
         //float timer = 0f;
-        while (client.Connected)
+        try
         {
-            Thread.Sleep(10);
-            if (!reader.EndOfStream)
+            while (client.Connected)
             {
-
-                readerData = reader.ReadLine();
-                if (readerData != string.Empty)
+               // Console.WriteLine($"wait reading: {uuid}");
+                if (!reader.EndOfStream)
                 {
-                    manager.add_request(this, readerData);
+
+                    readerData = reader.ReadLine();
+                    if (readerData != string.Empty)
+                    {
+                        manager.add_request(this, readerData);
+                    }
                 }
+                Thread.Sleep(10);
             }
         }
-
-        manager.handler_removeAt(id);
+        catch { 
+            
+        }
+        Console.WriteLine($"Client {uuid} disconnected");
+        manager.handler_remove(this);
+        //Thread.CurrentThread.Join();
     }
 
     public void close()

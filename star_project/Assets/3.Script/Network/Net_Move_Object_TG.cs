@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Net_Move_Object_TG : Net_Object_TG
 {
-    [SerializeField] public int object_id { get; private set; } // 오브젝트의 인스턴스를 나타낼 고유의 id (플레이어 캐릭터의 경우 uuid로 하면 될 듯 하다)
+    
     private Coroutine now_move_co = null;
     [SerializeField] protected bool is_guest = false;
     // Start is called before the first frame update
@@ -26,6 +26,13 @@ public class Net_Move_Object_TG : Net_Object_TG
     {
         object_id = object_id_;
         is_guest = is_guest_;
+        load();
+    }
+
+    public void load()
+    {
+        //TODO: object_id(uuid)를 이용하여 뒤끝베이스에서 유저 정보(닉네임, 외형 정보 등)를 받아와 저장하고 외형을 변경
+        
     }
 
     public void net_move(Vector3 start_pos, Vector3 dest_pos) {
