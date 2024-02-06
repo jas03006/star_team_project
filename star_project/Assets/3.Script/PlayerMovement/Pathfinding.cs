@@ -77,8 +77,9 @@ public class PathFinding : MonoBehaviour
     {
         int ix = Mathf.Abs(currentNode.gridX - neighbornode.gridX);
         int iy = Mathf.Abs(currentNode.gridY - neighbornode.gridY);
-
-        return ix + iy;
+        int min = Math.Min(ix, iy);
+        int Max = Math.Max(ix, iy);
+        return min * 14 +(Max-min)*10;
     }
 
     private void GetFinalPath(Node a_startNode, Node a_endNode)

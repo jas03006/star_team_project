@@ -92,6 +92,48 @@ public class GridSystem : MonoBehaviour
             }
         }
 
+        ///////////////////////////////////////
+        xCheck = a_node.gridX - 1;
+        yCheck = a_node.gridY - 1;
+
+        if (xCheck >= 0 && xCheck < gridSizeX)
+        {
+            if (yCheck >= 0 && yCheck < gridSizeY)
+            {
+                NeighboringNodes.Add(grid[xCheck, yCheck]);
+            }
+        }
+        xCheck = a_node.gridX + 1;
+        yCheck = a_node.gridY - 1;
+
+        if (xCheck >= 0 && xCheck < gridSizeX)
+        {
+            if (yCheck >= 0 && yCheck < gridSizeY)
+            {
+                NeighboringNodes.Add(grid[xCheck, yCheck]);
+            }
+        }
+        xCheck = a_node.gridX - 1;
+        yCheck = a_node.gridY + 1;
+
+        if (xCheck >= 0 && xCheck < gridSizeX)
+        {
+            if (yCheck >= 0 && yCheck < gridSizeY)
+            {
+                NeighboringNodes.Add(grid[xCheck, yCheck]);
+            }
+        }
+        xCheck = a_node.gridX + 1;
+        yCheck = a_node.gridY + 1;
+
+        if (xCheck >= 0 && xCheck < gridSizeX)
+        {
+            if (yCheck >= 0 && yCheck < gridSizeY)
+            {
+                NeighboringNodes.Add(grid[xCheck, yCheck]);
+            }
+        }
+
         return NeighboringNodes;
     }
 
@@ -118,7 +160,7 @@ public class GridSystem : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+        /*Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
         if (grid != null)
         {
@@ -143,6 +185,6 @@ public class GridSystem : MonoBehaviour
 
                 Gizmos.DrawCube(node.position, Vector3.one * (nodeDiameter - distance));
             }
-        }
+        }*/
     }
 }
