@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LS_Server1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3ddf1c0a4042ad5dca83ec0c9a5abb7f7882ee27")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c50e23173fd0916130f65c440212d5528677436a")]
 [assembly: System.Reflection.AssemblyProductAttribute("LS_Server1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LS_Server1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

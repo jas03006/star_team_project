@@ -13,6 +13,8 @@ using TMPro;
 using System.Text;
 using Unity.VisualScripting;
 
+using UnityEngine.SceneManagement;
+
 public enum command_flag
 {
     join = 0, // 하우스 참가
@@ -39,7 +41,13 @@ public class TCP_Client_Manager : MonoBehaviour
     StreamWriter writer;//데이터를 쓰는 놈
     public int now_room_id { private set; get; } = -1;
 
-    [SerializeField] private List<Button> button_list;
+    [SerializeField] private List<Button> set_button_list;
+    [SerializeField] private List<Button> lobby_button_list;
+    [SerializeField] private List<Button> planet_button_list;
+    [SerializeField] private List<Button> stage_button_list;
+    [SerializeField] private string planet_scene_name;
+    [SerializeField] private string lobby_scene_name;
+    [SerializeField] private string stage_scene_name;
     private Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
     private Queue<string> msg_queue;
 
@@ -58,7 +66,8 @@ public class TCP_Client_Manager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else {
-            Destroy(this);
+            Destroy(this.gameObject);
+            return;
         }
     }
 
@@ -77,7 +86,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public void load_house()
     {
-        hide_buttons();
+        hide_lobby_buttons();
     }
 
     #region client connection
@@ -93,6 +102,7 @@ public class TCP_Client_Manager : MonoBehaviour
         while (client ==null || !client.Connected || writer == null) {
             Debug.Log("wait connection...");
         }
+        Debug.Log("Connected!");
         return;
     }
     private void client_connect()//서버에 접근하는 쪽 
@@ -227,7 +237,7 @@ public class TCP_Client_Manager : MonoBehaviour
         chat_box_manager.clear();        
         remove_all_guest(except_self: true);
         my_player.transform.position = Vector3.zero;
-        //TODO: scene이동 추가 해야함
+        SceneManager.LoadScene(lobby_scene_name);
     }
 
     public Vector3 get_respawn_point(int uuid_) {
@@ -336,11 +346,42 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion   
 
     #region test buttons
-    public void hide_buttons()
+    public void hide_set_buttons()
     {
-        for (int i = 0; i < button_list.Count; i++)
+        for (int i = 0; i < set_button_list.Count; i++)
         {
-            button_list[i].gameObject.SetActive(false);
+            set_button_list[i].gameObject.SetActive(false);
+        }        
+    }
+    public void hide_lobby_buttons()
+    {
+        for (int i = 0; i < lobby_button_list.Count; i++)
+        {
+            lobby_button_list[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < planet_button_list.Count; i++)
+        {
+            planet_button_list[i].gameObject.SetActive(true);
+        }
+    }
+    public void hide_planet_buttons()
+    {
+        for (int i = 0; i < lobby_button_list.Count; i++)
+        {
+            lobby_button_list[i].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < planet_button_list.Count; i++)
+        {
+            planet_button_list[i].gameObject.SetActive(false);
+        }
+    }
+    public void go_myplanet() {
+        SceneManager.LoadScene(planet_scene_name);
+        now_room_id = my_player.object_id;
+        if (send_join_request(now_room_id, my_player.object_id))
+        {
+            hide_lobby_buttons();
+            load_house();
         }
     }
 
@@ -348,7 +389,9 @@ public class TCP_Client_Manager : MonoBehaviour
         if (string.IsNullOrEmpty(chat_box_manager.chat_input_field.text)) {
             return;
         }
+        
         string chat_msg = my_player.object_id + ":" + chat_box_manager.chat_input_field.text;
+        Debug.Log(chat_msg);
         send_chat_request(chat_msg);
         chat_box_manager.clear_input();
     }
@@ -373,7 +416,8 @@ public class TCP_Client_Manager : MonoBehaviour
         now_room_id = -1;    
         if (send_join_request(now_room_id, my_player.object_id))
         {
-            hide_buttons();
+            hide_set_buttons();
+            hide_planet_buttons();
         }
     }
 
@@ -382,6 +426,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (send_join_request(now_room_id, my_player.object_id))
         {
             exit_room();
+            hide_planet_buttons();
             //hide_buttons();
         }
     }
@@ -391,6 +436,7 @@ public class TCP_Client_Manager : MonoBehaviour
         now_room_id = 11;     
         if (send_join_request(now_room_id, my_player.object_id))
         {
+            hide_lobby_buttons();
             load_house();
         }
     }
@@ -399,28 +445,11 @@ public class TCP_Client_Manager : MonoBehaviour
         now_room_id = 22;
         if (send_join_request(now_room_id, my_player.object_id))
         {
+            hide_lobby_buttons();
             load_house();
         }
     }
     
-
-    public void Sending_btn()
-    {      
-        if (sending_Message("hi" + UnityEngine.Random.Range(0, 10)))
-        {
-
-
-        }
-    }   
-
-    public void move_btn()
-    {     
-        if (sending_Message($"{(int)command_flag.move} {now_room_id} {UnityEngine.Random.Range(0, 10)}"))
-        {
-
-
-        }
-    }
 
     
     #endregion
