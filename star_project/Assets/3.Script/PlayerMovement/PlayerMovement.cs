@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Player_Network_TG
 {
     public LayerMask hitLayers;
     public List<Node> finalPath;
@@ -14,19 +14,24 @@ public class PlayerMovement : MonoBehaviour
     public PathFinding pathFinding;
     public GridSystem grid;
 
-    private void Start()
+    private void OnEnable()
     {
+        find_grid();
+    }
+    public void find_grid() {
+        Debug.Log("finding grid system");
         pathFinding = FindObjectOfType<PathFinding>();
         grid = FindObjectOfType<GridSystem>();
     }
-    private void Update()
+    protected override void Update()
     {
-        SetStartandTargetPos();
+        base.Update();
+        //SetStartandTargetPos();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        /*if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             MovePlayer();
-        }
+        }*/
     }
 
     private void SetStartandTargetPos()
@@ -46,6 +51,17 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    public override void move(Vector3 start_pos, Vector3 dest_pos)
+    {
+        //base.move(start_pos, dest_pos);
+        //finalPath = 
+        finalPath =  pathFinding.FindPath(start_pos,dest_pos);
+        
+        if (finalPath != null) {
+            //Debug.Log("Move!");
+            MovePlayer();
+        }
+    }
 
     private void MovePlayer()
     {
@@ -53,7 +69,9 @@ public class PlayerMovement : MonoBehaviour
         Tween t = player_container.DOPath(Path2MovePath(), 4, PathType.CatmullRom).SetOptions(false);
     }
 
-
+    public void stop_DOTween() {
+        DOTween.KillAll();
+    }
     private Vector3[] Path2MovePath() {
         List<Vector3> smooth_path = new List<Vector3>();
 

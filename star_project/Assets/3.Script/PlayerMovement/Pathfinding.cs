@@ -15,14 +15,14 @@ public class PathFinding : MonoBehaviour
 
     private void Update()
     {
-        FindPath(StartPosition.position, TargetPosition.position);
+        //FindPath(StartPosition.position, TargetPosition.position);
     }
 
-    private void FindPath(Vector3 a_startPos, Vector3 a_targetPos)
+    public List<Node> FindPath(Vector3 a_startPos, Vector3 a_targetPos)
     {
         Node StartNode = grid.NodeFromWorldPosition(a_startPos);
         Node TargetNode = grid.NodeFromWorldPosition(a_targetPos);
-
+       
         List<Node> OpenList = new List<Node>();
         HashSet<Node> CloseList = new HashSet<Node>(); //hashset = 중복비허용/순서보장X인 List. List보다 빠르다고함.
 
@@ -45,8 +45,9 @@ public class PathFinding : MonoBehaviour
 
             if (CurrentNode == TargetNode)
             {
-                GetFinalPath(StartNode, TargetNode);
-                return;
+                Debug.Log("Find Path");
+                return GetFinalPath(StartNode, TargetNode);
+                //;
             }
 
             foreach (Node neighbornode in grid.GetNeighboringNodes(CurrentNode))
@@ -71,6 +72,7 @@ public class PathFinding : MonoBehaviour
                 }
             }
         }
+        return null;
     }
 
     private int GetManhattenDistance(Node currentNode, Node neighbornode)
@@ -82,7 +84,7 @@ public class PathFinding : MonoBehaviour
         return min * 14 +(Max-min)*10;
     }
 
-    private void GetFinalPath(Node a_startNode, Node a_endNode)
+    private List<Node> GetFinalPath(Node a_startNode, Node a_endNode)
     {
         List<Node> FinalPath = new List<Node>();
         Node CurrentNode = a_endNode;
@@ -95,5 +97,7 @@ public class PathFinding : MonoBehaviour
 
         FinalPath.Reverse();
         grid.finalPath = FinalPath;
+
+        return FinalPath;
     }
 }
