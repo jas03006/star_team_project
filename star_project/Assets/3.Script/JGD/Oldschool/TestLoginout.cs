@@ -46,6 +46,23 @@ public class TestLoginout : MonoBehaviour
             Debug.Log("테스트를 종료합니다.");
         });
     }
+
+
+    public void test_update() {
+        BackendGameData_JGD.userData.Housing_List.Add(new HousingInfo_JGD());
+        BackendGameData_JGD.userData.Housing_List.Add(new HousingInfo_JGD());
+        BackendGameData_JGD.userData.Housing_List.Add(new HousingInfo_JGD());
+        user_DB_update();
+        Debug.Log(BackendGameData_JGD.userData.Housing_List);
+    }
+    async void user_DB_update() {
+        await Task.Run(() =>
+        {
+            BackendGameData_JGD.Instance.GameDataUpdate();
+            BackendGameData_JGD.Instance.GameDataGet();
+            
+        });            
+    }
     public void SendMakeFriend()
     {
         string userNickname = InputID.text;           //닉네임

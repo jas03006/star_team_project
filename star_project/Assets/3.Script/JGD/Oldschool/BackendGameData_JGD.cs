@@ -39,17 +39,17 @@ public class UserData
     public Dictionary<string, int> inventory = new Dictionary<string, int>();
     public List<string> equipment = new List<string>();
     //유저 데이터????????????진척도?????캐릭터랑 아이템 리스트 이런거
-    public List<string> Friend_UUID_List = new List<string>();                    //친구정보
-    public List<int> Character_ID_List = new List<int>();                  //보유 캐릭터 리스트
-    public List<int> Char_Item_ID_List = new List<int>();                  //캐릭터 아이템 리스트
-    public List<int> Adjective_ID_List = new List<int>();                  //형용사 칭호 리스트
-    public List<int> Noun_ID_List = new List<int>();                       //명사 칭호 리스트
-    public List<int> House_Item_ID_List = new List<int>();                 //하우징 아이템 리스트
-    //public List<int> Market_ID_List = new List<int>();                     //상점 상태 정보/////////////////////////////////////////////////////////////////////
-    public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();         //스테이지 별 정보
-    public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();           //하우징 정보
-    public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();         //퀘스트 별 클리어 여부
-    public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();      //업적 별 클리어 여부 
+    public List<string> Friend_UUID_List = new List<string>();                             //친구정보
+    public List<int> Character_ID_List = new List<int>();                                  //보유 캐릭터 리스트
+    public List<int> Char_Item_ID_List = new List<int>();                                  //캐릭터 아이템 리스트
+    public List<int> Adjective_ID_List = new List<int>();                                  //형용사 칭호 리스트
+    public List<int> Noun_ID_List = new List<int>();                                       //명사 칭호 리스트
+    public List<int> House_Item_ID_List = new List<int>();                                 //하우징 아이템 리스트
+    //public List<int> Market_ID_List = new List<int>();                                   //상점 상태 정보/////////////////////////////////////////////////////////////////////
+    public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
+    public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();               //하우징 정보
+    public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
+    public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
 
     public override string ToString()
     {
@@ -139,7 +139,6 @@ public class BackendGameData_JGD : MonoBehaviour
             return _instance;   
         }
     }
-
     public static UserData userData;
 
     private string gameDataRowInDate = string.Empty;
@@ -217,50 +216,50 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.info = gameDataJson[0]["info"].ToString();
 
 
-                foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
-                {
-                    userData.Friend_UUID_List.Add(equip.ToString());
-                }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["Character_ID_List"]) //보유 캐릭터 리스트
-                {
-                    userData.Character_ID_List.Add(int.Parse(equip.ToString()));
-                }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["Char_Item_ID_List"])   //캐릭터 아이템 리스트
-                {
-                    userData.Char_Item_ID_List.Add(int.Parse(equip.ToString()));
-                }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["Adjective_ID_List"])  //형용사 칭호 리스트
-                {
-                    userData.Adjective_ID_List.Add(int.Parse(equip.ToString()));
-                }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["Noun_ID_List"])  //명사 칭호 리스트
-                {
-                    userData.Noun_ID_List.Add(int.Parse(equip.ToString()));
-                }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
-                {
-                    userData.House_Item_ID_List.Add(int.Parse(equip.ToString()));
-                }
-                //foreach (string itemKey in gameDataJson[0]["Market_ID_List"]) //상점 상태 정보
+                //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
                 //{
-                //    userData.inventory.Add(itemKey, int.Parse(gameDataJson[0]["Market_ID_List"][itemKey].ToString()));
+                //    userData.Friend_UUID_List.Add(equip.ToString());
                 //}
-                foreach (LitJson.JsonData equip in gameDataJson[0]["StageInfo_JGD"]) //스테이지 별 정보
-                {
-                    userData.StageInfo_List.Add(new StageInfo_JGD(equip));
-                }
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["Character_ID_List"]) //보유 캐릭터 리스트
+                //{
+                //    userData.Character_ID_List.Add(int.Parse(equip.ToString()));
+                //}
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["Char_Item_ID_List"])   //캐릭터 아이템 리스트
+                //{
+                //    userData.Char_Item_ID_List.Add(int.Parse(equip.ToString()));
+                //}
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["Adjective_ID_List"])  //형용사 칭호 리스트
+                //{
+                //    userData.Adjective_ID_List.Add(int.Parse(equip.ToString()));
+                //}
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["Noun_ID_List"])  //명사 칭호 리스트
+                //{
+                //    userData.Noun_ID_List.Add(int.Parse(equip.ToString()));
+                //}
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
+                //{
+                //    userData.House_Item_ID_List.Add(int.Parse(equip.ToString()));
+                //}
+                ////foreach (string itemKey in gameDataJson[0]["Market_ID_List"]) //상점 상태 정보
+                ////{
+                ////    userData.inventory.Add(itemKey, int.Parse(gameDataJson[0]["Market_ID_List"][itemKey].ToString()));
+                ////}
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["StageInfo_JGD"]) //스테이지 별 정보
+                //{
+                //    userData.StageInfo_List.Add(new StageInfo_JGD(equip));
+                //}
                 foreach (LitJson.JsonData equip in gameDataJson[0]["Housing_List"])//하우징 정보
                 {
                     userData.Housing_List.Add(new HousingInfo_JGD(equip));
                 }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["QuestInfo_List"])//퀘스트 별 클리어 여부
-                {
-                    userData.QuestInfo_List.Add(new QuestInfo_JGD(equip));
-                }
-                foreach (LitJson.JsonData equip in gameDataJson[0]["Achievements_List"])//업적 별 클리어 여부 
-                {
-                    userData.Achievements_List.Add(new AchievementsInfo_JGD(equip));
-                }
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["QuestInfo_List"])//퀘스트 별 클리어 여부
+                //{
+                //    userData.QuestInfo_List.Add(new QuestInfo_JGD(equip));
+                //}
+                //foreach (LitJson.JsonData equip in gameDataJson[0]["Achievements_List"])//업적 별 클리어 여부 
+                //{
+                //    userData.Achievements_List.Add(new AchievementsInfo_JGD(equip));
+                //}
                 //예제 코드
                 foreach (string itemKey in gameDataJson[0]["inventory"])
                 {
