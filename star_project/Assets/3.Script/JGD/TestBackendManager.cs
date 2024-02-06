@@ -7,7 +7,42 @@ using BackEnd;
 
 public class TestBackendManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        BackendSetUp();
+    }
     private void Start()
+    {
+        //Test();
+    }
+    private void Update()
+    {
+        if (Backend.IsInitialized)
+        {
+            Backend.AsyncPoll();
+        }
+    }
+
+    async void Test()
+    {
+        await Task.Run(() =>
+        {
+            //추후 테스트 추가
+            TestBackend_Login_JGD.Instance.CustomLogin("tlqkf", "1234"); // [추가] 뒤끝 로그인
+            //TestBackend_Login_JGD.Instance.UpdateNickname("이름~~~"); //[추가] 닉네임 변경
+
+            //게임 정보 기능 구현 로직
+            BackendGameData_JGD.Instance.LevelUp();
+            BackendGameData_JGD.Instance.GameDataInsert();
+            //친구 기능 로직
+
+
+
+            Debug.Log("테스트를 종료합니다.");
+        });
+    }
+    private void BackendSetUp()
     {
         var bro = Backend.Initialize(true);    //뒤끝 초기화
 
@@ -19,26 +54,5 @@ public class TestBackendManager : MonoBehaviour
         {
             Debug.LogError("초기화 실패 ㅠㅜ" + bro);    //실패일경우
         }
-        //Test();
     }
-
-    async void Test()
-    {
-        await Task.Run(() =>
-        {
-            //추후 테스트 추가
-            TestBackend_Login_JGD.Instance.CustomLogin("user0", "1234"); // [추가] 뒤끝 로그인
-            //TestBackend_Login_JGD.Instance.UpdateNickname("이름~~~"); //[추가] 닉네임 변경
-
-            //게임 정보 기능 구현 로직
-            BackendGameData_JGD.Instance.GameDataInsert();
-
-            Debug.Log("테스트를 종료합니다.");
-        });
-    }
-
-
-
-
-
 }
