@@ -9,7 +9,7 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField] GameObject gridVisualization;
 
-    private GridData floorData, furnitureData;
+    public GridData floorData, furnitureData;
 
     [SerializeField] private PreviewSystem preview;
 
@@ -17,9 +17,9 @@ public class PlacementSystem : MonoBehaviour
 
     private Vector3Int lastDetectedPostition = Vector3Int.zero;
 
-    IBuildingState buildingState;
+    public IBuildingState buildingState;
 
-    private void Start()
+    private void Awake()
     {
         StopPlacement();
         floorData = new();
@@ -59,12 +59,6 @@ public class PlacementSystem : MonoBehaviour
 
         buildingState.OnAction(gridPosition);
     }
-
-    //private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
-    //{
-    //    GridData selectData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
-    //    return selectData.CanPlaceObjectAt(gridPosition, database.objectData[selectedObjectIndex].size);
-    //}
 
     private void StopPlacement()
     {

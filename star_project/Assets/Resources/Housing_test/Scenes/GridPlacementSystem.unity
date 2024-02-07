@@ -1849,6 +1849,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 4675264004560198817, guid: 6998f77af596fa444b2eac010e8f7189, type: 3}
+      propertyPath: layer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 5200154633113331690, guid: 6998f77af596fa444b2eac010e8f7189, type: 3}
       propertyPath: scene_cam
       value: 
@@ -1906,6 +1910,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1390386966096534783, guid: 0b27e8ddfb4f229449532d234057ad09, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4396450589235134747, guid: 0b27e8ddfb4f229449532d234057ad09, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.2141485
@@ -1949,6 +1957,10 @@ PrefabInstance:
     - target: {fileID: 7459287082021788011, guid: 0b27e8ddfb4f229449532d234057ad09, type: 3}
       propertyPath: m_Name
       value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7459287082021788011, guid: 0b27e8ddfb4f229449532d234057ad09, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2168,6 +2180,10 @@ PrefabInstance:
     - target: {fileID: 2524641723957729937, guid: fe9c2f04f797dc7479e8a4f2e7a45292, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027739186937336508, guid: fe9c2f04f797dc7479e8a4f2e7a45292, type: 3}
+      propertyPath: nodeRadius
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8050308605645582334, guid: fe9c2f04f797dc7479e8a4f2e7a45292, type: 3}
       propertyPath: m_LocalPosition.x

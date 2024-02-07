@@ -27,12 +27,12 @@ public class PlayerMovement : Player_Network_TG
     protected override void Update()
     {
         base.Update();
-        //SetStartandTargetPos();
+        SetStartandTargetPos();
 
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            MovePlayer();
-        }*/
+            move(pathFinding.StartPosition.position,pathFinding.TargetPosition.position);
+        }
     }
 
     private void SetStartandTargetPos()
@@ -52,6 +52,7 @@ public class PlayerMovement : Player_Network_TG
             }
         }
     }
+
     public override void move(Vector3 start_pos, Vector3 dest_pos)
     {
         //base.move(start_pos, dest_pos);
