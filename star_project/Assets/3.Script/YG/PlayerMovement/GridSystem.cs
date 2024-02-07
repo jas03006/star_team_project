@@ -9,7 +9,10 @@ public class GridSystem : MonoBehaviour
     public float nodeRadius; //노드 반지름
     public float distance;
     Vector3 bottomLeft;
-    Node[,] grid;
+    Node[,] grid_node;
+    Grid grid;
+
+    GridData furnitureData;
 
     public List<Node> finalPath; //최종으로 찾은 길
 
@@ -18,6 +21,8 @@ public class GridSystem : MonoBehaviour
 
     private void Start()
     {
+        grid = FindObjectOfType<Grid>();
+
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -35,7 +40,7 @@ public class GridSystem : MonoBehaviour
         int x = Mathf.RoundToInt((gridSizeX - 1) * x_point);
         int y = Mathf.RoundToInt((gridSizeY - 1) * y_point);
 
-        return grid[x, y];
+        return grid_node[x, y];
     }
 
     public List<Node> GetNeighboringNodes(Node a_node)
@@ -52,7 +57,7 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                NeighboringNodes.Add(grid_node[xCheck, yCheck]);
             }
         }
 
@@ -64,7 +69,7 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                NeighboringNodes.Add(grid_node[xCheck, yCheck]);
             }
         }
 
@@ -76,7 +81,7 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                NeighboringNodes.Add(grid_node[xCheck, yCheck]);
             }
         }
 
@@ -88,7 +93,7 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                NeighboringNodes.Add(grid_node[xCheck, yCheck]);
             }
         }
 
@@ -100,9 +105,14 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                if (grid_node[xCheck, a_node.gridY].iswall && grid_node[a_node.gridX, yCheck].iswall)
+                {
+                    NeighboringNodes.Add(grid_node[xCheck, yCheck]);
+                }
+
             }
         }
+
         xCheck = a_node.gridX + 1;
         yCheck = a_node.gridY - 1;
 
@@ -110,7 +120,10 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                if (grid_node[xCheck, a_node.gridY].iswall && grid_node[a_node.gridX, yCheck].iswall)
+                {
+                    NeighboringNodes.Add(grid_node[xCheck, yCheck]);
+                }
             }
         }
         xCheck = a_node.gridX - 1;
@@ -120,7 +133,10 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                if (grid_node[xCheck, a_node.gridY].iswall && grid_node[a_node.gridX, yCheck].iswall)
+                {
+                    NeighboringNodes.Add(grid_node[xCheck, yCheck]);
+                }
             }
         }
         xCheck = a_node.gridX + 1;
@@ -130,17 +146,26 @@ public class GridSystem : MonoBehaviour
         {
             if (yCheck >= 0 && yCheck < gridSizeY)
             {
-                NeighboringNodes.Add(grid[xCheck, yCheck]);
+                if (grid_node[xCheck, a_node.gridY].iswall && grid_node[a_node.gridX, yCheck].iswall)
+                {
+                    NeighboringNodes.Add(grid_node[xCheck, yCheck]);
+                }
             }
         }
 
         return NeighboringNodes;
     }
 
-    private void CreateGird()
+    public void CreateGird()
     {
-        grid = new Node[gridSizeX, gridSizeY];
+        if (furnitureData == null)
+        {
+            furnitureData = FindObjectOfType<PlacementSystem>().furnitureData;
+        }
+
+        grid_node = new Node[gridSizeX, gridSizeY];
         bottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
+
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
@@ -148,23 +173,31 @@ public class GridSystem : MonoBehaviour
                 Vector3 worldPoint = bottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool wall = true;
 
-                if (Physics.CheckSphere(worldPoint, nodeRadius, wallMask)) //원에 충돌하면 
+                Vector3Int worldPointToCell = grid.WorldToCell(worldPoint);
+                Vector3Int worldPointInt = Vector3Int.FloorToInt(worldPoint);
+
+                
+                if (Physics.CheckSphere(worldPoint, nodeRadius, wallMask) || (furnitureData!= null && !furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one))) //원에 충돌하면 
                 {
+                    if (furnitureData != null) {
+
+                        Debug.Log($"worldPointToCell :{worldPointToCell} bool : {furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one)}");
+                    }
                     wall = false;
                 }
 
-                grid[x,y] = new Node(wall, worldPoint, x, y);
+                grid_node[x, y] = new Node(wall, worldPoint, x, y);
             }
         }
     }
 
     private void OnDrawGizmos()
     {
-        /*Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
-        if (grid != null)
+        if (grid_node != null)
         {
-            foreach (Node node in grid)
+            foreach (Node node in grid_node)
             {
                 if (node.iswall)
                 {
@@ -185,6 +218,6 @@ public class GridSystem : MonoBehaviour
 
                 Gizmos.DrawCube(node.position, Vector3.one * (nodeDiameter - distance));
             }
-        }*/
+        }
     }
 }

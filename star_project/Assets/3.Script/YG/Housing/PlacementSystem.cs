@@ -9,7 +9,7 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField] GameObject gridVisualization;
 
-    private GridData floorData, furnitureData;
+    public GridData floorData, furnitureData;
 
     [SerializeField] private PreviewSystem preview;
 
@@ -17,9 +17,9 @@ public class PlacementSystem : MonoBehaviour
 
     private Vector3Int lastDetectedPostition = Vector3Int.zero;
 
-    IBuildingState buildingState;
+    public IBuildingState buildingState;
 
-    private void Start()
+    private void Awake()
     {
         StopPlacement();
         floorData = new();

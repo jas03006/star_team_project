@@ -15,7 +15,7 @@ public class GridData
         {
             if (placedObjects.ContainsKey(pos))
                 throw new Exception($"Dictionary already contains this cell position {pos}");
-            placedObjects[pos] = data;
+            placedObjects[pos] = data; 
         }
     }
 
@@ -34,11 +34,17 @@ public class GridData
 
     public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
     {
+        List<Vector3> testpos_list = new List<Vector3>();
+        testpos_list.Add(new Vector3(-5, 0, -4));
+        testpos_list.Add(new Vector3(-5, 0, -3));
+
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
         foreach (var pos in positionToOccupy)
         {
-            if (placedObjects.ContainsKey(pos))
+            if (placedObjects.ContainsKey(pos) || testpos_list.Contains(gridPosition))
+            {
                 return false;
+            }
         }
         return true;
     }

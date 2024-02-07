@@ -31,7 +31,7 @@ public class PlayerMovement : Player_Network_TG
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            MovePlayer();
+            move(pathFinding.StartPosition.position,pathFinding.TargetPosition.position);
         }
     }
 
@@ -52,6 +52,7 @@ public class PlayerMovement : Player_Network_TG
             }
         }
     }
+
     public override void move(Vector3 start_pos, Vector3 dest_pos)
     {
         //base.move(start_pos, dest_pos);
