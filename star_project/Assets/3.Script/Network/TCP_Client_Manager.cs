@@ -161,8 +161,8 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         Debug.Log(msg);
         string[] cmd_arr = msg.Split(" ");
-        try
-        {
+       // try
+        //{
             int uuid_;
             int host_id;
             switch ((command_flag)int.Parse(cmd_arr[0]))
@@ -233,9 +233,9 @@ public class TCP_Client_Manager : MonoBehaviour
                 default:
                     break;
             }
-        } catch {
-            Debug.Log("parse error!");
-        }
+       // } catch (Exception e){
+       //     Debug.Log($"parse error! {e.Message}");
+       // }
        
     }
     #endregion
@@ -257,7 +257,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (uuid_ == now_room_id) {
             return new Vector3(-5,0.5f,-5);
         }
-        return Vector3.forward*-3f;
+        return Vector3.forward*-3f + Vector3.up*0.5f;
     }
 
     #region guest management
@@ -268,6 +268,7 @@ public class TCP_Client_Manager : MonoBehaviour
         GameObject new_guest = GameObject.Instantiate(guest_prefab, position, Quaternion.identity);
         Net_Move_Object_TG nmo = new_guest.GetComponent<Net_Move_Object_TG>();
         nmo.init(uuid_, true);
+        (nmo as PlayerMovement).look_user();
         net_mov_obj_dict[uuid_.ToString()] = nmo;
         //TODO: uuid를 이용해 DB에서 유저 정보를 받아와서 스킨 등 정보를 입히는 과정을 추가해야함
     }
@@ -288,6 +289,7 @@ public class TCP_Client_Manager : MonoBehaviour
                     position_ = get_respawn_point(uuid_);
                 }
                 my_player.transform.position = position_;
+                my_player.look_user();
             }
             else
             {
