@@ -9,6 +9,8 @@ public class ChatBoxManager : MonoBehaviour
     private List<GameObject> chat_line_list;
     public TMP_Text chat_input;
     public TMP_InputField chat_input_field;
+
+    public bool is_global_chat = false;
     // Start is called before the first frame update
     void Start()
     {

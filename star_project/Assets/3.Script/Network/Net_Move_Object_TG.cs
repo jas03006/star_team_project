@@ -17,10 +17,7 @@ public class Net_Move_Object_TG : Net_Object_TG
 
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void init(int object_id_, bool is_guest_ = false)
     {
@@ -39,7 +36,7 @@ public class Net_Move_Object_TG : Net_Object_TG
         TCP_Client_Manager.instance.send_move_request(object_id, start_pos, dest_pos);
     }
 
-    public void move(Vector3 start_pos, Vector3 dest_pos)
+    public virtual void move(Vector3 start_pos, Vector3 dest_pos)
     {
         if (now_move_co != null) {
             StopCoroutine(now_move_co);
