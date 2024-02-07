@@ -26,12 +26,12 @@ public class PlayerMovement : Player_Network_TG
     protected override void Update()
     {
         base.Update();
-        //SetStartandTargetPos();
+        SetStartandTargetPos();
 
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             MovePlayer();
-        }*/
+        }
     }
 
     private void SetStartandTargetPos()
