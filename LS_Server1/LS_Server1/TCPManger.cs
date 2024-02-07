@@ -20,7 +20,8 @@ public enum command_flag
     remove = 4, // 건물 제거
     update = 5, // 건물 상태 업데이트
     chat = 6, //채팅 전송
-    interact = 7 //채팅 전송
+    interact = 7, //채팅 전송
+    invite = 8 //초대
 }
 
 public class TCPManger 
@@ -250,6 +251,9 @@ public class TCPManger
                 case command_flag.interact:
                     net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                     break;
+                case command_flag.invite:                    
+                    target_RPC(int.Parse(cmd_arr[2]), req.msg);
+                    break;
                 default:
                     break;
             }
@@ -277,6 +281,17 @@ public class TCPManger
         foreach (Client_Handler ch in client_handler_list)
         {
             ch.writer.WriteLine(msg);           
+        }
+    }
+    public void target_RPC(int uuid_, string msg)
+    {
+        foreach (Client_Handler ch in client_handler_list)
+        {
+            if (ch.uuid == uuid_)
+            {
+                ch.writer.WriteLine(msg);
+                break;
+            }
         }
     }
     #endregion

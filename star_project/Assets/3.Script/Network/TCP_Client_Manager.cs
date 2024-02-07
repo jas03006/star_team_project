@@ -20,11 +20,12 @@ public enum command_flag
     join = 0, // 하우스 참가
     exit = 1, // 하우스 퇴장
     move = 2, // 이동
-    build = 3, // 건물 설치 -> 쓰지 않고 업데이트로 대체
-    remove = 4, // 건물 제거 -> 쓰지 않고 업데이트로 대체
+    build = 3, // 건물 설치
+    remove = 4, // 건물 제거
     update = 5, // 건물 상태 업데이트
     chat = 6, //채팅 전송
-    interact = 7 // 상호작용 전송
+    interact = 7, //채팅 전송
+    invite = 8 //초대
 }
 
 // 현재
@@ -40,6 +41,7 @@ public class TCP_Client_Manager : MonoBehaviour
     StreamReader reader;//데이터를 읽는 놈
     StreamWriter writer;//데이터를 쓰는 놈
     public int now_room_id { private set; get; } = -1;
+    public int target_room_id { private set; get; } = -1;
 
     [SerializeField] private List<Button> set_button_list;
     [SerializeField] private List<Button> lobby_button_list;
@@ -58,6 +60,9 @@ public class TCP_Client_Manager : MonoBehaviour
     private int respawn_flag = 7777;
 
     [SerializeField] private ChatBoxManager chat_box_manager;
+
+    [SerializeField] private GameObject invite_UI;
+    [SerializeField] private Button invite_agree_button;
     private void Awake()
     {
         if (instance == null)
@@ -219,18 +224,24 @@ public class TCP_Client_Manager : MonoBehaviour
                     host_id = int.Parse(cmd_arr[1]);
                     string chat_msg = cmd_arr[3];
                     Debug.Log(chat_msg);
-                    if (host_id == -1)
-                    { // 글로벌 채팅인 경우 
-                        chat_box_manager.chat(chat_msg);
-                    }
+                    //if ()
+                    //{ // 글로벌 채팅인 경우 
+                        chat_box_manager.chat(chat_msg, host_id == -1);
+                    /*}
                     else {
-                        chat_box_manager.chat(chat_msg);
-                    }                    
+                    chat_box_manager.chat(chat_msg);
+                    }*/                    
                     break;
                 case command_flag.interact:
                     //TODO: 오브젝트 인터액션 (오브젝트를 모두 담고있는 class를 하나 구현한 뒤, object id에 맞는 오브젝트의 상호작용 실행)
                     break;
-                default:
+                case command_flag.invite:
+                    //TODO: 초대 알림 띄우기
+                    if (int.Parse(cmd_arr[2]) == my_player.object_id) {
+                        show_invite_UI(int.Parse(cmd_arr[1]));
+                    }                
+                break;
+            default:
                     break;
             }
        // } catch (Exception e){
@@ -239,6 +250,48 @@ public class TCP_Client_Manager : MonoBehaviour
        
     }
     #endregion
+
+    #region function
+    public void join(int room_id_)
+    {
+        target_room_id = room_id_;
+        if (!SceneManager.GetActiveScene().name.Equals(planet_scene_name))
+        {            
+            SceneManager.sceneLoaded -= join_OnSceneLoaded;
+            SceneManager.sceneLoaded += join_OnSceneLoaded;
+            SceneManager.LoadScene(planet_scene_name);
+        }
+        else {
+            send_join_and_load(target_room_id);
+        }
+    }
+    public void join_OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == planet_scene_name)
+        {
+            send_join_and_load_target();
+        }
+    }
+    public void send_join_and_load_target()
+    {
+        send_join_and_load(target_room_id);
+    }
+    public void send_join_and_load(int room_id_) {
+        if (send_join_request(room_id_, my_player.object_id))
+        {
+            now_room_id = room_id_;
+            hide_lobby_buttons();
+            load_house();
+        }
+    }
+    public void go_myplanet()
+    {
+        target_room_id = my_player.object_id;
+        SceneManager.sceneLoaded -= join_OnSceneLoaded;
+        SceneManager.sceneLoaded += join_OnSceneLoaded;
+        SceneManager.LoadScene(planet_scene_name);
+       // send_join_and_load(my_player.object_id);
+    }
     public void exit_game()
     {
         Application.Quit();
@@ -259,6 +312,7 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         return Vector3.forward*-3f + Vector3.up*0.5f;
     }
+    #endregion
 
     #region guest management
     private void create_guest(int uuid_, Vector3 position) {
@@ -356,19 +410,39 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public bool send_interact_request(int object_id, int interaction_id, int param)
     {
-
         return sending_Message($"{(int)command_flag.interact} {now_room_id} {object_id} {interaction_id} {param}");
     }
+    public bool send_invite_request(int object_id)
+    {
+        if (now_room_id  != -1 && now_room_id == my_player.object_id) {
+            return sending_Message($"{(int)command_flag.invite} {now_room_id} {object_id}");
+        }
+        return false;
+    }
 
-    #endregion   
+    #endregion
 
-    #region test buttons
+    #region UI
+    public void show_invite_UI(int room_id_=-1) {
+        if (room_id_ == -1 ) {
+            return;
+        }
+        invite_agree_button.onClick.RemoveAllListeners();
+        invite_agree_button.onClick.AddListener(delegate { join(room_id_);});
+        invite_agree_button.onClick.AddListener(delegate { hide_invite_UI(); });
+        invite_UI.SetActive(true);
+    }
+    public void hide_invite_UI()
+    {   
+        invite_UI.SetActive(false);
+    }
+
     public void hide_set_buttons()
     {
         for (int i = 0; i < set_button_list.Count; i++)
         {
             set_button_list[i].gameObject.SetActive(false);
-        }        
+        }
     }
     public void hide_lobby_buttons()
     {
@@ -392,20 +466,17 @@ public class TCP_Client_Manager : MonoBehaviour
             planet_button_list[i].gameObject.SetActive(false);
         }
     }
-    public void go_myplanet() {
-        SceneManager.LoadScene(planet_scene_name);
-        now_room_id = my_player.object_id;
-        
-        if (send_join_request(now_room_id, my_player.object_id))
-        {
-            
-            hide_lobby_buttons();
-            load_house();
-        }
-    }
+
+
+    #endregion
+
+    #region  buttons
+   
 
     public void send_chat_button() {
+        
         if (string.IsNullOrEmpty(chat_box_manager.chat_input_field.text)) {
+            chat_box_manager.chat_input_field.Select();
             return;
         }
         
@@ -413,8 +484,14 @@ public class TCP_Client_Manager : MonoBehaviour
         Debug.Log(chat_msg);
         send_chat_request(chat_msg, chat_box_manager.is_global_chat);
         chat_box_manager.clear_input();
+        chat_box_manager.chat_input_field.Select();
     }
-  
+    public void invite_btn1()
+    {
+        
+        send_invite_request(11);
+        
+    }
 
     public void set_id_btn() {
         my_player.init(11);
@@ -450,6 +527,7 @@ public class TCP_Client_Manager : MonoBehaviour
             //hide_buttons();
         }
     }
+    
     public void join_btn()
     {
         //TODO: Scene이동 추가해야함
