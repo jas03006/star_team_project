@@ -49,11 +49,11 @@ public class TestLoginout : MonoBehaviour
 
 
     public void test_update() {
-        BackendGameData_JGD.userData.Housing_List.Add(new HousingInfo_JGD());
-        BackendGameData_JGD.userData.Housing_List.Add(new HousingInfo_JGD());
-        BackendGameData_JGD.userData.Housing_List.Add(new HousingInfo_JGD());
+        BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
+        BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
+        BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
         user_DB_update();
-        Debug.Log(BackendGameData_JGD.userData.Housing_List);
+        Debug.Log(BackendGameData_JGD.userData.House_Item_ID_List);
     }
     async void user_DB_update() {
         await Task.Run(() =>

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class StageInfo_JGD
 {
+    public int StageID;
     public int Stage_score_Json = 0;
 
     public StageInfo_JGD(JsonData json)

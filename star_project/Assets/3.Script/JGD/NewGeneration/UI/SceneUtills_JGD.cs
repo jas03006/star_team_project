@@ -5,6 +5,7 @@ public enum SceneNames
     Logo = 0,
     Login,
     Lobby,
+    Stage,
 }
 public static class SceneUtills_JGD               //씬이동 
 {
@@ -29,4 +30,5 @@ public static class SceneUtills_JGD               //씬이동
         //SceneName 열거형으로 매개변수를 받아온 경우 ToString()처리
         SceneManager.LoadScene(sceneNames.ToString());
     }
+    
 }

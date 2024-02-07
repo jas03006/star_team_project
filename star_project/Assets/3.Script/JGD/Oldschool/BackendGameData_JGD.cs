@@ -236,10 +236,10 @@ public class BackendGameData_JGD : MonoBehaviour
                 //{
                 //    userData.Noun_ID_List.Add(int.Parse(equip.ToString()));
                 //}
-                //foreach (LitJson.JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
-                //{
-                //    userData.House_Item_ID_List.Add(int.Parse(equip.ToString()));
-                //}
+                foreach (LitJson.JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
+                {
+                    userData.House_Item_ID_List.Add(new House_Item_Info_JGD(equip));
+                }
                 ////foreach (string itemKey in gameDataJson[0]["Market_ID_List"]) //상점 상태 정보
                 ////{
                 ////    userData.inventory.Add(itemKey, int.Parse(gameDataJson[0]["Market_ID_List"][itemKey].ToString()));
