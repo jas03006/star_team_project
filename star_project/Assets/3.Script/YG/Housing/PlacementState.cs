@@ -6,11 +6,11 @@ public class PlacementState : IBuildingState
 {
     private int selectedObjectIndex = -1;
     int id;
-    Grid gird;
+    public Grid gird;
     PreviewSystem previewSystem;
     ObjectsDatabaseSO database;
     GridData floorData;
-    GridData furnitureData;
+    public GridData furnitureData;
     ObjectPlacer objectPlacer;
 
     public PlacementState( int id, Grid gird, PreviewSystem previewSystem, ObjectsDatabaseSO database, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer)
