@@ -35,9 +35,16 @@ public class ChatBoxManager : MonoBehaviour
         chat_input_field.text = string.Empty;
     }
     public void clear() {
-        for (int i = 0; i < chat_line_list.Count; i++) {
-            Destroy(chat_line_list[i]);
+        if (chat_line_list != null) {
+            for (int i = 0; i < chat_line_list.Count; i++)
+            {
+                if (chat_line_list[i] != null)
+                {
+                    Destroy(chat_line_list[i]);
+                }                
+            }
+            chat_line_list.Clear();
         }
-        chat_line_list.Clear();
+        
     }
 }
