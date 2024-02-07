@@ -5,7 +5,7 @@ using UnityEngine;
 //뒤끝 SDK namespace 추가??
 using BackEnd;
 
-public class BackendPost_JGD : MonoBehaviour
+public class Post
 {
     public bool isCanReceive = false;
 
@@ -38,6 +38,21 @@ public class BackendPost_JGD : MonoBehaviour
         }
         return result;
     }
+}
+public class BackendPost_JGD : MonoBehaviour
+{
+    private static BackendPost_JGD instance;
+    public static BackendPost_JGD Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new BackendPost_JGD();
+            }
+            return instance;
+        }
+    }
 
     private List<BackendPost_JGD> _postList = new List<BackendPost_JGD>();
 
@@ -45,9 +60,72 @@ public class BackendPost_JGD : MonoBehaviour
     { 
         foreach(LitJson.JsonData itemJson in item)
         {
+            if (itemJson["item"].ContainsKey("itemType")) 
+            {
+                int itemId = int.Parse(itemJson["item"]["itemId"].ToString());
+                string itemType = itemJson["item"]["itemType"].ToString();
+                string itemName = itemJson["item"]["itemName"].ToString();
+                int itemCount = int.Parse(itemJson["itemCount"].ToString());
 
+                if (BackendGameData_JGD.userData.inventory.ContainsKey(itemName))    //////////우편 넣는 방식
+                {
+                    BackendGameData_JGD.userData.inventory[itemName] += itemCount;
+                }
+                else
+                {
+                    BackendGameData_JGD.userData.inventory.Add(itemName, itemCount);
+                }
+                Debug.Log($"아이템을 수령했습니다. : {itemName} - {itemCount}개");
+            }
+            else
+            {
+                Debug.LogError("지원하지 않는 item입니다.");
+            }
         }
     }
+    public void PostListGet(PostType postType)
+    {
+        //우편 불러오기
+        var bro = Backend.UPost.GetPostList(postType);
 
+        string chartName = "Teat";
+
+        if (bro.IsSuccess() == false)
+        {
+            Debug.LogError("우편 불러오기 중 에러 발생");
+            return;
+        }
+        Debug.Log("우편 불러오기 요청에 성공");
+
+        if (bro.GetFlattenJSON()["postList"].Count <=0)
+        {
+            Debug.LogWarning("받을 우편이 존재하지 않습니다.");
+            return;
+        }
+
+        foreach (LitJson.JsonData postListJson in bro.GetFlattenJSON()["postList"])
+        {
+            Post post = new Post();
+
+            post.title = postListJson["title"].ToString();
+            post.content = postListJson["content"].ToString();
+            post.inDate = postListJson["inDate"].ToString();
+
+            if (true)
+            {
+
+            }
+        }
+
+    }
+    public void PostTeceive(PostType postType, int index)
+    {
+        //우편 개별 수령 및 저장하기
+    }
+
+    public void PostReceiveAll(PostType postType)
+    {
+        //우편 전체 수령 및 저장
+    }
 
 }
