@@ -9,6 +9,8 @@ public class ChatBoxManager : MonoBehaviour
     private List<GameObject> chat_line_list;
     public TMP_Text chat_input;
     public TMP_InputField chat_input_field;
+
+    public bool is_global_chat = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +35,16 @@ public class ChatBoxManager : MonoBehaviour
         chat_input_field.text = string.Empty;
     }
     public void clear() {
-        for (int i = 0; i < chat_line_list.Count; i++) {
-            Destroy(chat_line_list[i]);
+        if (chat_line_list != null) {
+            for (int i = 0; i < chat_line_list.Count; i++)
+            {
+                if (chat_line_list[i] != null)
+                {
+                    Destroy(chat_line_list[i]);
+                }                
+            }
+            chat_line_list.Clear();
         }
-        chat_line_list.Clear();
+        
     }
 }

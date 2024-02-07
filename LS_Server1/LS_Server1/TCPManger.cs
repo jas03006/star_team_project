@@ -240,7 +240,7 @@ public class TCPManger
                     host_id = int.Parse(cmd_arr[1]);
                     if (host_id == -1) //global chat
                     {
-                        global_world_RPC(req.msg);
+                        every_RPC(req.msg);
                     }
                     else {
                         net_room_manager.room_RPC(host_id, req.msg);
@@ -264,9 +264,10 @@ public class TCPManger
 
     #region RPC
     public void global_world_RPC(string msg) {
-        foreach (Client_Handler ch in client_handler_list) {
+        foreach (Client_Handler ch in client_handler_list)
+        {
             if (ch.room_id == -1) {
-                ch.writer.WriteLine(msg);
+            ch.writer.WriteLine(msg);
             }
         }
     }

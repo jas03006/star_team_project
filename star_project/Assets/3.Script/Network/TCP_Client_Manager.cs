@@ -43,7 +43,7 @@ public class TCP_Client_Manager : MonoBehaviour
 
     [SerializeField] private List<Button> set_button_list;
     [SerializeField] private List<Button> lobby_button_list;
-    [SerializeField] private List<Button> planet_button_list;
+    [SerializeField] private List<GameObject> planet_button_list;
     [SerializeField] private List<Button> stage_button_list;
     [SerializeField] private string planet_scene_name;
     [SerializeField] private string lobby_scene_name;
@@ -51,7 +51,7 @@ public class TCP_Client_Manager : MonoBehaviour
     private Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
     private Queue<string> msg_queue;
 
-    [SerializeField] private Player_Network_TG my_player;
+    [SerializeField] private PlayerMovement my_player;
     [SerializeField] private GameObject guest_prefab;
     
     TcpClient client;
@@ -73,9 +73,20 @@ public class TCP_Client_Manager : MonoBehaviour
 
     private void Start()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         msg_queue = new Queue<string>();
         net_mov_obj_dict = new Dictionary<string, Net_Move_Object_TG>();
         //Client_Connect();
+    }
+    
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        if (scene.name == planet_scene_name)
+        {
+            my_player.find_grid();
+        }
     }
     private void Update()
     {
@@ -87,6 +98,7 @@ public class TCP_Client_Manager : MonoBehaviour
     public void load_house()
     {
         hide_lobby_buttons();
+        my_player.stop_DOTween();
     }
 
     #region client connection
@@ -149,8 +161,8 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         Debug.Log(msg);
         string[] cmd_arr = msg.Split(" ");
-        try
-        {
+       // try
+        //{
             int uuid_;
             int host_id;
             switch ((command_flag)int.Parse(cmd_arr[0]))
@@ -221,9 +233,9 @@ public class TCP_Client_Manager : MonoBehaviour
                 default:
                     break;
             }
-        } catch {
-            Debug.Log("parse error!");
-        }
+       // } catch (Exception e){
+       //     Debug.Log($"parse error! {e.Message}");
+       // }
        
     }
     #endregion
@@ -236,15 +248,16 @@ public class TCP_Client_Manager : MonoBehaviour
         now_room_id = -1;
         chat_box_manager.clear();        
         remove_all_guest(except_self: true);
-        my_player.transform.position = Vector3.zero;
+        my_player.stop_DOTween();
+        my_player.transform.position = Vector3.zero;        
         SceneManager.LoadScene(lobby_scene_name);
     }
 
     public Vector3 get_respawn_point(int uuid_) {
         if (uuid_ == now_room_id) {
-            return Vector3.zero;
+            return new Vector3(-5,0.5f,-5);
         }
-        return Vector3.forward*3;
+        return Vector3.forward*-3f + Vector3.up*0.5f;
     }
 
     #region guest management
@@ -255,6 +268,7 @@ public class TCP_Client_Manager : MonoBehaviour
         GameObject new_guest = GameObject.Instantiate(guest_prefab, position, Quaternion.identity);
         Net_Move_Object_TG nmo = new_guest.GetComponent<Net_Move_Object_TG>();
         nmo.init(uuid_, true);
+        (nmo as PlayerMovement).look_user();
         net_mov_obj_dict[uuid_.ToString()] = nmo;
         //TODO: uuid를 이용해 DB에서 유저 정보를 받아와서 스킨 등 정보를 입히는 과정을 추가해야함
     }
@@ -275,6 +289,7 @@ public class TCP_Client_Manager : MonoBehaviour
                     position_ = get_respawn_point(uuid_);
                 }
                 my_player.transform.position = position_;
+                my_player.look_user();
             }
             else
             {
@@ -332,9 +347,11 @@ public class TCP_Client_Manager : MonoBehaviour
     {
         return sending_Message($"{(int)command_flag.update} {now_room_id}");
     }
-    public bool send_chat_request(string chat_msg)
+    public bool send_chat_request(string chat_msg, bool is_global=false)
     {
-
+        if (is_global) {
+            return sending_Message($"{(int)command_flag.chat} {-1} {my_player.object_id} {chat_msg}");
+        }
         return sending_Message($"{(int)command_flag.chat} {now_room_id} {my_player.object_id} {chat_msg}");
     }
     public bool send_interact_request(int object_id, int interaction_id, int param)
@@ -378,8 +395,10 @@ public class TCP_Client_Manager : MonoBehaviour
     public void go_myplanet() {
         SceneManager.LoadScene(planet_scene_name);
         now_room_id = my_player.object_id;
+        
         if (send_join_request(now_room_id, my_player.object_id))
         {
+            
             hide_lobby_buttons();
             load_house();
         }
@@ -392,9 +411,10 @@ public class TCP_Client_Manager : MonoBehaviour
         
         string chat_msg = my_player.object_id + ":" + chat_box_manager.chat_input_field.text;
         Debug.Log(chat_msg);
-        send_chat_request(chat_msg);
+        send_chat_request(chat_msg, chat_box_manager.is_global_chat);
         chat_box_manager.clear_input();
     }
+  
 
     public void set_id_btn() {
         my_player.init(11);

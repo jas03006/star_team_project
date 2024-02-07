@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Player_Network_TG
 {
     public LayerMask hitLayers;
     public List<Node> finalPath;
@@ -14,19 +15,24 @@ public class PlayerMovement : MonoBehaviour
     public PathFinding pathFinding;
     public GridSystem grid;
 
-    private void Start()
+    private void OnEnable()
     {
+        find_grid();
+    }
+    public void find_grid() {
+        Debug.Log("finding grid system");
         pathFinding = FindObjectOfType<PathFinding>();
         grid = FindObjectOfType<GridSystem>();
     }
-    private void Update()
+    protected override void Update()
     {
-        SetStartandTargetPos();
+        base.Update();
+        //SetStartandTargetPos();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        /*if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             MovePlayer();
-        }
+        }*/
     }
 
     private void SetStartandTargetPos()
@@ -46,14 +52,45 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    public override void move(Vector3 start_pos, Vector3 dest_pos)
+    {
+        //base.move(start_pos, dest_pos);
+        //finalPath = 
+        finalPath =  pathFinding.FindPath(start_pos,dest_pos);
+        
+        if (finalPath != null) {
+            //Debug.Log("Move!");
+            MovePlayer();
+        }
+    }
 
     private void MovePlayer()
     {
-        player.DOLocalJump(new Vector3(0, 0, 0), 1, 5, 5);
-        Tween t = player_container.DOPath(Path2MovePath(), 4, PathType.CatmullRom).SetOptions(false);
+        Vector3[] path_ = Path2MovePath();
+        if (path_ != null) {
+            float distance = get_path_length(path_);
+            float speed = 3f;
+            float time_limit = distance / speed;
+
+            player.DOLocalJump(Vector3.zero, 1, (int)Mathf.Round(time_limit), time_limit).SetEase(Ease.Linear);
+            Tween t = player_container.DOPath(path_, time_limit, PathType.Linear).SetLookAt(0.25f).SetEase(Ease.Linear).SetOptions(false);
+            TweenCallback action = look_user;
+            t.OnComplete(action);
+        }        
     }
-
-
+    private float get_path_length(Vector3[] path_) {
+        float result = 0f;
+        for (int i =0; i < path_.Length-1; i++) {
+            result += (path_[i + 1] - path_[i]).magnitude;
+        }
+        return result;
+    }
+    public void look_user() {
+        Tween t = player_container.DOLookAt( transform.position-Camera.main.transform.forward,1f, axisConstraint: AxisConstraint.Y,up: Vector3.up);
+    }
+    public void stop_DOTween() {
+        DOTween.KillAll();
+    }
     private Vector3[] Path2MovePath() {
         List<Vector3> smooth_path = new List<Vector3>();
 
@@ -66,9 +103,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 div1;
         pivot0 = transform.position - new Vector3(0, 0.5f, 0);// grid.finalPath[0].position;
         smooth_path.Add(pivot0);
-        for (int i =-1; i < grid.finalPath.Count-2; i++) {
-            pivot1 = grid.finalPath[i+1].position;
-            pivot2 = grid.finalPath[i+2].position;
+        for (int i =-1; i < finalPath.Count-2; i++) {
+            pivot1 = finalPath[i+1].position;
+            pivot2 = finalPath[i+2].position;
 
             for (float j=0f; j <= divide_cnt; j++) {
                 div0 = Vector3.Lerp(pivot0, pivot1, coeff*j);
@@ -80,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             pivot0 = smooth_path[smooth_path.Count-1];
         }
         //smooth_path.Add(pivot0);
-        smooth_path.Add(grid.finalPath[grid.finalPath.Count - 1].position);
+        smooth_path.Add(finalPath[finalPath.Count - 1].position);
 
         Vector3[] waypoints = new Vector3[smooth_path.Count];
         for (int i = 0; i < smooth_path.Count; i++)
