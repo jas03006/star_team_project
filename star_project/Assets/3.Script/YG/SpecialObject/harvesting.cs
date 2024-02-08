@@ -7,50 +7,75 @@ using TMPro;
 
 public class Harvesting : MonoBehaviour, IObject
 {
-    private int ark = 0; //재화
-    private DateTime start_time = DateTime.Now; //버튼 클릭 시간
-    private DateTime end_time = DateTime.Now.AddYears(1); //수확 가능 시간
-    private bool can_harvest//수확 가능 여부
+    private int ark//재화
     {
-        get { return Can_harvest; }
+        get { return ark_val; }
         set
         {
-            Can_harvest = value;
+            ark_val = value;
+            ark_text.text = $"{ark_val}";
+        }
+    }
+
+    private DateTime start_time//버튼 클릭 시간
+    {
+        get { return start_time_val; }
+        set
+        {
+            start_time_val = value;
+            click_time.text = $"{start_time_val}";
+            Debug.Log(start_time_val);
+        }
+    }
+
+    private bool can_harvest//수확 가능 여부
+    {
+        get { return can_harvest_val; }
+        set
+        {
+            can_harvest_val = value;
             if (can_harvest)
             {
-                reward_btn.enabled = true;
+                reward_btn.SetActive(true);
+            }
+            else
+            {
+                reward_btn.SetActive(false);
             }
         }
     }
-    private bool Can_harvest = false;
     private int reward;//수확 시 보상
+    private DateTime end_time; //수확 가능 시간
+
+    private int ark_val = 0;
+    private DateTime start_time_val;
+    private bool can_harvest_val;
+
+
 
     [Header("UI")]
     [SerializeField] private GameObject end_btn;//시간 설정 버튼
+    [SerializeField] private GameObject setting_veiw;
 
     [SerializeField] private TMP_Text ark_text;
     [SerializeField] private TMP_Text click_time;
     [SerializeField] private TMP_Text select_time;
     [SerializeField] private TMP_Text timer;
 
-    [SerializeField] private Button reward_btn;
-
-    public Harvesting(int ark, DateTime start_time, DateTime end_time, bool can_harvest)
-    {
-        this.ark = ark;
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.can_harvest = can_harvest;
-
-        if (end_time <= start_time)
-        {
-            can_harvest = true;
-        }
-    }
+    [SerializeField] private GameObject reward_btn;
 
     public void Interactive()
     {
+        if (setting_veiw.activeSelf)
+        {
+            return;
+        }
+
         end_btn.SetActive(true);
+
+        start_time = DateTime.Now;
+        ark = 0;
+        can_harvest = false;
     }
 
     public void Set_endTime(int num) //버튼에 자기 끄고 함수실행하고 setting_view키기
@@ -59,7 +84,7 @@ public class Harvesting : MonoBehaviour, IObject
         end_time = start_time.AddMinutes(num);
 
         //click_time + UIupdate
-        click_time.text = $"{start_time}";
+        click_time.text = start_time.ToString("MM/dd/yyyy HH:mm:ss");
 
 
         //set reward + select_time + UIupdate(DB랑 연동하기전 박아넣기)
@@ -86,24 +111,27 @@ public class Harvesting : MonoBehaviour, IObject
                 return;
         }
         select_time.text = btn_input;
-        StartCoroutine(Timer_update(btn_input));
+        StartCoroutine(Timer_update());
     }
 
-    IEnumerator Timer_update(string btn_input)
+    IEnumerator Timer_update()
     {
-        TimeSpan time = end_time - start_time;
-        timer.text = $"{time}";
-
-        if (time < TimeSpan.Zero)
+        while (true)
         {
-            can_harvest = true;
+            TimeSpan time = end_time - DateTime.Now;
+            timer.text = $"{time}";
+
+            if (time < TimeSpan.Zero)
+            {
+                can_harvest = true;
+                StopCoroutine(Timer_update());
+            }
+            yield return new WaitForSeconds(1f);
         }
-        yield return new WaitForSeconds(1f);
     }
 
     public void Get_reward()
     {
         ark += reward;
-        ark_text.text = $"{ark}";
     }
 }
