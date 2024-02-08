@@ -4,6 +4,7 @@ using UnityEngine;
 
 //뒤끝 SDK namespace 추가??
 using BackEnd;
+using UnityEditor.Experimental.GraphView;
 
 public class Post
 {
@@ -14,7 +15,7 @@ public class Post
     public string inDate; //우편 inDate
 
     //string은 우편 아이템 이름 int는 갯수
-    public Dictionary<string, int> postRewawrd = new Dictionary<string, int>();
+    public Dictionary<string, int> postReward = new Dictionary<string, int>();
 
     public override string ToString()
     {
@@ -27,9 +28,9 @@ public class Post
         {
             result += "우현 아이템 \n";
 
-            foreach (string itemKey in postRewawrd.Keys)
+            foreach (string itemKey in postReward.Keys)
             {
-                result += $"| {itemKey} : {postRewawrd[itemKey]}개\n";
+                result += $"| {itemKey} : {postReward[itemKey]}개\n";
             }
         }
         else
@@ -54,7 +55,7 @@ public class BackendPost_JGD : MonoBehaviour
         }
     }
 
-    private List<BackendPost_JGD> _postList = new List<BackendPost_JGD>();
+    private List<Post> _postList = new List<Post>();
 
     public void SavePostToLocal(LitJson.JsonData item)
     { 
@@ -111,21 +112,125 @@ public class BackendPost_JGD : MonoBehaviour
             post.content = postListJson["content"].ToString();
             post.inDate = postListJson["inDate"].ToString();
 
-            if (true)
+            if (postType == PostType.User)
             {
-
+                if (postListJson["itemLocation"]["tableName"].ToString() == "USER_DATA")
+                {
+                    if (postListJson["itemLocation"]["column"].ToString() == "inventory")
+                    {
+                        foreach (string itemKey in postListJson["item"].Keys) post.postReward.Add(itemKey, int.Parse(postListJson["item"][itemKey].ToString()));
+                    }
+                    else
+                    {
+                        Debug.LogWarning("아직 지원되지 않는 컬럼 정보입니다. :" + postListJson["itemLocation"]["column"].ToString());
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("아직 지원되지 않는 테이블 정보 입니다. : " + postListJson["itemLocation"]["tableName"].ToString());
+                }
             }
-        }
+            else
+            {
+                foreach (LitJson.JsonData itemJson in postListJson["items"])
+                {
+                    if (itemJson["chartName"].ToString() == chartName)
+                    {
+                        string itemName = itemJson["item"]["itemName"].ToString();
+                        int itemCount = int.Parse(itemJson["itemCount"].ToString());
 
+                        if (post.postReward.ContainsKey(itemName))
+                        {
+                            post.postReward[itemName] += itemCount;
+                        }
+                        else
+                        {
+                            post.postReward.Add(itemName, itemCount);
+                        }
+
+                        post.isCanReceive = true;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("아직 지원되지 않는 차트 정보 입니다. : " + itemJson["chartName"].ToString());
+                        post.isCanReceive = false;
+                    }
+                }
+            }
+            _postList.Add(post);
+        }
+        for (int i = 0; i < _postList.Count; i++)
+        {
+            Debug.Log($"{i}번 째 우편\n" + _postList[i].ToString());
+        }
     }
     public void PostTeceive(PostType postType, int index)
     {
         //우편 개별 수령 및 저장하기
+        if (_postList.Count <=0)
+        {
+            Debug.LogWarning("받을 수 있는 우편이 존재하지 않습니다. 혹은 우편 리스트 불러오기를 먼저 호출해주세요");
+            return;
+        }
+        if (index >= _postList.Count)
+        {
+            Debug.LogError($"해당 우편은 존재하지 않습니다. : 요청 index{index} / 우편 최대 갯수 : {_postList.Count}");
+            return;
+        }
+        Debug.Log($"{postType.ToString()}의 {_postList[index].inDate} 우편 수령을 요청합니다.");
+
+        var bro = Backend.UPost.ReceivePostItem(postType, _postList[index].inDate);
+
+        if (bro.IsSuccess() == false)
+        {
+            Debug.LogError($"{postType.ToString()}의 {_postList[index].inDate}");
+            return;
+        }
+
+        Debug.Log($"{postType.ToString()}의 {_postList[index].inDate} 우편수령에 성공했습니다. : " + bro);
+
+        _postList.RemoveAt(index);
+
+        if (bro.GetFlattenJSON()["postItems"].Count > 0)
+        {
+            SavePostToLocal(bro.GetFlattenJSON()["postItems"]);
+        }
+        else
+        {
+            Debug.LogWarning("수령 가능한 우편 아이템이 존재하지 않습니다.");
+        }
+        BackendGameData_JGD.Instance.GameDataUpdate();
     }
 
     public void PostReceiveAll(PostType postType)
     {
         //우편 전체 수령 및 저장
+        if (_postList.Count <= 0)
+        {
+            Debug.LogWarning("받을 수 있는 우편이 존재하지 않습니다. 혹은 우편 리스트 불러오기를 먼저 호출해주세요");
+            return;
+        }
+
+        Debug.Log($"{postType.ToString()}우편 모두 수령을 요청합니다.");
+
+        var bro = Backend.UPost.ReceivePostItemAll(postType);
+
+        if (bro.IsSuccess() == false)
+        {
+            Debug.LogError($"{postType.ToString()}우편 수령중 에러가 발생했습니다. : "+bro);
+            return;
+        }
+
+        Debug.Log("우편 모두 수령에 성공했습니다. : "+bro);
+
+        _postList.Clear();
+
+        foreach (LitJson.JsonData postItemsJson in bro.GetFlattenJSON()["postItems"])
+        {
+            SavePostToLocal(postItemsJson);
+        }
+
+        BackendGameData_JGD.Instance.GameDataUpdate();
     }
 
 }
