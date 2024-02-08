@@ -6,6 +6,7 @@ public enum SceneNames
     Login,
     Lobby,
     Stage,
+    Game,
 }
 public static class SceneUtills_JGD               //æ¿¿Ãµø 
 {
