@@ -15,6 +15,7 @@ public class PlayerMovement : Player_Network_TG
     public PathFinding pathFinding;
     public GridSystem grid;
 
+    private SpecialObjManager specialObjManager;
     private void OnEnable()
     {
         find_grid();
