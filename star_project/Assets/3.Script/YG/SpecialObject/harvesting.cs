@@ -16,7 +16,6 @@ public class Harvesting : MonoBehaviour, IObject
             ark_text.text = $"{ark_val}";
         }
     }
-
     private DateTime start_time//버튼 클릭 시간
     {
         get { return start_time_val; }
@@ -24,34 +23,24 @@ public class Harvesting : MonoBehaviour, IObject
         {
             start_time_val = value;
             click_time.text = $"{start_time_val}";
-            Debug.Log(start_time_val);
         }
     }
-
     private bool can_harvest//수확 가능 여부
     {
         get { return can_harvest_val; }
         set
         {
             can_harvest_val = value;
-            if (can_harvest)
-            {
-                reward_btn.SetActive(true);
-            }
-            else
-            {
-                reward_btn.SetActive(false);
-            }
+            reward_btn.SetActive(can_harvest);
         }
     }
+
     private int reward;//수확 시 보상
     private DateTime end_time; //수확 가능 시간
 
     private int ark_val = 0;
     private DateTime start_time_val;
     private bool can_harvest_val;
-
-
 
     [Header("UI")]
     [SerializeField] private GameObject end_btn;//시간 설정 버튼
@@ -64,6 +53,15 @@ public class Harvesting : MonoBehaviour, IObject
 
     [SerializeField] private GameObject reward_btn;
 
+    private void Start()
+    {
+        First_setting();
+    }
+
+    private void First_setting()
+    {
+        ark = 0;
+    }
     public void Interactive()
     {
         if (setting_veiw.activeSelf)
@@ -72,20 +70,21 @@ public class Harvesting : MonoBehaviour, IObject
         }
 
         end_btn.SetActive(true);
-
-        start_time = DateTime.Now;
-        ark = 0;
-        can_harvest = false;
     }
 
-    public void Set_endTime(int num) //버튼에 자기 끄고 함수실행하고 setting_view키기
+    public void Set_endTime(int num) //시간 설정버튼 누르면 실행
     {
+        //reward_btn 끄기
+        can_harvest = false;
+
+        //start_time
+        start_time = DateTime.Now;
+
         //end_time
         end_time = start_time.AddMinutes(num);
 
         //click_time + UIupdate
         click_time.text = start_time.ToString("MM/dd/yyyy HH:mm:ss");
-
 
         //set reward + select_time + UIupdate(DB랑 연동하기전 박아넣기)
         string btn_input = string.Empty;
@@ -130,8 +129,9 @@ public class Harvesting : MonoBehaviour, IObject
         }
     }
 
-    public void Get_reward()
+    public void Get_reward() //보상획득 버튼 누르면 실행
     {
         ark += reward;
+        Debug.Log($"{ark}");
     }
 }
