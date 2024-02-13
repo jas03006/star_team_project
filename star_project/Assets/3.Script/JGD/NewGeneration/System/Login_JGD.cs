@@ -42,6 +42,13 @@ public class Login_JGD : LoginBase_JGD
             {
                 //SetMessage($"{inputFieldID.text}님 환영합니다");//로그인 성공
                 Debug.Log("로그인 성공");
+                BackendGameData_JGD.Instance.GameDataGet();
+                if (BackendGameData_JGD.userData == null)
+                {
+                    BackendGameData_JGD.Instance.GameDataInsert();
+                }
+                BackendGameData_JGD.Instance.GameDataUpdate();
+
                 SceneManager.LoadScene(nextScene.ToString());
             }
             else
