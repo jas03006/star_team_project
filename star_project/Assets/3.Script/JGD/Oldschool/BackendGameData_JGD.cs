@@ -33,7 +33,6 @@ public class UserData
     bool is_word_clear;
     int top_score;
 
-
     public int level = 1;
     public float atk = 3.5f;
     public string info = string.Empty;
