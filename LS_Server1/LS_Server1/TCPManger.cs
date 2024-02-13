@@ -160,8 +160,8 @@ public class TCPManger
 
     public void handler_remove(Client_Handler ch)
     {
-        int room_id = ch.room_id;
-        if (room_id != -1) {
+        string room_id = ch.room_id;
+        if (room_id != "-") {
             net_room_manager.remove_from_room(ch, room_id);
         }        
         client_handler_list.Remove(ch);
@@ -206,16 +206,16 @@ public class TCPManger
         {
             Console.WriteLine(req.client.uuid + ": " + req.msg);
             string[] cmd_arr = req.msg.Split(" ");
-            int host_id;
+            string host_id;
             switch ((command_flag)int.Parse(cmd_arr[0]))
             {
                 case command_flag.join:
-                    host_id = int.Parse(cmd_arr[1]);
-                    req.client.uuid = int.Parse(cmd_arr[2]);
+                    host_id = cmd_arr[1];
+                    req.client.uuid = cmd_arr[2];
 
                     net_room_manager.remove_from_room(req.client, req.client.room_id); //기존 있던 방에서 탈퇴
 
-                    if (host_id == -1) { //글로벌 접속이라면 (방에서만 나가기)               
+                    if (host_id == "-") { //글로벌 접속이라면 (방에서만 나가기)               
                         break;
                     }
 
@@ -232,14 +232,14 @@ public class TCPManger
                     break;
                 case command_flag.move:
                     req.client.position = new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6]));
-                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    net_room_manager.room_RPC(cmd_arr[1], req.msg);
                     break;
                 case command_flag.update:
-                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    net_room_manager.room_RPC(cmd_arr[1], req.msg);
                     break;
                 case command_flag.chat:
-                    host_id = int.Parse(cmd_arr[1]);
-                    if (host_id == -1) //global chat
+                    host_id = cmd_arr[1];
+                    if (host_id == "-") //global chat
                     {
                         every_RPC(req.msg);
                     }
@@ -249,10 +249,10 @@ public class TCPManger
                     
                     break;
                 case command_flag.interact:
-                    net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
+                    net_room_manager.room_RPC(cmd_arr[1], req.msg);
                     break;
                 case command_flag.invite:                    
-                    target_RPC(int.Parse(cmd_arr[2]), req.msg);
+                    target_RPC(cmd_arr[2], req.msg);
                     break;
                 default:
                     break;
@@ -270,7 +270,7 @@ public class TCPManger
     public void global_world_RPC(string msg) {
         foreach (Client_Handler ch in client_handler_list)
         {
-            if (ch.room_id == -1) {
+            if (ch.room_id == "-") {
             ch.writer.WriteLine(msg);
             }
         }
@@ -283,7 +283,7 @@ public class TCPManger
             ch.writer.WriteLine(msg);           
         }
     }
-    public void target_RPC(int uuid_, string msg)
+    public void target_RPC(string uuid_, string msg)
     {
         foreach (Client_Handler ch in client_handler_list)
         {

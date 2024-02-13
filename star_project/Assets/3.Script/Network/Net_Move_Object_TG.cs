@@ -11,7 +11,7 @@ public class Net_Move_Object_TG : Net_Object_TG
     void Start()
     {
         if (!is_guest) {
-            object_id = UnityEngine.Random.Range(0, 1000);
+            object_id = UnityEngine.Random.Range(0, 1000).ToString();
         }        
     }
 
@@ -19,7 +19,7 @@ public class Net_Move_Object_TG : Net_Object_TG
     // Update is called once per frame
     
 
-    public void init(int object_id_, bool is_guest_ = false)
+    public void init(string object_id_, bool is_guest_ = false)
     {
         object_id = object_id_;
         is_guest = is_guest_;
