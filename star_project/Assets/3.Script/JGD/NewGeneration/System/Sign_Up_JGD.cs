@@ -1,11 +1,9 @@
-using BackEnd;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using BackEnd;
 
-public class Sign_Up_JGD : MonoBehaviour
+public class Sign_Up_JGD : LoginBase_JGD
 {
     [SerializeField] GameObject Login;
 
@@ -35,5 +33,8 @@ public class Sign_Up_JGD : MonoBehaviour
             }
         });
     }
-
+    public void testSignUp()
+    {
+        TestBackend_Login_JGD.Instance.CustomSignUp(inputFieldID.text, inputFieldPW.text);
+    }
 }
