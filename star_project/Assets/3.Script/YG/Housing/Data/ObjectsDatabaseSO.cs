@@ -20,6 +20,6 @@ public class ObjectData
     [field: SerializeField]
     public GameObject prefab { get; private set; }
     [field: SerializeField]
-    public specialobject_enum special_object { get; private set; } = specialobject_enum.none;
+    public housing_itemID special_object { get; private set; } = housing_itemID.none;
 
 }

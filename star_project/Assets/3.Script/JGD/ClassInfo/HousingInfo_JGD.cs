@@ -29,8 +29,8 @@ public class HousingInfo_JGD
             }
         }
     }
-
-    public void add_object(HousingObjectInfo obj) {
+    public void add_object(HousingObjectInfo obj) 
+    {
         objectInfos.Add(obj);
     }
 }
@@ -42,13 +42,15 @@ public class HousingObjectInfo
     public housing_itemID item_ID = housing_itemID.none;
     public HousingObjectInfo()
     {
-        position = new Vector2(0, UnityEngine.Random.Range(0, 100));
+        position = new Vector2(UnityEngine.Random.Range(0, 10), UnityEngine.Random.Range(0, 10));
     }
+
     public HousingObjectInfo(housing_itemID item_ID_)
     {
         item_ID = item_ID_;
-        position = new Vector2(0, UnityEngine.Random.Range(0, 100));
+        position = new Vector2(UnityEngine.Random.Range(0, 10), UnityEngine.Random.Range(0, 10));
     }
+
     public HousingObjectInfo(JsonData json)
     {
         //Debug.Log(json.ToString());
@@ -69,4 +71,5 @@ public enum housing_itemID
     star_nest,
     chair,
     bed,
+    table,
 }

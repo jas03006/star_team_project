@@ -90,7 +90,6 @@ public class TCP_Client_Manager : MonoBehaviour
         init(Backend.UserNickName);
         //Client_Connect();
     }
-    
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.name == planet_scene_name)
@@ -116,6 +115,7 @@ public class TCP_Client_Manager : MonoBehaviour
     {
         hide_lobby_buttons();
         my_player.stop_DOTween();
+        //housing 생성, 배치, 업데이트 등등 0213
     }
 
     #region client connection
