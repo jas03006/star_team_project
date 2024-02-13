@@ -15,7 +15,7 @@ public class ObjectPlacer : MonoBehaviour
     {
         //오브젝트 설치
         GameObject newobject = Instantiate(prefab);
-        //newobject.layer = 10;
+        newobject.tag = "HousingObject";
         newobject.transform.position = position;
         placedGameObject.Add(newobject);
 

@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
 
     public bool IsPointerOverUI() => EventSystem.current.IsPointerOverGameObject();
 
-    public Vector3 GetSelectedMapPosition()
+    public Vector3 GetSelectedPosition()
     {
         //마우스 선택 위치 찍기
         Vector3 mousePos = Input.mousePosition;

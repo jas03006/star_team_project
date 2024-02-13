@@ -17,7 +17,9 @@ public class ObjectData
     public int id { get; private set; }
     [field: SerializeField]
     public Vector2Int size { get; private set; } = Vector2Int.one;
-    [field: SerializeField] 
+    [field: SerializeField]
     public GameObject prefab { get; private set; }
+    [field: SerializeField]
+    public specialobject_enum special_object { get; private set; } = specialobject_enum.none;
 
 }

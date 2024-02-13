@@ -53,9 +53,9 @@ public class PlacementSystem : MonoBehaviour
             return;
         }
 
-        Vector3 mousePosition = inputManager.GetSelectedMapPosition();
+        Vector3 mousePosition = inputManager.GetSelectedPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
-        Debug.Log($"mousePosition: {mousePosition} /gridPosition: {gridPosition} ");
+        //Debug.Log($"mousePosition: {mousePosition} /gridPosition: {gridPosition} ");
 
         buildingState.OnAction(gridPosition);
     }
@@ -77,7 +77,7 @@ public class PlacementSystem : MonoBehaviour
         if (buildingState == null) //선택된 오브젝트 있으면 return
             return;
 
-        Vector3 mousePosition = inputManager.GetSelectedMapPosition();
+        Vector3 mousePosition = inputManager.GetSelectedPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
         if (lastDetectedPostition != gridPosition)
