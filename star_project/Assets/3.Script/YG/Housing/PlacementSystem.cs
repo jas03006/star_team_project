@@ -26,6 +26,11 @@ public class PlacementSystem : MonoBehaviour
         furnitureData = new();
     }
 
+    public void place_structure_init(int id) { 
+        
+    }
+
+    //button event
     public void StartPlacement(int id)
     {
         StopPlacement();
