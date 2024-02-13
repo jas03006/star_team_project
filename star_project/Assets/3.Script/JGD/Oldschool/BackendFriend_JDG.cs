@@ -43,7 +43,7 @@ public class BackendFriend_JDG : MonoBehaviour
 
         if (friendBro.IsSuccess() == false)
         {
-            Debug.LogError($"{inDate} 친구 요청 도중 에러가 발생했습니다.");
+            Debug.LogError($"{inDate} 친구 요청 도중 에러가 발생했습니다."+ friendBro);
             return;
         }
         Debug.Log("친구 요청에 성공했습니다." + friendBro);
