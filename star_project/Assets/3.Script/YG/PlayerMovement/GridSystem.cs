@@ -180,8 +180,6 @@ public class GridSystem : MonoBehaviour
                 if (Physics.CheckSphere(worldPoint, nodeRadius, wallMask) || (furnitureData!= null && !furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one))) //원에 충돌하면 
                 {
                     if (furnitureData != null) {
-
-                        Debug.Log($"worldPointToCell :{worldPointToCell} bool : {furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one)}");
                     }
                     wall = false;
                 }
