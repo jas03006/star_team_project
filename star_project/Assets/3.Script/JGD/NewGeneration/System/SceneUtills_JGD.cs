@@ -7,6 +7,7 @@ public enum SceneNames
     Lobby,
     Stage,
     Game,
+    My_Planet_TG,
 }
 public static class SceneUtills_JGD               //æ¿¿Ãµø 
 {
