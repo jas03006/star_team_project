@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine;
 
-public enum specialobject_enum
+public enum specialobject_enum //없앨거임
 {
     none = -1, // 특수 오브젝트X
     ark_cylinder

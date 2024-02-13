@@ -10,12 +10,12 @@ using System.Numerics;
 public class Client_Handler
 {
     public int id = -1;
-    public int uuid = -1;
+    public string uuid = "-";
     public TcpClient client;
     public TCPManger manager;
     public StreamReader reader;
     public StreamWriter writer;
-    public int room_id = -1;
+    public string room_id = "-";
     public Vector3 position;
     private Thread listen_thread;
     public Client_Handler(TcpClient client_, TCPManger manager_)

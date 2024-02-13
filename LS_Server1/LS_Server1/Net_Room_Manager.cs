@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public class Net_Room_Manager
 {
-    private Dictionary<int, Net_Room_Info> room_dict; // host_id, net_room_info
+    private Dictionary<string, Net_Room_Info> room_dict; // host_id, net_room_info
 
     public Net_Room_Manager()
     {
-        room_dict = new Dictionary<int, Net_Room_Info>();
+        room_dict = new Dictionary<string, Net_Room_Info>();
     }
 
-    public bool join_room(Client_Handler client, int host_id)
+    public bool join_room(Client_Handler client, string host_id)
     {
         Net_Room_Info net_room_info = null;
         if (room_dict.ContainsKey(host_id))
@@ -28,9 +28,9 @@ public class Net_Room_Manager
         return true;
     }
 
-    public void remove_from_room(Client_Handler client, int host_id)
+    public void remove_from_room(Client_Handler client, string host_id)
     {
-        if (host_id == -1) {
+        if (host_id == "-") {
             return;
         }
         Net_Room_Info net_room_info = null;
@@ -51,15 +51,15 @@ public class Net_Room_Manager
         }
     }
 
-    public Net_Room_Info create_room(int host_id, Client_Handler client)
+    public Net_Room_Info create_room(string host_id, Client_Handler client)
     {
         Net_Room_Info net_room_info = new Net_Room_Info(host_id, client);
         return net_room_info;
     }
 
-    public void room_RPC(int host_id, string msg)
+    public void room_RPC(string host_id, string msg)
     {
-        if (host_id == -1) {
+        if (host_id == "-") {
             return;
         }
         Net_Room_Info net_room_info = null;
@@ -77,7 +77,7 @@ public class Net_Room_Manager
         }
         
     }
-    public void room_host_RPC(int host_id, string msg)
+    public void room_host_RPC(string host_id, string msg)
     {
         Net_Room_Info net_room_info = null;
         if (room_dict.ContainsKey(host_id))
@@ -91,7 +91,7 @@ public class Net_Room_Manager
         }
     }
 
-    public string get_people_positions(int host_id)
+    public string get_people_positions(string host_id)
     {
 
         if (room_dict.ContainsKey(host_id))
