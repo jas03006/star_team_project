@@ -21,6 +21,8 @@ public class PlacementSystem : MonoBehaviour
 
     public IBuildingState buildingState;
 
+    [SerializeField] List<GameObject> hidden_area_cover_list;
+
     private void Awake()
     {
         StopPlacement();
@@ -44,8 +46,21 @@ public class PlacementSystem : MonoBehaviour
             return;
         }
         clear();
+        update_hidden_area(info.level);
         for (int i=0; i < info.objectInfos.Count; i++) {
             place_structure_init(info.objectInfos[i].item_ID, info.objectInfos[i].position);
+        }
+    }
+
+    public void update_hidden_area(int level) {
+        for (int i =0; i < hidden_area_cover_list.Count; i++) {
+            if (i < level)
+            {
+                hidden_area_cover_list[i].SetActive(false);
+            }
+            else {
+                hidden_area_cover_list[i].SetActive(true);
+            }
         }
     }
 

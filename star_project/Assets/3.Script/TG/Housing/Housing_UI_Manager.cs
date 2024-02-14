@@ -14,7 +14,7 @@ public class Housing_UI_Manager : MonoBehaviour
        // init_housing_UI();
     }
 
- 
+    
 
     public void init_housing_UI() {
         grid_renderer.enabled = false;
@@ -22,10 +22,18 @@ public class Housing_UI_Manager : MonoBehaviour
         if (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id)
         {
             edit_button.SetActive(true);
+            init_housing_inventory();
         }
         else
         {
             edit_button.SetActive(false);
+        }
+    }
+
+    public void init_housing_inventory()
+    {
+        foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.House_Item_ID_List) { 
+            //TODO: 인벤토리 버튼 추가
         }
     }
 

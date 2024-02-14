@@ -334,7 +334,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (uuid_ == now_room_id) {
             return new Vector3(-5,0.5f,-5);
         }
-        return Vector3.forward*-3f + Vector3.up*0.5f;
+        return Vector3.forward*-5f + Vector3.up*0.5f;
     }
     #endregion
 
