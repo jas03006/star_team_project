@@ -29,7 +29,7 @@ public class HousingInfo_JGD
             }
         }
     }
-    public void add_object(HousingObjectInfo obj) 
+    public void Add_object(HousingObjectInfo obj) 
     {
         objectInfos.Add(obj);
     }

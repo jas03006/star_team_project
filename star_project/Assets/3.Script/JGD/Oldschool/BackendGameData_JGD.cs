@@ -48,9 +48,11 @@ public class UserData
     //public List<int> Market_ID_List = new List<int>();                                   //상점 상태 정보/////////////////////////////////////////////////////////////////////
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
     //public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();              //하우징 정보
-    public HousingInfo_JGD Housing_Info = new HousingInfo_JGD();
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
     public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
+
+    public HousingInfo_JGD Housing_Info = new HousingInfo_JGD();
+    public PetInfo_YG Pet_Info = new PetInfo_YG();
 
     public override string ToString()
     {
@@ -59,6 +61,7 @@ public class UserData
         result.AppendLine($"atk : {atk}");
         result.AppendLine($"info : {info}");
         result.AppendLine($"Housing_Info : {Housing_Info}");
+        result.AppendLine($"Pet_Info : {Pet_Info}");
 
         result.AppendLine($"inventory");
         foreach (var itemkey in inventory.Keys)
@@ -147,11 +150,18 @@ public class BackendGameData_JGD : MonoBehaviour
         {
             userData = new UserData();
             Debug.Log("게임정보 삽입 들어옴?");
-            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
-            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.airship));
-            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.star_nest));
-            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.chair));
-            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.bed));
+            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
+            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
+            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
+            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
+            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
+
+            //유저가 가진 펫 레벨 정보가 없으면 1로 생성
+            userData.Pet_Info.Add_object(new PetObj(pet_ID.Yellow));
+            userData.Pet_Info.Add_object(new PetObj(pet_ID.Red));
+            userData.Pet_Info.Add_object(new PetObj(pet_ID.Blue));
+            userData.Pet_Info.Add_object(new PetObj(pet_ID.Purple));
+            userData.Pet_Info.Add_object(new PetObj(pet_ID.Green));
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -174,9 +184,10 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("Market_ID_List", userData.Market_ID_List);                           //상점 상태 정보////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);                           //스테이지 별 정보
         //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
-        param.Add("Housing_Info", userData.Housing_Info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
+        param.Add("Housing_Info", userData.Housing_Info);   //하우징 데이터
+        param.Add("Pet_Info", userData.Pet_Info);   //펫 데이터
 
         Debug.Log("게임정보 데이터 삽입을 요청");                             
 
@@ -221,6 +232,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.info = gameDataJson[0]["info"].ToString();
 
                 userData.Housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                userData.Pet_Info = new PetInfo_YG(gameDataJson[0]["Pet_Info"]);
 
 
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
@@ -288,8 +300,6 @@ public class BackendGameData_JGD : MonoBehaviour
         //게임레벨정보 수정 구현
         Debug.Log("레벨을 1 증가 시킵니다.");
         userData.level += 1;
-        
-
     }
     public void GameDataUpdate()
     {
