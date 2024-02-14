@@ -32,16 +32,24 @@ public class GridData
         return returnVal;
     }
 
-    public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
+    public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize, bool is_path_finding = false)
     {
-        List<Vector3> testpos_list = new List<Vector3>();
-        testpos_list.Add(new Vector3(-5, 0, -4));
-        testpos_list.Add(new Vector3(-5, 0, -3));
+        List<Vector3> player_pos_list = new List<Vector3>();        
+        player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.my_player.transform.position));
+        Dictionary<string,Net_Move_Object_TG> dic = TCP_Client_Manager.instance.net_mov_obj_dict;
+        foreach (string key in dic.Keys) {
+            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(dic[key].transform.position));
+        }
+
+        if (!is_path_finding) { //리스폰 지점에 설치 금지, 이동은 가능
+            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.get_respawn_point(TCP_Client_Manager.instance.now_room_id)));
+            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.get_respawn_point("-")));
+        }
 
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
         foreach (var pos in positionToOccupy)
         {
-            if (placedObjects.ContainsKey(pos) || testpos_list.Contains(gridPosition))
+            if (placedObjects.ContainsKey(pos) || player_pos_list.Contains(gridPosition))
             {
                 return false;
             }

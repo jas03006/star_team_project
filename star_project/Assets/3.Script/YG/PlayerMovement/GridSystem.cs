@@ -177,7 +177,7 @@ public class GridSystem : MonoBehaviour
                 Vector3Int worldPointInt = Vector3Int.FloorToInt(worldPoint);
 
                 
-                if (Physics.CheckSphere(worldPoint, nodeRadius, wallMask) || (furnitureData!= null && !furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one))) //원에 충돌하면 
+                if (Physics.CheckSphere(worldPoint, nodeRadius, wallMask) || (furnitureData!= null && !furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one, false))) //원에 충돌하면 
                 {
                     if (furnitureData != null) {
                     }
