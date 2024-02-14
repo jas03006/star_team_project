@@ -339,7 +339,7 @@ public class BackendGameData_JGD : MonoBehaviour
         }
     }
 
-    public void get_data_by_nickname(string nickname) {
+    public HousingInfo_JGD get_data_by_nickname(string nickname) {
         string[] select = { "Housing_Info" };
         var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
         string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
@@ -355,10 +355,12 @@ public class BackendGameData_JGD : MonoBehaviour
             else { 
                 HousingInfo_JGD housing_info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 Debug.Log($" level: " + housing_info.level);
+                return housing_info;
             }
         }
         else {
             Debug.Log("Fail");
         }
+        return null;
     }
 }

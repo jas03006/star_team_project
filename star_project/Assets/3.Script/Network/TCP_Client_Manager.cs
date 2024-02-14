@@ -64,6 +64,8 @@ public class TCP_Client_Manager : MonoBehaviour
 
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private Button invite_agree_button;
+
+    private PlacementSystem placement_system;
     private void Awake()
     {
         if (instance == null)
@@ -84,9 +86,7 @@ public class TCP_Client_Manager : MonoBehaviour
 
         msg_queue = new Queue<string>();
         net_mov_obj_dict = new Dictionary<string, Net_Move_Object_TG>();
-        Debug.Log(Backend.UserInDate);
-        BackendGameData_JGD.Instance.get_data_by_nickname("rtr");
-        //Debug.Log(BackendGameData_JGD.userData[0]["gamer_id"]);
+
         init(Backend.UserNickName);
         //Client_Connect();
     }
@@ -95,6 +95,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (scene.name == planet_scene_name)
         {
             my_player.find_grid();
+            placement_system = FindObjectOfType<PlacementSystem>();
         }
     }
     private void Update()
@@ -115,6 +116,7 @@ public class TCP_Client_Manager : MonoBehaviour
     {
         hide_lobby_buttons();
         my_player.stop_DOTween();
+        placement_system.init_house(now_room_id);
         //housing 생성, 배치, 업데이트 등등 0213
     }
 
@@ -229,6 +231,7 @@ public class TCP_Client_Manager : MonoBehaviour
                     uuid_ = cmd_arr[1];
                     if (my_player.object_id != uuid_)
                     {
+                        load_house();
                         Debug.Log("update!");
                     }                    
                     break;
@@ -264,6 +267,12 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region function
+    public void invite(string uuid_)
+    {
+
+        send_invite_request(uuid_);
+
+    }
     public void join(string room_id_)
     {
         target_room_id = room_id_;
@@ -540,25 +549,7 @@ public class TCP_Client_Manager : MonoBehaviour
         }
     }
     
-    public void join_btn()
-    {
-        //TODO: Scene이동 추가해야함
-        now_room_id = "11";     
-        if (send_join_request(now_room_id, my_player.object_id))
-        {
-            hide_lobby_buttons();
-            load_house();
-        }
-    }
-    public void join_btn2()
-    {      
-        now_room_id = "22";
-        if (send_join_request(now_room_id, my_player.object_id))
-        {
-            hide_lobby_buttons();
-            load_house();
-        }
-    }
+  
     
 
     

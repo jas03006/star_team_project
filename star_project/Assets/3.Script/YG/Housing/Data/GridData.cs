@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GridData
 {
-    Dictionary<Vector3Int, PlacementData> placedObjects = new();
+    public Dictionary<Vector3Int, PlacementData> placedObjects = new();
 
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectsize, int id, int placedobjectindex)
+    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectsize, housing_itemID id, int placedobjectindex)
     {
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectsize);
         PlacementData data = new PlacementData(positionToOccupy, id, placedobjectindex);
@@ -68,14 +68,15 @@ public class GridData
 public class PlacementData
 {
     public List<Vector3Int> occupiedPostitions;
-    public int ID { get; private set; }
+    public housing_itemID ID { get; private set; }
     public int PlacedObjectIndex { get; private set; }
-
-    public PlacementData(List<Vector3Int> occupiedPostitions, int id, int placeObjectIndex)
+    public int direction;
+    public PlacementData(List<Vector3Int> occupiedPostitions, housing_itemID id, int placeObjectIndex, int direction=0)
     {
         this.occupiedPostitions = occupiedPostitions;
         ID = id;
         PlacedObjectIndex = placeObjectIndex;
+        this.direction = direction;
     }
 
 }

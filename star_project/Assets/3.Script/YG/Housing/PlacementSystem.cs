@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using UnityEngine;
-
+using System.Collections.Generic;
+using UnityEngine.UIElements;
 public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] InputManager inputManager;
@@ -24,21 +26,78 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
         floorData = new();
         furnitureData = new();
+
+       
     }
 
-    public void place_structure_init(int id) { 
-        
+    private void Start()
+    {
+        /*for (int i =0; i < 4; i++) {
+            place_structure_init(housing_itemID.none, new Vector3Int(0,0,2*i) );
+        }*/
     }
+
+    public void init_house(string room_id_) {
+        HousingInfo_JGD info = BackendGameData_JGD.Instance.get_data_by_nickname(room_id_);
+        if (info == null) {
+            Debug.Log("no housing information!");
+            return;
+        }
+        clear();
+        for (int i=0; i < info.objectInfos.Count; i++) {
+            place_structure_init(info.objectInfos[i].item_ID, info.objectInfos[i].position);
+        }
+    }
+
+    public void clear() {
+        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
+        List<Vector3Int> position_list = new List<Vector3Int>();
+        foreach (Vector3Int position_ in furnitureData.placedObjects.Keys) {
+            position_list.Add(position_);
+        }
+        for (int i = 0; i < position_list.Count; i++) {
+            buildingState.OnAction(position_list[i]);
+        }
+        buildingState.EndState();
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
+    }
+
+    //button click
+    public void save_edit() {
+        HousingInfo_JGD info = new HousingInfo_JGD(furnitureData.placedObjects);
+        BackendGameData_JGD.userData.Housing_Info = info;
+        BackendGameData_JGD.Instance.GameDataUpdate();
+        TCP_Client_Manager.instance.send_update_request();
+    }
+
+    public void place_structure_init(housing_itemID id, Vector2 position)
+    {
+        buildingState = new PlacementState((housing_itemID)id, grid, preview, database, floorData, furnitureData, objectPlacer);
+        Vector3Int gridPosition = new Vector3Int((int)position.x , 0, (int)position.y);
+        buildingState.OnAction(gridPosition);
+        buildingState.EndState();
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
+    }
+    /*public void place_structure_init(housing_itemID id, Vector3Int gridPosition) {
+        buildingState = new PlacementState((housing_itemID)id, grid, preview, database, floorData, furnitureData, objectPlacer);
+        buildingState.OnAction(gridPosition);
+        buildingState.EndState();
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
+    }*/
 
     //button event
     public void StartPlacement(int id)
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        buildingState = new PlacementState(id, grid, preview, database, floorData, furnitureData, objectPlacer);
+        buildingState = new PlacementState((housing_itemID) id, grid, preview, database, floorData, furnitureData, objectPlacer);
 
         inputManager.Onclicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
+
     }
 
     public void StartRemoving()
