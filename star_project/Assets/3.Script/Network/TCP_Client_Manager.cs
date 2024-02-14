@@ -14,7 +14,8 @@ using System.Text;
 using Unity.VisualScripting;
 
 using UnityEngine.SceneManagement;
-
+using UnityEditor;
+using BackEnd;
 public enum command_flag
 {
     join = 0, // 하우스 참가
@@ -40,8 +41,8 @@ public class TCP_Client_Manager : MonoBehaviour
     private Queue<string> log = new Queue<string>();
     StreamReader reader;//데이터를 읽는 놈
     StreamWriter writer;//데이터를 쓰는 놈
-    public int now_room_id { private set; get; } = -1;
-    public int target_room_id { private set; get; } = -1;
+    public string now_room_id { private set; get; } = "-";
+    public string target_room_id { private set; get; } = "-";
 
     [SerializeField] private List<Button> set_button_list;
     [SerializeField] private List<Button> lobby_button_list;
@@ -63,6 +64,8 @@ public class TCP_Client_Manager : MonoBehaviour
 
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private Button invite_agree_button;
+
+    private PlacementSystem placement_system;
     private void Awake()
     {
         if (instance == null)
@@ -83,14 +86,16 @@ public class TCP_Client_Manager : MonoBehaviour
 
         msg_queue = new Queue<string>();
         net_mov_obj_dict = new Dictionary<string, Net_Move_Object_TG>();
+
+        init(Backend.UserNickName);
         //Client_Connect();
     }
-    
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.name == planet_scene_name)
         {
             my_player.find_grid();
+            placement_system = FindObjectOfType<PlacementSystem>();
         }
     }
     private void Update()
@@ -100,10 +105,19 @@ public class TCP_Client_Manager : MonoBehaviour
             parse_msg(msg_queue.Dequeue());
         }
     }
+
+    public void init(string uuid_)
+    {
+        my_player.init(uuid_);
+        join_global();
+    }
+
     public void load_house()
     {
         hide_lobby_buttons();
         my_player.stop_DOTween();
+        placement_system.init_house(now_room_id);
+        //housing 생성, 배치, 업데이트 등등 0213
     }
 
     #region client connection
@@ -166,15 +180,15 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         Debug.Log(msg);
         string[] cmd_arr = msg.Split(" ");
-       // try
+        // try
         //{
-            int uuid_;
-            int host_id;
+            string uuid_;
+            string host_id;
             switch ((command_flag)int.Parse(cmd_arr[0]))
             {
                 case command_flag.join: // join rood_id host_id position_data
-                    
-                    uuid_ = int.Parse(cmd_arr[2]);
+
+                uuid_ = cmd_arr[2];
                     if (my_player.object_id != uuid_)
                     {
                         create_guest(uuid_, get_respawn_point(uuid_)); //첫 리스폰 좌표를 넣기
@@ -184,7 +198,7 @@ public class TCP_Client_Manager : MonoBehaviour
                             chat_box_manager.clear();
                             remove_all_guest(except_self: true);
 
-                            host_id = int.Parse(cmd_arr[1]);
+                            host_id = cmd_arr[1];
                             now_room_id = host_id;
                             /*if (host_id == -1) { //글로벌 채팅 방에 접속하는 것이라면 //글로벌로 나가는 경우 RPC를 본인에게 쏘지 않는 것으로 함
                                 my_player.transform.position = Vector3.zero;
@@ -197,7 +211,7 @@ public class TCP_Client_Manager : MonoBehaviour
                     }   
                     break;
                 case command_flag.exit: // exit room_id host_id //게임 나가기 (방 나가기와 다른것으로 함)
-                    uuid_ = int.Parse(cmd_arr[2]);
+                    uuid_ = cmd_arr[2];
                     if (my_player.object_id != uuid_)
                     {
                         remove_guest(uuid_);
@@ -209,24 +223,25 @@ public class TCP_Client_Manager : MonoBehaviour
                 case command_flag.move:                    
                     Vector3 start_pos = new Vector3(float.Parse(cmd_arr[3]), 0, float.Parse(cmd_arr[4]));
                     if (start_pos.x == respawn_flag) {
-                        start_pos = get_respawn_point(int.Parse(cmd_arr[2]));
+                        start_pos = get_respawn_point(cmd_arr[2]);
                     }
                     net_mov_obj_dict[cmd_arr[2]].move(start_pos, new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6])));
                     break;
                 case command_flag.update:
-                    uuid_ = int.Parse(cmd_arr[1]);
+                    uuid_ = cmd_arr[1];
                     if (my_player.object_id != uuid_)
                     {
+                        load_house();
                         Debug.Log("update!");
                     }                    
                     break;
                 case command_flag.chat:
-                    host_id = int.Parse(cmd_arr[1]);
+                    host_id = cmd_arr[1];
                     string chat_msg = cmd_arr[3];
                     Debug.Log(chat_msg);
                     //if ()
                     //{ // 글로벌 채팅인 경우 
-                        chat_box_manager.chat(chat_msg, host_id == -1);
+                        chat_box_manager.chat(chat_msg, host_id == "-");
                     /*}
                     else {
                     chat_box_manager.chat(chat_msg);
@@ -237,8 +252,8 @@ public class TCP_Client_Manager : MonoBehaviour
                     break;
                 case command_flag.invite:
                     //TODO: 초대 알림 띄우기
-                    if (int.Parse(cmd_arr[2]) == my_player.object_id) {
-                        show_invite_UI(int.Parse(cmd_arr[1]));
+                    if (cmd_arr[2] == my_player.object_id) {
+                        show_invite_UI(cmd_arr[1]);
                     }                
                 break;
             default:
@@ -252,7 +267,13 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region function
-    public void join(int room_id_)
+    public void invite(string uuid_)
+    {
+
+        send_invite_request(uuid_);
+
+    }
+    public void join(string room_id_)
     {
         target_room_id = room_id_;
         if (!SceneManager.GetActiveScene().name.Equals(planet_scene_name))
@@ -276,7 +297,7 @@ public class TCP_Client_Manager : MonoBehaviour
     {
         send_join_and_load(target_room_id);
     }
-    public void send_join_and_load(int room_id_) {
+    public void send_join_and_load(string room_id_) {
         if (send_join_request(room_id_, my_player.object_id))
         {
             now_room_id = room_id_;
@@ -298,7 +319,7 @@ public class TCP_Client_Manager : MonoBehaviour
         //client = null;
     }
     public void exit_room() {
-        now_room_id = -1;
+        now_room_id = "-";
         chat_box_manager.clear();        
         remove_all_guest(except_self: true);
         my_player.stop_DOTween();
@@ -306,7 +327,7 @@ public class TCP_Client_Manager : MonoBehaviour
         SceneManager.LoadScene(lobby_scene_name);
     }
 
-    public Vector3 get_respawn_point(int uuid_) {
+    public Vector3 get_respawn_point(string uuid_) {
         if (uuid_ == now_room_id) {
             return new Vector3(-5,0.5f,-5);
         }
@@ -315,7 +336,7 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region guest management
-    private void create_guest(int uuid_, Vector3 position) {
+    private void create_guest(string uuid_, Vector3 position) {
         if (position.x == respawn_flag) {
             position = get_respawn_point(uuid_);
         }
@@ -334,7 +355,7 @@ public class TCP_Client_Manager : MonoBehaviour
         for (int i = 0; i < position_datas_arr.Length - 1; i++)
         {
             string[] data_pair = position_datas_arr[i].Split(":");
-            int uuid_ = int.Parse(data_pair[0]);
+            string uuid_ = data_pair[0];
             Vector3 position_ = new Vector3(float.Parse(data_pair[1]), my_player.transform.position.y, float.Parse(data_pair[3]));
             if (uuid_ == my_player.object_id)
             {
@@ -352,7 +373,7 @@ public class TCP_Client_Manager : MonoBehaviour
         }
     }
 
-    private void remove_guest(int uuid_) {
+    private void remove_guest(string uuid_) {
         Debug.Log($"remove: {uuid_}");
         Net_Move_Object_TG guest = net_mov_obj_dict[uuid_.ToString()];
         Destroy(guest.gameObject);
@@ -361,7 +382,7 @@ public class TCP_Client_Manager : MonoBehaviour
 
     private void remove_all_guest(bool except_self = false) {
         foreach (string key in net_mov_obj_dict.Keys) {
-            if (except_self && my_player.object_id == int.Parse(key)) {
+            if (except_self && my_player.object_id == key) {
                 continue;
             }
             Destroy(net_mov_obj_dict[key].gameObject);
@@ -385,15 +406,15 @@ public class TCP_Client_Manager : MonoBehaviour
             return false;
         }
     }
-    public bool send_move_request(int object_id, Vector3 start_pos, Vector3 dest_pos)
+    public bool send_move_request(string object_id, Vector3 start_pos, Vector3 dest_pos)
     {
         return sending_Message($"{(int)command_flag.move} {now_room_id} {object_id} {start_pos.x} {start_pos.z} {dest_pos.x} {dest_pos.z}");
     }
-    public bool send_join_request(int room_id, int object_id)
+    public bool send_join_request(string room_id, string object_id)
     {
         return sending_Message($"{(int)command_flag.join} {room_id} {object_id}");
     }
-    public bool send_exit_request(int room_id, int object_id)
+    public bool send_exit_request(string room_id, string object_id)
     {
         return sending_Message($"{(int)command_flag.exit} {room_id} {object_id}");
     }
@@ -404,17 +425,17 @@ public class TCP_Client_Manager : MonoBehaviour
     public bool send_chat_request(string chat_msg, bool is_global=false)
     {
         if (is_global) {
-            return sending_Message($"{(int)command_flag.chat} {-1} {my_player.object_id} {chat_msg}");
+            return sending_Message($"{(int)command_flag.chat} {"-"} {my_player.object_id} {chat_msg}");
         }
         return sending_Message($"{(int)command_flag.chat} {now_room_id} {my_player.object_id} {chat_msg}");
     }
-    public bool send_interact_request(int object_id, int interaction_id, int param)
+    public bool send_interact_request(string object_id, int interaction_id, int param)
     {
         return sending_Message($"{(int)command_flag.interact} {now_room_id} {object_id} {interaction_id} {param}");
     }
-    public bool send_invite_request(int object_id)
+    public bool send_invite_request(string object_id)
     {
-        if (now_room_id  != -1 && now_room_id == my_player.object_id) {
+        if (now_room_id  != "-" && now_room_id == my_player.object_id) {
             return sending_Message($"{(int)command_flag.invite} {now_room_id} {object_id}");
         }
         return false;
@@ -423,8 +444,8 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region UI
-    public void show_invite_UI(int room_id_=-1) {
-        if (room_id_ == -1 ) {
+    public void show_invite_UI(string room_id_ ="-") {
+        if (room_id_ == "-" ) {
             return;
         }
         invite_agree_button.onClick.RemoveAllListeners();
@@ -489,28 +510,28 @@ public class TCP_Client_Manager : MonoBehaviour
     public void invite_btn1()
     {
         
-        send_invite_request(11);
+        send_invite_request("11");
         
     }
 
     public void set_id_btn() {
-        my_player.init(11);
+        my_player.init("11");
         join_global();
     }
     public void set_id_btn2()
     {
-        my_player.init(22);
+        my_player.init("22");
         join_global();
     }
     public void set_id_btn3()
     {
-        my_player.init(33);
+        my_player.init("33");
         join_global();
     }
     public void join_global()
     {
         Client_Connect();
-        now_room_id = -1;    
+        now_room_id = "-";    
         if (send_join_request(now_room_id, my_player.object_id))
         {
             hide_set_buttons();
@@ -519,7 +540,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }
 
     public void exit_room_btn() {
-        now_room_id = -1;    
+        now_room_id = "-";    
         if (send_join_request(now_room_id, my_player.object_id))
         {
             exit_room();
@@ -528,25 +549,7 @@ public class TCP_Client_Manager : MonoBehaviour
         }
     }
     
-    public void join_btn()
-    {
-        //TODO: Scene이동 추가해야함
-        now_room_id = 11;     
-        if (send_join_request(now_room_id, my_player.object_id))
-        {
-            hide_lobby_buttons();
-            load_house();
-        }
-    }
-    public void join_btn2()
-    {      
-        now_room_id = 22;
-        if (send_join_request(now_room_id, my_player.object_id))
-        {
-            hide_lobby_buttons();
-            load_house();
-        }
-    }
+  
     
 
     

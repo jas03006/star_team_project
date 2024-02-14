@@ -46,9 +46,11 @@ public class Login_JGD : LoginBase_JGD
                 if (BackendGameData_JGD.userData == null)
                 {
                     BackendGameData_JGD.Instance.GameDataInsert();
+
                 }
                 BackendGameData_JGD.Instance.GameDataUpdate();
-
+                Debug.Log($"exp : {BackendGameData_JGD.userData.Housing_Info.exp}");
+                Debug.Log($"item_ID : {BackendGameData_JGD.userData.Housing_Info.objectInfos[0].item_ID}");
                 SceneManager.LoadScene(nextScene.ToString());
             }
             else

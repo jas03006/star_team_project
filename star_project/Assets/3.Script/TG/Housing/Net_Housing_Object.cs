@@ -11,7 +11,7 @@ public class Net_Housing_Object : Net_Object_TG
     public housing_object_data data;
 
     public void load_data() {
-        object_id = Random.Range(1,1000);
+        object_id = Random.Range(1,1000).ToString();
     }
     public void request_interact(int interaction_id, int param)
     {// host_id object_id interaction_id param

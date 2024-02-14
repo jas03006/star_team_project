@@ -8,6 +8,7 @@ using System;
 using UnityEditor;
 using Unity.VisualScripting;
 using static UnityEditor.Progress;
+using UnityEditor.Build;
 
 
 //Friend_UUID_List
@@ -32,7 +33,6 @@ public class UserData
     bool is_word_clear;
     int top_score;
 
-
     public int level = 1;
     public float atk = 3.5f;
     public string info = string.Empty;
@@ -47,7 +47,8 @@ public class UserData
     public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
     //public List<int> Market_ID_List = new List<int>();                                   //상점 상태 정보/////////////////////////////////////////////////////////////////////
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
-    public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();               //하우징 정보
+    //public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();              //하우징 정보
+    public HousingInfo_JGD Housing_Info = new HousingInfo_JGD();
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
     public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
 
@@ -57,6 +58,7 @@ public class UserData
         result.AppendLine($"level : {level}");
         result.AppendLine($"atk : {atk}");
         result.AppendLine($"info : {info}");
+        result.AppendLine($"Housing_Info : {Housing_Info}");
 
         result.AppendLine($"inventory");
         foreach (var itemkey in inventory.Keys)
@@ -103,11 +105,6 @@ public class UserData
         {
             result.AppendLine($"| {equip}");
         }
-        result.AppendLine($"| {Housing_List}");
-        foreach (var equip in Housing_List)
-        {
-            result.AppendLine($"| {equip}");
-        }
         result.AppendLine($"| {QuestInfo_List}");
         foreach (var equip in QuestInfo_List)
         {
@@ -149,7 +146,14 @@ public class BackendGameData_JGD : MonoBehaviour
         if (userData == null)
         {
             userData = new UserData();
+            Debug.Log("게임정보 삽입 들어옴?");
+            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
+            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.airship));
+            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.star_nest));
+            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.chair));
+            userData.Housing_Info.add_object(new HousingObjectInfo(housing_itemID.bed));
         }
+
         Debug.Log("데이터를 초기화 합니다.");
         userData.level = 1;
         userData.info = "친추 환영"; 
@@ -169,7 +173,8 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("House_Item_ID_List", userData.House_Item_ID_List);                   //하우징 아이템 리스트
         //param.Add("Market_ID_List", userData.Market_ID_List);                           //상점 상태 정보////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);                           //스테이지 별 정보
-        param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
+        //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
+        param.Add("Housing_Info", userData.Housing_Info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
 
@@ -211,9 +216,11 @@ public class BackendGameData_JGD : MonoBehaviour
                 gameDataRowInDate = gameDataJson[0]["inDate"].ToString();  //불러온 게임정보의 고유값
 
                 userData = new UserData();
-
+                //Debug.Log("gamer id: "+gameDataJson[0]["gamer_id"].ToString());
                 userData.level = int.Parse(gameDataJson[0]["level"].ToString());
                 userData.info = gameDataJson[0]["info"].ToString();
+
+                userData.Housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
 
 
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
@@ -248,10 +255,6 @@ public class BackendGameData_JGD : MonoBehaviour
                 //{
                 //    userData.StageInfo_List.Add(new StageInfo_JGD(equip));
                 //}
-                foreach (LitJson.JsonData equip in gameDataJson[0]["Housing_List"])//하우징 정보
-                {
-                    userData.Housing_List.Add(new HousingInfo_JGD(equip));
-                }
                 //foreach (LitJson.JsonData equip in gameDataJson[0]["QuestInfo_List"])//퀘스트 별 클리어 여부
                 //{
                 //    userData.QuestInfo_List.Add(new QuestInfo_JGD(equip));
@@ -308,7 +311,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("House_Item_ID_List", userData.House_Item_ID_List);
         //param.Add("Market_ID_List", userData.Market_ID_List);/////////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);
-        param.Add("Housing_List", userData.Housing_List);
+        param.Add("Housing_Info", userData.Housing_Info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);
         param.Add("Achievements_List", userData.Achievements_List);
 
@@ -336,5 +339,28 @@ public class BackendGameData_JGD : MonoBehaviour
         }
     }
 
-    
+    public HousingInfo_JGD get_data_by_nickname(string nickname) {
+        string[] select = { "Housing_Info" };
+        var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
+        string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+
+        BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select);
+        if (bro.IsSuccess())
+        {
+            LitJson.JsonData gameDataJson = bro.FlattenRows();
+            if (gameDataJson.Count <= 0)
+            {
+                Debug.LogWarning("데이터가 존재하지 않습니다.");
+            }
+            else { 
+                HousingInfo_JGD housing_info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                Debug.Log($" level: " + housing_info.level);
+                return housing_info;
+            }
+        }
+        else {
+            Debug.Log("Fail");
+        }
+        return null;
+    }
 }

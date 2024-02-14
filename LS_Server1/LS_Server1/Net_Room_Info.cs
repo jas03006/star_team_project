@@ -4,13 +4,13 @@ using System.Numerics;
 
 public class Net_Room_Info
 {
-    public int host_id;
+    public string host_id;
     public List<Client_Handler> guest_list;
     public Client_Handler host;
     public string data;
 
 
-    public Net_Room_Info(int host_id_, Client_Handler client)
+    public Net_Room_Info(string host_id_, Client_Handler client)
     {
 
         host_id = host_id_;
@@ -44,13 +44,13 @@ public class Net_Room_Info
         if (client.uuid == host_id)
         {
             host = null;
-            client.room_id = -1;
+            client.room_id = "-";
             string msg = $"{(int)command_flag.exit} {host_id} {client.uuid}";
             every_RPC(msg);
             return;
         }
         if (guest_list.Remove(client)){
-            client.room_id = -1;
+            client.room_id = "-";
             string msg = $"{(int)command_flag.exit} {host_id} {client.uuid}";
             every_RPC(msg);
         }        

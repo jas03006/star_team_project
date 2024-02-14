@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlacementState : IBuildingState
 {
     private int selectedObjectIndex = -1;
-    int id;
+    housing_itemID id;
     public Grid gird;
     PreviewSystem previewSystem;
     ObjectsDatabaseSO database;
@@ -13,7 +13,7 @@ public class PlacementState : IBuildingState
     public GridData furnitureData;
     ObjectPlacer objectPlacer;
 
-    public PlacementState( int id, Grid gird, PreviewSystem previewSystem, ObjectsDatabaseSO database, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer)
+    public PlacementState(housing_itemID id, Grid gird, PreviewSystem previewSystem, ObjectsDatabaseSO database, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer)
     {
         this.id = id;
         this.gird = gird;
