@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BackEnd;
+using TMPro;
 
 public class BackendFriend_JDG : MonoBehaviour
 {
@@ -20,9 +21,19 @@ public class BackendFriend_JDG : MonoBehaviour
         }
         
     }
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else {
+            Destroy(this);   
+        }
+    }
 
 
-    private List<Tuple<string, string>> _requestFriendList = new List<Tuple<string, string>>();
+    public List<Tuple<string, string>> _requestFriendList = new List<Tuple<string, string>>();
 
     public void SendFriendRequest(string nickName)
     {
@@ -67,6 +78,7 @@ public class BackendFriend_JDG : MonoBehaviour
         Debug.Log("친구 요청 받은 리스트 불러오기에 성공했습니다." +bro);
 
         int index = 0;
+        _requestFriendList.Clear();
         foreach (LitJson.JsonData friendJson in bro.FlattenRows())
         {
             string nickName = friendJson["nickname"]?.ToString();
@@ -94,6 +106,8 @@ public class BackendFriend_JDG : MonoBehaviour
             return;
         }
 
+
+
         var bro = Backend.Friend.AcceptFriend(_requestFriendList[index].Item2);
 
         if (bro.IsSuccess()==false)
@@ -103,6 +117,7 @@ public class BackendFriend_JDG : MonoBehaviour
         }
 
         Debug.Log($"{_requestFriendList[index].Item1}이(가) 친구가 되었습니다. : " + bro);
+        Destroy(this.gameObject);
     }
 
     public void GetFriendList()
@@ -132,8 +147,12 @@ public class BackendFriend_JDG : MonoBehaviour
 
             friendListString += $"{index}. {nickName} - {inDate}\n";
             index++;
+            Debug.Log(friendListString);
         }
 
-        Debug.Log(friendListString);
+        //Debug.Log(friendListString);
+
     }
+
+
 }
