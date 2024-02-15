@@ -37,11 +37,11 @@ public class GridData
         List<Vector3> player_pos_list = new List<Vector3>();
         if (!is_path_finding)
         {
-            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.my_player.transform.position));
+           /* player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.my_player.transform.position));
             Dictionary<string,Net_Move_Object_TG> dic = TCP_Client_Manager.instance.net_mov_obj_dict;
             foreach (string key in dic.Keys) {
                 player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(dic[key].transform.position));
-            }
+            }*/
 
             //리스폰 지점에 설치 금지, 이동은 가능
             player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.get_respawn_point(TCP_Client_Manager.instance.now_room_id)));
@@ -65,7 +65,7 @@ public class GridData
     }
 
     public bool is_inner_pos(Vector3Int pos_) {
-        int level = BackendGameData_JGD.userData.Housing_Info.level;
+        int level = TCP_Client_Manager.instance.placement_system.housing_info.level;//BackendGameData_JGD.userData.Housing_Info.level;
         if (level > level_boudary.Length-1) { 
             level = level_boudary.Length-1;
         }

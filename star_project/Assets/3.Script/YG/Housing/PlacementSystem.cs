@@ -22,7 +22,7 @@ public class PlacementSystem : MonoBehaviour
     public IBuildingState buildingState;
 
     [SerializeField] List<GameObject> hidden_area_cover_list;
-
+    public HousingInfo_JGD housing_info;
     private void Awake()
     {
         StopPlacement();
@@ -40,15 +40,15 @@ public class PlacementSystem : MonoBehaviour
     }
 
     public void init_house(string room_id_) {
-        HousingInfo_JGD info = BackendGameData_JGD.Instance.get_data_by_nickname(room_id_);
-        if (info == null) {
+        housing_info = BackendGameData_JGD.Instance.get_data_by_nickname(room_id_);
+        if (housing_info == null) {
             Debug.Log("no housing information!");
             return;
         }
         clear();
-        update_hidden_area(info.level);
-        for (int i=0; i < info.objectInfos.Count; i++) {
-            place_structure_init(info.objectInfos[i].item_ID, info.objectInfos[i].position);
+        update_hidden_area(housing_info.level);
+        for (int i=0; i < housing_info.objectInfos.Count; i++) {
+            place_structure_init(housing_info.objectInfos[i].item_ID, housing_info.objectInfos[i].position);
         }
     }
 
@@ -80,8 +80,8 @@ public class PlacementSystem : MonoBehaviour
 
     //button click
     public void save_edit() {
-        HousingInfo_JGD info = new HousingInfo_JGD(furnitureData.placedObjects);
-        BackendGameData_JGD.userData.Housing_Info = info;
+        housing_info = new HousingInfo_JGD(furnitureData.placedObjects);
+        BackendGameData_JGD.userData.Housing_Info = housing_info;
         BackendGameData_JGD.Instance.GameDataUpdate();
         TCP_Client_Manager.instance.send_update_request();
     }
