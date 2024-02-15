@@ -12,7 +12,7 @@ public class House_Item_Info_JGD
     public House_Item_Info_JGD()
     {
         HouseItemCount = UnityEngine.Random.Range(0, 99);
-        ItemName = (housing_itemID) UnityEngine.Random.Range(0, Enum.GetValues(typeof(housing_itemID)).Length);
+       // ItemName = (housing_itemID) UnityEngine.Random.Range(0, Enum.GetValues(typeof(housing_itemID)).Length);
     }
 
     public House_Item_Info_JGD(JsonData json)
@@ -21,7 +21,7 @@ public class House_Item_Info_JGD
         {
 
             HouseItemCount = Int32.Parse(json["HouseItemCount"].ToString());
-            ItemName = (housing_itemID)Int32.Parse(json["ItemName"].ToString());
+           // ItemName = (housing_itemID)Int32.Parse(json["ItemName"].ToString());
         }
     }
 }
