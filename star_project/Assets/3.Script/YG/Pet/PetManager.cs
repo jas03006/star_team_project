@@ -60,6 +60,7 @@ public class Character
         duration = int.Parse(gameData["duration"].ToString());
         give_time = int.Parse(gameData["give_time"].ToString());
         item = (item_ID)int.Parse(gameData["item"].ToString());
+        //sprite = 
     }
 
     public Character(Character_ID pet_id)
