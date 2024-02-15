@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GridData
 {
-    Dictionary<Vector3Int, PlacementData> placedObjects = new();
-
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectsize, int id, int placedobjectindex)
+    public Dictionary<Vector3Int, PlacementData> placedObjects = new();
+    public int[] level_boudary = {8,12,16};//레벨 별 그리드 반 크기
+    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectsize, housing_itemID id, int placedobjectindex)
     {
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectsize);
         PlacementData data = new PlacementData(positionToOccupy, id, placedobjectindex);
@@ -32,19 +32,46 @@ public class GridData
         return returnVal;
     }
 
-    public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
+    public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize, bool is_path_finding = false, bool is_limit_apply = true)
     {
-        List<Vector3> testpos_list = new List<Vector3>();
-        testpos_list.Add(new Vector3(-5, 0, -4));
-        testpos_list.Add(new Vector3(-5, 0, -3));
+        List<Vector3> player_pos_list = new List<Vector3>();
+        if (!is_path_finding)
+        {
+            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.my_player.transform.position));
+            Dictionary<string,Net_Move_Object_TG> dic = TCP_Client_Manager.instance.net_mov_obj_dict;
+            foreach (string key in dic.Keys) {
+                player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(dic[key].transform.position));
+            }
+
+            //리스폰 지점에 설치 금지, 이동은 가능
+            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.get_respawn_point(TCP_Client_Manager.instance.now_room_id)));
+            player_pos_list.Add(TCP_Client_Manager.instance.placement_system.grid.WorldToCell(TCP_Client_Manager.instance.get_respawn_point("")));
+        }
 
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
         foreach (var pos in positionToOccupy)
         {
-            if (placedObjects.ContainsKey(pos) || testpos_list.Contains(gridPosition))
+            if (is_limit_apply && !is_inner_pos(pos))
             {
                 return false;
             }
+            if (placedObjects.ContainsKey(pos) || player_pos_list.Contains(pos))
+            {
+                
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool is_inner_pos(Vector3Int pos_) {
+        int level = BackendGameData_JGD.userData.Housing_Info.level;
+        if (level > level_boudary.Length-1) { 
+            level = level_boudary.Length-1;
+        }
+        if (pos_.x > level_boudary[level] || pos_.x < -level_boudary[level] || pos_.z > level_boudary[level] || pos_.z < -level_boudary[level] )
+        {
+            return false;
         }
         return true;
     }
@@ -68,14 +95,15 @@ public class GridData
 public class PlacementData
 {
     public List<Vector3Int> occupiedPostitions;
-    public int ID { get; private set; }
+    public housing_itemID ID { get; private set; }
     public int PlacedObjectIndex { get; private set; }
-
-    public PlacementData(List<Vector3Int> occupiedPostitions, int id, int placeObjectIndex)
+    public int direction;
+    public PlacementData(List<Vector3Int> occupiedPostitions, housing_itemID id, int placeObjectIndex, int direction=0)
     {
         this.occupiedPostitions = occupiedPostitions;
         ID = id;
         PlacedObjectIndex = placeObjectIndex;
+        this.direction = direction;
     }
 
 }

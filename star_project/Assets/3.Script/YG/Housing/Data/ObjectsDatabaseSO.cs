@@ -14,12 +14,12 @@ public class ObjectData
     [field :SerializeField] 
     public string name { get; private set; }
     [field: SerializeField] 
-    public int id { get; private set; }
+    public housing_itemID id { get; private set; }
     [field: SerializeField]
     public Vector2Int size { get; private set; } = Vector2Int.one;
     [field: SerializeField]
     public GameObject prefab { get; private set; }
-    [field: SerializeField]
-    public specialobject_enum special_object { get; private set; } = specialobject_enum.none;
+    //[field: SerializeField]
+    //public housing_itemID special_object { get; private set; } = housing_itemID.none;
 
 }
