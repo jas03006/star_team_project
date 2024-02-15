@@ -27,7 +27,13 @@ public class FriendList_JGD : MonoBehaviour
             GameObject list = Instantiate(Friend, location.transform);
             name = list.GetComponentInChildren<TMP_Text>();
             name.text = nickName;
-            list.GetComponentInChildren<Button>().onClick.AddListener(() => KillMyFriend(inDate, list));
+            Button[] buttons = list.GetComponentsInChildren<Button>();
+            if (buttons.Length >= 2) {
+                buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
+                buttons[1].onClick.AddListener(() => TCP_Client_Manager.instance.invite(nickName));
+                buttons[2].onClick.AddListener(() => KillMyFriend(inDate, list));
+            }
+            
 
             //index++;
         }

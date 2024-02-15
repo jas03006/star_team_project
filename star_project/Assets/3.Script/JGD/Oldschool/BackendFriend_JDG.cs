@@ -72,6 +72,7 @@ public class BackendFriend_JDG : MonoBehaviour
         }
         if (bro.FlattenRows().Count <= 0)
         {
+            _requestFriendList.Clear();
             Debug.LogError("친구 요청이 온 내역이 존재하지 않습니다.");
             return;
         }
@@ -91,7 +92,28 @@ public class BackendFriend_JDG : MonoBehaviour
         }
 
     }
+    public void reject_friend_request(int index) {
+        //친구요청 rjwjf하기 
+        if (_requestFriendList.Count <= 0)
+        {
+            Debug.LogError("요청이 온 친구가 존재하지 않습니다.");
+            return;
+        }
+        if (index >= _requestFriendList.Capacity)
+        {
+            Debug.LogError($"요청한 친구 요청 리스트의 범위를 벗어났습니다.선택 : {index} / 리스트 최대 : {_requestFriendList.Count}");
+            return;
+        }
+        var bro = Backend.Friend.RejectFriend(_requestFriendList[index].Item2);
+        if (bro.IsSuccess() == false)
+        {
+            Debug.LogError("친구 거절 중 에러가 발생했습니다. : " + bro);
+            return;
+        }
 
+        Debug.Log($"{_requestFriendList[index].Item1}의 친구요청을 거절했습니다. : " + bro);
+        
+    }
     public void ApplyFriend(int index)
     {
         //친구요청 수락하기 
