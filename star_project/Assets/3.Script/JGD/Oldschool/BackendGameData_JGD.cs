@@ -127,7 +127,6 @@ public class UserData
 public class BackendGameData_JGD : MonoBehaviour
 {
     private static BackendGameData_JGD _instance = null;
-
     public static BackendGameData_JGD Instance
     {
         get
@@ -149,6 +148,7 @@ public class BackendGameData_JGD : MonoBehaviour
         if (userData == null)
         {
             userData = new UserData();
+
             Debug.Log("게임정보 삽입 들어옴?");
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
@@ -157,11 +157,11 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
             //유저가 가진 펫 레벨 정보가 없으면 1로 생성
-            userData.Pet_Info.Add_object(new PetObj(pet_ID.Yellow));
-            userData.Pet_Info.Add_object(new PetObj(pet_ID.Red));
-            userData.Pet_Info.Add_object(new PetObj(pet_ID.Blue));
-            userData.Pet_Info.Add_object(new PetObj(pet_ID.Purple));
-            userData.Pet_Info.Add_object(new PetObj(pet_ID.Green));
+            userData.Pet_Info.Add_object(new PetObj(Character_ID.Yellow));
+            userData.Pet_Info.Add_object(new PetObj(Character_ID.Red));
+            userData.Pet_Info.Add_object(new PetObj(Character_ID.Blue));
+            userData.Pet_Info.Add_object(new PetObj(Character_ID.Purple));
+            userData.Pet_Info.Add_object(new PetObj(Character_ID.Green));
         }
 
         Debug.Log("데이터를 초기화 합니다.");

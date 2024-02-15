@@ -13,7 +13,7 @@ public class Item
     public string item_name { get; private set; }
 
     [field: SerializeField]
-    public Sprite sprite { get; private set; }
+    public SpriteDataBaseSO sprite { get; private set; }
 
     [field: SerializeField]
     public string alphabat { get; private set; } //¾ËÆÄºª

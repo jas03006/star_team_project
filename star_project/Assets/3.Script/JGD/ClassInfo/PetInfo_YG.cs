@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public enum pet_ID
+public enum Character_ID
 {
-    Yellow,
+    Yellow = 0,
     Red,
     Blue,
     Purple,
@@ -16,10 +16,12 @@ public enum pet_ID
 
 public class PetInfo_YG : MonoBehaviour //각 펫 레벨 저장을 위한 클래스
 {
-    public List<PetObj> pets = new List<PetObj>();
+    public List<PetObj> pet_list = new List<PetObj>();
+    public Dictionary<Character_ID, int> pet_dic = new Dictionary<Character_ID, int>(); //레벨추출을 위한 딕셔너리
 
     public PetInfo_YG()
     {
+
     }
 
     public PetInfo_YG(JsonData json)
@@ -28,32 +30,35 @@ public class PetInfo_YG : MonoBehaviour //각 펫 레벨 저장을 위한 클래스
         {
             foreach (JsonData pet in json["pets"])
             {
-                pets.Add(new PetObj(pet));
+                PetObj pet_obj = new PetObj(pet);
+                pet_list.Add(pet_obj);
+                pet_dic.Add(pet_obj.pet_id, pet_obj.level);
             }
         }
     }
 
     public void Add_object(PetObj obj)
     {
-        pets.Add(obj);
+        pet_list.Add(obj);
     }
 }
 
 public class PetObj
 {
-    public pet_ID pet_id;
+    public Character_ID pet_id;
     public int level =1;
+    //public Dictionary<pet_ID, int> dic = new Dictionary<pet_ID, int>();
 
     public PetObj(JsonData json)
     {
         if (json.IsObject)
         {
             level = int.Parse(json["level"].ToString());
-            pet_id = (pet_ID)int.Parse(json["pet_ID"].ToString());
+            pet_id = (Character_ID)int.Parse(json["pet_ID"].ToString());
         }
     }
 
-    public PetObj(pet_ID pet_ID)
+    public PetObj(Character_ID pet_ID)
     {
         pet_id = pet_ID;
         level = 1;
