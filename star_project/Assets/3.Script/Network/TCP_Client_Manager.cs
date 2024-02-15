@@ -51,21 +51,22 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private string planet_scene_name;
     [SerializeField] private string lobby_scene_name;
     [SerializeField] private string stage_scene_name;
-    private Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
+    public Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
     private Queue<string> msg_queue;
 
-    [SerializeField] private PlayerMovement my_player;
+    [SerializeField] public PlayerMovement my_player;
     [SerializeField] private GameObject guest_prefab;
     
     TcpClient client;
     private int respawn_flag = 7777;
 
+    private Housing_UI_Manager housing_ui_manager;
     [SerializeField] private ChatBoxManager chat_box_manager;
 
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private Button invite_agree_button;
 
-    private PlacementSystem placement_system;
+    public PlacementSystem placement_system;
     private void Awake()
     {
         if (instance == null)
@@ -96,6 +97,7 @@ public class TCP_Client_Manager : MonoBehaviour
         {
             my_player.find_grid();
             placement_system = FindObjectOfType<PlacementSystem>();
+            housing_ui_manager = FindObjectOfType<Housing_UI_Manager>();
         }
     }
     private void Update()
@@ -117,6 +119,7 @@ public class TCP_Client_Manager : MonoBehaviour
         hide_lobby_buttons();
         my_player.stop_DOTween();
         placement_system.init_house(now_room_id);
+        housing_ui_manager.init_housing_UI();
         //housing 생성, 배치, 업데이트 등등 0213
     }
 
@@ -331,7 +334,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (uuid_ == now_room_id) {
             return new Vector3(-5,0.5f,-5);
         }
-        return Vector3.forward*-3f + Vector3.up*0.5f;
+        return Vector3.forward*-5f + Vector3.up*0.5f;
     }
     #endregion
 

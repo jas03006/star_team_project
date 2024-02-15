@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] InputManager inputManager;
-    [SerializeField] Grid grid;
+    [SerializeField] public Grid grid;
 
     [SerializeField] ObjectsDatabaseSO database;
 
@@ -20,6 +20,8 @@ public class PlacementSystem : MonoBehaviour
     private Vector3Int lastDetectedPostition = Vector3Int.zero;
 
     public IBuildingState buildingState;
+
+    [SerializeField] List<GameObject> hidden_area_cover_list;
 
     private void Awake()
     {
@@ -44,8 +46,21 @@ public class PlacementSystem : MonoBehaviour
             return;
         }
         clear();
+        update_hidden_area(info.level);
         for (int i=0; i < info.objectInfos.Count; i++) {
             place_structure_init(info.objectInfos[i].item_ID, info.objectInfos[i].position);
+        }
+    }
+
+    public void update_hidden_area(int level) {
+        for (int i =0; i < hidden_area_cover_list.Count; i++) {
+            if (i < level)
+            {
+                hidden_area_cover_list[i].SetActive(false);
+            }
+            else {
+                hidden_area_cover_list[i].SetActive(true);
+            }
         }
     }
 
@@ -124,7 +139,18 @@ public class PlacementSystem : MonoBehaviour
         buildingState.OnAction(gridPosition);
     }
 
-    private void StopPlacement()
+    public bool cancel_placement() {
+        if (buildingState == null)
+            return false;
+        buildingState.EndState();
+        inputManager.Onclicked -= PlaceStructure;
+        inputManager.OnExit -= StopPlacement;
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
+        return true;
+    }
+
+    public void StopPlacement()
     {
         if (buildingState == null)
             return;

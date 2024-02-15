@@ -22,24 +22,28 @@ public class Player_Network_TG : Net_Move_Object_TG
             
             Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
             if (Input.GetMouseButtonUp(1))
-            {
-               // Debug.Log("RightClick!");
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
-                {
-                    Vector3 dest = hit.point;
-                    dest.y = transform.position.y;
-                    dest.x -= 1f;
-                    net_move(transform.position, dest);
-                    hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact();
+            {// Debug.Log("RightClick!");
+                if (!TCP_Client_Manager.instance.placement_system.cancel_placement()) {
+                    
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
+                    {
+                        Vector3 dest = hit.point;
+                        dest.y = transform.position.y;
+                        dest.x -= 1f;
+                        net_move(transform.position, dest);
+                        hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact();
+                    }
+                    else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
+                    {
+                        // Debug.Log("check!");
+                        Vector3 dest = hit.point;
+                        dest.y = transform.position.y;
+                        net_move(transform.position, dest);
+                    }
                 }
-                else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG")| LayerMask.GetMask("Placement_YG")))
-                {
-                   // Debug.Log("check!");
-                    Vector3 dest = hit.point;
-                    dest.y = transform.position.y;
-                    net_move(transform.position, dest);
-                }
+                
+               
             }
         }
         
