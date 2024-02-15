@@ -17,7 +17,7 @@ public class Inventory_JGD : MonoBehaviour
     [SerializeField] private GameObject Inven;
     
     private void Awake()
-    {
+    {   
         for (int i = 0; i < BackendGameData_JGD.userData.House_Item_ID_List.Count; i++)
         {
             GameObject go = Instantiate(Inven, transform, false);

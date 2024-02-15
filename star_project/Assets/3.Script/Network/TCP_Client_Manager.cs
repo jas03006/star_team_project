@@ -51,22 +51,19 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private string planet_scene_name;
     [SerializeField] private string lobby_scene_name;
     [SerializeField] private string stage_scene_name;
-    public Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
+    private Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
     private Queue<string> msg_queue;
 
-    [SerializeField] public PlayerMovement my_player;
+    [SerializeField] private PlayerMovement my_player;
     [SerializeField] private GameObject guest_prefab;
     
     TcpClient client;
     private int respawn_flag = 7777;
 
-    private Housing_UI_Manager housing_ui_manager;
     [SerializeField] private ChatBoxManager chat_box_manager;
 
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private Button invite_agree_button;
-
-    public PlacementSystem placement_system;
     private void Awake()
     {
         if (instance == null)
@@ -87,17 +84,18 @@ public class TCP_Client_Manager : MonoBehaviour
 
         msg_queue = new Queue<string>();
         net_mov_obj_dict = new Dictionary<string, Net_Move_Object_TG>();
-
+        Debug.Log(Backend.UserInDate);
+        BackendGameData_JGD.Instance.get_data_by_nickname("rtr");
+        //Debug.Log(BackendGameData_JGD.userData[0]["gamer_id"]);
         init(Backend.UserNickName);
         //Client_Connect();
     }
+    
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.name == planet_scene_name)
         {
             my_player.find_grid();
-            placement_system = FindObjectOfType<PlacementSystem>();
-            housing_ui_manager = FindObjectOfType<Housing_UI_Manager>();
         }
     }
     private void Update()
@@ -118,9 +116,6 @@ public class TCP_Client_Manager : MonoBehaviour
     {
         hide_lobby_buttons();
         my_player.stop_DOTween();
-        placement_system.init_house(now_room_id);
-        housing_ui_manager.init_housing_UI();
-        //housing 생성, 배치, 업데이트 등등 0213
     }
 
     #region client connection
@@ -234,7 +229,6 @@ public class TCP_Client_Manager : MonoBehaviour
                     uuid_ = cmd_arr[1];
                     if (my_player.object_id != uuid_)
                     {
-                        load_house();
                         Debug.Log("update!");
                     }                    
                     break;
@@ -270,12 +264,6 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region function
-    public void invite(string uuid_)
-    {
-
-        send_invite_request(uuid_);
-
-    }
     public void join(string room_id_)
     {
         target_room_id = room_id_;
@@ -334,7 +322,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (uuid_ == now_room_id) {
             return new Vector3(-5,0.5f,-5);
         }
-        return Vector3.forward*-5f + Vector3.up*0.5f;
+        return Vector3.forward*-3f + Vector3.up*0.5f;
     }
     #endregion
 
@@ -552,7 +540,25 @@ public class TCP_Client_Manager : MonoBehaviour
         }
     }
     
-  
+    public void join_btn()
+    {
+        //TODO: Scene이동 추가해야함
+        now_room_id = "11";     
+        if (send_join_request(now_room_id, my_player.object_id))
+        {
+            hide_lobby_buttons();
+            load_house();
+        }
+    }
+    public void join_btn2()
+    {      
+        now_room_id = "22";
+        if (send_join_request(now_room_id, my_player.object_id))
+        {
+            hide_lobby_buttons();
+            load_house();
+        }
+    }
     
 
     
