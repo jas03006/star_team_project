@@ -7,28 +7,19 @@ using UnityEngine.UI;
 public class Item
 {
     [field: SerializeField]
-    public item_ID id { get; private set; } = item_ID.Alphabat;
+    public item_ID id = item_ID.Alphabet;
 
     [field: SerializeField]
-    public string item_name { get; private set; }
+    public string item_name;
 
     [field: SerializeField]
-    public SpriteDataBaseSO sprite { get; private set; }
-
-    [field: SerializeField]
-    public string alphabat { get; private set; } //알파벳
-
-    [field: SerializeField]
-    public int percent { get; private set; } //heart,size,speed
-
-    [field: SerializeField]
-    public int time { get; private set; } //지속시간
+    public Sprite sprite;
 }
 
 public enum item_ID
 {
     None,
-    Alphabat,
+    Alphabet,
     Heart,
     Star,
     Shield,
@@ -38,104 +29,10 @@ public enum item_ID
     SizeDown,
     Random
 }
-/*
-     public void Interactive()
-{
-    switch (id)
-    {
-        case item_ID.None:
-            Debug.Log("id = none");
-            break;
-        case item_ID.Alphabat:
-            Alphabat();
-            break;
-        case item_ID.Heart:
-            Heart();
-            break;
-        case item_ID.Star:
-            Star();
-            break;
-        case item_ID.Shield:
-            Shield();
-            break;
-        case item_ID.Megnet:
-            Megnet();
-            break;
-        case item_ID.SpeedUp:
-            Speed();
-            break;
-        case item_ID.SizeUp:
-            Size();
-            break;
-        case item_ID.SizeDown:
-            Size();
-            break;
-        case item_ID.Random:
-            Random();
-            break;
-        default:
-            break;
-    }
-}
 
-public void Alphabat()
-{
-
-}
-
-public void Heart()
-{
-
-}
-
-public void Star()
-{
-
-}
-
-public void Shield()
-{
-
-}
-
-public void Megnet()
-{
-
-}
-
-public void Speed()
-{
-
-}
-
-public void Size()
-{
-
-}
-
-public void Random()
-{
-    int ran = UnityEngine.Random.Range(0,5);
-    switch (ran) 
-    {
-        case 0:
-            Shield();
-            break;
-        case 1:
-            Megnet();
-            break;
-        case 2:
-            Speed();
-            break;
-        case 3:
-            Size();
-            break;
-        case 4:
-            Size();
-            break;
-        default:
-            break;
-    }
-}
- */
+//0215 todo
+//차트에다가 아이템 데이터 넣기
+//차트매니저에서 아이템 데이터 불러오기
+//차트매니저에서 아이템 생성해서 정보 들고있기
+//아이템 스킬 어디서 사용할지 정하기
 

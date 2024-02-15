@@ -48,7 +48,6 @@ public class BackendChart_JGD : MonoBehaviour
             chartData.pet_list.Add(new Character(gameData));
         }
     }
-
     #region 예시
     public void ChartGet(string chartId) //예시
     {
