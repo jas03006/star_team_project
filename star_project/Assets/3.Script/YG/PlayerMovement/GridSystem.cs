@@ -23,10 +23,6 @@ public class GridSystem : MonoBehaviour
     {
         grid = FindObjectOfType<Grid>();
 
-        init();
-    }
-    public void init()
-    {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -181,7 +177,7 @@ public class GridSystem : MonoBehaviour
                 Vector3Int worldPointInt = Vector3Int.FloorToInt(worldPoint);
 
                 
-                if ((furnitureData!= null && !furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one,is_path_finding: true)) || Physics.CheckSphere(worldPoint, nodeRadius, wallMask)) //원에 충돌하면 
+                if (Physics.CheckSphere(worldPoint, nodeRadius, wallMask) || (furnitureData!= null && !furnitureData.CanPlaceObjectAt(worldPointToCell, Vector2Int.one))) //원에 충돌하면 
                 {
                     if (furnitureData != null) {
                     }

@@ -12,7 +12,7 @@ public class PreviewSystem : MonoBehaviour
 
     private Renderer cellIndicatorRenderer;
 
-    private void Awake()
+    private void Start()
     {
         previewMaterialInstance = new Material(previewMaterialPrefab);
         cellindicator.gameObject.gameObject.SetActive(false);

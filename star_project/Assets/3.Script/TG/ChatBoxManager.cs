@@ -5,9 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 public class ChatBoxManager : MonoBehaviour
 {
-    [SerializeField] private GameObject chat_panel;
-    [SerializeField] private GameObject hide_btn;
-    [SerializeField] private GameObject show_btn;
     [SerializeField] private Transform global_chat_box;
     [SerializeField] private Transform global_chat_UI;
     [SerializeField] private Scrollbar global_scroll_bar;
@@ -83,19 +80,5 @@ public class ChatBoxManager : MonoBehaviour
             local_chat_line_list.Clear();
         }
         
-    }
-
-    public void hide_chat() {
-        chat_panel.SetActive(false);
-        hide_btn.SetActive(false);
-        show_btn.SetActive(true);
-    }
-    public void show_chat()
-    {
-        chat_panel.SetActive(true);
-        update_display();
-        hide_btn.SetActive(true);
-        show_btn.SetActive(false);
-
     }
 }
