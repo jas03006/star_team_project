@@ -4,19 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Obstacle_ID
-{
-    none = -1,
-    StartPositopn=0,
-    NormalWall,
-    RedWall,
-    Star,
-    BigStar,
-    Heart,
-    BigHeart,
-    Alphabet
-
-}
 
 
 public class StageInfo_JGD
