@@ -5,18 +5,20 @@ using UnityEngine;
 public class Player_Controll_JGD : MonoBehaviour
 {
     [SerializeField] private float Jump;
-    Rigidbody rigi;
+    [SerializeField] public float Speed;
+    public Rigidbody2D rigi;
 
     private void Awake()
     {
-        rigi = GetComponent<Rigidbody>();
+        rigi = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        transform.Translate(Speed * Time.deltaTime, 0, 0);
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigi.velocity = Vector3.up * Jump;
+            rigi.velocity = Vector2.up * Jump;
         }
     }
 }
