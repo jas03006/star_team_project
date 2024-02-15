@@ -34,7 +34,8 @@ public class FriendRequest_JGD : MonoBehaviour
             name = list.GetComponentInChildren<TMP_Text>();
             name.text = nickName;
             list.GetComponentInChildren<Button>().onClick.AddListener(() => BackendFriend_JDG.Instance.ApplyFriend(ind));
-            
+            list.GetComponentInChildren<Button>().onClick.AddListener(() => MyFriend(list));
+
             numcount++;
         }
 
@@ -56,7 +57,11 @@ public class FriendRequest_JGD : MonoBehaviour
         //
         //}
     }
-
+    public void MyFriend(GameObject list)
+    {
+        Debug.Log($"{Friend} Ãß°¡");
+        Destroy(list);
+    }
 
 
 }

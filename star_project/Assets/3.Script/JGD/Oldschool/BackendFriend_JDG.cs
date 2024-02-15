@@ -117,7 +117,6 @@ public class BackendFriend_JDG : MonoBehaviour
         }
 
         Debug.Log($"{_requestFriendList[index].Item1}이(가) 친구가 되었습니다. : " + bro);
-        Destroy(this.gameObject);
     }
 
     public void GetFriendList()
@@ -140,7 +139,8 @@ public class BackendFriend_JDG : MonoBehaviour
         int index = 0;
         string friendListString = "친구목록\n";
 
-        foreach(LitJson.JsonData friendJson in bro.FlattenRows())
+
+        foreach (LitJson.JsonData friendJson in bro.FlattenRows())
         {
             string nickName = friendJson["nickname"]?.ToString();
             string inDate = friendJson["inDate"].ToString();
