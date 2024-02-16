@@ -1,17 +1,13 @@
 using LitJson;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class HousingInfo_JGD
 {
     public int level = 0; //확장 레벨
     public int exp = 0;
-    //public string name = "as";
-    //public bool flag = false;
-    
+
     public List<HousingObjectInfo> objectInfos = new List<HousingObjectInfo>();
     public HousingInfo_JGD()
     {
@@ -28,16 +24,18 @@ public class HousingInfo_JGD
     public HousingInfo_JGD(JsonData json)
     {
         //Debug.Log(json.ToString());
-        if (json.IsObject) {
+        if (json.IsObject)
+        {
             level = Int32.Parse(json["level"].ToString());
             exp = Int32.Parse(json["exp"].ToString());
-            foreach (LitJson.JsonData item in json["objectInfos"])
+
+            foreach (JsonData item in json["objectInfos"])
             {
                 objectInfos.Add(new HousingObjectInfo(item));
             }
         }
     }
-    public void add_object(HousingObjectInfo obj) 
+    public void Add_object(HousingObjectInfo obj)
     {
         objectInfos.Add(obj);
     }
@@ -74,16 +72,66 @@ public class HousingObjectInfo
             item_ID = (housing_itemID)Int32.Parse(json["item_ID"].ToString());
         }
     }
-
 }
+
 [Serializable]
 public enum housing_itemID
 {
     none = -1,
-    ark_cylinder,
+    ark_cylinder=1,
     airship,
     star_nest,
     chair,
     bed,
     table,
+}
+
+public class Memo_info
+{
+    List<Memo> memo_list = new List<Memo>();
+
+    public Memo_info()
+    {
+    }
+
+    public Memo_info(JsonData json)
+    {
+        if (json.IsObject)
+        {
+            foreach (LitJson.JsonData item in json)
+            {
+                memo_list.Add(new Memo(item["Memo_info"]));
+            }
+        }
+    }
+
+    public void Add_object()
+    {
+        memo_list.Add(new Memo());
+    }
+}
+
+public class Memo
+{
+    public string UUID; //사실상 닉네임
+    public string content;
+
+    public Memo(JsonData json)
+    {
+        UUID = json["UUID"].ToString();
+        content = json["content"].ToString();
+    }
+
+    public Memo()
+    {
+        UUID = string.Empty;
+        content = string.Empty;
+    }
+
+    public void Change(string UUID_, string content_) //방명록 내용 바꾸는 메서드
+    {
+        UUID = UUID_;
+        content = content_;
+    }
+
 }
