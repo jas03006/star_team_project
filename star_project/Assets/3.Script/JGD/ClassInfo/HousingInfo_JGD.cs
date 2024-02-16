@@ -11,8 +11,16 @@ public class HousingInfo_JGD
     public List<HousingObjectInfo> objectInfos = new List<HousingObjectInfo>();
     public HousingInfo_JGD()
     {
+     
     }
-
+    public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info)
+    {
+        foreach (Vector3Int key in placement_info.Keys) {
+            PlacementData pd = placement_info[key];
+            objectInfos.Add(new HousingObjectInfo(pd.ID, new Vector2(key.x, key.z), pd.direction));
+        }
+    }
+    
     public HousingInfo_JGD(JsonData json)
     {
         //Debug.Log(json.ToString());
@@ -48,7 +56,12 @@ public class HousingObjectInfo
         item_ID = item_ID_;
         position = new Vector2(UnityEngine.Random.Range(0, 10), UnityEngine.Random.Range(0, 10));
     }
-
+    public HousingObjectInfo(housing_itemID item_ID_, Vector2 position_, int direction_)
+    {
+        item_ID = item_ID_;
+        position = position_;
+        direction = direction_;
+    }
     public HousingObjectInfo(JsonData json)
     {
         //Debug.Log(json.ToString());
@@ -61,6 +74,7 @@ public class HousingObjectInfo
     }
 }
 
+[Serializable]
 public enum housing_itemID
 {
     none = -1,
