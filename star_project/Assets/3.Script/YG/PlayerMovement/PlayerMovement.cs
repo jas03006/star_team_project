@@ -20,21 +20,61 @@ public class PlayerMovement : Player_Network_TG
     {
         find_grid();
     }
+
+    // Update is called once per frame
+    protected virtual void Update()
+    {
+        if (!is_guest && TCP_Client_Manager.instance.now_room_id != "-")
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
+
+            Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
+            if (Input.GetMouseButtonUp(1))
+            {// Debug.Log("RightClick!");
+                if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
+                {
+                    if (can_move())
+                    {
+                        RaycastHit hit;
+                        if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
+                        {
+                            Debug.Log("Interaction detect!");
+                            Vector3 dest = hit.point;
+                            dest.y = transform.position.y;
+                            //dest.x -= 1f;
+                            net_move(transform.position, grid.find_nearest_space(dest, transform.position));
+                            hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact(object_id);
+                        }
+                        else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
+                        {
+                            // Debug.Log("check!");
+                            Vector3 dest = hit.point;
+                            dest.y = transform.position.y;
+                            net_move(transform.position, dest);
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        SetStartandTargetPos();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            move(pathFinding.StartPosition.position, pathFinding.TargetPosition.position);
+        }
+    }
+
     public void find_grid() {
         Debug.Log("finding grid system");
         pathFinding = FindObjectOfType<PathFinding>();
         grid = FindObjectOfType<GridSystem>();
     }
-    protected override void Update()
-    {
-        base.Update();
-        SetStartandTargetPos();
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            move(pathFinding.StartPosition.position,pathFinding.TargetPosition.position);
-        }
-    }
+    
 
     private void SetStartandTargetPos()
     {

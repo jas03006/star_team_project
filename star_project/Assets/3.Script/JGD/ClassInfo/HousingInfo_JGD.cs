@@ -78,7 +78,7 @@ public class HousingObjectInfo
 public enum housing_itemID
 {
     none = -1,
-    ark_cylinder,
+    ark_cylinder=1,
     airship,
     star_nest,
     chair,

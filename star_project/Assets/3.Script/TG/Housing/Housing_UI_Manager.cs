@@ -8,6 +8,12 @@ public class Housing_UI_Manager : MonoBehaviour
     [SerializeField] private GameObject edit_button;
     [SerializeField] private GameObject housing_UI;
     [SerializeField] private MeshRenderer grid_renderer;
+
+    public Camera camera;
+    public LayerMask default_mask;
+    public LayerMask edit_mode_mask;
+
+    public bool is_edit_mode = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,16 +44,20 @@ public class Housing_UI_Manager : MonoBehaviour
     }
 
     public void click_edit_btn() {
+        is_edit_mode = true;
         edit_button.SetActive(false);
         housing_UI.SetActive(true);
         grid_renderer.enabled = true;
+
+        camera.cullingMask = edit_mode_mask;
     }
     public void click_X_btn()
     {
+        is_edit_mode = false;
         edit_button.SetActive(true);
         housing_UI.SetActive(false);
         grid_renderer.enabled = false;
 
-
+        camera.cullingMask = default_mask;
     }
 }

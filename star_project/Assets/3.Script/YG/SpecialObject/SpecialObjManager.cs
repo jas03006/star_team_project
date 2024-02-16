@@ -3,12 +3,12 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine;
 
-public enum specialobject_enum //없앨거임
+/*public enum specialobject_enum //없앨거임
 {
     none = -1, // 특수 오브젝트X
     ark_cylinder
 }
-
+*/
 public interface IObject
 {
     void Interactive();
@@ -49,13 +49,13 @@ public class SpecialObjManager : MonoBehaviour
         }
     }
 
-    public void StateChange(specialobject_enum id)
+    public void StateChange(housing_itemID id)
     {
         switch (id)
         {
-            case specialobject_enum.none:
+            case housing_itemID.none:
                 break;
-            case specialobject_enum.ark_cylinder:
+            case housing_itemID.ark_cylinder:
                 harvesting.Interactive();
                 break;
             default:

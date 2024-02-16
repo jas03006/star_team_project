@@ -53,7 +53,7 @@ public class RemovingState : IBuildingState
             selectedData.RemoveObjectAt(gridPosition);
             objectPlacer.RemoveObjectAt(gameObjectIndex);
         }
-        Vector3 cellPosition = grid.CellToWorld(gridPosition);
+        Vector3 cellPosition = grid.CellToWorld(gridPosition) + new Vector3( grid.cellSize.x / 2f,0, grid.cellSize.z / 2f);
         previewSystem.UpdatePostition(cellPosition, CheckIfSelectionIsValid(gridPosition));
     }
 
@@ -65,6 +65,6 @@ public class RemovingState : IBuildingState
     public void UpdateState(Vector3Int gridPosition)
     {
         bool validity = CheckIfSelectionIsValid(gridPosition);
-        previewSystem.UpdatePostition(grid.CellToWorld(gridPosition), validity);
+        previewSystem.UpdatePostition(grid.CellToWorld(gridPosition) + new Vector3(grid.cellSize.x / 2f, 0, grid.cellSize.z / 2f), validity);
     }
 }

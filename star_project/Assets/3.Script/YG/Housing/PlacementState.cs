@@ -45,11 +45,11 @@ public class PlacementState : IBuildingState
         if (placementValidity == false)
             return;
 
-        int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition));
+        int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f));
 
         GridData selectedData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
         selectedData.AddObjectAt(gridPosition, database.objectData[selectedObjectIndex].size, database.objectData[selectedObjectIndex].id, index);
-        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition), false);
+        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), false);
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
@@ -61,6 +61,6 @@ public class PlacementState : IBuildingState
     public void UpdateState(Vector3Int gridPosition)
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition), placementValidity);
+        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), placementValidity);
     }
 }

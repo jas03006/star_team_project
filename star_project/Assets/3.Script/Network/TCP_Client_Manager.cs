@@ -60,7 +60,7 @@ public class TCP_Client_Manager : MonoBehaviour
     TcpClient client;
     private int respawn_flag = 7777;
 
-    private Housing_UI_Manager housing_ui_manager;
+    public Housing_UI_Manager housing_ui_manager;
     [SerializeField] private ChatBoxManager chat_box_manager;
 
     [SerializeField] private GameObject invite_UI;

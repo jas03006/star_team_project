@@ -160,6 +160,10 @@ public class GridSystem : MonoBehaviour
         return NeighboringNodes;
     }
 
+    public Vector3 find_nearest_space(Vector3 dest_pos, Vector3 start_pos) {
+        return dest_pos;
+    }
+
     public void CreateGird()
     {
         if (furnitureData == null)

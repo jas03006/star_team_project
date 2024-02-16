@@ -33,30 +33,24 @@ public class FriendRequest_JGD : MonoBehaviour
             GameObject list = Instantiate(Friend, location.transform);
             name = list.GetComponentInChildren<TMP_Text>();
             name.text = nickName;
-            list.GetComponentInChildren<Button>().onClick.AddListener(() => BackendFriend_JDG.Instance.ApplyFriend(ind));
             
+            Button[] buttons = list.GetComponentsInChildren<Button>();
+            if (buttons.Length >= 2)
+            {
+                buttons[0].onClick.AddListener(() => BackendFriend_JDG.Instance.ApplyFriend(ind));
+                buttons[0].onClick.AddListener(() => MyFriend(list));
+                buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
+                buttons[1].onClick.AddListener(() => MyFriend(list));
+            }
             numcount++;
-        }
-
-        
-
-        //var bro = Backend.Friend.GetReceivedRequestList();
-        //
-        //foreach (LitJson.JsonData friendJson in bro.FlattenRows())
-        //{
-        //    string nickName = friendJson["nickname"]?.ToString();
-        //
-        //    Debug.Log($"{nickName}");
-        //    index++;
-        //
-        //    GameObject list = Instantiate(Friend, location.transform);
-        //    name = list.GetComponentInChildren<TMP_Text>();
-        //    name.text = nickName;
-        //    list.GetComponentInChildren<Button>().onClick.AddListener(() => BackendFriend_JDG.Instance.ApplyFriend(index));
-        //
-        //}
+        }              
+             
     }
-
+    public void MyFriend(GameObject list)
+    {
+        Debug.Log($"{Friend} Ãß°¡");
+        Destroy(list);
+    }
 
 
 }
