@@ -3698,7 +3698,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -3723,13 +3723,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5299155, y: 0.31347594, z: -0.21949817, w: 0.7567979}
+  m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
   m_LocalPosition: {x: -4, y: 10.38, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 70, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3786,10 +3786,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2d1b55782a0af4b80e58e010140462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 10
-  min_distance: 5
+  distance: 6
+  min_distance: 3
   max_distance: 20
-  angle: {x: 70, y: 45, z: 0}
+  angle: {x: 70, y: 70, z: 0}
 --- !u!1001 &963291426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5563,6 +5563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6bc6d04d0c54a45a2e6af7d98dc4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI_Container: {fileID: 626406446}
   character_image: {fileID: 1342825985}
   pop_text: {fileID: 2096528042}
   title_text: {fileID: 715427109}
@@ -5571,6 +5572,7 @@ MonoBehaviour:
   intro_text: {fileID: 249501183}
   memo_input: {fileID: 1974092909}
   memo_container: {fileID: 248660253}
+  memo_prefab: {fileID: 2287228233541934207, guid: df11128bc62ff864ba7e50a6cce1f891, type: 3}
 --- !u!1 &1456219840
 GameObject:
   m_ObjectHideFlags: 0
@@ -5782,9 +5784,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TCP_Client_Manager, Assembly-CSharp
-        m_MethodName: send_chat_button
+      - m_Target: {fileID: 1428324810}
+        m_TargetAssemblyTypeName: Star_nest_UI, Assembly-CSharp
+        m_MethodName: add_memo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6428,7 +6430,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1725452204}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1428324810}
+        m_TargetAssemblyTypeName: Star_nest_UI, Assembly-CSharp
+        m_MethodName: hide_UI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1725452204
 MonoBehaviour:
   m_ObjectHideFlags: 0
