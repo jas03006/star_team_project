@@ -15,14 +15,14 @@ public class Player_YG : MonoBehaviour
 
     public void Select_btn(int id) //펫 선택 버튼
     {
-        character = BackendChart_JGD.chartData.pet_list[id];
+        character = BackendChart_JGD.chartData.character_list[id];
     }
 
     public void GameStart()
     {
         if (character == null)
         {
-            character = BackendChart_JGD.chartData.pet_list[0];
+            character = BackendChart_JGD.chartData.character_list[0];
         }
         StartCoroutine(character.Special_co());
     }
@@ -37,7 +37,7 @@ public class Player_YG : MonoBehaviour
 public class Character : MonoBehaviour
 {
     public Character_ID character_ID;
-    public string pet_name;
+    public string character_name;
 
     public int maxlevel;
     public int curlevel;//차트아니고 게임데이터에서 불러옴
@@ -45,34 +45,30 @@ public class Character : MonoBehaviour
     public int duration; //지속 시간 
     public int give_time; //아이템 지급 주기
 
-    public item_ID item;//지급 아이템 
+    public item_ID special_item;//지급 아이템 ex)게임 시작 시 자석 아이템 한 개를 지급한다.
+    public item_ID unique_item;//고유 능력 아이템 ex)자석 아이템 지속 시간 0.5초 증가
+    public item_ID unique_item2;//고유 능력 아이템2 (그린벨라 전용)
+
     public Sprite sprite;
 
     public Character(JsonData gameData)
     {
         character_ID = (Character_ID)int.Parse(gameData["character_ID"].ToString());
-        pet_name = gameData["pet_name"].ToString();
+        character_name = gameData["character_name"].ToString();
 
         maxlevel = int.Parse(gameData["maxlevel"].ToString());
-       // curlevel = BackendGameData_JGD.userData.Pet_Info.pet_dic[character_ID];
+        //curlevel = BackendGameData_JGD.userData.character_info.pet_dic[character_ID];
 
         duration = int.Parse(gameData["duration"].ToString());
         give_time = int.Parse(gameData["give_time"].ToString());
-        item = (item_ID)int.Parse(gameData["item"].ToString());
-        sprite = DataBaseManager.Instance.Num2Sprite(int.Parse(gameData["sprite"].ToString()));
+
+        special_item = (item_ID)int.Parse(gameData["special_item"].ToString());
+        unique_item = (item_ID)int.Parse(gameData["unique_item"].ToString());
+        unique_item2 = (item_ID)int.Parse(gameData["unique_item2"].ToString());
+
+        //sprite = DataBaseManager.Instance.Num2Sprite(int.Parse(gameData["sprite"].ToString()));
     }
 
-    public Character(Character_ID pet_id)
-    {
-        character_ID = pet_id;
-        pet_name = pet_id.ToString();
-        //curlevel = BackendGameData_JGD.userData.Pet_Info.pet_dic[pet_id];
-
-        maxlevel = 30;
-        item = item_ID.None;
-        duration = 3;
-        give_time = 3;
-    }
     public IEnumerator Special_co() //특수능력 - give_time초마다 아이템 지급
     {
         while (true)

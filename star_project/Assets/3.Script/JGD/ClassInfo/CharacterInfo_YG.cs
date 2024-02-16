@@ -14,42 +14,42 @@ public enum Character_ID
     Green
 }
 
-public class PetInfo_YG  //각 펫 레벨 저장을 위한 클래스
+public class CharacterInfo_YG  //각 캐릭터 레벨 저장을 위한 클래스
 {
-    public List<PetObj> pet_list = new List<PetObj>();
+    public List<CharacterObj> pet_list = new List<CharacterObj>();
     public Dictionary<Character_ID, int> pet_dic = new Dictionary<Character_ID, int>(); //레벨추출을 위한 딕셔너리
 
-    public PetInfo_YG()
+    public CharacterInfo_YG()
     {
 
     }
 
-    public PetInfo_YG(JsonData json)
+    public CharacterInfo_YG(JsonData json)
     {
         if (json.IsObject)
         {
-            foreach (JsonData pet in json["pets"])
+            foreach (JsonData pet in json["characters"])
             {
-                PetObj pet_obj = new PetObj(pet);
+                CharacterObj pet_obj = new CharacterObj(pet);
                 pet_list.Add(pet_obj);
                 pet_dic.Add(pet_obj.pet_id, pet_obj.level);
             }
         }
     }
 
-    public void Add_object(PetObj obj)
+    public void Add_object(CharacterObj obj)
     {
         pet_list.Add(obj);
     }
 }
 
-public class PetObj
+public class CharacterObj
 {
     public Character_ID pet_id;
     public int level =1;
     //public Dictionary<pet_ID, int> dic = new Dictionary<pet_ID, int>();
 
-    public PetObj(JsonData json)
+    public CharacterObj(JsonData json)
     {
         if (json.IsObject)
         {
@@ -58,7 +58,7 @@ public class PetObj
         }
     }
 
-    public PetObj(Character_ID pet_ID)
+    public CharacterObj(Character_ID pet_ID)
     {
         pet_id = pet_ID;
         level = 1;

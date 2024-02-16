@@ -5,6 +5,12 @@ using BackEnd;
 using System.Text;
 using LitJson;
 
+public class ChartData
+{
+    public List<Character> character_list = new List<Character>();
+    public List<Alphabat> alphabats = new List<Alphabat>();
+}
+
 public class BackendChart_JGD : MonoBehaviour
 {
     private static BackendChart_JGD instance= null;
@@ -25,8 +31,9 @@ public class BackendChart_JGD : MonoBehaviour
     public void ChartDataGet()
     {
         chartData = new ChartData();
-        Character("108629");
-        Item("108723");
+
+        Character("108792");
+        Item("108781");
     }
 
     public void Character(string chartId)
@@ -44,9 +51,10 @@ public class BackendChart_JGD : MonoBehaviour
         Debug.Log("차트 불러오기에 성공했습니다. : " + bro);
 
         //차트 내용 저장
-        foreach (JsonData gameData in bro.FlattenRows())
+
+        foreach (JsonData gameData in bro.FlattenRows()[0])
         {
-            chartData.pet_list.Add(new Character(gameData));
+            chartData.character_list.Add(new Character(gameData));
         }
     }
 
@@ -67,7 +75,7 @@ public class BackendChart_JGD : MonoBehaviour
         //차트 내용 저장
         foreach (JsonData gameData in bro.FlattenRows())
         {
-            chartData.pet_list.Add(new Character(gameData));
+            chartData.character_list.Add(new Character(gameData));
         }
     }
     #region 예시
@@ -104,7 +112,3 @@ public class BackendChart_JGD : MonoBehaviour
     #endregion
 }
 
-public class ChartData
-{
-    public List<Character> pet_list = new List<Character>();
-}

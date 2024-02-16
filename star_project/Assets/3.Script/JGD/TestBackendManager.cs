@@ -33,7 +33,6 @@ public class TestBackendManager : MonoBehaviour
             //TestBackend_Login_JGD.Instance.UpdateNickname("이름~~~"); //[추가] 닉네임 변경
 
             //게임 정보 기능 구현 로직
-            BackendGameData_JGD.Instance.LevelUp();
             BackendGameData_JGD.Instance.GameDataInsert();
             //친구 기능 로직
             BackendChart_JGD.Instance.ChartGet("107516");
