@@ -21,7 +21,7 @@ public class StageInfo_JGD
 public class StageObjectInfo_JGD
 {
     public List<StageObjectInfo_JGD> StageObject = new List<StageObjectInfo_JGD>();
-    public Obstacle_ID obstacle_ = Obstacle_ID.none; 
+    public Obstacle_ID obstacle_ = Obstacle_ID.None; 
     public int Pos_X;
     public int Pos_Y;
 
