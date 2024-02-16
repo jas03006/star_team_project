@@ -329,8 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b725a15058cdb0a48b940d2ff61cb789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Jump: 5
-  Speed: 2
+  camera: {fileID: 1077970836}
+  Jump: 3
+  Speed: 3
   rigi: {fileID: 0}
 --- !u!1 &1077970836
 GameObject:
@@ -344,7 +345,6 @@ GameObject:
   - component: {fileID: 1077970838}
   - component: {fileID: 1077970837}
   - component: {fileID: 1077970840}
-  - component: {fileID: 1077970841}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -470,19 +470,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &1077970841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077970836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e16933d044aca84da5cb82cefaa60eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 646550002}
 --- !u!1 &1173837141
 GameObject:
   m_ObjectHideFlags: 0
@@ -8073,8 +8060,11 @@ MonoBehaviour:
   ObjectNum: 0
   Pos_X: 0
   Pos_Y: 0
-  Object: {fileID: 0}
-  Objects: []
+  Object: {fileID: 1875453188}
+  Objects:
+  - {fileID: 0}
+  - {fileID: 8311467430636360239, guid: d24b35936ca6f664da99c12b76fd03d4, type: 3}
+  - {fileID: 764094434114916248, guid: a982851c6c28b7845b05205ef2307d4c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
