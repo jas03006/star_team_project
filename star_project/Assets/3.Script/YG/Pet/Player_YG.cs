@@ -8,7 +8,10 @@ using UnityEngine.TextCore.Text;
 public class Player_YG : MonoBehaviour
 {
     private Character character;
-    private int hp;
+
+    //아이템 상호작용 변수
+    public int hp;
+    public int star_num;
 
     public void Select_btn(int id) //펫 선택 버튼
     {
@@ -21,8 +24,12 @@ public class Player_YG : MonoBehaviour
         {
             character = BackendChart_JGD.chartData.pet_list[0];
         }
-
         StartCoroutine(character.Special_co());
+    }
+
+    public void Use_item(item_ID id)
+    {
+        //switch 박아서 아이템사용
     }
 
 }

@@ -5,14 +5,10 @@ using UnityEngine;
 public class Heart : Item
 {
     [field: SerializeField]
-    public int percent { get; private set; } //회복량
+    public float percent { get; private set; } //회복량
 
-    [field: SerializeField]
-    public int duration { get; private set; }
-
-    public void UseItem()
+    public int UseItem(Player_YG player)
     {
-        
+        return player.hp += (int)(player.hp * percent);
     }
-    
 }

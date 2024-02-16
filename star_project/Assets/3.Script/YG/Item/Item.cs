@@ -18,7 +18,7 @@ public class Item
 
 public enum item_ID
 {
-    None,
+    None =-1,
     Alphabet,
     Heart,
     Star,
@@ -31,7 +31,7 @@ public enum item_ID
 }
 
 //0215 todo
-//차트에다가 아이템 데이터 넣기
+//차트에다가 아이템 데이터 넣기 - 완료
 //차트매니저에서 아이템 데이터 불러오기
 //차트매니저에서 아이템 생성해서 정보 들고있기
 //아이템 스킬 어디서 사용할지 정하기

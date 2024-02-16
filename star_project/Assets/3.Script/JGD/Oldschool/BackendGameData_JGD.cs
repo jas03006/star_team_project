@@ -32,7 +32,7 @@ public class UserData
     bool is_clear = false;
     bool is_word_clear;
     int top_score;
-
+    public int popularity = 0;
     public int level = 1;
     public float atk = 3.5f;
     public string info = string.Empty;
@@ -53,6 +53,7 @@ public class UserData
 
     public HousingInfo_JGD Housing_Info = new HousingInfo_JGD();
     public PetInfo_YG Pet_Info = new PetInfo_YG();
+    public Memo_info Memo_info = new Memo_info();
 
     public override string ToString()
     {
@@ -60,8 +61,11 @@ public class UserData
         result.AppendLine($"level : {level}");
         result.AppendLine($"atk : {atk}");
         result.AppendLine($"info : {info}");
+        result.AppendLine($"popularity : {popularity}");
+
         result.AppendLine($"Housing_Info : {Housing_Info}");
         result.AppendLine($"Pet_Info : {Pet_Info}");
+        result.AppendLine($"Memo_info : {Memo_info}");
 
         result.AppendLine($"inventory");
         foreach (var itemkey in inventory.Keys)
@@ -149,19 +153,24 @@ public class BackendGameData_JGD : MonoBehaviour
         {
             userData = new UserData();
 
-            Debug.Log("게임정보 삽입 들어옴?");
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
-            //유저가 가진 펫 레벨 정보가 없으면 1로 생성
+            //캐릭터 레벨 정보
             userData.Pet_Info.Add_object(new PetObj(Character_ID.Yellow));
             userData.Pet_Info.Add_object(new PetObj(Character_ID.Red));
             userData.Pet_Info.Add_object(new PetObj(Character_ID.Blue));
             userData.Pet_Info.Add_object(new PetObj(Character_ID.Purple));
             userData.Pet_Info.Add_object(new PetObj(Character_ID.Green));
+
+            //Memo 정보 - i = 정보 갯수
+            for (int i = 0; i < 5; i++)
+            {
+                userData.Memo_info.Add_object();
+            }
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -173,6 +182,8 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
+        param.Add("popularity", userData.popularity);
+        param.Add("Memo_info", userData.Memo_info);
         param.Add("equipment", userData.equipment);///////////////////////////예제코드 추후 삭제?
         param.Add("inventory", userData.inventory);///////////////////////////예제코드 추후 삭제?
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);                       //친구정보
@@ -229,9 +240,11 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData = new UserData();
                 //Debug.Log("gamer id: "+gameDataJson[0]["gamer_id"].ToString());
                 userData.level = int.Parse(gameDataJson[0]["level"].ToString());
+                userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
                 userData.info = gameDataJson[0]["info"].ToString();
 
                 userData.Housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                userData.Memo_info = new Memo_info(gameDataJson[0]["Memo_info"]);
                 userData.Pet_Info = new PetInfo_YG(gameDataJson[0]["Pet_Info"]);
 
 
@@ -313,6 +326,7 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
+        param.Add("popularity", userData.popularity);
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);
         param.Add("Character_ID_List", userData.Character_ID_List);
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);
