@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridData
 {
     public Dictionary<Vector3Int, PlacementData> placedObjects = new();
-    public int[] level_boudary = {8,12,16};//레벨 별 그리드 반 크기
+    public int[] level_boudary = {7,10, 13,16};//레벨 별 그리드 반 크기
     public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectsize, housing_itemID id, int placedobjectindex)
     {
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectsize);

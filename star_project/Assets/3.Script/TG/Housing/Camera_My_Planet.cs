@@ -45,7 +45,7 @@ public class Camera_My_Planet : MonoBehaviour
     }
 
     private bool can_move_camera() {
-        if (TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode)
+        if (!TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode)
         {
             return false;    
         }

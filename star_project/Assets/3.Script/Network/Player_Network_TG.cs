@@ -12,43 +12,7 @@ public class Player_Network_TG : Net_Move_Object_TG
         
     }
 
-    // Update is called once per frame
-    protected virtual void Update()
-    {
-        if (!is_guest && TCP_Client_Manager.instance.now_room_id != "-") {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-
-            
-            Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
-            if (Input.GetMouseButtonUp(1))
-            {// Debug.Log("RightClick!");
-                if (!TCP_Client_Manager.instance.placement_system.cancel_placement()) {
-                    if (can_move()) {
-                        RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
-                        {
-                            Vector3 dest = hit.point;
-                            dest.y = transform.position.y;
-                            dest.x -= 1f;
-                            net_move(transform.position, dest);
-                            hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact();
-                        }
-                        else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
-                        {
-                            // Debug.Log("check!");
-                            Vector3 dest = hit.point;
-                            dest.y = transform.position.y;
-                            net_move(transform.position, dest);
-                        }
-                    }                    
-                }
-                
-               
-            }
-        }
-        
-    }
+    
 
     protected bool can_move() {
         if (TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode) {

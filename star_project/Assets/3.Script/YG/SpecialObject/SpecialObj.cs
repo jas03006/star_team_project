@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpecialObj : MonoBehaviour
+public class SpecialObj : Net_Housing_Object
 {
-    public specialobject_enum object_enum;
+    
 }

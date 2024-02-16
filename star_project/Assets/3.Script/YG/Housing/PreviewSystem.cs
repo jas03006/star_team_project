@@ -100,6 +100,7 @@ public class PreviewSystem : MonoBehaviour
 
     private void MoveCursor(Vector3 postition)
     {
-        cellindicator.transform.position = postition;
+        Vector3 cell_size = TCP_Client_Manager.instance.placement_system.grid.cellSize;
+        cellindicator.transform.position = postition + new Vector3( (cellindicator.transform.localScale.x - 1) / 2f * cell_size.x, 0, (cellindicator.transform.localScale.z - 1) / 2f * cell_size.z);
     }
 }
