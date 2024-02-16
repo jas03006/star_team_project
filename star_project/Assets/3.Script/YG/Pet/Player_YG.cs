@@ -54,7 +54,7 @@ public class Character : MonoBehaviour
         pet_name = gameData["pet_name"].ToString();
 
         maxlevel = int.Parse(gameData["maxlevel"].ToString());
-        curlevel = BackendGameData_JGD.userData.Pet_Info.pet_dic[character_ID];
+       // curlevel = BackendGameData_JGD.userData.Pet_Info.pet_dic[character_ID];
 
         duration = int.Parse(gameData["duration"].ToString());
         give_time = int.Parse(gameData["give_time"].ToString());
@@ -66,7 +66,7 @@ public class Character : MonoBehaviour
     {
         character_ID = pet_id;
         pet_name = pet_id.ToString();
-        curlevel = BackendGameData_JGD.userData.Pet_Info.pet_dic[pet_id];
+        //curlevel = BackendGameData_JGD.userData.Pet_Info.pet_dic[pet_id];
 
         maxlevel = 30;
         item = item_ID.None;

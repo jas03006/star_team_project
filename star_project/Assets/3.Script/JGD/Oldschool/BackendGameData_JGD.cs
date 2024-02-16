@@ -1,14 +1,7 @@
-using System.Collections;
+using BackEnd;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-
-using BackEnd;
-using System;
-using UnityEditor;
-using Unity.VisualScripting;
-using static UnityEditor.Progress;
-using UnityEditor.Build;
 
 
 //Friend_UUID_List
@@ -32,7 +25,7 @@ public class UserData
     bool is_clear = false;
     bool is_word_clear;
     int top_score;
-    public int popularity = 0;
+    //public int popularity = 0;
     public int level = 1;
     public float atk = 3.5f;
     public string info = string.Empty;
@@ -53,7 +46,7 @@ public class UserData
 
     public HousingInfo_JGD Housing_Info = new HousingInfo_JGD();
     public PetInfo_YG Pet_Info = new PetInfo_YG();
-    public Memo_info Memo_info = new Memo_info();
+    public Memo_info memo_info = new Memo_info();
 
     public override string ToString()
     {
@@ -61,11 +54,11 @@ public class UserData
         result.AppendLine($"level : {level}");
         result.AppendLine($"atk : {atk}");
         result.AppendLine($"info : {info}");
-        result.AppendLine($"popularity : {popularity}");
+        // result.AppendLine($"popularity : {popularity}");
 
         result.AppendLine($"Housing_Info : {Housing_Info}");
-        result.AppendLine($"Pet_Info : {Pet_Info}");
-        result.AppendLine($"Memo_info : {Memo_info}");
+        //result.AppendLine($"Pet_Info : {Pet_Info}");
+        //result.AppendLine($"memo_info : {memo_info}");
 
         result.AppendLine($"inventory");
         foreach (var itemkey in inventory.Keys)
@@ -139,18 +132,21 @@ public class BackendGameData_JGD : MonoBehaviour
             {
                 _instance = new BackendGameData_JGD();
             }
-            return _instance;   
+            return _instance;
         }
     }
     public static UserData userData;
 
     private string gameDataRowInDate = string.Empty;
 
-    public void GameDataInsert()
+    public void GameDataInsert(string nickname = "")
     {
+        
         //게임정보 삽입
         if (userData == null)
         {
+            Backend.BMember.UpdateNickname(nickname);
+
             userData = new UserData();
 
             userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
@@ -167,23 +163,27 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.Pet_Info.Add_object(new PetObj(Character_ID.Green));
 
             //Memo 정보 - i = 정보 갯수
+
             for (int i = 0; i < 5; i++)
             {
-                userData.Memo_info.Add_object();
+                userData.memo_info.Add_object();
             }
+
+
+
         }
 
         Debug.Log("데이터를 초기화 합니다.");
         userData.level = 1;
-        userData.info = "친추 환영"; 
+        userData.info = "친추 환영";
 
         Debug.Log("뒤끝 업데이트 목록에 데이터 추가");
 
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
-        param.Add("popularity", userData.popularity);
-        param.Add("Memo_info", userData.Memo_info);
+        //param.Add("popularity", userData.popularity);
+        param.Add("memo_info", userData.memo_info);
         param.Add("equipment", userData.equipment);///////////////////////////예제코드 추후 삭제?
         param.Add("inventory", userData.inventory);///////////////////////////예제코드 추후 삭제?
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);                       //친구정보
@@ -200,7 +200,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Housing_Info", userData.Housing_Info);   //하우징 데이터
         param.Add("Pet_Info", userData.Pet_Info);   //펫 데이터
 
-        Debug.Log("게임정보 데이터 삽입을 요청");                             
+        Debug.Log("게임정보 데이터 삽입을 요청");
 
         var bro = Backend.GameData.Insert("USER_DATA", param);
 
@@ -229,7 +229,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
             LitJson.JsonData gameDataJson = bro.FlattenRows();    //Json으로 리턴된 데이터
 
-            if (gameDataJson.Count <=0)
+            if (gameDataJson.Count <= 0)
             {
                 Debug.LogWarning("데이터가 존재하지 않습니다.");
             }
@@ -240,12 +240,12 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData = new UserData();
                 //Debug.Log("gamer id: "+gameDataJson[0]["gamer_id"].ToString());
                 userData.level = int.Parse(gameDataJson[0]["level"].ToString());
-                userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                //userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
                 userData.info = gameDataJson[0]["info"].ToString();
 
                 userData.Housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
-                userData.Memo_info = new Memo_info(gameDataJson[0]["Memo_info"]);
-                userData.Pet_Info = new PetInfo_YG(gameDataJson[0]["Pet_Info"]);
+                userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
+                //userData.Pet_Info = new PetInfo_YG(gameDataJson[0]["Pet_Info"]);
 
 
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
@@ -306,7 +306,7 @@ public class BackendGameData_JGD : MonoBehaviour
         else
         {
             Debug.LogError("게임 정보 조회에 실패했습니다. : " + bro);
-        }   
+        }
     }
     public void LevelUp()
     {
@@ -320,13 +320,13 @@ public class BackendGameData_JGD : MonoBehaviour
         if (userData == null)
         {
             Debug.LogError("서버에서 다운받거나  새로 삽입한 데이터가 존재하지 않습니다. Insert 혹은 Get을 통해 데이터를 생성해주세요.");
-                return;
+            return;
         }
 
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
-        param.Add("popularity", userData.popularity);
+        // param.Add("popularity", userData.popularity);
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);
         param.Add("Character_ID_List", userData.Character_ID_List);
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);
@@ -363,7 +363,8 @@ public class BackendGameData_JGD : MonoBehaviour
         }
     }
 
-    public HousingInfo_JGD get_data_by_nickname(string nickname) {
+    public HousingInfo_JGD get_data_by_nickname(string nickname)
+    {
         string[] select = { "Housing_Info" };
         var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
         string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
@@ -376,13 +377,15 @@ public class BackendGameData_JGD : MonoBehaviour
             {
                 Debug.LogWarning("데이터가 존재하지 않습니다.");
             }
-            else { 
+            else
+            {
                 HousingInfo_JGD housing_info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 Debug.Log($" level: " + housing_info.level);
                 return housing_info;
             }
         }
-        else {
+        else
+        {
             Debug.Log("Fail");
         }
         return null;

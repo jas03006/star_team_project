@@ -14,7 +14,7 @@ public enum Character_ID
     Green
 }
 
-public class PetInfo_YG : MonoBehaviour //각 펫 레벨 저장을 위한 클래스
+public class PetInfo_YG  //각 펫 레벨 저장을 위한 클래스
 {
     public List<PetObj> pet_list = new List<PetObj>();
     public Dictionary<Character_ID, int> pet_dic = new Dictionary<Character_ID, int>(); //레벨추출을 위한 딕셔너리
