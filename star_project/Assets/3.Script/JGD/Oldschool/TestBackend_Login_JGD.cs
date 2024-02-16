@@ -30,7 +30,10 @@ public class TestBackend_Login_JGD : MonoBehaviour
         if (bro.IsSuccess())
         {
             Debug.Log("회원가입에 성공했습니다. : "+bro);
-            BackendGameData_JGD.Instance.GameDataInsert();
+           /* if (BackendGameData_JGD.Instance==null) { 
+            
+            }*/
+            BackendGameData_JGD.Instance.GameDataInsert(nickname: id);
         }
         else
         {
