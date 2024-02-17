@@ -137,7 +137,7 @@ public class BackendGameData_JGD : MonoBehaviour
     }
     public static UserData userData;
 
-    private string gameDataRowInDate = string.Empty;
+    public string gameDataRowInDate = string.Empty;
 
     public void GameDataInsert(string nickname = "")
     {
@@ -168,9 +168,6 @@ public class BackendGameData_JGD : MonoBehaviour
             {
                 userData.memo_info.Add_object();
             }
-
-
-
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -246,7 +243,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
                 userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
-                //userData.Pet_Info = new PetInfo_YG(gameDataJson[0]["Pet_Info"]);
+                userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
 
 
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보

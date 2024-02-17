@@ -1,19 +1,17 @@
-using System.Collections;
+using BackEnd;
+using LitJson;
 using System.Collections.Generic;
 using UnityEngine;
-using BackEnd;
-using System.Text;
-using LitJson;
 
 public class ChartData
 {
     public List<Character> character_list = new List<Character>();
-    public List<Alphabat> alphabats = new List<Alphabat>();
+    public List<Item> item_list = new List<Item>();
 }
 
 public class BackendChart_JGD : MonoBehaviour
 {
-    private static BackendChart_JGD instance= null;
+    private static BackendChart_JGD instance = null;
     public static ChartData chartData;
 
     public static BackendChart_JGD Instance
@@ -33,7 +31,7 @@ public class BackendChart_JGD : MonoBehaviour
         chartData = new ChartData();
 
         Character("108792");
-        Item("108781");
+        Item("108827");
     }
 
     public void Character(string chartId)
@@ -52,9 +50,11 @@ public class BackendChart_JGD : MonoBehaviour
 
         //차트 내용 저장
 
-        foreach (JsonData gameData in bro.FlattenRows()[0])
+        chartData = new ChartData();
+
+        foreach (JsonData gameData in bro.FlattenRows())
         {
-            chartData.character_list.Add(new Character(gameData));
+           chartData.character_list.Add(new Character(gameData));
         }
     }
 
@@ -75,7 +75,7 @@ public class BackendChart_JGD : MonoBehaviour
         //차트 내용 저장
         foreach (JsonData gameData in bro.FlattenRows())
         {
-            chartData.character_list.Add(new Character(gameData));
+            chartData.item_list.Add(new Item(gameData));
         }
     }
     #region 예시
@@ -85,27 +85,29 @@ public class BackendChart_JGD : MonoBehaviour
         Debug.Log($"{chartId}의 차트 불러오기를 요청합니다.");
         var bro = Backend.Chart.GetChartContents(chartId);
 
-        if(bro.IsSuccess() == false)
+        if (bro.IsSuccess() == false)
         {
             Debug.LogError($"{chartId}의 차트를 불러오는 중, 에러가 발생하였습니다.: " + bro);
             return;
         }
+
+        Debug.Log("차트 불러오기에 성공했습니다. : " + bro);
+
         #region 차트 내용 출력방법
         /*
-        Debug.Log("차트 불러오기에 성공했습니다. : " + bro);
-        foreach (JsonData gameData in bro.FlattenRows())
-        {
-            StringBuilder content = new StringBuilder();
+    foreach (JsonData gameData in bro.FlattenRows())
+    {
+    StringBuilder content = new StringBuilder();
 
-            content.AppendLine("itemID : " + int.Parse(gameData["itemId"].ToString()));
-            content.AppendLine("itemName : " + gameData["itemName"].ToString());
-            content.AppendLine("itemType : " + gameData["itemType"].ToString());
-            content.AppendLine("itemID : " + long.Parse(gameData["itemPower"].ToString()));
-            content.AppendLine("itemInfo : " + gameData["itemInfo"].ToString());
+    content.AppendLine("itemID : " + int.Parse(gameData["itemId"].ToString()));
+    content.AppendLine("itemName : " + gameData["itemName"].ToString());
+    content.AppendLine("itemType : " + gameData["itemType"].ToString());
+    content.AppendLine("itemID : " + long.Parse(gameData["itemPower"].ToString()));
+    content.AppendLine("itemInfo : " + gameData["itemInfo"].ToString());
 
-            Debug.Log(content.ToString());
-        }
-         */
+    Debug.Log(content.ToString());
+}
+ */
         #endregion
 
     }

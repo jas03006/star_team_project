@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Star : Item
 {
-    public int num;
+    //public int num;
     public int UseItem(Player_YG player)
     {
         return player.star_num + num;

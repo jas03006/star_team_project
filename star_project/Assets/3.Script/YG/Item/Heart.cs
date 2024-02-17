@@ -5,7 +5,7 @@ using UnityEngine;
 public class Heart : Item
 {
     [field: SerializeField]
-    public float percent { get; private set; } //회복량
+    //public float percent { get; private set; } //회복량
 
     public int UseItem(Player_YG player)
     {
