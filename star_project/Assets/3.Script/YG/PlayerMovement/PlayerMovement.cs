@@ -43,8 +43,9 @@ public class PlayerMovement : Player_Network_TG
                         if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
                         {
                             Debug.Log("Interaction detect!");
-                            Vector3 dest = hit.point;
-                            dest.y = transform.position.y;
+
+                            Vector3 dest =  hit.point;
+                            dest.y = 0f;
                             dest = grid.find_nearest_space(dest, transform.position);
 
                             net_move(transform.position, dest);

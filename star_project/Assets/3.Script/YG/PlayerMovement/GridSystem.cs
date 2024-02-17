@@ -161,6 +161,126 @@ public class GridSystem : MonoBehaviour
     }
 
     public Vector3 find_nearest_space(Vector3 dest_pos, Vector3 start_pos) {
+        Vector3 dir = dest_pos- start_pos;
+        int dx_ = Mathf.RoundToInt(dir.x);
+        int dy_ = Mathf.RoundToInt(dir.z);
+        if (dx_ !=0) {
+            dx_ /= Mathf.Abs(dx_);
+        }
+        if (dy_ != 0)
+        {
+            dy_ /= Mathf.Abs(dy_);
+        }
+
+        Node node = NodeFromWorldPosition(dest_pos );
+       
+
+        if (dx_ !=0 && dy_ !=0 ) { //대각일때
+            int dx=0;
+            int dy =0;
+
+            int len = 0;
+            for (int i = 0; i < 16; i++)
+            {
+
+                node = grid_node[node.gridX - dx_, node.gridY - dy_];
+                len = i * 2 + 3;
+                for (int step = 0; step < len; step++) {
+                    dx = step;
+                    dy = 0;
+                    if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
+                    {
+                        return node.position + new Vector3(dx, 0, dy);
+                    }
+                    dx = 0;
+                    dy = step;
+                    if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
+                    {
+                        return node.position + new Vector3(dx, 0, dy);
+                    }
+                }
+                for (int step = 1; step < len; step++)
+                {
+                    dx = len-1;
+                    dy = step;
+                    if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
+                    {
+                        return node.position + new Vector3(dx, 0, dy);
+                    }
+                    dx = step;
+                    dy = len-1;
+                    if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
+                    {
+                        return node.position + new Vector3(dx, 0, dy);
+                    }
+                }
+            }
+        }
+        else{ //수직일때 
+            Vector2Int right = new Vector2Int(dy_, dx_);
+            Vector2Int up = new Vector2Int(dx_, dy_);
+
+            Vector2Int delta = Vector2Int.zero;  
+
+            for (int i = 0; i < 16; i++)
+            {
+                node = grid_node[node.gridX - dx_, node.gridY - dy_];
+                for (int step = 0; step <= i+1; step++)
+                {
+                    delta = right * step;                    
+                    if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
+                    {
+                        return node.position + new Vector3(delta.x, 0, delta.y);
+                    }
+                    delta = -right * step;
+                    if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
+                    {
+                        return node.position + new Vector3(delta.x, 0, delta.y);
+                    }
+                }
+                int len = i * 2 + 3;
+                for (int step = 1; step < len; step++)
+                {
+                    delta = right * (i+1) + up * step;
+                    if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
+                    {
+                        return node.position + new Vector3(delta.x, 0, delta.y);
+                    }
+                    delta = -right * (i + 1) + up * step;
+                    if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
+                    {
+                        return node.position + new Vector3(delta.x, 0, delta.y);
+                    }
+                }
+
+                for (int step = 0; step <= i + 1; step++)
+                {
+                    delta = right * (i + 1 - step) + up * (len-1);
+                    if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
+                    {
+                        return node.position + new Vector3(delta.x, 0, delta.y);
+                    }
+                    delta = -right * (i + 1 - step) + up * (len - 1);
+                    if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
+                    {
+                        return node.position + new Vector3(delta.x, 0, delta.y);
+                    }
+                }
+            }
+        }
+        
+        
+
+        /*int[] dx = {-1,0,1 };
+        int[] dy = {-1,0,1 };
+        
+        for (int i =0; i < dx.Length; i++) {
+            for (int j = 0; j < dy.Length; j++) {
+                if (grid_node[node.gridX + dx[i], node.gridY + dy[j]].iswall) {
+                    return node.position + new Vector3(dx[i],0, dy[i]);
+                }
+            }
+        }*/
         return dest_pos;
     }
 
