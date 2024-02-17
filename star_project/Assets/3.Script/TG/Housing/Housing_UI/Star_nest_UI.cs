@@ -100,6 +100,10 @@ public class Star_nest_UI : MonoBehaviour
 
         string[] select = {  "memo_info" };
         update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id,  select,  user_data);
+        if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
+        {
+            BackendGameData_JGD.userData.memo_info = user_data.memo_info;
+        }
     }
     public void create_memo(string uuid_, string content_)
     {

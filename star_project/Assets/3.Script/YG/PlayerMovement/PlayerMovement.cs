@@ -16,6 +16,8 @@ public class PlayerMovement : Player_Network_TG
     public GridSystem grid;
 
     private SpecialObjManager specialObjManager;
+
+    Tween now_tween = null;
     private void OnEnable()
     {
         find_grid();
@@ -43,9 +45,11 @@ public class PlayerMovement : Player_Network_TG
                             Debug.Log("Interaction detect!");
                             Vector3 dest = hit.point;
                             dest.y = transform.position.y;
-                            //dest.x -= 1f;
-                            net_move(transform.position, grid.find_nearest_space(dest, transform.position));
-                            hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact(object_id);
+                            dest = grid.find_nearest_space(dest, transform.position);
+
+                            net_move(transform.position, dest);
+                            TweenCallback action = () => { hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact(object_id); };
+                            move(transform.position, dest, action);                            
                         }
                         else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
                         {
@@ -53,6 +57,7 @@ public class PlayerMovement : Player_Network_TG
                             Vector3 dest = hit.point;
                             dest.y = transform.position.y;
                             net_move(transform.position, dest);
+                            move(transform.position, dest);
                         }
                     }
                 }
@@ -94,7 +99,7 @@ public class PlayerMovement : Player_Network_TG
         }
     }
 
-    public override void move(Vector3 start_pos, Vector3 dest_pos)
+    public override void move(Vector3 start_pos, Vector3 dest_pos, TweenCallback callback = null)
     {
         //base.move(start_pos, dest_pos);
         //finalPath = 
@@ -102,22 +107,30 @@ public class PlayerMovement : Player_Network_TG
         
         if (finalPath != null) {
             //Debug.Log("Move!");
-            MovePlayer();
+
+            MovePlayer(callback);
         }
     }
 
-    private void MovePlayer()
+    private void MovePlayer(TweenCallback callback = null)
     {
         Vector3[] path_ = Path2MovePath();
         if (path_ != null) {
             float distance = get_path_length(path_);
             float speed = 3f;
             float time_limit = distance / speed;
-
-            player.DOLocalJump(Vector3.zero, 1, (int)Mathf.Round(time_limit), time_limit).SetEase(Ease.Linear);
-            Tween t = player_container.DOPath(path_, time_limit, PathType.Linear).SetLookAt(0.25f).SetEase(Ease.Linear).SetOptions(false);
+            if (time_limit > 0 ) {
+                player.DOLocalJump(Vector3.zero, 1, (int)Mathf.Round(time_limit), time_limit).SetEase(Ease.Linear);
+            }
+            if (now_tween !=null) {
+                now_tween.onComplete = null;
+            }
+            now_tween = player_container.DOPath(path_, time_limit, PathType.Linear).SetLookAt(0.25f).SetEase(Ease.Linear).SetOptions(false);
             TweenCallback action = look_user;
-            t.OnComplete(action);
+            if (callback != null) {
+                action += callback;
+            }
+            now_tween.OnComplete(action);
         }        
     }
     private float get_path_length(Vector3[] path_) {
@@ -159,7 +172,9 @@ public class PlayerMovement : Player_Network_TG
             pivot0 = smooth_path[smooth_path.Count-1];
         }
         //smooth_path.Add(pivot0);
-        smooth_path.Add(finalPath[finalPath.Count - 1].position);
+        if (finalPath.Count >= 1) {
+            smooth_path.Add(finalPath[finalPath.Count - 1].position);
+        }        
 
         Vector3[] waypoints = new Vector3[smooth_path.Count];
         for (int i = 0; i < smooth_path.Count; i++)
