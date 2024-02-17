@@ -16,7 +16,7 @@ public enum Character_ID
 
 public class CharacterInfo_YG  //각 캐릭터 레벨 저장을 위한 클래스
 {
-    public List<CharacterObj> character_list = new List<CharacterObj>();
+    //public List<CharacterObj> character_list = new List<CharacterObj>();
     public Dictionary<Character_ID, int> character_dic = new Dictionary<Character_ID, int>(); //레벨추출을 위한 딕셔너리
 
     public CharacterInfo_YG()
@@ -31,7 +31,7 @@ public class CharacterInfo_YG  //각 캐릭터 레벨 저장을 위한 클래스
             foreach (JsonData character in json["pet_list"])
             {
                 CharacterObj cha_obj = new CharacterObj(character);
-                character_list.Add(cha_obj);
+                //character_list.Add(cha_obj);
                 character_dic.Add(cha_obj.pet_id, cha_obj.level);
             }
         }
@@ -39,7 +39,7 @@ public class CharacterInfo_YG  //각 캐릭터 레벨 저장을 위한 클래스
 
     public void Add_object(CharacterObj obj)
     {
-        character_list.Add(obj);
+        //character_list.Add(obj);
         character_dic.Add(obj.pet_id, obj.level);
     }
 }
