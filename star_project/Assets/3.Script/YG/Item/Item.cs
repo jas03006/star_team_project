@@ -3,26 +3,28 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Item
+public class Item //차트 정보 저장을 위한 클래스 선언(인게임에서는 Item_game 상속 script 사용 )
 {
     public item_ID id;
     public string item_name;
-    public Sprite sprite;
+    public int sprite;
 
     //해당하는 아이템
     public char alphabet; //스펠링 //Alphabet
     public double percent;//회복량 //heart
     public int num; //개수 //star,shield,size,speed
     public int duration; //지속시간 //speed,size,magnet
+
     public Item()
     {
 
     }
+
     public Item(JsonData gameData)
     {
         id = (item_ID)int.Parse(gameData["item_ID"].ToString());
         item_name = gameData["item_name"].ToString();
-        //sprite = DataBaseManager.Instance.Num2Sprite(int.Parse(gameData["sprite"].ToString()));
+        sprite = int.Parse(gameData["sprite"].ToString());
 
         if ((int)id < (int)item_ID.small_heart) //Alphabet
         {
@@ -88,9 +90,4 @@ public enum item_ID
     Megnet,
     Random
 }
-
-//0215 todo
-//차트매니저에서 아이템 데이터 불러오기
-//차트매니저에서 아이템 생성해서 정보 들고있기
-//아이템 스킬 어디서 사용할지 정하기
 

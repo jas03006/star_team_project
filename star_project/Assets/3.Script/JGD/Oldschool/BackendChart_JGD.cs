@@ -1,5 +1,6 @@
 using BackEnd;
 using LitJson;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,9 +31,10 @@ public class BackendChart_JGD : MonoBehaviour
     {
         chartData = new ChartData();
 
-        Character("108792");
+        Character("108885");
         Item("108827");
     }
+
 
     public void Character(string chartId)
     {
