@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +38,7 @@ public class Net_Move_Object_TG : Net_Object_TG
         TCP_Client_Manager.instance.send_move_request(object_id, start_pos, dest_pos);
     }
 
-    public virtual void move(Vector3 start_pos, Vector3 dest_pos)
+    public virtual void move(Vector3 start_pos, Vector3 dest_pos, TweenCallback callback = null)
     {
         if (now_move_co != null) {
             StopCoroutine(now_move_co);

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heart : Item
+public class Heart : Item_game
 {
-    [field: SerializeField]
-    public float percent { get; private set; } //회복량
-
-    public int UseItem(Player_YG player)
+    override public void Init() //차트에서 불러온 값 세팅
     {
-        return player.hp += (int)(player.hp * percent);
+        percent = data.percent;
+    }
+
+    public override void UseItem()
+    {
+        //짱규동 파이팅해라 집에 가고싶다 이게맞냐 ㅅㅂ
     }
 }
