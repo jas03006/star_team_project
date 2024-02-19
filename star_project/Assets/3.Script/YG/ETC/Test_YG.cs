@@ -1,3 +1,4 @@
+using BackEnd;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,5 +20,15 @@ public class Test_YG : MonoBehaviour
     public void Change_Scene(string str)
     {
         SceneManager.LoadScene(str);
+    }
+
+    private void Awake()
+    {
+        GoogleHashKey();
+    }
+
+    public void GoogleHashKey()
+    {
+        Debug.Log("GoogleHashKey 확인 디버그:" + Backend.Utils.GetGoogleHash());
     }
 }

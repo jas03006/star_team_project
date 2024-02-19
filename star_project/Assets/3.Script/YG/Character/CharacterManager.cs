@@ -14,11 +14,7 @@ public class CharacterManager : MonoBehaviour
             select_name.text = $"{BackendChart_JGD.chartData.character_list[value].character_name}";
         }
     }
-    public static CharacterManager instance;
     private int Index;
-
-    private int ark;
-    private int gold;
 
     //UI
     [SerializeField] List<Character_pannel> pannels;
@@ -26,35 +22,15 @@ public class CharacterManager : MonoBehaviour
     //select
     [SerializeField] private TMP_Text select_name;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Start()
     {
-        Test_set();
-
         //UI update
         for (int i = 0; i < pannels.Count; i++)
         {
             Character character = BackendChart_JGD.chartData.character_list[i];
             pannels[i].UI_update(character);
         }
-    }
-
-    private void Test_set() //차후에 유저 데이터에서 받아와야함
-    {
-        ark = 1000;
-        gold = 1000;
     }
 
     public void Select_btn(int id) //캐릭터 선택 버튼
@@ -65,9 +41,17 @@ public class CharacterManager : MonoBehaviour
     public void Inhance_btn(int id) //캐릭터 강화 버튼
     {
         Character character = BackendChart_JGD.chartData.character_list[id];
+        int gold_req, ark_req;
 
-        if (character.CanLevelup())
-            character.Levelup();
+        if (character.CanLevelup(MoneyManager.instance.gold,MoneyManager.instance.ark,out gold_req,out ark_req))
+        {
+            character.Levelup(gold_req, ark_req);
+            pannels[id].Level_update(character);
+        }
+        else
+        {
+            Debug.Log("돈이 부족해 강화 실패");
+        }
     }
 
     private void GameStart()

@@ -36,7 +36,7 @@ public class TCP_Client_Manager : MonoBehaviour
 {
     public static TCP_Client_Manager instance = null;
 
-    private string IPAdress = "127.0.0.1";//"13.125.169.138";
+    private string IPAdress = "13.125.169.138";
     private string Port = "7777";
     private Queue<string> log = new Queue<string>();
     StreamReader reader;//데이터를 읽는 놈

@@ -49,13 +49,13 @@ public class HousingObjectInfo
     public housing_itemID item_ID = housing_itemID.none;
     public HousingObjectInfo()
     {
-        position = new Vector2(UnityEngine.Random.Range(0, 10), UnityEngine.Random.Range(0, 10));
+        position = new Vector2(UnityEngine.Random.Range(0, 7), UnityEngine.Random.Range(0, 7));
     }
 
     public HousingObjectInfo(housing_itemID item_ID_)
     {
         item_ID = item_ID_;
-        position = new Vector2(UnityEngine.Random.Range(0, 10), UnityEngine.Random.Range(0, 10));
+        position = new Vector2(UnityEngine.Random.Range(0, 7), UnityEngine.Random.Range(0, 7));
     }
     public HousingObjectInfo(housing_itemID item_ID_, Vector2 position_, int direction_)
     {
