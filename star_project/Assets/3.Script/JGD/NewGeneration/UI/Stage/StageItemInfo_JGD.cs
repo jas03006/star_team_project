@@ -43,7 +43,20 @@ public enum Obstacle_ID
     SizeUp,
     SizeDown,
     Random,
-
+    NomalWall,
+    BlueWall,
+    GreenWall,
+    PurpleWall,
+    RedWall,
+    YellowWall,
+    Nomal_Rockwall,
+    Blue_Rockwall,
+    Green_Rockwall,
+    Purple_Rockwall,
+    Red_Rockwall,
+    Yellow_Rockwall,
+    BlackHole,
+    Meteor,
 
 }
 
