@@ -223,12 +223,15 @@ public class TCP_Client_Manager : MonoBehaviour
                         exit_game();
                     }                    
                     break;
-                case command_flag.move:                    
-                    Vector3 start_pos = new Vector3(float.Parse(cmd_arr[3]), 0, float.Parse(cmd_arr[4]));
-                    if (start_pos.x == respawn_flag) {
-                        start_pos = get_respawn_point(cmd_arr[2]);
-                    }
-                    net_mov_obj_dict[cmd_arr[2]].move(start_pos, new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6])));
+                case command_flag.move:
+                    if (cmd_arr[2] != my_player.object_id) {
+                        Vector3 start_pos = new Vector3(float.Parse(cmd_arr[3]), 0, float.Parse(cmd_arr[4]));
+                        if (start_pos.x == respawn_flag)
+                        {
+                            start_pos = get_respawn_point(cmd_arr[2]);
+                        }
+                        net_mov_obj_dict[cmd_arr[2]].move(start_pos, new Vector3(float.Parse(cmd_arr[5]), 0, float.Parse(cmd_arr[6])));
+                    }                    
                     break;
                 case command_flag.update:
                     uuid_ = cmd_arr[1];

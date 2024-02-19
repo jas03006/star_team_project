@@ -1,6 +1,7 @@
 using LitJson;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HousingInfo_JGD
@@ -88,7 +89,7 @@ public enum housing_itemID
 
 public class Memo_info
 {
-    List<Memo> memo_list = new List<Memo>();
+    public List<Memo> memo_list { get; private set; }= new List<Memo>() ;
 
     public Memo_info()
     {
@@ -98,9 +99,9 @@ public class Memo_info
     {
         if (json.IsObject)
         {
-            foreach (LitJson.JsonData item in json)
+            foreach (LitJson.JsonData item in json["memo_list"])
             {
-                memo_list.Add(new Memo(item["Memo_info"]));
+                memo_list.Add(new Memo(item));
             }
         }
     }
@@ -108,6 +109,11 @@ public class Memo_info
     public void Add_object()
     {
         memo_list.Add(new Memo());
+    }
+
+    public void Add_object(Memo memo)
+    {
+        memo_list.Add(memo);
     }
 }
 
