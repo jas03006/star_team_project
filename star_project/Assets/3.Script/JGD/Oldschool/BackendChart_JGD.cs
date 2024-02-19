@@ -8,6 +8,7 @@ public class ChartData
 {
     public List<Character> character_list = new List<Character>();
     public List<Item> item_list = new List<Item>();
+    public List<Character_amount> Characteramount_list = new List<Character_amount>();
 }
 
 public class BackendChart_JGD : MonoBehaviour
@@ -33,6 +34,7 @@ public class BackendChart_JGD : MonoBehaviour
 
         Character("108885");
         Item("108827");
+        Character_amount("108882");
     }
 
 
@@ -51,6 +53,15 @@ public class BackendChart_JGD : MonoBehaviour
         foreach (JsonData gameData in Get_data(chartId).FlattenRows())
         {
             chartData.item_list.Add(new Item(gameData));
+        }
+    }
+
+    public void Character_amount(string chartid)
+    {
+        //차트 내용 저장
+        foreach (JsonData gameData in Get_data(chartid).FlattenRows())
+        {
+            chartData.Characteramount_list.Add(new Character_amount(gameData));
         }
     }
 
