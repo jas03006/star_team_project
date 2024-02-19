@@ -6,6 +6,16 @@ using UnityEngine.UI;
 using BackEnd;
 using static UnityEngine.Rendering.DebugUI;
 using System.ComponentModel;
+
+public enum adjective { 
+    none=-1, 
+    lovely=0
+}
+public enum noun { 
+    none=-1,
+    jjang = 0
+}
+
 public class Star_nest_UI : MonoBehaviour
 {
     public GameObject UI_Container;
