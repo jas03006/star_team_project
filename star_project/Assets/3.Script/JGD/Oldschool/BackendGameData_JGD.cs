@@ -31,23 +31,20 @@ public class UserData
     public string info = string.Empty;
     public Dictionary<string, int> inventory = new Dictionary<string, int>();
     public List<string> equipment = new List<string>();
-    //유저 데이터????????????진척도?????캐릭터랑 아이템 리스트 이런거
+
     public List<string> Friend_UUID_List = new List<string>();                             //친구정보
     public List<int> Character_ID_List = new List<int>();                                  //보유 캐릭터 리스트
     public List<int> Char_Item_ID_List = new List<int>();                                  //캐릭터 아이템 리스트
     public List<int> Adjective_ID_List = new List<int>();                                  //형용사 칭호 리스트
     public List<int> Noun_ID_List = new List<int>();                                       //명사 칭호 리스트
     public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
-    //public List<int> Market_ID_List = new List<int>();                                   //상점 상태 정보/////////////////////////////////////////////////////////////////////
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
-    //public List<HousingInfo_JGD> Housing_List = new List<HousingInfo_JGD>();              //하우징 정보
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
     public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
 
     public HousingInfo_JGD housing_Info = new HousingInfo_JGD();
     public CharacterInfo_YG character_info = new CharacterInfo_YG();
     public Memo_info memo_info = new Memo_info();
-
 
     //profile
     public int profile_background = 0;
@@ -68,11 +65,11 @@ public class UserData
         result.AppendLine($"level : {level}");
         result.AppendLine($"atk : {atk}");
         result.AppendLine($"info : {info}");
-        // result.AppendLine($"popularity : {popularity}");
+        result.AppendLine($"popularity : {popularity}");
 
         result.AppendLine($"Housing_Info : {housing_Info}");
         result.AppendLine($"CharacterInfo_YG : {character_info}");
-        //result.AppendLine($"memo_info : {memo_info}");
+        result.AppendLine($"memo_info : {memo_info}");
 
         result.AppendLine($"inventory");
         foreach (var itemkey in inventory.Keys)
@@ -163,6 +160,10 @@ public class BackendGameData_JGD : MonoBehaviour
 
             userData = new UserData();
 
+            //레벨
+            userData.level = 1;
+            userData.info = "친추 환영";
+
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
@@ -177,17 +178,21 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.character_info.Add_object(new CharacterObj(Character_ID.Green));
 
             //Memo 정보 - i = 정보 갯수
-            //userData.memo_info.memo_list = new List<Memo>();
             userData.memo_info = new Memo_info();
 
+            //칭호 정보
             userData.title_adjective = adjective.lovely;
             userData.title_noun = noun.jjang;
             userData.planet_name = nickname;
+
+            //돈 정보
+            userData.gold = 1000;
+            userData.ruby = 1000;
+            userData.ark = 1000;
         }
 
         Debug.Log("데이터를 초기화 합니다.");
-        userData.level = 1;
-        userData.info = "친추 환영";
+
 
         Debug.Log("뒤끝 업데이트 목록에 데이터 추가");
 
@@ -204,13 +209,13 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Adjective_ID_List", userData.Adjective_ID_List);                     //형용사 칭호 리스트
         param.Add("Noun_ID_List", userData.Noun_ID_List);                               //명사 칭호 리스트
         param.Add("House_Item_ID_List", userData.House_Item_ID_List);                   //하우징 아이템 리스트
-        //param.Add("Market_ID_List", userData.Market_ID_List);                           //상점 상태 정보////////////////////////////////////////////////////////////
+        //param.Add("Market_ID_List", userData.Market_ID_List);                           //상점 상태 정보
         param.Add("StageInfo_List", userData.StageInfo_List);                           //스테이지 별 정보
         //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
-        param.Add("character_info", userData.character_info);   //펫 데이터
+        param.Add("character_info", userData.character_info);   //캐릭터 데이터
 
         param.Add("profile_background", userData.profile_background);
         param.Add("profile_picture", userData.profile_picture);
@@ -272,6 +277,12 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
 
 
+                foreach (LitJson.JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
+                {
+                    userData.House_Item_ID_List.Add(new House_Item_Info_JGD(equip));
+                }
+
+                #region 주석
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
                 //{
                 //    userData.Friend_UUID_List.Add(equip.ToString());
@@ -292,10 +303,6 @@ public class BackendGameData_JGD : MonoBehaviour
                 //{
                 //    userData.Noun_ID_List.Add(int.Parse(equip.ToString()));
                 //}
-                foreach (LitJson.JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
-                {
-                    userData.House_Item_ID_List.Add(new House_Item_Info_JGD(equip));
-                }
                 ////foreach (string itemKey in gameDataJson[0]["Market_ID_List"]) //상점 상태 정보
                 ////{
                 ////    userData.inventory.Add(itemKey, int.Parse(gameDataJson[0]["Market_ID_List"][itemKey].ToString()));
@@ -312,6 +319,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 //{
                 //    userData.Achievements_List.Add(new AchievementsInfo_JGD(equip));
                 //}
+                #endregion
                 //예제 코드
                 foreach (string itemKey in gameDataJson[0]["inventory"])
                 {
@@ -392,7 +400,6 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
-        // param.Add("popularity", userData.popularity);
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);
         param.Add("Character_ID_List", userData.Character_ID_List);
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);

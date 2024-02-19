@@ -1,6 +1,9 @@
 ﻿using BackEnd;
 using LitJson;
+using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class Character
 {
@@ -32,9 +35,9 @@ public class Character
         curlevel = BackendGameData_JGD.userData.character_info.character_dic[character_ID];
 
         if (character_ID == Character_ID.Green)
-            percent = 5 + (curlevel * 0.5);
+            percent = 5;
         else
-            duration = 0.5 + (curlevel * 0.1);
+            duration = 0.5;
 
         special_item = (item_ID)int.Parse(gameData["special_item"].ToString());
         unique_item = (item_ID)int.Parse(gameData["unique_item"].ToString());
@@ -44,27 +47,6 @@ public class Character
         unique = gameData["unique"].ToString();
 
         sprite = int.Parse(gameData["sprite"].ToString());
-    }
-    public Character() //test
-    {
-        character_ID = Character_ID.Green;
-        character_name = "옐로우 벨라" + $"{Random.Range(1, 100)}";
-
-        maxlevel = 30;
-        curlevel = 1;
-
-        if (character_ID == Character_ID.Green)
-            percent = 5;
-        else
-            duration = 0.5;
-
-        special_item = item_ID.Shield;
-
-        basic = "basic";
-        special = "special";
-        unique = "unique";
-
-        sprite = 100;
     }
 
     public void State_update()
@@ -82,16 +64,29 @@ public class Character
         }
     }
 
-    public bool CanLevelup() //레벨업 가능한지 체크
+    public bool CanLevelup(int gold, int ark, out int goldRequired, out int arkRequired) //레벨업 가능한지 체크
     {
-        return true;
+        Character_amount chartdata = BackendChart_JGD.chartData.Characteramount_list[curlevel - 1];
+        goldRequired = chartdata.gold;
+        arkRequired = chartdata.ark;
+
+        if (gold > goldRequired && ark > arkRequired)
+            return true;
+        else
+            return false;
     }
 
-    public void Levelup() //레벨업 진행
+    public void Levelup(int goldRequired, int arkRequired) //레벨업 진행
     {
+        //돈 빼기
+        MoneyManager.instance.Spend_Money(Money.gold, goldRequired);
+        MoneyManager.instance.Spend_Money(Money.ark, arkRequired);
+
+        //레벨 업데이트
         curlevel++;
-        //Data_update();
+        Data_update();
         State_update();
+
     }
 
     public void Data_update()
