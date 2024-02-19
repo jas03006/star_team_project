@@ -32,4 +32,9 @@ public class Character_pannel : MonoBehaviour
         special.text = $"{character.special}";
         unique.text = $"{character.unique}";
     }
+
+    public void Level_update(Character character)
+    {
+        level.text = $"{character.curlevel}";
+    }
 }
