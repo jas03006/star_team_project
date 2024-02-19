@@ -417,5 +417,170 @@ public class BackendGameData_JGD : MonoBehaviour
         }
         return null;
     }
+    public UserData get_userdata_by_nickname(string nickname, string[] select)
+    {
+        //select = { "Housing_Info" };
+        var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
+        string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
 
+        BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select);
+        if (bro.IsSuccess())
+        {
+            LitJson.JsonData gameDataJson = bro.FlattenRows();
+            if (gameDataJson.Count <= 0)
+            {
+                Debug.LogWarning("데이터가 존재하지 않습니다.");
+            }
+            else
+            {
+                UserData user_data = new UserData();
+                for (int i = 0; i < select.Length; i++)
+                {
+                    switch (select[i])
+                    {
+                        case "Friend_UUID_List":
+                            //user_data.Friend_UUID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "inventory":
+                            //user_data.inventory = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Achievements_List":
+                            //user_data.Achievements_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "QuestInfo_List":
+                            //user_data.QuestInfo_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Pet_Info":
+                            //user_data.Pet_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Housing_Info":
+                            user_data.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Char_Item_ID_List":
+                            // user_data.Char_Item_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "StageInfo_List":
+                            // user_data.StageInfo_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "House_Item_ID_List":
+                            //user_data.House_Item_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "info":
+                            user_data.info = gameDataJson[0]["info"].ToString();
+                            break;
+                        case "memo_info":
+                            user_data.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
+                            break;
+                        case "Adjective_ID_List":
+                            //user_data.Adjective_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "level":
+                            user_data.level = int.Parse(gameDataJson[0]["level"].ToString());
+                            break;
+                        case "Noun_ID_List":
+                            // user_data.Noun_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "equipment":
+                            //user_data.equipment = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return user_data;
+            }
+        }
+        else
+        {
+            Debug.Log("Fail");
+        }
+        return null;
+    }
+
+    public void update_userdata_by_nickname(string nickname, string[] select, UserData user_data)
+    {
+        if (user_data == null)
+        {
+            return;
+        }
+        string[] select_temp = { "info" };
+        var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
+        string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+
+        BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select_temp);
+
+        if (bro.IsSuccess())
+        {
+            string gameDataRowInDate = bro.GetInDate();
+            Param param = new Param();
+
+            for (int i = 0; i < select.Length; i++)
+            {
+                switch (select[i])
+                {
+                    case "Friend_UUID_List":
+                        param.Add(select[i], user_data.Friend_UUID_List);
+                        break;
+                    case "inventory":
+                        param.Add(select[i], user_data.inventory);
+                        break;
+                    case "Achievements_List":
+                        param.Add(select[i], user_data.Achievements_List);
+                        break;
+                    case "QuestInfo_List":
+                        param.Add(select[i], user_data.QuestInfo_List);
+                        break;
+                    case "Pet_Info":
+                        param.Add(select[i], user_data.character_info);
+                        break;
+                    case "Housing_Info":
+                        param.Add(select[i], user_data.housing_Info);
+                        break;
+                    case "Char_Item_ID_List":
+                        param.Add(select[i], user_data.Char_Item_ID_List);
+                        break;
+                    case "StageInfo_List":
+                        param.Add(select[i], user_data.StageInfo_List);
+                        break;
+                    case "House_Item_ID_List":
+                        param.Add(select[i], user_data.House_Item_ID_List);
+                        break;
+                    case "info":
+                        param.Add(select[i], user_data.info);
+                        break;
+                    case "memo_info":
+                        param.Add(select[i], user_data.memo_info);
+                        break;
+                    case "Adjective_ID_List":
+                        param.Add(select[i], user_data.Adjective_ID_List);
+                        break;
+                    case "level":
+                        param.Add(select[i], user_data.level);
+                        break;
+                    case "Noun_ID_List":
+                        param.Add(select[i], user_data.Noun_ID_List);
+                        break;
+                    case "equipment":
+                        param.Add(select[i], user_data.equipment);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            var bro_ = Backend.PlayerData.UpdateOtherData("USER_DATA", gameDataRowInDate, gamer_indate, param);
+            if (bro_.IsSuccess())
+            {
+                return;
+            }
+            else
+            {
+                Debug.Log("Fail");
+            }
+        }
+        else
+        {
+            Debug.Log("Fail");
+        }
+        return;
+    }
 }
