@@ -182,6 +182,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
             userData.title_adjective = adjective.lovely;
             userData.title_noun = noun.jjang;
+            userData.planet_name = nickname;
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -331,18 +332,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.ark = int.Parse(gameDataJson[0]["ark"].ToString());
                 userData.gold = int.Parse(gameDataJson[0]["gold"].ToString());
                 userData.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
-
-                /* param.Add("profile_background", userData.profile_background);
-                 param.Add("profile_picture", userData.profile_picture);
-                 param.Add("popularity", userData.popularity);
-                 param.Add("title_adjective", userData.title_adjective);
-                 param.Add("title_noun", userData.title_noun);
-                 param.Add("planet_name", userData.planet_name);
-                 param.Add("ark", userData.ark);
-                 param.Add("gold", userData.gold);
-                 param.Add("ruby", userData.ruby);*/
-
-                //
+               
             }
             Debug.Log(userData.ToString());
 
@@ -449,6 +439,123 @@ public class BackendGameData_JGD : MonoBehaviour
         }
     }
 
+    public void GameDataUpdate(string[] select)//전체 데이터 수정
+    {
+        //게임정보 수정 구현
+        if (userData == null)
+        {
+            Debug.LogError("서버에서 다운받거나  새로 삽입한 데이터가 존재하지 않습니다. Insert 혹은 Get을 통해 데이터를 생성해주세요.");
+            return;
+        }
+        
+        Param param = new Param();
+
+        for (int i = 0; i < select.Length; i++)
+        {
+            switch (select[i])
+            {
+                case "Friend_UUID_List":
+                    param.Add(select[i], userData.Friend_UUID_List);
+                    break;
+                case "inventory":
+                    param.Add(select[i], userData.inventory);
+                    break;
+                case "Achievements_List":
+                    param.Add(select[i], userData.Achievements_List);
+                    break;
+                case "QuestInfo_List":
+                    param.Add(select[i], userData.QuestInfo_List);
+                    break;
+                case "Pet_Info":
+                    param.Add(select[i], userData.character_info);
+                    break;
+                case "Housing_Info":
+                    param.Add(select[i], userData.housing_Info);
+                    break;
+                case "Char_Item_ID_List":
+                    param.Add(select[i], userData.Char_Item_ID_List);
+                    break;
+                case "StageInfo_List":
+                    param.Add(select[i], userData.StageInfo_List);
+                    break;
+                case "House_Item_ID_List":
+                    param.Add(select[i], userData.House_Item_ID_List);
+                    break;
+                case "info":
+                    param.Add(select[i], userData.info);
+                    break;
+                case "memo_info":
+                    param.Add(select[i], userData.memo_info);
+                    break;
+                case "Adjective_ID_List":
+                    param.Add(select[i], userData.Adjective_ID_List);
+                    break;
+                case "level":
+                    param.Add(select[i], userData.level);
+                    break;
+                case "Noun_ID_List":
+                    param.Add(select[i], userData.Noun_ID_List);
+                    break;
+                case "equipment":
+                    param.Add(select[i], userData.equipment);
+                    break;
+                case "profile_background":
+                    param.Add(select[i], userData.profile_background);
+                    break;
+                case "profile_picture":
+                    param.Add(select[i], userData.profile_picture);
+                    break;
+                case "popularity":
+                    param.Add(select[i], userData.popularity);
+                    break;
+                case "title_adjective":
+                    param.Add(select[i], userData.title_adjective);
+                    break;
+                case "title_noun":
+                    param.Add(select[i], userData.title_noun);
+                    break;
+                case "planet_name":
+                    param.Add(select[i], userData.planet_name);
+                    break;
+                case "ark":
+                    param.Add(select[i], userData.ark);
+                    break;
+                case "gold":
+                    param.Add(select[i], userData.gold);
+                    break;
+                case "ruby":
+                    param.Add(select[i], userData.ruby);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+        else
+        {
+            Debug.Log($"{gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", gameDataRowInDate, Backend.UserInDate, param);
+        }
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
+
+    }
+
     public HousingInfo_JGD get_data_by_nickname(string nickname) //개별 데이터 불러오기
     {
         string[] select = { "Housing_Info" };
@@ -542,6 +649,33 @@ public class BackendGameData_JGD : MonoBehaviour
                         case "equipment":
                             //user_data.equipment = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                             break;
+                        case "profile_background":
+                            user_data.profile_background = int.Parse(gameDataJson[0]["profile_background"].ToString());
+                            break;
+                        case "profile_picture":
+                            user_data.profile_picture = int.Parse(gameDataJson[0]["profile_picture"].ToString());
+                            break;
+                        case "popularity":
+                            user_data.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                            break;
+                        case "title_adjective":
+                            user_data.title_adjective = (adjective)int.Parse(gameDataJson[0]["title_adjective"].ToString());
+                            break;
+                        case "title_noun":
+                            user_data.title_noun = (noun)int.Parse(gameDataJson[0]["title_noun"].ToString());
+                            break;
+                        case "planet_name":
+                            user_data.planet_name = gameDataJson[0]["planet_name"].ToString();
+                            break;
+                        case "ark":
+                            user_data.ark = int.Parse(gameDataJson[0]["ark"].ToString());
+                            break;
+                        case "gold":
+                            user_data.gold = int.Parse(gameDataJson[0]["gold"].ToString());
+                            break;
+                        case "ruby":
+                            user_data.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
+                            break;
                         default:
                             break;
                     }
@@ -549,6 +683,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 return user_data;
             }
         }
+        
         else
         {
             Debug.Log("Fail");
@@ -621,6 +756,33 @@ public class BackendGameData_JGD : MonoBehaviour
                         break;
                     case "equipment":
                         param.Add(select[i], user_data.equipment);
+                        break;
+                    case "profile_background":
+                        param.Add(select[i], user_data.profile_background);                        
+                        break;
+                    case "profile_picture":
+                        param.Add(select[i], user_data.profile_picture);                        
+                        break;
+                    case "popularity":
+                        param.Add(select[i], user_data.popularity);                       
+                        break;
+                    case "title_adjective":
+                        param.Add(select[i], user_data.title_adjective);                        
+                        break;
+                    case "title_noun":
+                        param.Add(select[i], user_data.title_noun);                        
+                        break;
+                    case "planet_name":
+                        param.Add(select[i], user_data.planet_name);                        
+                        break;
+                    case "ark":
+                        param.Add(select[i], user_data.ark);                        
+                        break;
+                    case "gold":
+                        param.Add(select[i], user_data.gold);                        
+                        break;
+                    case "ruby":
+                        param.Add(select[i], user_data.ruby);
                         break;
                     default:
                         break;
