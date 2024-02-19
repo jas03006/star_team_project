@@ -1,3 +1,4 @@
+using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
@@ -57,41 +58,45 @@ public enum Obstacle_ID
     Yellow_Rockwall,
     BlackHole,
     Meteor,
+    CheckBox,
 
 }
 
 
 public class StageItemInfo_JGD : MonoBehaviour
 {
+    public static StageItemInfo_JGD Instance;
     public Obstacle_ID obstacle_ID = Obstacle_ID.None;
-
+    [SerializeField]public int Stage;
     public int ObjectNum;
     public float Pos_X;
     public float Pos_Y;
     public GameObject _Objects;
-
     public int Rot;
-
     public List<GameObject> Objects = new List<GameObject>();
-    string indd = 
-        "1:20.5:6:180," +
-        "2:4:1," +
-        "2:10:2," +
-        "1:15.5:0:45";
+    public static List<GameObject> dfddd = new List<GameObject>();
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
-        ReadStage(indd);
         Debug.Log("-¿Ï-");
     }
-
-    private void ReadStage(string Stagenum)
+    
+    public void ReadStage(string Stagenum)
     {
         List<string[]> list = new List<string[]>();
 
-        //string indd = "1:2:3,3:4:1,2:4:2,1:1:1";
-
-        Stagenum = indd;
 
         string[] cutObj = Stagenum.Split(',');
 
@@ -99,9 +104,6 @@ public class StageItemInfo_JGD : MonoBehaviour
         {
             list.Add(cutObj[i].Split(':'));
 
-            //Debug.Log(list[i][0]);
-            //Debug.Log(list[i][1]);
-            //Debug.Log(list[i][2]);
         }
 
         for (int i = 0; i < list.Count; i++)

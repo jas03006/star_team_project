@@ -17,9 +17,9 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Update()
     {
-        if(this.transform.position.x >=camera.transform.position.x)
+        if(this.transform.position.x >=camera.transform.position.x && camera.transform.position.x < 67.85f)
         {
-            camera.transform.position = new Vector3(this.transform.position.x, 3, -3);
+            camera.transform.position = new Vector3(this.transform.position.x, camera.transform.position.y, -3);
         }
 
     }
