@@ -90,7 +90,7 @@ public class Character
     public void Levelup() //레벨업 진행
     {
         curlevel++;
-        //Data_update();
+        Data_update();
         State_update();
     }
 
