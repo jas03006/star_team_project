@@ -14,7 +14,6 @@ public class CharacterManager : MonoBehaviour
             select_name.text = $"{BackendChart_JGD.chartData.character_list[value].character_name}";
         }
     }
-    public static CharacterManager instance;
     private int Index;
 
     private int ark;
@@ -26,22 +25,10 @@ public class CharacterManager : MonoBehaviour
     //select
     [SerializeField] private TMP_Text select_name;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Start()
     {
-        Test_set();
+        Data_set();
 
         //UI update
         for (int i = 0; i < pannels.Count; i++)
@@ -51,10 +38,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    private void Test_set() //차후에 유저 데이터에서 받아와야함
+    private void Data_set() //차후에 유저 데이터에서 받아와야함
     {
-        ark = 1000;
-        gold = 1000;
+        ark = BackendGameData_JGD.userData.ark;
+        gold = BackendGameData_JGD.userData.gold;
     }
 
     public void Select_btn(int id) //캐릭터 선택 버튼
@@ -66,8 +53,10 @@ public class CharacterManager : MonoBehaviour
     {
         Character character = BackendChart_JGD.chartData.character_list[id];
 
-        if (character.CanLevelup())
+        if (character.CanLevelup(gold,ark))
+        {       
             character.Levelup();
+        }
     }
 
     private void GameStart()

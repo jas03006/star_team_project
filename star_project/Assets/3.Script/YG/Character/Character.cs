@@ -82,8 +82,9 @@ public class Character
         }
     }
 
-    public bool CanLevelup() //레벨업 가능한지 체크
+    public bool CanLevelup(int gold, int ark) //레벨업 가능한지 체크
     {
+        //11:08
         return true;
     }
 
@@ -92,6 +93,7 @@ public class Character
         curlevel++;
         Data_update();
         State_update();
+        
     }
 
     public void Data_update()
