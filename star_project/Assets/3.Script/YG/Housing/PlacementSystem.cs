@@ -45,9 +45,23 @@ public class PlacementSystem : MonoBehaviour
             Debug.Log("no housing information!");
             return;
         }
+        update_placement();
+    }
+
+    public void level_up(int delta = 1) {
+        if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id) {
+            BackendGameData_JGD.userData.housing_Info.level += delta;
+            string[] select = {"housing_info"}; 
+            BackendGameData_JGD.Instance.GameDataUpdate(select);
+            update_placement();
+        }        
+    }
+
+    public void update_placement() {
         clear();
         update_hidden_area(housing_info.level);
-        for (int i=0; i < housing_info.objectInfos.Count; i++) {
+        for (int i = 0; i < housing_info.objectInfos.Count; i++)
+        {
             place_structure_init(housing_info.objectInfos[i].item_ID, housing_info.objectInfos[i].position);
         }
     }
@@ -81,7 +95,7 @@ public class PlacementSystem : MonoBehaviour
     //button click
     public void save_edit() {
         housing_info = new HousingInfo_JGD(furnitureData.placedObjects);
-        BackendGameData_JGD.userData.Housing_Info = housing_info;
+        BackendGameData_JGD.userData.housing_Info = housing_info;
         BackendGameData_JGD.Instance.GameDataUpdate();
         TCP_Client_Manager.instance.send_update_request();
     }

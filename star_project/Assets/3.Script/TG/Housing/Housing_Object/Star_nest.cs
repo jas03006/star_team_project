@@ -31,7 +31,7 @@ public class Star_nest : Net_Housing_Object
     {
         if (star_nest_UI != null && !star_nest_UI.transform.GetChild(0).gameObject.activeSelf)
         {
-            star_nest_UI.transform.GetChild(0).gameObject.SetActive(true);
+            star_nest_UI.show_UI();
             //star_nest_UI.ClearFriendList();
             //star_nest_UI.GetFriendList();
         }

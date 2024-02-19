@@ -1,13 +1,18 @@
+using BackEnd;
+using LitJson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BackEnd;
-using System.Text;
-using LitJson;
+
+public class ChartData
+{
+    public List<Character> character_list = new List<Character>();
+    public List<Item> item_list = new List<Item>();
+}
 
 public class BackendChart_JGD : MonoBehaviour
 {
-    private static BackendChart_JGD instance= null;
+    private static BackendChart_JGD instance = null;
     public static ChartData chartData;
 
     public static BackendChart_JGD Instance
@@ -25,9 +30,11 @@ public class BackendChart_JGD : MonoBehaviour
     public void ChartDataGet()
     {
         chartData = new ChartData();
-        Character("108629");
-        Item("108723");
+
+        Character("108885");
+        Item("108827");
     }
+
 
     public void Character(string chartId)
     {
@@ -44,9 +51,12 @@ public class BackendChart_JGD : MonoBehaviour
         Debug.Log("차트 불러오기에 성공했습니다. : " + bro);
 
         //차트 내용 저장
+
+        chartData = new ChartData();
+
         foreach (JsonData gameData in bro.FlattenRows())
         {
-            chartData.pet_list.Add(new Character(gameData));
+           chartData.character_list.Add(new Character(gameData));
         }
     }
 
@@ -67,7 +77,7 @@ public class BackendChart_JGD : MonoBehaviour
         //차트 내용 저장
         foreach (JsonData gameData in bro.FlattenRows())
         {
-            chartData.pet_list.Add(new Character(gameData));
+            chartData.item_list.Add(new Item(gameData));
         }
     }
     #region 예시
@@ -77,34 +87,32 @@ public class BackendChart_JGD : MonoBehaviour
         Debug.Log($"{chartId}의 차트 불러오기를 요청합니다.");
         var bro = Backend.Chart.GetChartContents(chartId);
 
-        if(bro.IsSuccess() == false)
+        if (bro.IsSuccess() == false)
         {
             Debug.LogError($"{chartId}의 차트를 불러오는 중, 에러가 발생하였습니다.: " + bro);
             return;
         }
+
+        Debug.Log("차트 불러오기에 성공했습니다. : " + bro);
+
         #region 차트 내용 출력방법
         /*
-        Debug.Log("차트 불러오기에 성공했습니다. : " + bro);
-        foreach (JsonData gameData in bro.FlattenRows())
-        {
-            StringBuilder content = new StringBuilder();
+    foreach (JsonData gameData in bro.FlattenRows())
+    {
+    StringBuilder content = new StringBuilder();
 
-            content.AppendLine("itemID : " + int.Parse(gameData["itemId"].ToString()));
-            content.AppendLine("itemName : " + gameData["itemName"].ToString());
-            content.AppendLine("itemType : " + gameData["itemType"].ToString());
-            content.AppendLine("itemID : " + long.Parse(gameData["itemPower"].ToString()));
-            content.AppendLine("itemInfo : " + gameData["itemInfo"].ToString());
+    content.AppendLine("itemID : " + int.Parse(gameData["itemId"].ToString()));
+    content.AppendLine("itemName : " + gameData["itemName"].ToString());
+    content.AppendLine("itemType : " + gameData["itemType"].ToString());
+    content.AppendLine("itemID : " + long.Parse(gameData["itemPower"].ToString()));
+    content.AppendLine("itemInfo : " + gameData["itemInfo"].ToString());
 
-            Debug.Log(content.ToString());
-        }
-         */
+    Debug.Log(content.ToString());
+}
+ */
         #endregion
 
     }
     #endregion
 }
 
-public class ChartData
-{
-    public List<Character> pet_list = new List<Character>();
-}

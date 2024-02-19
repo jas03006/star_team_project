@@ -25,7 +25,7 @@ public class UserData
     bool is_clear = false;
     bool is_word_clear;
     int top_score;
-    //public int popularity = 0;
+    
     public int level = 1;
     public float atk = 3.5f;
     public string info = string.Empty;
@@ -44,9 +44,23 @@ public class UserData
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
     public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
 
-    public HousingInfo_JGD Housing_Info = new HousingInfo_JGD();
-    public PetInfo_YG Pet_Info = new PetInfo_YG();
+    public HousingInfo_JGD housing_Info = new HousingInfo_JGD();
+    public CharacterInfo_YG character_info = new CharacterInfo_YG();
     public Memo_info memo_info = new Memo_info();
+
+
+    //profile
+    public int profile_background = 0;
+    public int profile_picture = 0;
+    public int popularity = 0;
+    public adjective title_adjective = adjective.none;
+    public noun title_noun = noun.none;
+    public string planet_name;
+
+    //money
+    public int ark =0;
+    public int gold =0;
+    public int ruby = 0;
 
     public override string ToString()
     {
@@ -56,8 +70,8 @@ public class UserData
         result.AppendLine($"info : {info}");
         // result.AppendLine($"popularity : {popularity}");
 
-        result.AppendLine($"Housing_Info : {Housing_Info}");
-        //result.AppendLine($"Pet_Info : {Pet_Info}");
+        result.AppendLine($"Housing_Info : {housing_Info}");
+        result.AppendLine($"CharacterInfo_YG : {character_info}");
         //result.AppendLine($"memo_info : {memo_info}");
 
         result.AppendLine($"inventory");
@@ -137,7 +151,7 @@ public class BackendGameData_JGD : MonoBehaviour
     }
     public static UserData userData;
 
-    private string gameDataRowInDate = string.Empty;
+    public string gameDataRowInDate = string.Empty;
 
     public void GameDataInsert(string nickname = "")
     {
@@ -149,28 +163,26 @@ public class BackendGameData_JGD : MonoBehaviour
 
             userData = new UserData();
 
-            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
-            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
-            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
-            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
-            userData.Housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
+            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
+            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
+            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
+            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
+            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
             //캐릭터 레벨 정보
-            userData.Pet_Info.Add_object(new PetObj(Character_ID.Yellow));
-            userData.Pet_Info.Add_object(new PetObj(Character_ID.Red));
-            userData.Pet_Info.Add_object(new PetObj(Character_ID.Blue));
-            userData.Pet_Info.Add_object(new PetObj(Character_ID.Purple));
-            userData.Pet_Info.Add_object(new PetObj(Character_ID.Green));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Red));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Blue));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Purple));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Green));
 
             //Memo 정보 - i = 정보 갯수
+            //userData.memo_info.memo_list = new List<Memo>();
+            userData.memo_info = new Memo_info();
 
-            for (int i = 0; i < 5; i++)
-            {
-                userData.memo_info.Add_object();
-            }
-
-
-
+            userData.title_adjective = adjective.lovely;
+            userData.title_noun = noun.jjang;
+            userData.planet_name = nickname;
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -182,7 +194,7 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
-        //param.Add("popularity", userData.popularity);
+        
         param.Add("memo_info", userData.memo_info);
         param.Add("equipment", userData.equipment);///////////////////////////예제코드 추후 삭제?
         param.Add("inventory", userData.inventory);///////////////////////////예제코드 추후 삭제?
@@ -197,8 +209,19 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
-        param.Add("Housing_Info", userData.Housing_Info);   //하우징 데이터
-        param.Add("Pet_Info", userData.Pet_Info);   //펫 데이터
+        param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
+        param.Add("character_info", userData.character_info);   //펫 데이터
+
+        param.Add("profile_background", userData.profile_background);
+        param.Add("profile_picture", userData.profile_picture);
+        param.Add("popularity", userData.popularity);
+        param.Add("title_adjective", userData.title_adjective);
+        param.Add("title_noun", userData.title_noun);
+        param.Add("planet_name", userData.planet_name);
+        param.Add("ark", userData.ark);
+        param.Add("gold", userData.gold);
+        param.Add("ruby", userData.ruby);
+   
 
         Debug.Log("게임정보 데이터 삽입을 요청");
 
@@ -218,7 +241,8 @@ public class BackendGameData_JGD : MonoBehaviour
 
 
     }
-    public void GameDataGet()
+
+    public void GameDataGet()//전체 데이터 불러오기
     {
         //게임정보 불러오기
         Debug.Log("게임 정보 조회 함수를 호출합니다.");
@@ -240,12 +264,12 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData = new UserData();
                 //Debug.Log("gamer id: "+gameDataJson[0]["gamer_id"].ToString());
                 userData.level = int.Parse(gameDataJson[0]["level"].ToString());
-                //userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                
                 userData.info = gameDataJson[0]["info"].ToString();
 
-                userData.Housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
-                //userData.Pet_Info = new PetInfo_YG(gameDataJson[0]["Pet_Info"]);
+                userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
 
 
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
@@ -298,7 +322,17 @@ public class BackendGameData_JGD : MonoBehaviour
                 {
                     userData.equipment.Add(equip.ToString());
                 }
-                //
+
+                userData.profile_background = int.Parse(gameDataJson[0]["profile_background"].ToString());
+                userData.profile_picture = int.Parse(gameDataJson[0]["profile_picture"].ToString());
+                userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                userData.title_adjective = (adjective)int.Parse(gameDataJson[0]["title_adjective"].ToString());
+                userData.title_noun = (noun)int.Parse(gameDataJson[0]["title_noun"].ToString());
+                userData.planet_name = gameDataJson[0]["planet_name"].ToString();
+                userData.ark = int.Parse(gameDataJson[0]["ark"].ToString());
+                userData.gold = int.Parse(gameDataJson[0]["gold"].ToString());
+                userData.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
+               
             }
             Debug.Log(userData.ToString());
 
@@ -308,13 +342,45 @@ public class BackendGameData_JGD : MonoBehaviour
             Debug.LogError("게임 정보 조회에 실패했습니다. : " + bro);
         }
     }
-    public void LevelUp()
+
+    public void Send_level()//개별 데이터 수정
     {
-        //게임레벨정보 수정 구현
-        Debug.Log("레벨을 1 증가 시킵니다.");
-        userData.level += 1;
+        //게임정보 수정 구현
+        if (userData == null)
+        {
+            Debug.LogError("서버에서 다운받거나  새로 삽입한 데이터가 존재하지 않습니다. Insert 혹은 Get을 통해 데이터를 생성해주세요.");
+            return;
+        }
+
+        Param param = new Param();
+        param.Add("level", userData.level);
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+
+        else
+        {
+            Debug.Log($"{gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", gameDataRowInDate, Backend.UserInDate, param);
+        }
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
     }
-    public void GameDataUpdate()
+
+    public void GameDataUpdate()//전체 데이터 수정
     {
         //게임정보 수정 구현
         if (userData == null)
@@ -335,9 +401,19 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("House_Item_ID_List", userData.House_Item_ID_List);
         //param.Add("Market_ID_List", userData.Market_ID_List);/////////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);
-        param.Add("Housing_Info", userData.Housing_Info);
+        param.Add("Housing_Info", userData.housing_Info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);
         param.Add("Achievements_List", userData.Achievements_List);
+
+        param.Add("profile_background", userData.profile_background);
+        param.Add("profile_picture", userData.profile_picture);
+        param.Add("popularity", userData.popularity);
+        param.Add("title_adjective", userData.title_adjective);
+        param.Add("title_noun", userData.title_noun);
+        param.Add("planet_name", userData.planet_name);
+        param.Add("ark", userData.ark);
+        param.Add("gold", userData.gold);
+        param.Add("ruby", userData.ruby);
 
         BackendReturnObject bro = null;
 
@@ -363,7 +439,124 @@ public class BackendGameData_JGD : MonoBehaviour
         }
     }
 
-    public HousingInfo_JGD get_data_by_nickname(string nickname)
+    public void GameDataUpdate(string[] select)//전체 데이터 수정
+    {
+        //게임정보 수정 구현
+        if (userData == null)
+        {
+            Debug.LogError("서버에서 다운받거나  새로 삽입한 데이터가 존재하지 않습니다. Insert 혹은 Get을 통해 데이터를 생성해주세요.");
+            return;
+        }
+        
+        Param param = new Param();
+
+        for (int i = 0; i < select.Length; i++)
+        {
+            switch (select[i])
+            {
+                case "Friend_UUID_List":
+                    param.Add(select[i], userData.Friend_UUID_List);
+                    break;
+                case "inventory":
+                    param.Add(select[i], userData.inventory);
+                    break;
+                case "Achievements_List":
+                    param.Add(select[i], userData.Achievements_List);
+                    break;
+                case "QuestInfo_List":
+                    param.Add(select[i], userData.QuestInfo_List);
+                    break;
+                case "Pet_Info":
+                    param.Add(select[i], userData.character_info);
+                    break;
+                case "Housing_Info":
+                    param.Add(select[i], userData.housing_Info);
+                    break;
+                case "Char_Item_ID_List":
+                    param.Add(select[i], userData.Char_Item_ID_List);
+                    break;
+                case "StageInfo_List":
+                    param.Add(select[i], userData.StageInfo_List);
+                    break;
+                case "House_Item_ID_List":
+                    param.Add(select[i], userData.House_Item_ID_List);
+                    break;
+                case "info":
+                    param.Add(select[i], userData.info);
+                    break;
+                case "memo_info":
+                    param.Add(select[i], userData.memo_info);
+                    break;
+                case "Adjective_ID_List":
+                    param.Add(select[i], userData.Adjective_ID_List);
+                    break;
+                case "level":
+                    param.Add(select[i], userData.level);
+                    break;
+                case "Noun_ID_List":
+                    param.Add(select[i], userData.Noun_ID_List);
+                    break;
+                case "equipment":
+                    param.Add(select[i], userData.equipment);
+                    break;
+                case "profile_background":
+                    param.Add(select[i], userData.profile_background);
+                    break;
+                case "profile_picture":
+                    param.Add(select[i], userData.profile_picture);
+                    break;
+                case "popularity":
+                    param.Add(select[i], userData.popularity);
+                    break;
+                case "title_adjective":
+                    param.Add(select[i], userData.title_adjective);
+                    break;
+                case "title_noun":
+                    param.Add(select[i], userData.title_noun);
+                    break;
+                case "planet_name":
+                    param.Add(select[i], userData.planet_name);
+                    break;
+                case "ark":
+                    param.Add(select[i], userData.ark);
+                    break;
+                case "gold":
+                    param.Add(select[i], userData.gold);
+                    break;
+                case "ruby":
+                    param.Add(select[i], userData.ruby);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+        else
+        {
+            Debug.Log($"{gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", gameDataRowInDate, Backend.UserInDate, param);
+        }
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
+
+    }
+
+    public HousingInfo_JGD get_data_by_nickname(string nickname) //개별 데이터 불러오기
     {
         string[] select = { "Housing_Info" };
         var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
@@ -389,5 +582,226 @@ public class BackendGameData_JGD : MonoBehaviour
             Debug.Log("Fail");
         }
         return null;
+    }
+    public UserData get_userdata_by_nickname(string nickname, string[] select)
+    {
+        //select = { "Housing_Info" };
+        var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
+        string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+
+        BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select);
+        if (bro.IsSuccess())
+        {
+            LitJson.JsonData gameDataJson = bro.FlattenRows();
+            if (gameDataJson.Count <= 0)
+            {
+                Debug.LogWarning("데이터가 존재하지 않습니다.");
+            }
+            else
+            {
+                UserData user_data = new UserData();
+                for (int i = 0; i < select.Length; i++)
+                {
+                    switch (select[i])
+                    {
+                        case "Friend_UUID_List":
+                            //user_data.Friend_UUID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "inventory":
+                            //user_data.inventory = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Achievements_List":
+                            //user_data.Achievements_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "QuestInfo_List":
+                            //user_data.QuestInfo_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Pet_Info":
+                            //user_data.Pet_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Housing_Info":
+                            user_data.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "Char_Item_ID_List":
+                            // user_data.Char_Item_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "StageInfo_List":
+                            // user_data.StageInfo_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "House_Item_ID_List":
+                            //user_data.House_Item_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "info":
+                            user_data.info = gameDataJson[0]["info"].ToString();
+                            break;
+                        case "memo_info":
+                            user_data.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
+                            break;
+                        case "Adjective_ID_List":
+                            //user_data.Adjective_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "level":
+                            user_data.level = int.Parse(gameDataJson[0]["level"].ToString());
+                            break;
+                        case "Noun_ID_List":
+                            // user_data.Noun_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "equipment":
+                            //user_data.equipment = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            break;
+                        case "profile_background":
+                            user_data.profile_background = int.Parse(gameDataJson[0]["profile_background"].ToString());
+                            break;
+                        case "profile_picture":
+                            user_data.profile_picture = int.Parse(gameDataJson[0]["profile_picture"].ToString());
+                            break;
+                        case "popularity":
+                            user_data.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                            break;
+                        case "title_adjective":
+                            user_data.title_adjective = (adjective)int.Parse(gameDataJson[0]["title_adjective"].ToString());
+                            break;
+                        case "title_noun":
+                            user_data.title_noun = (noun)int.Parse(gameDataJson[0]["title_noun"].ToString());
+                            break;
+                        case "planet_name":
+                            user_data.planet_name = gameDataJson[0]["planet_name"].ToString();
+                            break;
+                        case "ark":
+                            user_data.ark = int.Parse(gameDataJson[0]["ark"].ToString());
+                            break;
+                        case "gold":
+                            user_data.gold = int.Parse(gameDataJson[0]["gold"].ToString());
+                            break;
+                        case "ruby":
+                            user_data.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return user_data;
+            }
+        }
+        
+        else
+        {
+            Debug.Log("Fail");
+        }
+        return null;
+    }
+
+    public void update_userdata_by_nickname(string nickname, string[] select, UserData user_data)
+    {
+        if (user_data == null)
+        {
+            return;
+        }
+        string[] select_temp = { "info" };
+        var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
+        string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+
+        BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select_temp);
+
+        if (bro.IsSuccess())
+        {
+            string gameDataRowInDate = bro.GetInDate();
+            Param param = new Param();
+
+            for (int i = 0; i < select.Length; i++)
+            {
+                switch (select[i])
+                {
+                    case "Friend_UUID_List":
+                        param.Add(select[i], user_data.Friend_UUID_List);
+                        break;
+                    case "inventory":
+                        param.Add(select[i], user_data.inventory);
+                        break;
+                    case "Achievements_List":
+                        param.Add(select[i], user_data.Achievements_List);
+                        break;
+                    case "QuestInfo_List":
+                        param.Add(select[i], user_data.QuestInfo_List);
+                        break;
+                    case "Pet_Info":
+                        param.Add(select[i], user_data.character_info);
+                        break;
+                    case "Housing_Info":
+                        param.Add(select[i], user_data.housing_Info);
+                        break;
+                    case "Char_Item_ID_List":
+                        param.Add(select[i], user_data.Char_Item_ID_List);
+                        break;
+                    case "StageInfo_List":
+                        param.Add(select[i], user_data.StageInfo_List);
+                        break;
+                    case "House_Item_ID_List":
+                        param.Add(select[i], user_data.House_Item_ID_List);
+                        break;
+                    case "info":
+                        param.Add(select[i], user_data.info);
+                        break;
+                    case "memo_info":
+                        param.Add(select[i], user_data.memo_info);
+                        break;
+                    case "Adjective_ID_List":
+                        param.Add(select[i], user_data.Adjective_ID_List);
+                        break;
+                    case "level":
+                        param.Add(select[i], user_data.level);
+                        break;
+                    case "Noun_ID_List":
+                        param.Add(select[i], user_data.Noun_ID_List);
+                        break;
+                    case "equipment":
+                        param.Add(select[i], user_data.equipment);
+                        break;
+                    case "profile_background":
+                        param.Add(select[i], user_data.profile_background);                        
+                        break;
+                    case "profile_picture":
+                        param.Add(select[i], user_data.profile_picture);                        
+                        break;
+                    case "popularity":
+                        param.Add(select[i], user_data.popularity);                       
+                        break;
+                    case "title_adjective":
+                        param.Add(select[i], user_data.title_adjective);                        
+                        break;
+                    case "title_noun":
+                        param.Add(select[i], user_data.title_noun);                        
+                        break;
+                    case "planet_name":
+                        param.Add(select[i], user_data.planet_name);                        
+                        break;
+                    case "ark":
+                        param.Add(select[i], user_data.ark);                        
+                        break;
+                    case "gold":
+                        param.Add(select[i], user_data.gold);                        
+                        break;
+                    case "ruby":
+                        param.Add(select[i], user_data.ruby);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            var bro_ = Backend.PlayerData.UpdateOtherData("USER_DATA", gameDataRowInDate, gamer_indate, param);
+            if (bro_.IsSuccess())
+            {
+                return;
+            }
+            else
+            {
+                Debug.Log("Fail");
+            }
+        }
+        else
+        {
+            Debug.Log("Fail");
+        }
+        return;
     }
 }
