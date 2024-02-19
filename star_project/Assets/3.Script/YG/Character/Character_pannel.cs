@@ -12,7 +12,7 @@ public class Character_pannel : MonoBehaviour
     [SerializeField] private TMP_Text special; //특수 능력
     [SerializeField] private TMP_Text unique; //고유 능력
 
-    private void Start()
+    private void Awake()
     {
         //UI에 요소 할당
         image = transform.GetChild(0).GetComponent<Image>();
@@ -24,7 +24,7 @@ public class Character_pannel : MonoBehaviour
     }
     public void UI_update(Character character)
     {
-        image.sprite = SpriteManager.instance.Num2Sprite(101);
+        image.sprite = SpriteManager.instance.Num2Sprite(character.sprite);
         character_name.text = character.character_name;
         level.text = $"{character.curlevel}";
 

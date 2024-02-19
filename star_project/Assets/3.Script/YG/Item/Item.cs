@@ -24,7 +24,7 @@ public class Item //차트 정보 저장을 위한 클래스 선언(인게임에서는 Item_game 상�
     {
         id = (item_ID)int.Parse(gameData["item_ID"].ToString());
         item_name = gameData["item_name"].ToString();
-        sprite = int.Parse(gameData["sprite"].ToString());
+        sprite = int.Parse(gameData["sprite_ID"].ToString());
 
         if ((int)id < (int)item_ID.small_heart) //Alphabet
         {

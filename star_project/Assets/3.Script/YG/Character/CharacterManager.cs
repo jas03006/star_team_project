@@ -11,11 +11,9 @@ public class CharacterManager : MonoBehaviour
         set
         {
             Index = value;
-            //select_name.text = $"{BackendChart_JGD.chartData.character_list[value].character_name}";
-            select_name.text = $"{character_list[value].character_name}";
+            select_name.text = $"{BackendChart_JGD.chartData.character_list[value].character_name}";
         }
     }
-    private List<Character> character_list = new List<Character>();
     public static CharacterManager instance;
     private int Index;
 
@@ -48,8 +46,7 @@ public class CharacterManager : MonoBehaviour
         //UI update
         for (int i = 0; i < pannels.Count; i++)
         {
-            //Character character = BackendChart_JGD.chartData.character_list[i];
-            Character character = character_list[i];
+            Character character = BackendChart_JGD.chartData.character_list[i];
             pannels[i].UI_update(character);
         }
     }
@@ -58,11 +55,6 @@ public class CharacterManager : MonoBehaviour
     {
         ark = 1000;
         gold = 1000;
-
-        for (int i = 0; i < 5; i++)
-        {
-            character_list.Add(new Character());
-        }
     }
 
     public void Select_btn(int id) //캐릭터 선택 버튼
@@ -72,8 +64,7 @@ public class CharacterManager : MonoBehaviour
 
     public void Inhance_btn(int id) //캐릭터 강화 버튼
     {
-        //Character character = BackendChart_JGD.chartData.character_list[id];
-        Character character = character_list[id];
+        Character character = BackendChart_JGD.chartData.character_list[id];
 
         if (character.CanLevelup())
             character.Levelup();

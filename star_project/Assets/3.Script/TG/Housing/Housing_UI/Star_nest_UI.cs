@@ -155,7 +155,7 @@ public class Star_nest_UI : MonoBehaviour
                             //user_data.Pet_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                             break;
                         case "Housing_Info":
-                            user_data.Housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            user_data.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                             break;
                         case "Char_Item_ID_List":
                            // user_data.Char_Item_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
@@ -231,10 +231,10 @@ public class Star_nest_UI : MonoBehaviour
                         param.Add(select[i], user_data.QuestInfo_List);
                         break;
                     case "Pet_Info":
-                        param.Add(select[i], user_data.Pet_Info);
+                        param.Add(select[i], user_data.character_info);
                         break;
                     case "Housing_Info":
-                        param.Add(select[i], user_data.Housing_Info);
+                        param.Add(select[i], user_data.housing_Info);
                         break;
                     case "Char_Item_ID_List":
                         param.Add(select[i], user_data.Char_Item_ID_List);

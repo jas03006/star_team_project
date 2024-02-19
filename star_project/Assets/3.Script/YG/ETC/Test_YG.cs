@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Test_YG : MonoBehaviour
 {
@@ -13,5 +14,10 @@ public class Test_YG : MonoBehaviour
     public void Send_level()
     {
         BackendGameData_JGD.Instance.Send_level();
+    }
+
+    public void Change_Scene(string str)
+    {
+        SceneManager.LoadScene(str);
     }
 }

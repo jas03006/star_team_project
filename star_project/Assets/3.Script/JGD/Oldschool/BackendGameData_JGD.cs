@@ -163,11 +163,8 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.character_info.Add_object(new CharacterObj(Character_ID.Green));
 
             //Memo 정보 - i = 정보 갯수
-
-            for (int i = 0; i < 5; i++)
-            {
-                userData.memo_info.Add_object();
-            }
+            //userData.memo_info.memo_list = new List<Memo>();
+            userData.memo_info = new Memo_info();
         }
 
         Debug.Log("데이터를 초기화 합니다.");
