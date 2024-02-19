@@ -193,4 +193,31 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
+
+    public Vector3 get_spawn_point(bool is_my_planet) {
+        housing_itemID id_ = housing_itemID.airship;
+        if (is_my_planet) {
+            id_ = housing_itemID.star_nest;
+        }
+        PlacementData pd = null;
+        foreach (Vector3Int pos in furnitureData.placedObjects.Keys) {
+            pd = furnitureData.placedObjects[pos];
+            if (pd.ID == id_) {
+                break;
+            }
+        }
+        if (pd == null) {
+            if (is_my_planet)
+            {
+
+                return new Vector3(-5, 0.5f, -5);
+            }
+            else
+            {
+                return Vector3.forward * -5f + Vector3.up * 0.5f;
+            }
+        }    
+        
+        return grid.CellToWorld(pd.occupiedPostitions[pd.occupiedPostitions.Count-1]) + Vector3.up * 0.5f - Quaternion.Euler(0, pd.direction*90f,0)* Vector3.forward;
+    }
 }
