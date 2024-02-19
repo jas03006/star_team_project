@@ -69,7 +69,7 @@ public class GridData
         if (level > level_boudary.Length-1) { 
             level = level_boudary.Length-1;
         }
-        if (pos_.x > level_boudary[level] || pos_.x < -level_boudary[level] || pos_.z > level_boudary[level] || pos_.z < -level_boudary[level] )
+        if (pos_.x >= level_boudary[level] || pos_.x < -level_boudary[level] || pos_.z >= level_boudary[level] || pos_.z < -level_boudary[level] )
         {
             return false;
         }

@@ -28,14 +28,14 @@ public class GridSystem : MonoBehaviour
         init();
     }
 
-    private void Update()
+   /* private void Update()
     {
       
-       /* for (int i=0; i < debug_list.Count-1; i++) {
+        for (int i=0; i < debug_list.Count-1; i++) {
             Debug.DrawLine(debug_list[i], debug_list[i+1], Color.red);
         }
-        */
-    }
+        
+    }*/
 
     public void init()
     {
@@ -185,7 +185,7 @@ public class GridSystem : MonoBehaviour
         }
 
         Node node = NodeFromWorldPosition(dest_pos );
-       // debug_list = new List<Vector3>();
+        //debug_list = new List<Vector3>();
 
         if (dx_ !=0 && dy_ !=0 ) { //대각일때
             int dx=0;
@@ -197,13 +197,13 @@ public class GridSystem : MonoBehaviour
 
                 node = grid_node[node.gridX - dx_, node.gridY - dy_];
                 
-               // debug_list.Add(node.position);
+                //debug_list.Add(node.position);
                 
                 len = i * 2 + 3;
                 for (int step = 0; step < len; step++) {
                     dx = step* dx_;
                     dy = 0;
-                   // debug_list.Add(node.position + new Vector3(dx, 0, dy));
+                    //debug_list.Add(node.position + new Vector3(dx, 0, dy));
                     if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
                     {
                         
@@ -211,7 +211,7 @@ public class GridSystem : MonoBehaviour
                     }
                     dx = 0;
                     dy = step*dy_;
-                  //  debug_list.Add(node.position + new Vector3(dx, 0, dy));
+                    //debug_list.Add(node.position + new Vector3(dx, 0, dy));
                     if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
                     {
                         return node.position + new Vector3(dx, 0, dy);
@@ -221,14 +221,14 @@ public class GridSystem : MonoBehaviour
                 {
                     dx = (len-1)* dx_;
                     dy = step * dy_;
-                   // debug_list.Add(node.position + new Vector3(dx, 0, dy));
+                    //debug_list.Add(node.position + new Vector3(dx, 0, dy));
                     if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
                     {
                         return node.position + new Vector3(dx, 0, dy);
                     }
                     dx = step*dx_;
                     dy = (len-1) * dy_;
-                  //  debug_list.Add(node.position + new Vector3(dx, 0, dy));
+                    //debug_list.Add(node.position + new Vector3(dx, 0, dy));
                     if (grid_node[node.gridX + dx, node.gridY + dy].iswall)
                     {
                         return node.position + new Vector3(dx, 0, dy);
@@ -245,17 +245,17 @@ public class GridSystem : MonoBehaviour
             for (int i = 0; i < 16; i++)
             {
                 node = grid_node[node.gridX - dx_, node.gridY - dy_];
-               // debug_list.Add(node.position);
+                //debug_list.Add(node.position);
                 for (int step = 0; step <= i+1; step++)
                 {
                     delta = right * step;
-                 //   debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
+                    //debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
                     if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
                     {
                         return node.position + new Vector3(delta.x, 0, delta.y);
                     }
                     delta = -right * step;
-                  //  debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
+                   // debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
                     if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
                     {
                         return node.position + new Vector3(delta.x, 0, delta.y);
@@ -265,13 +265,13 @@ public class GridSystem : MonoBehaviour
                 for (int step = 1; step < len; step++)
                 {
                     delta = right * (i+1) + up * step;
-                 //   debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
+                    //debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
                     if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
                     {
                         return node.position + new Vector3(delta.x, 0, delta.y);
                     }
                     delta = -right * (i + 1) + up * step;
-                  //  debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
+                   // debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
                     if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
                     {
                         return node.position + new Vector3(delta.x, 0, delta.y);
@@ -281,13 +281,13 @@ public class GridSystem : MonoBehaviour
                 for (int step = 0; step <= i + 1; step++)
                 {
                     delta = right * (i + 1 - step) + up * (len-1);
-                //    debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
+                    //debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
                     if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
                     {
                         return node.position + new Vector3(delta.x, 0, delta.y);
                     }
                     delta = -right * (i + 1 - step) + up * (len - 1);
-                //    debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
+                    //debug_list.Add(node.position + new Vector3(delta.x, 0, delta.y));
                     if (grid_node[node.gridX + delta.x, node.gridY + delta.y].iswall)
                     {
                         return node.position + new Vector3(delta.x, 0, delta.y);

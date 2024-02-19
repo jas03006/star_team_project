@@ -25,7 +25,7 @@ public class UserData
     bool is_clear = false;
     bool is_word_clear;
     int top_score;
-    //public int popularity = 0;
+    
     public int level = 1;
     public float atk = 3.5f;
     public string info = string.Empty;
@@ -47,6 +47,20 @@ public class UserData
     public HousingInfo_JGD housing_Info = new HousingInfo_JGD();
     public CharacterInfo_YG character_info = new CharacterInfo_YG();
     public Memo_info memo_info = new Memo_info();
+
+
+    //profile
+    public int profile_background = 0;
+    public int profile_picture = 0;
+    public int popularity = 0;
+    public adjective title_adjective = adjective.none;
+    public noun title_noun = noun.none;
+    public string planet_name;
+
+    //money
+    public int ark =0;
+    public int gold =0;
+    public int ruby = 0;
 
     public override string ToString()
     {
@@ -165,6 +179,9 @@ public class BackendGameData_JGD : MonoBehaviour
             //Memo 정보 - i = 정보 갯수
             //userData.memo_info.memo_list = new List<Memo>();
             userData.memo_info = new Memo_info();
+
+            userData.title_adjective = adjective.lovely;
+            userData.title_noun = noun.jjang;
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -176,7 +193,7 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
-        //param.Add("popularity", userData.popularity);
+        
         param.Add("memo_info", userData.memo_info);
         param.Add("equipment", userData.equipment);///////////////////////////예제코드 추후 삭제?
         param.Add("inventory", userData.inventory);///////////////////////////예제코드 추후 삭제?
@@ -193,6 +210,17 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
         param.Add("character_info", userData.character_info);   //펫 데이터
+
+        param.Add("profile_background", userData.profile_background);
+        param.Add("profile_picture", userData.profile_picture);
+        param.Add("popularity", userData.popularity);
+        param.Add("title_adjective", userData.title_adjective);
+        param.Add("title_noun", userData.title_noun);
+        param.Add("planet_name", userData.planet_name);
+        param.Add("ark", userData.ark);
+        param.Add("gold", userData.gold);
+        param.Add("ruby", userData.ruby);
+   
 
         Debug.Log("게임정보 데이터 삽입을 요청");
 
@@ -235,7 +263,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData = new UserData();
                 //Debug.Log("gamer id: "+gameDataJson[0]["gamer_id"].ToString());
                 userData.level = int.Parse(gameDataJson[0]["level"].ToString());
-                //userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                
                 userData.info = gameDataJson[0]["info"].ToString();
 
                 userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
@@ -293,6 +321,27 @@ public class BackendGameData_JGD : MonoBehaviour
                 {
                     userData.equipment.Add(equip.ToString());
                 }
+
+                userData.profile_background = int.Parse(gameDataJson[0]["profile_background"].ToString());
+                userData.profile_picture = int.Parse(gameDataJson[0]["profile_picture"].ToString());
+                userData.popularity = int.Parse(gameDataJson[0]["popularity"].ToString());
+                userData.title_adjective = (adjective)int.Parse(gameDataJson[0]["title_adjective"].ToString());
+                userData.title_noun = (noun)int.Parse(gameDataJson[0]["title_noun"].ToString());
+                userData.planet_name = gameDataJson[0]["planet_name"].ToString();
+                userData.ark = int.Parse(gameDataJson[0]["ark"].ToString());
+                userData.gold = int.Parse(gameDataJson[0]["gold"].ToString());
+                userData.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
+
+                /* param.Add("profile_background", userData.profile_background);
+                 param.Add("profile_picture", userData.profile_picture);
+                 param.Add("popularity", userData.popularity);
+                 param.Add("title_adjective", userData.title_adjective);
+                 param.Add("title_noun", userData.title_noun);
+                 param.Add("planet_name", userData.planet_name);
+                 param.Add("ark", userData.ark);
+                 param.Add("gold", userData.gold);
+                 param.Add("ruby", userData.ruby);*/
+
                 //
             }
             Debug.Log(userData.ToString());
@@ -365,6 +414,16 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Housing_Info", userData.housing_Info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);
         param.Add("Achievements_List", userData.Achievements_List);
+
+        param.Add("profile_background", userData.profile_background);
+        param.Add("profile_picture", userData.profile_picture);
+        param.Add("popularity", userData.popularity);
+        param.Add("title_adjective", userData.title_adjective);
+        param.Add("title_noun", userData.title_noun);
+        param.Add("planet_name", userData.planet_name);
+        param.Add("ark", userData.ark);
+        param.Add("gold", userData.gold);
+        param.Add("ruby", userData.ruby);
 
         BackendReturnObject bro = null;
 
