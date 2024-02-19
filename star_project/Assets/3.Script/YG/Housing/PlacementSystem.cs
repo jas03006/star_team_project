@@ -81,7 +81,7 @@ public class PlacementSystem : MonoBehaviour
     //button click
     public void save_edit() {
         housing_info = new HousingInfo_JGD(furnitureData.placedObjects);
-        BackendGameData_JGD.userData.Housing_Info = housing_info;
+        BackendGameData_JGD.userData.housing_Info = housing_info;
         BackendGameData_JGD.Instance.GameDataUpdate();
         TCP_Client_Manager.instance.send_update_request();
     }

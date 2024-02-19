@@ -1,7 +1,6 @@
 using LitJson;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HousingInfo_JGD
@@ -12,16 +11,17 @@ public class HousingInfo_JGD
     public List<HousingObjectInfo> objectInfos = new List<HousingObjectInfo>();
     public HousingInfo_JGD()
     {
-     
+
     }
     public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info)
     {
-        foreach (Vector3Int key in placement_info.Keys) {
+        foreach (Vector3Int key in placement_info.Keys)
+        {
             PlacementData pd = placement_info[key];
             objectInfos.Add(new HousingObjectInfo(pd.ID, new Vector2(key.x, key.z), pd.direction));
         }
     }
-    
+
     public HousingInfo_JGD(JsonData json)
     {
         //Debug.Log(json.ToString());
@@ -79,7 +79,7 @@ public class HousingObjectInfo
 public enum housing_itemID
 {
     none = -1,
-    ark_cylinder=1,
+    ark_cylinder = 1,
     airship,
     star_nest,
     chair,
@@ -89,10 +89,11 @@ public enum housing_itemID
 
 public class Memo_info
 {
-    public List<Memo> memo_list { get; private set; }= new List<Memo>() ;
+    public List<Memo> memo_list { get; private set; } = new List<Memo>();
 
     public Memo_info()
     {
+        memo_list = new List<Memo>();
     }
 
     public Memo_info(JsonData json)

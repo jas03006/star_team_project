@@ -71,7 +71,7 @@ public class TestBackend_Login_JGD : MonoBehaviour
         }
         else
         {
-            Debug.LogError("닉네임 변겨엥 실패했습니다. : " + bro);
+            Debug.LogError("닉네임 변경에 실패했습니다. : " + bro);
         }
     }
 
