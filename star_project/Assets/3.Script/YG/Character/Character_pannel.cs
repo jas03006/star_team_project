@@ -22,6 +22,7 @@ public class Character_pannel : MonoBehaviour
         special = transform.GetChild(4).GetChild(1).GetComponent<TMP_Text>();
         unique = transform.GetChild(5).GetChild(1).GetComponent<TMP_Text>();
     }
+
     public void UI_update(Character character)
     {
         image.sprite = SpriteManager.instance.Num2Sprite(character.sprite);
