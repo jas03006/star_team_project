@@ -18,8 +18,6 @@ public class Player_Controll_JGD : MonoBehaviour
 
     [SerializeField] int[] ItmeInven = new int[2];   //아이템 저장소
 
-    ItemID_JGD itemID;
-
 
     private void Awake()
     {
@@ -28,7 +26,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Start()
     {
-        //MaxHp += PlayerLevel * 10;  //이거 근대 기획문서대로하면 만렙이면 최대체력 390임ㅋㅋ
+        //MaxHp += (PlayerLevel - 1) * 10;  //이거 근대 기획문서대로하면 만렙이면 최대체력 390임ㅋㅋ
         currentHp = MaxHp;
 
     }
@@ -48,10 +46,7 @@ public class Player_Controll_JGD : MonoBehaviour
             rigi.velocity = Vector2.up *Jump;
         }
     }
-    private void TimetoScore()
-    {
 
-    }
     private void OnDamage()
     {
         currentHp -= 20;
@@ -60,8 +55,7 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            Destroy(collision.gameObject);
-            switch (itemID.obstacle_ID)
+            switch (collision.gameObject.GetComponentInParent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.big_heart:
 
@@ -98,45 +92,54 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
                 default:
                     break;
+
             }
+            Destroy(collision.gameObject);
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
         {
             //Destroy(collision.gameObject); //이거 나중에 벽 부서지는효과로 변경
-            switch (collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID)
+            switch (collision.gameObject.GetComponentInParent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.NomalWall:
                 case Obstacle_ID.Nomal_Rockwall:
+                case Obstacle_ID.Move_NomalWall:
+
                     OnDamage();
                     break;
                 case Obstacle_ID.BlueWall:
                 case Obstacle_ID.Blue_Rockwall:
+                case Obstacle_ID.Move_BlueWall:
                     OnDamage();
                     break;
                 case Obstacle_ID.GreenWall:
                 case Obstacle_ID.Green_Rockwall:
+                case Obstacle_ID.Move_GreenWall:
                     OnDamage();
 
                     break;
                 case Obstacle_ID.PurpleWall:
                 case Obstacle_ID.Purple_Rockwall:
+                case Obstacle_ID.Move_PurpleWall:
                     OnDamage();
 
                     break;
                 case Obstacle_ID.RedWall:
                 case Obstacle_ID.Red_Rockwall:
+                case Obstacle_ID.Move_RedWall:
                     OnDamage();
 
                     break;
                 case Obstacle_ID.YellowWall:
                 case Obstacle_ID.Yellow_Rockwall:
+                case Obstacle_ID.Move_YellowWall:
                     OnDamage();
 
                     break;
 
                 case Obstacle_ID.BlackHole:
                 case Obstacle_ID.Meteor:
-
+                    OnDamage();
                     break;
 
                 default:

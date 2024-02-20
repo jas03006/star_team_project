@@ -147,6 +147,7 @@ public class StageItemInfo_JGD : MonoBehaviour
 
             GameObject gameObject = Instantiate(Objects[ObjectNum], new Vector2(Pos_X, Pos_Y), Quaternion.Euler(0, 0, Rot));
             gameObject.transform.localScale = new Vector3 (Scale_X, Scale_Y, 0);
+            gameObject.GetComponent<Item_game>().itemid_ = ObjectNum;
             gameObject.GetComponent<ItemID_JGD>().ID = ObjectNum;
             gameObject.GetComponent<ItemID_JGD>().discrimination = discrimination;
             gameObject.GetComponent<ItemID_JGD>().distance = distance;
