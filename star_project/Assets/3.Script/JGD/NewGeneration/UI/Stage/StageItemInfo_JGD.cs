@@ -2,6 +2,7 @@ using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
@@ -73,15 +74,20 @@ public class StageItemInfo_JGD : MonoBehaviour
     public static StageItemInfo_JGD Instance;
     public Obstacle_ID obstacle_ID = Obstacle_ID.None;
     [SerializeField]public int Stage;
+    //장애물정보=============================================================================================
     public int ObjectNum;
     public float Pos_X;
     public float Pos_Y;
+    public float Rot;
+    private float Scale_X = 1;
+    private float Scale_Y = 1;
+    private int discrimination;
+    private float distance = 0;
     public GameObject _Objects;
-    public int Rot;
     public List<GameObject> Objects = new List<GameObject>();
-    public static List<GameObject> dfddd = new List<GameObject>();
+    //========================================================================================================
 
-    ItemID_JGD item;
+
     private void Awake()
     {
         if (Instance == null)
@@ -117,23 +123,29 @@ public class StageItemInfo_JGD : MonoBehaviour
             ObjectNum = int.Parse(list[i][0].Trim());
             Pos_X = float.Parse(list[i][1].Trim());
             Pos_Y = float.Parse(list[i][2].Trim());
-            Rot = 0;
+            Rot = float.Parse(list[i][3].Trim());
+            Scale_X = int.Parse(list[i][4].Trim());
+            Scale_Y = int.Parse(list[i][5].Trim());
             Debug.Log("나 여기있어");
-            if (list[i].Length <4)
+
+
+            if (ObjectNum == 50)
             {
-                Rot = 0;
+                discrimination = int.Parse(list[i][6].Trim());
+                distance = int.Parse(list[i][7].Trim());
             }
-            else if (list[i].Length >= 4)
+            else if (ObjectNum > 50)
             {
                 Debug.Log("나도 여기있어");
-                Rot = int.Parse(list[i][3]);
+                discrimination = int.Parse(list[i][6].Trim());
             }
 
-            Debug.Log($"{Objects[ObjectNum].ToString()}, {Pos_X}, {Pos_Y}");
 
             GameObject gameObject = Instantiate(Objects[ObjectNum], new Vector2(Pos_X, Pos_Y), Quaternion.Euler(0, 0, Rot));
-
-            gameObject.AddComponent<ItemID_JGD>().ID = ObjectNum;
+            gameObject.transform.localScale = new Vector3 (Scale_X, Scale_Y, 0);
+            gameObject.GetComponent<ItemID_JGD>().ID = ObjectNum;
+            gameObject.GetComponent<ItemID_JGD>().discrimination = discrimination;
+            gameObject.GetComponent<ItemID_JGD>().distance = distance;
         }
 
     }

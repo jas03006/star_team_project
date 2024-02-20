@@ -42,6 +42,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
         if (Input.GetKey(KeyCode.Space))
         {
             rigi.velocity = Vector2.up *Jump;
