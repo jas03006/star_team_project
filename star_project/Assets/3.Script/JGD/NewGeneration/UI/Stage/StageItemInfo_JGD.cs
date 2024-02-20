@@ -138,6 +138,12 @@ public class StageItemInfo_JGD : MonoBehaviour
             {
                 Debug.Log("나도 여기있어");
                 discrimination = int.Parse(list[i][6].Trim());
+                distance = 0;
+            }
+            else
+            {
+                discrimination = 0; 
+                distance = 0;
             }
 
 
@@ -146,6 +152,7 @@ public class StageItemInfo_JGD : MonoBehaviour
             gameObject.GetComponent<ItemID_JGD>().ID = ObjectNum;
             gameObject.GetComponent<ItemID_JGD>().discrimination = discrimination;
             gameObject.GetComponent<ItemID_JGD>().distance = distance;
+
         }
 
     }

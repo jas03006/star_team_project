@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6529504477860553072}
   - component: {fileID: 4983841692078127387}
   - component: {fileID: 5406352798737523467}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Purple_Rockwall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,4 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb0b357df9e9df4c9f1536ea0f83dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle_ID: 0
+  ID: 0
+  discrimination: 0
+  distance: 0
+  obstacle_ID: -1
+  obstacles: []

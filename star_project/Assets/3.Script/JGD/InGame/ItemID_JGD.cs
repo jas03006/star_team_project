@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemID_JGD : MonoBehaviour
@@ -9,51 +10,64 @@ public class ItemID_JGD : MonoBehaviour
     public float distance;
     [SerializeField] public Obstacle_ID obstacle_ID;
     [SerializeField]private List<GameObject> obstacles = new List<GameObject>();
-
     private Animator animator;
 
-    //private void Awake()
-    //{
-    //    animator = GetComponent<Animator>();
-    //}
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     private void Start()
     {
         obstacle_ID = (Obstacle_ID)ID;
-        Scanner();
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+         if (collision.CompareTag("Player"))
         {
+            Scanner();
+            if (obstacles.Count == 0)
+            {
+                return;
+            }
             for (int i = 0; i < obstacles.Count; i++)
             {
-                obstacles[i].GetComponent<ItemID_JGD>().animator.SetTrigger("MoveWall");
+                obstacles[i].GetComponentInParent<ItemID_JGD>().animator.SetTrigger("MoveWall");
             }
         }
     }
 
-
-
-
-
     private void Scanner()
     {
+        obstacles.Clear();
         if (distance == 0)
         {
             return;
         }
-        Collider[] colliders = Physics.OverlapSphere(transform.position, distance);
 
-        foreach (Collider collider in colliders)
+        Debug.Log("어라라");
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, distance*100,LayerMask.GetMask("MoveWall"));
+        Debug.Log("어라라dkdk");
+        for (int i = 0; i < colliders.Length; i++)
         {
-            GameObject obj = collider.gameObject;
-            if(obj.GetComponent<ItemID_JGD>().discrimination == this.discrimination)
+            GameObject Obj = colliders[i].gameObject;
+            if (Obj.GetComponentInParent<ItemID_JGD>().discrimination == this.discrimination)
             {
-                obstacles.Add(obj);
+                Debug.Log("dkajfklsdjlksfdajasfldkjsadflkjsdflksdfjaklsfj");
+                obstacles.Add(Obj);
             }
+
         }
+        //foreach (Collider2D collider in colliders)
+        //{
+        //    int i = 0;
+        //    GameObject obj = colliders[i].gameObject;
+        //    if(obj.GetComponent<ItemID_JGD>().discrimination == this.discrimination)
+        //    {
+        //        obstacles.Add(obj);
+        //    }
+        //    i++;
+        //}
     }
 }

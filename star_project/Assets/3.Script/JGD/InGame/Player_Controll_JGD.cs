@@ -102,8 +102,8 @@ public class Player_Controll_JGD : MonoBehaviour
         }
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            Destroy(collision.gameObject); //이거 나중에 벽 부서지는효과로 변경
-            switch (itemID.obstacle_ID)
+            //Destroy(collision.gameObject); //이거 나중에 벽 부서지는효과로 변경
+            switch (collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.NomalWall:
                 case Obstacle_ID.Nomal_Rockwall:
@@ -115,23 +115,23 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
                 case Obstacle_ID.GreenWall:
                 case Obstacle_ID.Green_Rockwall:
-
                     OnDamage();
+
                     break;
                 case Obstacle_ID.PurpleWall:
                 case Obstacle_ID.Purple_Rockwall:
-
                     OnDamage();
+
                     break;
                 case Obstacle_ID.RedWall:
                 case Obstacle_ID.Red_Rockwall:
-
                     OnDamage();
+
                     break;
                 case Obstacle_ID.YellowWall:
                 case Obstacle_ID.Yellow_Rockwall:
-
                     OnDamage();
+
                     break;
 
                 case Obstacle_ID.BlackHole:

@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb0b357df9e9df4c9f1536ea0f83dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  discrimination: 0
+  distance: 0
   obstacle_ID: 0
+  obstacles: []
 --- !u!1 &8491715837790260789
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +61,7 @@ GameObject:
   - component: {fileID: 8008818996611741485}
   - component: {fileID: 5984586750216721411}
   - component: {fileID: 5468035295938334284}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
