@@ -59,7 +59,12 @@ public enum Obstacle_ID
     BlackHole,
     Meteor,
     CheckBox,
-
+    Move_NomalWall,
+    Move_BlueWall,
+    Move_GreenWall,
+    Move_PurpleWall,
+    Move_RedWall,
+    Move_YellowWall,
 }
 
 
@@ -76,6 +81,7 @@ public class StageItemInfo_JGD : MonoBehaviour
     public List<GameObject> Objects = new List<GameObject>();
     public static List<GameObject> dfddd = new List<GameObject>();
 
+    ItemID_JGD item;
     private void Awake()
     {
         if (Instance == null)
@@ -125,7 +131,9 @@ public class StageItemInfo_JGD : MonoBehaviour
 
             Debug.Log($"{Objects[ObjectNum].ToString()}, {Pos_X}, {Pos_Y}");
 
-            Instantiate(Objects[ObjectNum], new Vector2(Pos_X, Pos_Y), Quaternion.Euler(0, 0, Rot));
+            GameObject gameObject = Instantiate(Objects[ObjectNum], new Vector2(Pos_X, Pos_Y), Quaternion.Euler(0, 0, Rot));
+
+            gameObject.AddComponent<ItemID_JGD>().ID = ObjectNum;
         }
 
     }
