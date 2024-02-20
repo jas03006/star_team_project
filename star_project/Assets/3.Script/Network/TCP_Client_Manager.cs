@@ -336,13 +336,10 @@ public class TCP_Client_Manager : MonoBehaviour
 
     public Vector3 get_respawn_point(string uuid_) {
         return placement_system.get_spawn_point(uuid_ == now_room_id);
-
-       /* if (uuid_ == now_room_id) {
-
-            return new Vector3(-5,0.5f,-5);
-        }
-
-        return Vector3.forward*-5f + Vector3.up*0.5f;*/
+    }
+    public Vector3 get_respawn_point(bool is_my_planet)
+    {
+        return placement_system.get_spawn_point(is_my_planet);
     }
     #endregion
 

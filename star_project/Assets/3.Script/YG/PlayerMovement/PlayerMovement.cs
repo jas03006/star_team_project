@@ -49,7 +49,7 @@ public class PlayerMovement : Player_Network_TG
                             dest = grid.find_nearest_space(dest, transform.position);
 
                             net_move(transform.position, dest);
-                            TweenCallback action = () => { hit.collider.gameObject.GetComponent<Net_Housing_Object>().interact(object_id); };
+                            TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
                             move(transform.position, dest, action);                            
                         }
                         else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))

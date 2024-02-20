@@ -14,7 +14,7 @@ public enum harvest_state {
     complete
 }
 
-public class Harvesting : SpecialObj//, IObject
+public class Harvesting : Net_Housing_Object//, IObject
 {
     [SerializeField] private RectTransform root;
     [SerializeField] private GameObject ready_UI;
@@ -135,7 +135,7 @@ public class Harvesting : SpecialObj//, IObject
             if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
             {
                 //TODO: ¿Á»≠ »πµÊ
-                MoneyManager.instance.Get_Money(Money.ark, reward);
+                //MoneyManager.instance.Get_Money(Money.ark, reward);
             }
             else {
                 //TODO: øÏ∆Ì ∫∏≥ª±‚
