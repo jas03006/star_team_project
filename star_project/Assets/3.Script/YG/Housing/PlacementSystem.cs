@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
@@ -64,7 +65,7 @@ public class PlacementSystem : MonoBehaviour
         update_hidden_area(housing_info.level);
         for (int i = 0; i < housing_info.objectInfos.Count; i++)
         {
-            place_structure_init(housing_info.objectInfos[i].item_ID, housing_info.objectInfos[i].position);
+            place_structure_init(housing_info.objectInfos[i]); //housing_info.objectInfos[i].item_ID, housing_info.objectInfos[i].position);
         }
     }
 
@@ -95,17 +96,29 @@ public class PlacementSystem : MonoBehaviour
     }
 
     //button click
-    public void save_edit() {
-        housing_info = new HousingInfo_JGD(furnitureData.placedObjects);
-        BackendGameData_JGD.userData.housing_Info = housing_info;
-        BackendGameData_JGD.Instance.GameDataUpdate();
+    public void save_edit(bool is_mine = true) {
+        
+        housing_info = new HousingInfo_JGD(furnitureData.placedObjects, objectPlacer);
+        if (is_mine)
+        {           
+            BackendGameData_JGD.userData.housing_Info = housing_info;
+            BackendGameData_JGD.Instance.GameDataUpdate();
+        }
+        else {
+            UserData ud = new UserData();
+            ud.housing_Info = housing_info;
+            string[] select = { "Housing_Info" };
+            BackendGameData_JGD.Instance.update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select,ud);
+        }
+        
         TCP_Client_Manager.instance.send_update_request();
     }
 
-    public void place_structure_init(housing_itemID id, Vector2 position)
+    public void place_structure_init(HousingObjectInfo hoi)
     {
-        buildingState = new PlacementState((housing_itemID)id, grid, preview, database, floorData, furnitureData, objectPlacer);
-        Vector3Int gridPosition = new Vector3Int((int)position.x , 0, (int)position.y);
+        
+        buildingState = new PlacementState((housing_itemID)hoi.item_ID, grid, preview, database, floorData, furnitureData, objectPlacer, hoi.start_time, hoi.direction, hoi.harvesting_selection);
+        Vector3Int gridPosition = new Vector3Int((int)hoi.position.x , 0, (int)hoi.position.y);
         buildingState.OnAction(gridPosition);
         buildingState.EndState();
         lastDetectedPostition = Vector3Int.zero;
@@ -124,7 +137,7 @@ public class PlacementSystem : MonoBehaviour
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        buildingState = new PlacementState((housing_itemID) id, grid, preview, database, floorData, furnitureData, objectPlacer);
+        buildingState = new PlacementState((housing_itemID) id, grid, preview, database, floorData, furnitureData, objectPlacer, DateTime.MaxValue);
 
         inputManager.Onclicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
