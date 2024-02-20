@@ -218,6 +218,7 @@ public class PlacementSystem : MonoBehaviour
             if (pd.ID == id_) {
                 break;
             }
+            pd = null;
         }
         if (pd == null) {
             if (is_my_planet)

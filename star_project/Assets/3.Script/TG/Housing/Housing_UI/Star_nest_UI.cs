@@ -42,17 +42,7 @@ public class Star_nest_UI : MonoBehaviour
 
 
     private UserData user_data;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 
     public void show_UI() {
         UI_Container.SetActive(true);
@@ -212,7 +202,6 @@ public class Star_nest_UI : MonoBehaviour
     }
     public void create_memo(string uuid_, string content_)
     {
-
         if (content_.Equals(string.Empty)) {
             return;
         }
