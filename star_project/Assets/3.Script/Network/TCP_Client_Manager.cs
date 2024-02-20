@@ -234,8 +234,9 @@ public class TCP_Client_Manager : MonoBehaviour
                     }                    
                     break;
                 case command_flag.update:
-                    uuid_ = cmd_arr[1];
-                    if (my_player.object_id != uuid_)
+                    host_id = cmd_arr[1];
+                    uuid_ = cmd_arr[2];
+                    if (now_room_id== host_id && my_player.object_id != uuid_)
                     {
                         load_house();
                         Debug.Log("update!");
@@ -430,7 +431,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public bool send_update_request()
     {
-        return sending_Message($"{(int)command_flag.update} {now_room_id}");
+        return sending_Message($"{(int)command_flag.update} {now_room_id} {my_player.object_id}");
     }
     public bool send_chat_request(string chat_msg, bool is_global=false)
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class PlacementState : IBuildingState
 {
     private int selectedObjectIndex = -1;
-    housing_itemID id;
+    public housing_itemID id;
     public Grid gird;
     PreviewSystem previewSystem;
     ObjectsDatabaseSO database;
@@ -13,7 +14,12 @@ public class PlacementState : IBuildingState
     public GridData furnitureData;
     ObjectPlacer objectPlacer;
 
-    public PlacementState(housing_itemID id, Grid gird, PreviewSystem previewSystem, ObjectsDatabaseSO database, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer)
+    public DateTime start_time;
+    public int direction;
+    public int selection;
+
+    public PlacementState(housing_itemID id, Grid gird, PreviewSystem previewSystem, ObjectsDatabaseSO database, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer
+        , DateTime start_time, int direction =0, int selection=-1)
     {
         this.id = id;
         this.gird = gird;
@@ -22,6 +28,11 @@ public class PlacementState : IBuildingState
         this.floorData = floorData;
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
+
+        this.start_time = start_time;
+        this.direction = direction;
+        this.selection = selection;
+
 
         selectedObjectIndex = database.objectData.FindIndex(data => data.id == id);
         if (selectedObjectIndex > -1)
@@ -45,7 +56,7 @@ public class PlacementState : IBuildingState
         if (placementValidity == false)
             return;
 
-        int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f));
+        int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), this);
 
         GridData selectedData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
         selectedData.AddObjectAt(gridPosition, database.objectData[selectedObjectIndex].size, database.objectData[selectedObjectIndex].id, index);

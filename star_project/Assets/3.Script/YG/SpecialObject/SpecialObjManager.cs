@@ -56,7 +56,7 @@ public class SpecialObjManager : MonoBehaviour
             case housing_itemID.none:
                 break;
             case housing_itemID.ark_cylinder:
-                harvesting.Interactive();
+               // harvesting.Interactive();
                 break;
             default:
                 break;

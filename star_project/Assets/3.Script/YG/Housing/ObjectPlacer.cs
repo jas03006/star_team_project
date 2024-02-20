@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
@@ -11,10 +12,19 @@ public class ObjectPlacer : MonoBehaviour
     {
         grid = FindObjectOfType<GridSystem>();
     }
-    public int PlaceObject(GameObject prefab, Vector3 position)
+    public int PlaceObject(GameObject prefab, Vector3 position, PlacementState ps)
     {
         //오브젝트 설치
         GameObject newobject = Instantiate(prefab);
+
+        if (ps.id==housing_itemID.ark_cylinder) {
+            Harvesting hob = newobject.GetComponent<Harvesting>();
+            if (hob != null)
+            {
+                hob.init(ps.start_time, ps.selection);
+            }
+        }        
+
         newobject.tag = "HousingObject";
         newobject.transform.position = position;
         placedGameObject.Add(newobject);
@@ -34,5 +44,16 @@ public class ObjectPlacer : MonoBehaviour
         grid.Invoke("CreateGird", 0.05f);
 
         placedGameObject[gameObjectIndex] = null;
+    }
+
+    public Harvesting find_harvest_object(int index) {
+        Harvesting hob = null;
+       // for (int i =0; i < placedGameObject.Count; i++) {
+            hob = placedGameObject[index].GetComponentInChildren<Harvesting>();
+            if (hob != null) {
+                return hob;
+            }
+      //  }
+        return null;
     }
 }
