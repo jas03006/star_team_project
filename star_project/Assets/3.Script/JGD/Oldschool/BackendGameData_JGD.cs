@@ -36,7 +36,9 @@ public class UserData
     public List<int> Char_Item_ID_List = new List<int>();                                  //캐릭터 아이템 리스트
     public List<int> Adjective_ID_List = new List<int>();                                  //형용사 칭호 리스트
     public List<int> Noun_ID_List = new List<int>();                                       //명사 칭호 리스트
-    public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
+
+    public House_Inventory_Info_JGD house_inventory = new House_Inventory_Info_JGD();
+    //public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
     public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
@@ -106,11 +108,11 @@ public class UserData
         {
             result.AppendLine($"| {equip}");
         }
-        result.AppendLine($"| {House_Item_ID_List}");
+        /*result.AppendLine($"| {House_Item_ID_List}");
         foreach (var equip in House_Item_ID_List)
         {
             result.AppendLine($"| {equip}");
-        }
+        }*/
         result.AppendLine($"| {StageInfo_List}");
         foreach (var equip in StageInfo_List)
         {
@@ -175,6 +177,13 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.ark_cylinder, 1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.airship, 1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.star_nest, 1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed,1));
+
             //캐릭터 레벨 정보
             userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow));
             userData.character_info.Add_object(new CharacterObj(Character_ID.Red));
@@ -219,7 +228,8 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);                     //캐릭터 아이템 리스트
         param.Add("Adjective_ID_List", userData.Adjective_ID_List);                     //형용사 칭호 리스트
         param.Add("Noun_ID_List", userData.Noun_ID_List);                               //명사 칭호 리스트
-        param.Add("House_Item_ID_List", userData.House_Item_ID_List);                   //하우징 아이템 리스트
+        param.Add("house_inventory", userData.house_inventory);                               //하우징 아이템 리스트
+        //param.Add("House_Item_ID_List", userData.House_Item_ID_List);                   //하우징 아이템 리스트
         //param.Add("Market_ID_List", userData.Market_ID_List);                           //상점 상태 정보
         param.Add("StageInfo_List", userData.StageInfo_List);                           //스테이지 별 정보
         //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
@@ -289,15 +299,16 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
 
-                foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"])  //하우징 아이템 리스트
+                foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
                 {
                     userData.mission_Userdatas.Add(new Mission_userdata(mission));
                 }
 
-                foreach (JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
+                userData.house_inventory = new House_Inventory_Info_JGD(gameDataJson[0]["house_inventory"]);
+               /* foreach (JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
                 {
                     userData.House_Item_ID_List.Add(new House_Item_Info_JGD(equip));
-                }
+                }*/
 
                 #region 주석
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
@@ -422,7 +433,9 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);
         param.Add("Adjective_ID_List", userData.Adjective_ID_List);
         param.Add("Noun_ID_List", userData.Noun_ID_List);
-        param.Add("House_Item_ID_List", userData.House_Item_ID_List);
+
+        param.Add("house_inventory", userData.house_inventory);
+        //param.Add("House_Item_ID_List", userData.House_Item_ID_List);
         //param.Add("Market_ID_List", userData.Market_ID_List);/////////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);
         param.Add("Housing_Info", userData.housing_Info);
@@ -502,8 +515,8 @@ public class BackendGameData_JGD : MonoBehaviour
                 case "StageInfo_List":
                     param.Add(select[i], userData.StageInfo_List);
                     break;
-                case "House_Item_ID_List":
-                    param.Add(select[i], userData.House_Item_ID_List);
+                case "house_inventory":
+                    param.Add(select[i], userData.house_inventory);
                     break;
                 case "info":
                     param.Add(select[i], userData.info);
@@ -652,8 +665,8 @@ public class BackendGameData_JGD : MonoBehaviour
                         case "StageInfo_List":
                             // user_data.StageInfo_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                             break;
-                        case "House_Item_ID_List":
-                            //user_data.House_Item_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                        case "house_inventory":
+                            user_data.house_inventory = new House_Inventory_Info_JGD(gameDataJson[0]["house_inventory"]);
                             break;
                         case "info":
                             user_data.info = gameDataJson[0]["info"].ToString();
@@ -760,8 +773,8 @@ public class BackendGameData_JGD : MonoBehaviour
                     case "StageInfo_List":
                         param.Add(select[i], user_data.StageInfo_List);
                         break;
-                    case "House_Item_ID_List":
-                        param.Add(select[i], user_data.House_Item_ID_List);
+                    case "house_inventory":
+                        param.Add(select[i], user_data.house_inventory);
                         break;
                     case "info":
                         param.Add(select[i], user_data.info);

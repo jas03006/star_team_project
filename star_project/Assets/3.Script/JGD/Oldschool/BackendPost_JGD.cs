@@ -233,4 +233,44 @@ public class BackendPost_JGD : MonoBehaviour
         BackendGameData_JGD.Instance.GameDataUpdate();
     }
 
+
+
+
+
+
+/*
+    public void GetPostList()
+    {
+        var bro = Backend.UPost.GetPostList(PostType.Admin, 100);
+        LitJson.JsonData json = bro.GetReturnValuetoJSON()["postList"];
+
+        for (int i = 0; i < json.Count; i++)
+        {
+            string postTitle = json[i]["title"].ToString(); // 우편 제목
+            string postContent = json[i]["content"].ToString(); // 우편 내용
+            string postAuthor = json[i]["author"].ToString(); // 우편 저자
+
+            int postItemCount = (int)json[i]["itemCount"]; // 문제가 되는 데이터타입 제거로 인해 코드 간편화
+
+            string postIndate = json[i]["inDate"].ToString();
+
+            ReceivePostItem(PostType.Admin, postIndate); // 우편 수령
+        }
+    }
+    public void ReceivePostItem(PostType postType, postIndate)
+    {
+        var bro = Backend.UPost.ReceivePostItem(postType, postIndate);
+        LitJson.JsonData postList = bro.GetReturnValuetoJSON()["postItems"];
+        for (int i = 0; i < postList.Count; i++)
+        {
+            if (postList[i].Count <= 0)
+            {
+                Debug.Log("아이템이 없는 우편");
+                continue;
+            }
+            string itemName = postList[i]["item"]["itemName"];
+            int itemCount = (int)postList[i]["itemCount"];
+        }
+    }*/
+
 }

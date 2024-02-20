@@ -17,6 +17,10 @@ public enum harvest_state {
 public class Harvesting : Net_Housing_Object//, IObject
 {
     [SerializeField] private RectTransform root;
+    [SerializeField] private GameObject ready_model;
+    [SerializeField] private GameObject processing_model;
+    [SerializeField] private GameObject complete_model;
+
     [SerializeField] private GameObject ready_UI;
     [SerializeField] private GameObject processing_UI;
     [SerializeField] private TMP_Text processing_timer;
@@ -185,6 +189,10 @@ public class Harvesting : Net_Housing_Object//, IObject
         ready_UI.SetActive(true);
         processing_UI.SetActive(false);
         complete_UI.SetActive(false);
+
+        ready_model.SetActive(true);
+        processing_model.SetActive(false);
+        complete_model.SetActive(false);
     }
     public void show_processing_UI()
     {
@@ -192,12 +200,19 @@ public class Harvesting : Net_Housing_Object//, IObject
         processing_UI.SetActive(true);
         complete_UI.SetActive(false);
 
+        ready_model.SetActive(false);
+        processing_model.SetActive(true);
+        complete_model.SetActive(false);
     }
     public void show_complete_UI()
     {
         ready_UI.SetActive(false);
         processing_UI.SetActive(false);
         complete_UI.SetActive(true);
+
+        ready_model.SetActive(false);
+        processing_model.SetActive(false);
+        complete_model.SetActive(true);
     }
 
     public void show_result_UI() {
