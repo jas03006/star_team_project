@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7817367985362319308}
   - component: {fileID: 2483987434358957426}
   - component: {fileID: 8251614974323144849}
-  m_Layer: 0
+  - component: {fileID: 365997575398619005}
+  m_Layer: 31
   m_Name: Big_Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,4 +134,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb0b357df9e9df4c9f1536ea0f83dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  discrimination: 0
+  distance: 0
   obstacle_ID: 0
+  obstacles: []
+--- !u!114 &365997575398619005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484772386756106954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6dc9ead7a452634c8ebc31191097190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  itemid_: 0
+  duration: 0
+  percent: 0

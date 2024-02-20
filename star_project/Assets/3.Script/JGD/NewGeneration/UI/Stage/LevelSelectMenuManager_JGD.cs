@@ -20,7 +20,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         //UnlockedLevels = 0;
         //Debug.Log(currLevel);
         //Debug.Log(UnlockedLevels);
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
     }
 
     private void Start()
