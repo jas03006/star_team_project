@@ -13,12 +13,21 @@ public class HousingInfo_JGD
     {
 
     }
-    public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info)
+    public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info, ObjectPlacer objectPlacer)
     {
         foreach (Vector3Int key in placement_info.Keys)
         {
             PlacementData pd = placement_info[key];
-            objectInfos.Add(new HousingObjectInfo(pd.ID, new Vector2(key.x, key.z), pd.direction));
+            HousingObjectInfo hoi = new HousingObjectInfo(pd.ID, new Vector2(key.x, key.z), pd.direction);
+            objectInfos.Add(hoi);
+            if (pd.ID == housing_itemID.ark_cylinder) {
+                Harvesting hob = objectPlacer.find_harvest_object(pd.PlacedObjectIndex);
+                if (hob!=null) {
+                    hoi.start_time = hob.start_time;
+                    hoi.harvesting_selection = hob.selection;
+                }
+            }
+            
         }
     }
 
@@ -47,8 +56,9 @@ public class HousingObjectInfo
     public Vector2 position;
     public int direction = 0; //0,1,2,3 µ¿¼­³²ºÏ
     public housing_itemID item_ID = housing_itemID.none;
-    DateTime start_time = DateTime.MaxValue;
-    int harvesting_min = 0;
+    public int harvesting_selection = -1;
+    public DateTime start_time = DateTime.MaxValue;
+   
     public HousingObjectInfo()
     {
         position = new Vector2(UnityEngine.Random.Range(0, 7), UnityEngine.Random.Range(0, 7));
@@ -58,12 +68,17 @@ public class HousingObjectInfo
     {
         item_ID = item_ID_;
         position = new Vector2(UnityEngine.Random.Range(0, 7), UnityEngine.Random.Range(0, 7));
+        direction = 0;
+        start_time = DateTime.MaxValue;
+        harvesting_selection = -1;
     }
     public HousingObjectInfo(housing_itemID item_ID_, Vector2 position_, int direction_)
     {
         item_ID = item_ID_;
         position = position_;
         direction = direction_;
+        start_time = DateTime.MaxValue;
+        harvesting_selection = -1;
     }
     public HousingObjectInfo(JsonData json)
     {
@@ -74,7 +89,7 @@ public class HousingObjectInfo
             direction = Int32.Parse(json["direction"].ToString());
             item_ID = (housing_itemID)Int32.Parse(json["item_ID"].ToString());
             start_time = Convert.ToDateTime(json["start_time"].ToString());
-            harvesting_min = Int32.Parse(json["harvesting_min"].ToString());
+            harvesting_selection = Int32.Parse(json["harvesting_selection"].ToString());
         }
     }
 }
@@ -89,6 +104,7 @@ public enum housing_itemID
     chair,
     bed,
     table,
+    post_box    
 }
 
 public class Memo_info
