@@ -1,8 +1,80 @@
+using BackEnd;
+using LitJson;
 using System;
 
-public class Mission : Quest
+
+public enum MissionType
 {
-    public MissionData data;
+    none = -1,
+    daily,
+    week,
+    month
+}
+
+public class Mission
+{
+    //차트
+    public MissionType type;
+    public DateTime reset_time;
+    public int goal; //목표 수치
+    public int reward_ark;
+    public int reward_gold;
+
+    //유저 데이터
+    public Mission_userdata userdata;
+
+    //UI
+    public string title;
+    public string contents;
+
+    public Mission(JsonData jsonData,int index)
+    {
+        type = (MissionType)int.Parse(jsonData["type"].ToString());
+        reset_time = Convert.ToDateTime(jsonData["reset_time"].ToString());
+        goal = int.Parse(jsonData["goal"].ToString());
+        reward_ark = int.Parse(jsonData["reward_ark"].ToString());
+        reward_gold = int.Parse(jsonData["reward_gold"].ToString());
+
+        userdata = BackendGameData_JGD.userData.mission_Userdatas[index];
+
+        title = jsonData["title"].ToString();
+        contents = jsonData["contents"].ToString();
+    }
+
+    public void Reset()
+    {
+        userdata.is_clear = false;
+        reset_time = DateTime.Now;
+    }
+
+    private void Reset_mission()
+    {
+        TimeSpan difference = DateTime.Now.Date.Subtract(reset_time.Date);
+        switch (type)
+        {
+            case MissionType.daily:
+                if (difference.Days >= 1 || (DateTime.Now.Hour == 0 && DateTime.Now.Minute == 0)) //현재 - 초기화일자가 1일 이상 || 자정 12시 
+                {
+                    Reset();
+                }
+                break;
+
+            case MissionType.week:
+                if (difference.Days >= 7)
+                {
+                    Reset();
+                }
+                break;
+            case MissionType.month:
+                if (true)//월간퀘 초기화 어케하냐 ㄹㅇ
+                {
+                    Reset();
+                }
+                break;
+            default:
+                break;
+        }
+    }
     /*
     private void Reset_mission() //일간,주간,월간 미션은 자정,매주,매월 첫 월요일 초기화
     {
@@ -65,51 +137,13 @@ public class Mission : Quest
     }
      */
 
-    private void Reset_mission()
-    {
-        TimeSpan difference = DateTime.Now.Date.Subtract(data.reset_time.Date);
-        switch (data.type)
-        {
-            case MissionType.daily:
-                if (difference.Days >= 1 || (DateTime.Now.Hour ==0 && DateTime.Now.Minute == 0)) //현재 - 초기화일자가 1일 이상 || 자정 12시 
-                {
-                    data.Reset();
-                }
-                break;
-
-            case MissionType.week:
-                if (difference.Days >= 7)
-                {
-                    data.Reset();
-                }
-                break;
-            case MissionType.month:
-                if (true)//월간퀘 초기화 어케하냐 ㄹㅇ
-                {
-                    data.Reset();
-                }
-                break;
-            default:
-                break;
-        }
-    }
 }
 
-public enum MissionType
+public class Mission_userdata
 {
-    none = -1,
-    daily,
-    week,
-    month
-}
-
-public class MissionData
-{
-    public MissionType type;
-    public DateTime reset_time;
     public bool is_clear;
     public bool is_accept;
-    public int criterion
+    public int criterion //현재 수치
     {
         get
         {
@@ -117,31 +151,27 @@ public class MissionData
         }
         set
         {
-            if (is_accept)
+            criterion_ = value;
+            if (!is_accept)
             {
-                criterion_ = value;
-                //return value;
+                criterion_ = 0;
             }
         }
-    }//현재
+    }
     private int criterion_;
-    public int goal; //목표
 
-    public int reward_ark;
-    public int reward_gold;
-
-    //UI
-    public string title;
-    public string contents;
-
-    public void Reset()
+    public Mission_userdata(JsonData jsonData)
+    {
+        is_clear = bool.Parse(jsonData["is_clear"].ToString());
+        is_accept = bool.Parse(jsonData["is_accept"].ToString());
+        criterion_ = int.Parse(jsonData["criterion"].ToString());
+        criterion = int.Parse(jsonData["criterion"].ToString());
+    }
+    public Mission_userdata()
     {
         is_clear = false;
-        reset_time = DateTime.Now;
-    }
-
-    public MissionData()
-    {
-        
+        is_accept = false;
+        criterion = 0;
+        criterion_ = 0;
     }
 }
