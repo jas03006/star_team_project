@@ -46,28 +46,15 @@ public class ItemID_JGD : MonoBehaviour
             return;
         }
 
-        Debug.Log("어라라");
         Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, distance*100,LayerMask.GetMask("MoveWall"));
-        Debug.Log("어라라dkdk");
         for (int i = 0; i < colliders.Length; i++)
         {
             GameObject Obj = colliders[i].gameObject;
             if (Obj.GetComponentInParent<ItemID_JGD>().discrimination == this.discrimination)
             {
-                Debug.Log("dkajfklsdjlksfdajasfldkjsadflkjsdflksdfjaklsfj");
                 obstacles.Add(Obj);
             }
 
         }
-        //foreach (Collider2D collider in colliders)
-        //{
-        //    int i = 0;
-        //    GameObject obj = colliders[i].gameObject;
-        //    if(obj.GetComponent<ItemID_JGD>().discrimination == this.discrimination)
-        //    {
-        //        obstacles.Add(obj);
-        //    }
-        //    i++;
-        //}
     }
 }

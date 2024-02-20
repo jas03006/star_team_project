@@ -126,7 +126,6 @@ public class StageItemInfo_JGD : MonoBehaviour
             Rot = float.Parse(list[i][3].Trim());
             Scale_X = int.Parse(list[i][4].Trim());
             Scale_Y = int.Parse(list[i][5].Trim());
-            Debug.Log("나 여기있어");
 
 
             if (ObjectNum == 50)
@@ -136,7 +135,6 @@ public class StageItemInfo_JGD : MonoBehaviour
             }
             else if (ObjectNum > 50)
             {
-                Debug.Log("나도 여기있어");
                 discrimination = int.Parse(list[i][6].Trim());
                 distance = 0;
             }
