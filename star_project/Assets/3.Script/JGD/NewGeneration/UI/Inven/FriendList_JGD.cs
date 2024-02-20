@@ -52,4 +52,8 @@ public class FriendList_JGD : MonoBehaviour
         Debug.Log($"{Friend} ÄÆ!!!!!!!!!!!!!!!!");
         Destroy(list);
     }
+
+    public void go_myplanet_btn() {
+        TCP_Client_Manager.instance.go_myplanet();
+    }
 }

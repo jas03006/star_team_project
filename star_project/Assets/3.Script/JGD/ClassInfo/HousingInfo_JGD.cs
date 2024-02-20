@@ -47,6 +47,8 @@ public class HousingObjectInfo
     public Vector2 position;
     public int direction = 0; //0,1,2,3 µ¿¼­³²ºÏ
     public housing_itemID item_ID = housing_itemID.none;
+    DateTime start_time = DateTime.MaxValue;
+    int harvesting_min = 0;
     public HousingObjectInfo()
     {
         position = new Vector2(UnityEngine.Random.Range(0, 7), UnityEngine.Random.Range(0, 7));
@@ -71,6 +73,8 @@ public class HousingObjectInfo
             position = new Vector2(Int32.Parse(json["position"][0].ToString()), Int32.Parse(json["position"][1].ToString()));
             direction = Int32.Parse(json["direction"].ToString());
             item_ID = (housing_itemID)Int32.Parse(json["item_ID"].ToString());
+            start_time = Convert.ToDateTime(json["start_time"].ToString());
+            harvesting_min = Int32.Parse(json["harvesting_min"].ToString());
         }
     }
 }

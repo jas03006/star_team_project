@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
-public class Harvesting : MonoBehaviour, IObject
+public class Harvesting : SpecialObj, IObject
 {
     private int ark//재화
     {
@@ -72,6 +73,28 @@ public class Harvesting : MonoBehaviour, IObject
         end_btn.SetActive(true);
     }
 
+    public void init(DateTime starttime_, int min_)
+    {
+        start_time = starttime_;
+        end_time = start_time.AddMinutes(min_);
+    }
+    public bool can_be_harvest()
+    {
+        TimeSpan time = end_time - DateTime.Now;
+
+        if (time <= TimeSpan.Zero)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void Set_startTime(DateTime starttime_)
+    {
+        start_time = starttime_;
+    }
+    public void Set_endTime(DateTime endtime_) {
+        end_time = endtime_;
+    }
     public void Set_endTime(int num) //시간 설정버튼 누르면 실행
     {
         //reward_btn 끄기
@@ -128,6 +151,8 @@ public class Harvesting : MonoBehaviour, IObject
             yield return new WaitForSeconds(1f);
         }
     }
+
+  
 
     public void Get_reward() //보상획득 버튼 누르면 실행
     {
