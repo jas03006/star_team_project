@@ -17,7 +17,9 @@ public class Client_Handler
     public StreamWriter writer;
     public string room_id = "-";
     public Vector3 position;
-    private Thread listen_thread;
+    //private Thread listen_thread;
+    private Task listen_task;
+    CancellationTokenSource cts;
     public Client_Handler(TcpClient client_, TCPManger manager_)
     {
         client = client_;
@@ -31,9 +33,13 @@ public class Client_Handler
 
     public void start()
     {
-        listen_thread = new Thread(process_client);
+        /*listen_thread = new Thread(process_client);
         listen_thread.IsBackground = true;
-        listen_thread.Start();
+        listen_thread.Start();*/
+         cts = new CancellationTokenSource();
+        CancellationToken token = cts.Token;
+        listen_task = new Task(process_client, token);
+        listen_task.Start();
 
     }
 
@@ -68,7 +74,14 @@ public class Client_Handler
 
     public void close()
     {
-        if (listen_thread != null)
+        if (listen_task != null)
+        {
+            try
+            {
+                cts.Cancel();
+            }
+            catch { }
+        }/*if (listen_thread != null)
         {
             try
             {
@@ -76,6 +89,6 @@ public class Client_Handler
                 listen_thread.Join();
             }
             catch { }
-        }
+        }*/
     }
 }

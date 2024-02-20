@@ -218,6 +218,6 @@ public class PlacementSystem : MonoBehaviour
             }
         }    
         
-        return grid.CellToWorld(pd.occupiedPostitions[pd.occupiedPostitions.Count-1]) + Vector3.up * 0.5f - Quaternion.Euler(0, pd.direction*90f,0)* Vector3.forward;
+        return grid.CellToWorld(pd.occupiedPostitions[0]) + Vector3.up * 0.5f - Quaternion.Euler(0, pd.direction*90f,0)* Vector3.forward;
     }
 }
