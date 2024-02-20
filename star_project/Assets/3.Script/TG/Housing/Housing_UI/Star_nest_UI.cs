@@ -35,6 +35,8 @@ public class Star_nest_UI : MonoBehaviour
     public GameObject pop_up_button;
     public GameObject pop_up_result_UI;
 
+    public GameObject add_friend_button;
+
     public GameObject level_up_button; 
     public GameObject level_up_UI; 
 
@@ -61,15 +63,7 @@ public class Star_nest_UI : MonoBehaviour
         UI_Container.SetActive(false);
         //user_data = null;
     }
-    /* param.Add("profile_background", userData.profile_background);
-                 param.Add("profile_picture", userData.profile_picture);
-                 param.Add("popularity", userData.popularity);
-                 param.Add("title_adjective", userData.title_adjective);
-                 param.Add("title_noun", userData.title_noun);
-                 param.Add("planet_name", userData.planet_name);
-                 param.Add("ark", userData.ark);
-                 param.Add("gold", userData.gold);
-                 param.Add("ruby", userData.ruby);*/
+
     public void load_info() {
         string[] select = { "profile_background",
             "profile_picture",
@@ -97,10 +91,13 @@ public class Star_nest_UI : MonoBehaviour
         {
             pop_up_button.SetActive(true);
             level_up_button.SetActive(false);
+            add_friend_button.SetActive(true);
         }
         else {
             pop_up_button.SetActive(false);
             level_up_button.SetActive(true);
+            add_friend_button.SetActive(false);
+
         }
     }
 
@@ -110,6 +107,7 @@ public class Star_nest_UI : MonoBehaviour
         user_data.popularity += 1;
         string[] select = {"popularity"};
         BackendGameData_JGD.Instance.update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select, user_data);
+        pop_text.text = user_data.popularity.ToString();
         show_pop_up_result();
     }
 
@@ -125,6 +123,13 @@ public class Star_nest_UI : MonoBehaviour
     }
 
     #endregion
+
+    public void add_friend_btn() {
+        if (TCP_Client_Manager.instance.now_room_id != TCP_Client_Manager.instance.my_player.object_id)
+        {
+            BackendFriend_JDG.Instance.SendFriendRequest(TCP_Client_Manager.instance.now_room_id);
+        }
+    }
 
     #region level up
     public void show_level_UI()

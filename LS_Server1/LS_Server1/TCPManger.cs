@@ -11,6 +11,7 @@ using System.Threading; //멀티 스레딩 하기 위한 라이브러리
 
 using System.Diagnostics;
 using System.Numerics;
+using System.Threading.Tasks;
 public enum command_flag
 {
     join = 0, // 하우스 참가
@@ -42,8 +43,12 @@ public class TCPManger
 
     private List<Client_Handler> client_handler_list;
     private Queue<Net_Request> request_queue;
-    Thread thread;
-    Thread processing_thread;
+    //Thread thread;
+    Task task;
+    CancellationTokenSource cts;
+    //Thread processing_thread;
+    Task processing_task;
+    CancellationTokenSource processing_cts;
 
     private int respawn_flag = 7777;
     //client
@@ -54,14 +59,15 @@ public class TCPManger
         client_handler_list = new List<Client_Handler>();
         request_queue = new Queue<Net_Request>();
 
-        processing_thread = new Thread(process_all_client_co);
-        processing_thread.IsBackground = true;
-        processing_thread.Start();
+        processing_cts = new CancellationTokenSource();
+        processing_task = new Task(process_all_client_co, processing_cts.Token);
+        //processing_task.
+        processing_task.Start();
         // StartCoroutine(process_all_client_co());
         Server_open();
         // process_all_client_co();
         while (true) {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             check_client_connections();
             status_Message();
         }
@@ -81,9 +87,10 @@ public class TCPManger
     // 
     public void Server_open()
     {
-        thread = new Thread(ServerConnect);
-        thread.IsBackground = true;
-        thread.Start();
+        cts = new CancellationTokenSource();
+        task = new Task(ServerConnect, cts.Token);
+        //task.IsBackground = true;
+        task.Start();
     }
     private void ServerConnect()//서버를 열어주는 쪽-> 서버를 만드는 쪽
     {
@@ -128,7 +135,7 @@ public class TCPManger
     {
         while (true)
         {
-           // Thread.Sleep(20);
+            Thread.Sleep(20);
             
             process_request();
             //process_all_client();
@@ -307,18 +314,19 @@ public class TCPManger
 
     private void OnApplicationQuit()
     {
-        thread.Abort();
+        processing_cts.Cancel();
+        cts.Cancel();
+
+        /*thread.Abort();
         thread.Join();
         processing_thread.Abort();
-        processing_thread.Join();
+        processing_thread.Join();*/
         close_all_thread();
     }
     private void OnDestroy()
     {
-        thread.Abort();
-        thread.Join();
-        processing_thread.Abort();
-        processing_thread.Join();
+        processing_cts.Cancel();
+        cts.Cancel();
         close_all_thread();
     }
     #endregion

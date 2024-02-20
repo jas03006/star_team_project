@@ -51,9 +51,11 @@ public class PlacementSystem : MonoBehaviour
     public void level_up(int delta = 1) {
         if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id) {
             BackendGameData_JGD.userData.housing_Info.level += delta;
-            string[] select = {"housing_info"}; 
+            string[] select = { "Housing_Info" }; 
             BackendGameData_JGD.Instance.GameDataUpdate(select);
+            housing_info = BackendGameData_JGD.userData.housing_Info;
             update_placement();
+            TCP_Client_Manager.instance.send_update_request();
         }        
     }
 
@@ -191,4 +193,31 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
+
+    public Vector3 get_spawn_point(bool is_my_planet) {
+        housing_itemID id_ = housing_itemID.airship;
+        if (is_my_planet) {
+            id_ = housing_itemID.star_nest;
+        }
+        PlacementData pd = null;
+        foreach (Vector3Int pos in furnitureData.placedObjects.Keys) {
+            pd = furnitureData.placedObjects[pos];
+            if (pd.ID == id_) {
+                break;
+            }
+        }
+        if (pd == null) {
+            if (is_my_planet)
+            {
+
+                return new Vector3(-5, 0.5f, -5);
+            }
+            else
+            {
+                return Vector3.forward * -5f + Vector3.up * 0.5f;
+            }
+        }    
+        
+        return grid.CellToWorld(pd.occupiedPostitions[0]) + Vector3.up * 0.5f - Quaternion.Euler(0, pd.direction*90f,0)* Vector3.forward;
+    }
 }
