@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Reflection;
 
 public enum Mission_state
 {
@@ -13,7 +12,15 @@ public enum Mission_state
 
 public class MissionManager : MonoBehaviour
 {
-    Mission_state state = Mission_state.daily;
+    Mission_state state
+    {
+        get { return state; }
+        set
+        {
+            state = value;
+            Reset_btn();
+        }
+    }
     List<Mission> missions_daily = new List<Mission>();
     List<Mission> missions_week = new List<Mission>();
     List<Mission> missions_month = new List<Mission>();
@@ -27,15 +34,34 @@ public class MissionManager : MonoBehaviour
 
     [Header("Right_UI")]
     [SerializeField] private List<TMP_Text> mission_names;
+    [SerializeField] private List<Image> images;
 
     private void Start()
     {
         Setting();
     }
 
-    private void Setting()
+    private void Setting()//미션 데이터 불러오기
     {
-        //미션 데이터 불러오기
+        List<Mission> missions = BackendChart_JGD.chartData.mission_list;
+
+        foreach (var mission in missions)
+        {
+            switch (mission.type)
+            {
+                case MissionType.daily:
+                    missions_daily.Add(mission);
+                    break;
+                case MissionType.week:
+                    missions_week.Add(mission);
+                    break;
+                case MissionType.month:
+                    missions_month.Add(mission);
+                    break;
+                default:
+                    break;
+            }
+        }
         state = Mission_state.daily;
     }
 
@@ -61,11 +87,29 @@ public class MissionManager : MonoBehaviour
         for (int i = 0; i < missions.Count; i++)
         {
             mission_names[i].text = missions[i].title;
+            images[i].enabled = missions[i].userdata.is_clear;
         }
     }
 
     private void U_updateL()
     {
+        if (cur_mission == null)
+        {
+            switch (state)
+            {
+                case Mission_state.daily:
+                    cur_mission = missions_daily[0];
+                    break;
+                case Mission_state.week:
+                    cur_mission = missions_week[0];
+                    break;
+                case Mission_state.month:
+                    cur_mission = missions_month[0];
+                    break;
+                default:
+                    break;
+            }
+        }
         s_title.text = cur_mission.title;
         contents.text = cur_mission.contents;
         reward.text = $"보상 : <color = yellow>★</color> x {cur_mission.reward_gold} <color = red>★</color> x {cur_mission.reward_ark}";
@@ -80,6 +124,7 @@ public class MissionManager : MonoBehaviour
     public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
     {
         cur_mission.userdata.criterion++;
+        cur_mission.Check_clear();
     }
 
     public void Reset_btn() // 리셋버튼 클릭 시 호출

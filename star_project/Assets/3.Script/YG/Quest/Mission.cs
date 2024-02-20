@@ -47,6 +47,14 @@ public class Mission
         reset_time = DateTime.Now;
     }
 
+    public void Check_clear()
+    {
+        if (userdata.criterion >= goal)
+        {
+            userdata.is_clear = true;
+        }
+    }
+
     private void Reset_mission()
     {
         TimeSpan difference = DateTime.Now.Date.Subtract(reset_time.Date);
