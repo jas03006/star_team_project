@@ -120,7 +120,7 @@ public class MissionData
             if (is_accept)
             {
                 criterion_ = value;
-                return value;
+                //return value;
             }
         }
     }//ÇöÀç
