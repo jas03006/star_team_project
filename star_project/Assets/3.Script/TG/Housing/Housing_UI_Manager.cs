@@ -38,7 +38,7 @@ public class Housing_UI_Manager : MonoBehaviour
 
     public void init_housing_inventory()
     {
-        foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.House_Item_ID_List) { 
+        foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) { 
             //TODO: 인벤토리 버튼 추가
         }
     }
