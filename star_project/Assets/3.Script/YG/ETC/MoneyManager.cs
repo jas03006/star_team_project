@@ -16,7 +16,6 @@ public class MoneyManager : MonoBehaviour
         }
         set
         {
-
             ark_ = value;
             if (ark_ < 0)
             {
