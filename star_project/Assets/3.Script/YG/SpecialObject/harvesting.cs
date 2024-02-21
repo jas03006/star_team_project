@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using BackEnd;
 
 public enum harvest_state { 
     None = -1,
@@ -138,11 +139,33 @@ public class Harvesting : Net_Housing_Object//, IObject
             if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
             {
                 //TODO: 재화 획득
-                //MoneyManager.instance.Get_Money(Money.ark, reward);
+                MoneyManager.instance.Get_Money(Money.ark, reward);
             }
             else {
-                //TODO: 우편 보내기
 
+                MoneyManager.instance.Get_Money(Money.ark, reward);
+
+                string separator = "%%%";
+                //TODO: 우편 보내기
+                
+                string[] select_temp = { "info" };
+                var n_bro = Backend.Social.GetUserInfoByNickName(TCP_Client_Manager.instance.now_room_id);
+                string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+                BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select_temp);                
+                string gameDataRowInDate = bro.GetInDate();                               
+
+                PostItem postItem = new PostItem
+                {
+                    Title = "Friend Harvest Reward",
+                    Content = $"{TCP_Client_Manager.instance.my_player.object_id} harvest your Ark!" +
+                   $"{separator}{Money.ark}:{reward}",
+                    TableName = "USER_DATA",
+                    RowInDate = gameDataRowInDate,
+                    Column = "level"
+                };
+
+                Backend.UPost.SendUserPost(gamer_indate, postItem);
+                Debug.Log("send reward!");
             }
 
             result_text.text = $"Earn {reward} Ark!";
