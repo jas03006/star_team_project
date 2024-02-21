@@ -54,6 +54,7 @@ public class FriendList_JGD : MonoBehaviour
     }
 
     public void go_myplanet_btn() {
-        TCP_Client_Manager.instance.go_myplanet();
+        // TCP_Client_Manager.instance.go_myplanet();
+        TCP_Client_Manager.instance.join(TCP_Client_Manager.instance.my_player.object_id);
     }
 }
