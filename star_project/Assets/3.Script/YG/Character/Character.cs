@@ -1,9 +1,6 @@
 ﻿using BackEnd;
 using LitJson;
-using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class Character
 {
