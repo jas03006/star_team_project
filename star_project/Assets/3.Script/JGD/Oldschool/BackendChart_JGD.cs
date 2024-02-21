@@ -36,6 +36,7 @@ public class BackendChart_JGD : MonoBehaviour
         Character("108885");
         Item("108827");
         Character_amount("108882");
+        Mission("109087");
     }
 
 

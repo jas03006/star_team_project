@@ -1,3 +1,4 @@
+using BackEnd;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,13 +15,14 @@ public class MissionManager : MonoBehaviour
 {
     Mission_state state
     {
-        get { return state; }
+        get { return state_; }
         set
         {
-            state = value;
+            state_ = value;
             Reset_btn();
         }
     }
+    private Mission_state state_;
     List<Mission> missions_daily = new List<Mission>();
     List<Mission> missions_week = new List<Mission>();
     List<Mission> missions_month = new List<Mission>();
@@ -31,14 +33,17 @@ public class MissionManager : MonoBehaviour
     [SerializeField] private TMP_Text contents;
     [SerializeField] private TMP_Text reward;
     [SerializeField] private Button accept_btn;
+    [SerializeField] private Button reward_btn;
 
     [Header("Right_UI")]
     [SerializeField] private List<TMP_Text> mission_names;
     [SerializeField] private List<Image> images;
+    private int index;
 
     private void Start()
     {
         Setting();
+        Reset_btn();
     }
 
     private void Setting()//미션 데이터 불러오기
@@ -63,6 +68,7 @@ public class MissionManager : MonoBehaviour
             }
         }
         state = Mission_state.daily;
+        reward_btn.enabled = false;
     }
 
     private void UI_updateR()
@@ -91,24 +97,22 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-    private void U_updateL()
+
+    private void UI_updateL()
     {
-        if (cur_mission == null)
+        switch (state)
         {
-            switch (state)
-            {
-                case Mission_state.daily:
-                    cur_mission = missions_daily[0];
-                    break;
-                case Mission_state.week:
-                    cur_mission = missions_week[0];
-                    break;
-                case Mission_state.month:
-                    cur_mission = missions_month[0];
-                    break;
-                default:
-                    break;
-            }
+            case Mission_state.daily:
+                cur_mission = missions_daily[index];
+                break;
+            case Mission_state.week:
+                cur_mission = missions_week[index];
+                break;
+            case Mission_state.month:
+                cur_mission = missions_month[index];
+                break;
+            default:
+                break;
         }
         s_title.text = cur_mission.title;
         contents.text = cur_mission.contents;
@@ -116,20 +120,49 @@ public class MissionManager : MonoBehaviour
         accept_btn.enabled = !cur_mission.userdata.is_accept;
     }
 
+    #region btn
+
+    public void Set_index(int i)
+    {
+        index = i;
+        Debug.Log(index);
+        UI_updateL();
+    }
     public void Accept_btn() //수락버튼 클릭 시 호출
     {
         cur_mission.userdata.is_accept = true;
+        Debug.Log($"수락 여부 : {cur_mission.userdata.is_accept}");
     }
 
     public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
     {
         cur_mission.userdata.criterion++;
-        cur_mission.Check_clear();
+        reward_btn.enabled = cur_mission.Check_clear();
+        Reset_btn();
+        cur_mission.userdata.Data_update();
     }
 
     public void Reset_btn() // 리셋버튼 클릭 시 호출
     {
-        U_updateL();
+        UI_updateL();
         UI_updateR();
     }
+
+    public void Change_state(int i) //일일,주간,월간 보상 클릭 시 호출
+    {
+        state = (Mission_state)i;
+        Debug.Log(state);
+        Reset_btn();
+
+    }
+
+    public void Get_reward() //보상획득 버튼
+    {
+        MoneyManager.instance.Get_Money(Money.gold, cur_mission.reward_gold);
+        MoneyManager.instance.Get_Money(Money.ark, cur_mission.reward_ark);
+        cur_mission.userdata.get_rewarded = true;
+        reward_btn.enabled = false;
+        cur_mission.userdata.Data_update();
+    }
 }
+#endregion
