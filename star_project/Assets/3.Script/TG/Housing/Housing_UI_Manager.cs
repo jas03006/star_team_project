@@ -74,7 +74,13 @@ public class Housing_UI_Manager : MonoBehaviour
     public void decrease_use_count(housing_itemID id) {
         id2btn_dic[id].use();
     }
-    
+    public void increase_use_count(housing_itemID id)
+    {
+        id2btn_dic[id].back();
+    }
+    public bool can_use(housing_itemID id) { 
+        return id2btn_dic[id].can_use(); ;
+    }
 
     public void click_edit_btn() {
         is_edit_mode = true;
