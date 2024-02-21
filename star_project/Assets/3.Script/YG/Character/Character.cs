@@ -1,9 +1,6 @@
 ﻿using BackEnd;
 using LitJson;
-using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class Character
 {
@@ -92,6 +89,7 @@ public class Character
     public void Data_update()
     {
         BackendGameData_JGD.userData.character_info.character_dic[character_ID] = curlevel;
+
         //데이터에 넣기
         Param param = new Param();
         param.Add("character_info", BackendGameData_JGD.userData.character_info);

@@ -23,8 +23,11 @@ public class ObjectPlacer : MonoBehaviour
             {
                 hob.init(ps.start_time, ps.selection);
             }
-        }        
-
+        }
+        if (!ps.is_init) {
+            TCP_Client_Manager.instance.housing_ui_manager.decrease_use_count(ps.id);
+        }
+        
         newobject.tag = "HousingObject";
         newobject.transform.position = position;
         placedGameObject.Add(newobject);
@@ -39,7 +42,11 @@ public class ObjectPlacer : MonoBehaviour
         if (placedGameObject.Count <= gameObjectIndex || placedGameObject[gameObjectIndex] == null)
             return;
 
+
+        TCP_Client_Manager.instance.housing_ui_manager.increase_use_count(placedGameObject[gameObjectIndex].GetComponent<Net_Housing_Object>().object_enum);
+
         Destroy(placedGameObject[gameObjectIndex]);
+
 
         grid.Invoke("CreateGird", 0.05f);
 

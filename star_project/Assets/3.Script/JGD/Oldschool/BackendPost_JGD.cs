@@ -104,6 +104,8 @@ public class BackendPost_JGD : MonoBehaviour
             return;
         }
 
+        _postList = new List<Post>();
+
         foreach (LitJson.JsonData postListJson in bro.GetFlattenJSON()["postList"])
         {
             Post post = new Post();
