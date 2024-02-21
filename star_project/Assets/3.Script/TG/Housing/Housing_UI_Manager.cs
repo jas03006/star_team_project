@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class Housing_UI_Manager : MonoBehaviour
 {
     [SerializeField] private GameObject edit_button;
     [SerializeField] private GameObject housing_UI;
     [SerializeField] private MeshRenderer grid_renderer;
+
+    [SerializeField] private Transform button_container;
+    [SerializeField] private GameObject button_prefab;
+
+    private Dictionary<housing_itemID, Housing_Inven_BTN> id2btn_dic;  
 
     public Camera camera;
     public LayerMask default_mask;
@@ -23,8 +29,7 @@ public class Housing_UI_Manager : MonoBehaviour
     
 
     public void init_housing_UI() {
-        grid_renderer.enabled = false;
-        housing_UI.SetActive(false);
+        grid_renderer.enabled = false;        
         if (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id)
         {
             edit_button.SetActive(true);
@@ -34,14 +39,43 @@ public class Housing_UI_Manager : MonoBehaviour
         {
             edit_button.SetActive(false);
         }
+        housing_UI.SetActive(false);
     }
 
     public void init_housing_inventory()
     {
-        foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) { 
+        id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
+        foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) {
+            Debug.Log(item.id);
             //TODO: 인벤토리 버튼 추가
+            GameObject go = Instantiate(button_prefab, button_container);
+            Button btn = go.GetComponent<Button>();
+            btn.onClick.AddListener(
+                delegate () { 
+                    TCP_Client_Manager.instance.placement_system.StartPlacement((int)item.id);
+                }
+                );
+
+            
+
+            Housing_Inven_BTN hiBTN = go.GetComponent<Housing_Inven_BTN>();
+
+            hiBTN.init(item.id, item.count, item.count);
+            id2btn_dic[item.id] = hiBTN;
+        }
+        Dictionary<Vector3Int, PlacementData> po = TCP_Client_Manager.instance.placement_system.furnitureData.placedObjects;
+        foreach (var key in po.Keys) {
+            PlacementData pd = po[key];
+            if (id2btn_dic.ContainsKey(pd.ID)) {
+                id2btn_dic[pd.ID].use();
+            }
         }
     }
+
+    public void decrease_use_count(housing_itemID id) {
+        id2btn_dic[id].use();
+    }
+    
 
     public void click_edit_btn() {
         is_edit_mode = true;

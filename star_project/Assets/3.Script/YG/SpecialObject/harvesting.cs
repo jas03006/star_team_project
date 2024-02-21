@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-using static UnityEngine.InputManagerEntry;
 
 public enum harvest_state { 
     None = -1,
