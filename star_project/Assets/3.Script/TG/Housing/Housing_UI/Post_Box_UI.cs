@@ -2,83 +2,161 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
+using BackEnd;
 public class Post_Box_UI : MonoBehaviour
 {
     [SerializeField] private GameObject main_UI;
     [SerializeField] private GameObject post_element_prefab;
+
+    [SerializeField] private Transform post_list_container;
+
+    [SerializeField] private TMP_Text title;
+    [SerializeField] private TMP_Text content;
+    [SerializeField] private TMP_Text item_info;
+    [SerializeField] private Button get_reward_btn;
+
+
+    List<Post> _postList = new List<Post>();
     public void hide_UI() {
         main_UI.SetActive(false);
     }
-
-
+    public void show_UI()
+    {
+        if (!main_UI.gameObject.activeSelf) {
+            main_UI.SetActive(true);
+            load_UI();
+        }
+       
+    }
+    public void show_post() { 
+        
+    }
 
     #region post
-   /* public void clear_memos_UI()
-    {
-        //memo_container
-        int len = memo_container.childCount;
-        for (int i = 0; i < len; i++)
-        {
-            Destroy(memo_container.GetChild(i).gameObject);
-        }
+     public void clear_UI()
+     {
+         //memo_container
+         int len = post_list_container.childCount;
+         for (int i = 0; i < len; i++)
+         {
+             Destroy(post_list_container.GetChild(i).gameObject);
+         }
+     }
+
+     public void load_UI()
+     {
+         PostListGet(PostType.User);
+         clear_UI();
+         for (int i = 0; i < _postList.Count; i++)
+         {
+            create_post(_postList[i]);
+         }
+     }
+
+     public void create_post(Post post)
+     {
+         GameObject post_go = Instantiate(post_element_prefab);
+         post_go.transform.SetParent(post_list_container);
+         post_go.transform.localScale = Vector3.one;
+
+         Post_Element pe = post_go.GetComponent<Post_Element>();
+
+         pe.init(post, delegate () { show_post(pe); });        
+
+     }
+
+    public void show_post(Post_Element post_e) {
+        title.text = post_e.post.title;
+        content.text = post_e.content_str;
+        item_info.text = post_e.item_str;
     }
-
-    public void load_memos_UI()
+    
+    public void PostListGet(PostType postType)
     {
-        if (user_data == null || user_data.memo_info == null)
+        //우편 불러오기
+        var bro = Backend.UPost.GetPostList(postType);
+
+        string chartName = "Teat";
+
+        if (bro.IsSuccess() == false)
         {
-            Debug.Log("user data memo is null!");
+            Debug.LogError("우편 불러오기 중 에러 발생");
             return;
         }
-        clear_memos_UI();
-        for (int i = 0; i < user_data.memo_info.memo_list.Count; i++)
+        Debug.Log("우편 불러오기 요청에 성공");
+
+        if (bro.GetFlattenJSON()["postList"].Count <= 0)
         {
-            create_memo(user_data.memo_info.memo_list[i].UUID, user_data.memo_info.memo_list[i].content);
+            Debug.LogWarning("받을 우편이 존재하지 않습니다.");
+            return;
         }
 
+        _postList = new List<Post>();
+
+        foreach (LitJson.JsonData postListJson in bro.GetFlattenJSON()["postList"])
+        {
+            Post post = new Post();
+
+            post.title = postListJson["title"].ToString();
+            post.content = postListJson["content"].ToString();
+            post.inDate = postListJson["inDate"].ToString();
+
+            if (postType == PostType.User)
+            {
+                if (postListJson["itemLocation"]["tableName"].ToString() == "USER_DATA")
+                {
+                    if (postListJson["itemLocation"]["column"].ToString() == "house_inventory")
+                    {
+                        foreach (string itemKey in postListJson["item"].Keys)
+                        {
+                            post.postReward.Add(itemKey, int.Parse(postListJson["item"][itemKey].ToString()));
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("아직 지원되지 않는 컬럼 정보입니다. :" + postListJson["itemLocation"]["column"].ToString());
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("아직 지원되지 않는 테이블 정보 입니다. : " + postListJson["itemLocation"]["tableName"].ToString());
+                }
+            }
+            else
+            {
+                foreach (LitJson.JsonData itemJson in postListJson["items"])
+                {
+                    if (itemJson["chartName"].ToString() == chartName)
+                    {
+                        string itemName = itemJson["item"]["itemName"].ToString();
+                        int itemCount = int.Parse(itemJson["itemCount"].ToString());
+
+                        if (post.postReward.ContainsKey(itemName))
+                        {
+                            post.postReward[itemName] += itemCount;
+                        }
+                        else
+                        {
+                            post.postReward.Add(itemName, itemCount);
+                        }
+
+                        post.isCanReceive = true;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("아직 지원되지 않는 차트 정보 입니다. : " + itemJson["chartName"].ToString());
+                        post.isCanReceive = false;
+                    }
+                }
+            }
+            _postList.Add(post);
+        }
+        /*for (int i = 0; i < _postList.Count; i++)
+        {
+            Debug.Log($"{i}번 째 우편\n" + _postList[i].ToString());
+        }*/
     }
-
-    public void add_memo()
-    {
-        if (user_data == null || user_data.memo_info == null)
-        {
-            Debug.Log("user data memo is null!");
-            return;
-        }
-        if (memo_input.text.Equals(string.Empty))
-        {
-            return;
-        }
-        Memo memo = new Memo();
-        memo.Change(TCP_Client_Manager.instance.my_player.object_id, memo_input.text);
-        user_data.memo_info.Add_object(memo);
-        memo_input.text = "";
-        memo_input.Select();
-
-        create_memo(memo.UUID, memo.content);
-
-        string[] select = { "memo_info" };
-        BackendGameData_JGD.Instance.update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select, user_data);
-        if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
-        {
-            BackendGameData_JGD.userData.memo_info = user_data.memo_info;
-        }
-    }
-    public void create_memo(string uuid_, string content_)
-    {
-
-        if (content_.Equals(string.Empty))
-        {
-            return;
-        }
-        GameObject memo_go = Instantiate(memo_prefab);
-        memo_go.transform.SetParent(memo_container);
-        memo_go.transform.localScale = Vector3.one;
-        TMP_Text[] text_arr = memo_go.GetComponentsInChildren<TMP_Text>();
-        text_arr[0].text = uuid_;
-        text_arr[1].text = content_;
-    }*/
 
     #endregion
 }
