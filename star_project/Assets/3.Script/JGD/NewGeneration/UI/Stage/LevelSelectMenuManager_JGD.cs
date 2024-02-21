@@ -9,6 +9,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     public Level_progress_JGD[] levelProgresses;
     public static int currLevel;
     public static int UnlockedLevels;
+    public static int Tema;
 
     public Sprite Clearscore;
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6834117424282181876}
   - component: {fileID: 1527067440365538285}
   - component: {fileID: 5775485028931756333}
+  - component: {fileID: -3756505091943377312}
   m_Layer: 0
   m_Name: magnet
   m_TagString: Untagged
@@ -133,4 +134,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb0b357df9e9df4c9f1536ea0f83dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle_ID: 31
+  ID: 0
+  discrimination: 0
+  distance: 0
+  obstacle_ID: -1
+  obstacles: []
+--- !u!114 &-3756505091943377312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094833737088017845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0689763fb7b9dd74a95e8d6ad0d75ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  itemid_: 0
+  duration: 0
+  percent: 0
+  Num: 0

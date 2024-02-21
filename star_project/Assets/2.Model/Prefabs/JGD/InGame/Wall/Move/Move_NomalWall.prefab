@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 779799921599223614}
   - component: {fileID: 67040242228800225}
+  - component: {fileID: -24378065336755123}
   m_Layer: 29
   m_Name: Move_NomalWall
   m_TagString: Untagged
@@ -50,6 +51,23 @@ MonoBehaviour:
   distance: 0
   obstacle_ID: 0
   obstacles: []
+--- !u!114 &-24378065336755123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242238438662019446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0689763fb7b9dd74a95e8d6ad0d75ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  itemid_: 0
+  duration: 0
+  percent: 0
+  Num: 0
 --- !u!1 &5917317536002969832
 GameObject:
   m_ObjectHideFlags: 0

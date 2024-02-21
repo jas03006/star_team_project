@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5310136639417354453}
   - component: {fileID: 5725427419083851499}
   - component: {fileID: 5513779660779158678}
+  - component: {fileID: -3484647553905796916}
   m_Layer: 30
   m_Name: Green_Rockwall
   m_TagString: Untagged
@@ -115,7 +116,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -138,3 +139,20 @@ MonoBehaviour:
   distance: 0
   obstacle_ID: -1
   obstacles: []
+--- !u!114 &-3484647553905796916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5993956186658087867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0689763fb7b9dd74a95e8d6ad0d75ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  itemid_: 0
+  duration: 0
+  percent: 0
+  Num: 0
