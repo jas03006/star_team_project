@@ -18,19 +18,21 @@ public class Inventory_JGD : MonoBehaviour
     
     private void Awake()
     {   
-        for (int i = 0; i < BackendGameData_JGD.userData.house_inventory.item_list.Count; i++)
+        /*for (int i = 0; i < BackendGameData_JGD.userData.house_inventory.item_list.Count; i++)
         {
             GameObject go = Instantiate(Inven, transform, false);
             InventoryList.Add(go);
             Itemnum = BackendGameData_JGD.userData.house_inventory.item_list[i].count;
             nono = go.GetComponentInChildren<TMP_Text>();
             nono.text = Itemnum.ToString();
-        }
+        }*/
     }
     private void Start()
     {
-        Reading();
+        //Reading();
     }
+
+
 
 
     public void Reading()
