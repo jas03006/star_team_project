@@ -117,7 +117,7 @@ public class PlacementSystem : MonoBehaviour
     public void place_structure_init(HousingObjectInfo hoi)
     {
         
-        buildingState = new PlacementState((housing_itemID)hoi.item_ID, grid, preview, database, floorData, furnitureData, objectPlacer, hoi.start_time, hoi.direction, hoi.harvesting_selection);
+        buildingState = new PlacementState((housing_itemID)hoi.item_ID, grid, preview, database, floorData, furnitureData, objectPlacer, hoi.start_time, hoi.direction, hoi.harvesting_selection, is_init:true);
         Vector3Int gridPosition = new Vector3Int((int)hoi.position.x , 0, (int)hoi.position.y);
         buildingState.OnAction(gridPosition);
         buildingState.EndState();

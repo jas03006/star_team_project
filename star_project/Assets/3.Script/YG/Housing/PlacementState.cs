@@ -17,9 +17,9 @@ public class PlacementState : IBuildingState
     public DateTime start_time;
     public int direction;
     public int selection;
-
+    public bool is_init;
     public PlacementState(housing_itemID id, Grid gird, PreviewSystem previewSystem, ObjectsDatabaseSO database, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer
-        , DateTime start_time, int direction =0, int selection=-1)
+        , DateTime start_time, int direction =0, int selection=-1, bool is_init =false)
     {
         this.id = id;
         this.gird = gird;
@@ -32,7 +32,7 @@ public class PlacementState : IBuildingState
         this.start_time = start_time;
         this.direction = direction;
         this.selection = selection;
-
+        this.is_init = is_init;
 
         selectedObjectIndex = database.objectData.FindIndex(data => data.id == id);
         if (selectedObjectIndex > -1)
@@ -52,6 +52,11 @@ public class PlacementState : IBuildingState
 
     public void OnAction(Vector3Int gridPosition)
     {
+        if (!is_init && !TCP_Client_Manager.instance.housing_ui_manager.can_use(id))
+        {
+            return;
+        }
+
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
         if (placementValidity == false)
             return;
@@ -60,7 +65,7 @@ public class PlacementState : IBuildingState
 
         GridData selectedData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
         selectedData.AddObjectAt(gridPosition, database.objectData[selectedObjectIndex].size, database.objectData[selectedObjectIndex].id, index);
-        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), false);
+        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), false);                
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)

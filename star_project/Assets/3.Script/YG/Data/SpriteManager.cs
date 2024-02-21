@@ -8,6 +8,7 @@ public class SpriteManager : MonoBehaviour
 
     public SpriteDataBaseSO spriteDB;
     private Dictionary<int, Sprite> spriteDictionary = new Dictionary<int, Sprite>();
+    private Dictionary<housing_itemID, Sprite> HousingspriteDictionary = new Dictionary<housing_itemID, Sprite>();
 
     private void Awake()
     {
@@ -26,6 +27,12 @@ public class SpriteManager : MonoBehaviour
         {
             spriteDictionary.Add(imageData.id, imageData.sprite);
         }
+
+        //시작할때 dic 생성
+        foreach (var imageData in spriteDB.HousingImageData)
+        {
+            HousingspriteDictionary.Add(imageData.id, imageData.sprite);
+        }
         Debug.Log("생성끝!");
     }
 
@@ -36,12 +43,9 @@ public class SpriteManager : MonoBehaviour
 
     public Sprite Num2Sprite(housing_itemID id) //번호에 맞는 스프라이트 찾는 메서드
     {
-        return spriteDictionary[housingID2sprite_num(id)];
+        return HousingspriteDictionary[id];
     }
 
-    public int housingID2sprite_num(housing_itemID id) {
-        //TODO: 하우징 아이템 스프라이트 적용해야함
-        return 0;
-    }
+    
 
 }
