@@ -100,7 +100,7 @@ public class MoneyManager : MonoBehaviour
             default:
                 break;
         }
-        Send_data(money);
+        Data_update();
     }
 
     public void Spend_Money(Money money, int num)
@@ -121,49 +121,36 @@ public class MoneyManager : MonoBehaviour
             default:
                 break;
         }
-        Send_data(money);
+        Data_update();
     }
-
-    private void Send_data(Money money) //유저 데이터에 넣기
+    public void Data_update()
     {
-        if (BackendGameData_JGD.userData == null)
-        {
-            Debug.LogError("서버에서 다운받거나  새로 삽입한 데이터가 존재하지 않습니다. Insert 혹은 Get을 통해 데이터를 생성해주세요.");
-            return;
-        }
+        //데이터에 넣기
+        BackendGameData_JGD.userData.ark= ark;
+        BackendGameData_JGD.userData.gold = gold; 
+        BackendGameData_JGD.userData.ruby= ruby;
 
         Param param = new Param();
-
-        switch (money)
-        {
-            case Money.ark:
-                param.Add("ark", BackendGameData_JGD.userData.ark);
-                break;
-            case Money.gold:
-                param.Add("gold", BackendGameData_JGD.userData.gold);
-                break;
-            case Money.ruby:
-                param.Add("ruby", BackendGameData_JGD.userData.ruby);
-                break;
-            default:
-                break;
-        }
+        param.Add("ark", BackendGameData_JGD.userData.ark);
+        param.Add("gold", BackendGameData_JGD.userData.gold);
+        param.Add("ruby", BackendGameData_JGD.userData.ruby);
 
         BackendReturnObject bro = null;
-        var gameDataRowInDate = BackendGameData_JGD.Instance.gameDataRowInDate;
 
-        if (string.IsNullOrEmpty(gameDataRowInDate))
+        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
         {
             Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
 
             bro = Backend.GameData.Update("USER_DATA", new Where(), param);
         }
+
         else
         {
-            Debug.Log($"{gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
 
-            bro = Backend.GameData.UpdateV2("USER_DATA", gameDataRowInDate, Backend.UserInDate, param);
+            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
         }
+
         if (bro.IsSuccess())
         {
             Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);

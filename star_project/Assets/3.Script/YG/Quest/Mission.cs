@@ -1,6 +1,7 @@
 using BackEnd;
 using LitJson;
 using System;
+using UnityEngine;
 
 
 public enum MissionType
@@ -27,10 +28,10 @@ public class Mission
     public string title;
     public string contents;
 
-    public Mission(JsonData jsonData,int index)
+    public Mission(JsonData jsonData, int index)
     {
         type = (MissionType)int.Parse(jsonData["type"].ToString());
-        reset_time = Convert.ToDateTime(jsonData["reset_time"].ToString());
+
         goal = int.Parse(jsonData["goal"].ToString());
         reward_ark = int.Parse(jsonData["reward_ark"].ToString());
         reward_gold = int.Parse(jsonData["reward_gold"].ToString());
@@ -47,12 +48,14 @@ public class Mission
         reset_time = DateTime.Now;
     }
 
-    public void Check_clear()
+    public bool Check_clear()
     {
         if (userdata.criterion >= goal)
         {
             userdata.is_clear = true;
+            return true;
         }
+        return false;
     }
 
     private void Reset_mission()
@@ -149,8 +152,10 @@ public class Mission
 
 public class Mission_userdata
 {
+    public DateTime reset_time;
     public bool is_clear;
-    public bool is_accept;
+    public bool get_rewarded;
+    public bool is_accept;//수락했는지 안했는지
     public int criterion //현재 수치
     {
         get
@@ -164,6 +169,7 @@ public class Mission_userdata
             {
                 criterion_ = 0;
             }
+            Debug.Log(criterion_);
         }
     }
     private int criterion_;
@@ -172,6 +178,9 @@ public class Mission_userdata
     {
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         is_accept = bool.Parse(jsonData["is_accept"].ToString());
+        get_rewarded = bool.Parse(jsonData["get_rewarded"].ToString());
+
+        reset_time = Convert.ToDateTime(jsonData["reset_time"].ToString());
         criterion_ = int.Parse(jsonData["criterion"].ToString());
         criterion = int.Parse(jsonData["criterion"].ToString());
     }
@@ -179,7 +188,41 @@ public class Mission_userdata
     {
         is_clear = false;
         is_accept = false;
+        get_rewarded = false;
+
+        reset_time = DateTime.Now;
         criterion = 0;
         criterion_ = 0;
+    }
+    public void Data_update()
+    {
+        //데이터에 넣기
+        Param param = new Param();
+        param.Add("mission_Userdatas", BackendGameData_JGD.userData.mission_Userdatas);
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+
+        else
+        {
+            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
+        }
+
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
     }
 }
