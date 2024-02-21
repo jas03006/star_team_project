@@ -48,6 +48,9 @@ public class TestBackendManager : MonoBehaviour
         if (bro.IsSuccess())
         {
             Debug.Log("초기화 성공 : " + bro);  //성공일 경우
+            if (BackendGameData_JGD.Instance==null) { 
+            
+            }
         }
         else
         {

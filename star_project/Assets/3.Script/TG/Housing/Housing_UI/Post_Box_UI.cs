@@ -50,11 +50,11 @@ public class Post_Box_UI : MonoBehaviour
          clear_UI();
          for (int i = 0; i < _postList.Count; i++)
          {
-            create_post(_postList[i]);
+            create_post(_postList[i], PostType.User);
          }
      }
 
-     public void create_post(Post post)
+     public void create_post(Post post, PostType post_type)
      {
          GameObject post_go = Instantiate(post_element_prefab);
          post_go.transform.SetParent(post_list_container);
@@ -62,7 +62,7 @@ public class Post_Box_UI : MonoBehaviour
 
          Post_Element pe = post_go.GetComponent<Post_Element>();
 
-         pe.init(post, delegate () { show_post(pe); });        
+         pe.init(post, delegate () { show_post(pe); }, post_type);        
 
      }
 
@@ -70,8 +70,30 @@ public class Post_Box_UI : MonoBehaviour
         title.text = post_e.post.title;
         content.text = post_e.content_str;
         item_info.text = post_e.item_str;
+
+        get_reward_btn.onClick.RemoveAllListeners();
+        get_reward_btn.onClick.AddListener(delegate () { receive_post(post_e); });
     }
-    
+
+    public void receive_post(Post_Element post_e) {
+        if (post_e.is_received == true) {
+            return;
+        }
+
+        var bro = Backend.UPost.ReceivePostItem(post_e.post_type, post_e.post.inDate);
+
+        if (bro.IsSuccess() == false)
+        {
+            Debug.LogError($"{post_e.post_type.ToString()}의 {post_e.post.inDate}");
+            return;
+        }
+
+        post_e.receive();
+
+
+        Debug.Log($"{post_e.post_type.ToString()}의 {post_e.post.inDate} 우편수령에 성공했습니다. : " + bro);
+    }
+
     public void PostListGet(PostType postType)
     {
         //우편 불러오기
@@ -102,7 +124,7 @@ public class Post_Box_UI : MonoBehaviour
             post.content = postListJson["content"].ToString();
             post.inDate = postListJson["inDate"].ToString();
 
-            if (postType == PostType.User)
+           /* if (postType == PostType.User)
             {
                 if (postListJson["itemLocation"]["tableName"].ToString() == "USER_DATA")
                 {
@@ -149,7 +171,7 @@ public class Post_Box_UI : MonoBehaviour
                         post.isCanReceive = false;
                     }
                 }
-            }
+            }*/
             _postList.Add(post);
         }
         /*for (int i = 0; i < _postList.Count; i++)
