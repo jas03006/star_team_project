@@ -79,6 +79,7 @@ public class Stage001 : MonoBehaviour
         StageList.Add(stage3);
         StageList.Add(stage4);
         StageList.Add(stage5);
+        thisStage = LevelSelectMenuManager_JGD.currLevel;
     }
     private void Start()
     {

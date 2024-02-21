@@ -153,6 +153,7 @@ public class StageItemInfo_JGD : MonoBehaviour
             if (gameObject.GetComponent<Item_game>() != null)
             {
                 gameObject.GetComponent<Item_game>().itemid_ = ObjectNum;   // 이놈이 문제다
+                gameObject.GetComponent<Item_game>().Init();
                 
             }
 

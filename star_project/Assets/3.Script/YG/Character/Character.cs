@@ -13,7 +13,7 @@ public class Character
     public int maxlevel;
     public int curlevel;//차트아니고 게임데이터에서 불러옴
 
-    public double duration; //지속 시간
+    public float duration; //지속 시간
     public double percent;
 
     public item_ID special_item;//지급 아이템 ex)게임 시작 시 자석 아이템 한 개를 지급한다.
@@ -37,7 +37,7 @@ public class Character
         if (character_ID == Character_ID.Green)
             percent = 5;
         else
-            duration = 0.5;
+            duration = 0.5f;
 
         special_item = (item_ID)int.Parse(gameData["special_item"].ToString());
         unique_item = (item_ID)int.Parse(gameData["unique_item"].ToString());
@@ -59,7 +59,7 @@ public class Character
 
         else
         {
-            duration += 0.1;
+            duration += 0.1f;
             Debug.Log(duration);
         }
     }

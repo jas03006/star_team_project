@@ -10,26 +10,30 @@ using UnityEngine;
     private string item_name;
     private Sprite sprite;
 
-    public double duration;
+    public float duration;
     public double percent;
-
-     public void Init() //차트에서 불러온 값 세팅
+    public int Num;
+    protected GameObject game;
+    public void Init() //차트에서 불러온 값 세팅
     {
         id = (item_ID)itemid_;
         data = BackendChart_JGD.chartData.item_list[(int)id];
-        id = data.id;
+        percent = data.percent;
+        duration = data.duration;
+        Num = data.num;
+        //id = data.id;
         item_name = data.item_name;
         Debug.Log(data);
         //sprite = SpriteManager.instance.Num2Sprite(data.sprite);
-    } 
-
-     public void UseItem()
-    {
-        //아이템 사용
     }
 
-    private void Start()
+    //public void UseItem()
+    //{
+    //    //아이템 사용
+    //}
+    private void Awake()
     {
-        Init();
+        //Init();
+        game = GameObject.FindGameObjectWithTag("Player");
     }
 }
