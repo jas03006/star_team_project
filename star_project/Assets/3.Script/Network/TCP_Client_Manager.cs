@@ -181,7 +181,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (msg == BitConverter.GetBytes((int)0).ToString()) { // connection check byte 
             return;
         }
-        Debug.Log(msg);
+        //Debug.Log(msg);
         string[] cmd_arr = msg.Split(" ");
         // try
         //{
@@ -244,7 +244,10 @@ public class TCP_Client_Manager : MonoBehaviour
                     break;
                 case command_flag.chat:
                     host_id = cmd_arr[1];
-                    string chat_msg = cmd_arr[3];
+                    string chat_msg = string.Empty;
+                    for (int i=3; i< cmd_arr.Length; i++) {
+                        chat_msg += cmd_arr[i] + " ";
+                    }                    
                     Debug.Log(chat_msg);
                     //if ()
                     //{ // 글로벌 채팅인 경우 

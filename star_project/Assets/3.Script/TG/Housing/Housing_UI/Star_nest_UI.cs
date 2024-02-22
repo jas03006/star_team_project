@@ -125,6 +125,7 @@ public class Star_nest_UI : MonoBehaviour
     public void show_level_UI()
     {
         level_up_UI.SetActive(true);
+
         // TCP_Client_Manager.instance.placement_system.housing_info.level.ToString();
     }
     public void hide_level_UI()
