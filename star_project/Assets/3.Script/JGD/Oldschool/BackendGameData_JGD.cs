@@ -43,6 +43,7 @@ public class UserData
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
     public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
     public List<Mission_userdata> mission_Userdatas = new List<Mission_userdata>();
+    public List<Challenge_userdata> challenge_Userdatas = new List<Challenge_userdata>();
 
     public HousingInfo_JGD housing_Info = new HousingInfo_JGD();
     public CharacterInfo_YG character_info = new CharacterInfo_YG();
@@ -132,6 +133,10 @@ public class UserData
         foreach (var mission in mission_Userdatas)
         {
             result.AppendLine($"| {mission}");
+        }result.AppendLine($"| {challenge_Userdatas}");
+        foreach (var mission in challenge_Userdatas)
+        {
+            result.AppendLine($"| {mission}");
         }
         return result.ToString();
     }
@@ -208,16 +213,19 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.ruby = 1000;
             userData.ark = 1000;
 
-            //미션 정보
+            //퀘스트 정보
             for (int i = 0; i < 9; i++)
             {
                 userData.mission_Userdatas.Add(new Mission_userdata());
             }
+
+            for (int i = 0; i < 9; i++)
+            {
+                userData.challenge_Userdatas.Add(new Challenge_userdata());
+            }
         }
 
         Debug.Log("데이터를 초기화 합니다.");
-
-
         Debug.Log("뒤끝 업데이트 목록에 데이터 추가");
 
         Param param = new Param();
@@ -240,6 +248,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
         param.Add("mission_Userdatas", userData.mission_Userdatas);                     
+        param.Add("challenge_Userdatas", userData.challenge_Userdatas);                     
 
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
         param.Add("character_info", userData.character_info);   //캐릭터 데이터
@@ -306,6 +315,10 @@ public class BackendGameData_JGD : MonoBehaviour
                 foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
                 {
                     userData.mission_Userdatas.Add(new Mission_userdata(mission));
+                }                
+                foreach (JsonData mission in gameDataJson[0]["challenge_Userdatas"]) 
+                {
+                    userData.challenge_Userdatas.Add(new Challenge_userdata(mission));
                 }
 
                 userData.house_inventory = new House_Inventory_Info_JGD(gameDataJson[0]["house_inventory"]);
