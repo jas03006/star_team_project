@@ -82,7 +82,7 @@ public class PlacementSystem : MonoBehaviour
     }
 
     public void clear() {
-        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
+        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer,is_init: true);
         List<Vector3Int> position_list = new List<Vector3Int>();
         foreach (Vector3Int position_ in furnitureData.placedObjects.Keys) {
             position_list.Add(position_);
