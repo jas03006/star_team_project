@@ -46,7 +46,7 @@ public class Housing_UI_Manager : MonoBehaviour
     {
         id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
         foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) {
-            Debug.Log(item.id);
+           // Debug.Log(item.id);
             //TODO: 인벤토리 버튼 추가
             GameObject go = Instantiate(button_prefab, button_container);
             Button btn = go.GetComponent<Button>();

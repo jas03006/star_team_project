@@ -614,7 +614,7 @@ public class BackendGameData_JGD : MonoBehaviour
             else
             {
                 HousingInfo_JGD housing_info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
-                Debug.Log($" level: " + housing_info.level);
+               // Debug.Log($" level: " + housing_info.level);
                 return housing_info;
             }
         }
