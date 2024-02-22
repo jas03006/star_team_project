@@ -54,7 +54,7 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
-            collision.gameObject.GetComponent<Item_game>().
+            collision.gameObject.GetComponent<Item_game>();
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
