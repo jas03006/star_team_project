@@ -10355,15 +10355,15 @@ RectTransform:
   m_GameObject: {fileID: 749184288}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8330916, y: 0.8330916, z: 0.8330916}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 644190869}
-  m_Father: {fileID: 4935989347644298524}
+  m_Father: {fileID: 1588570325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -44, y: -836}
+  m_AnchoredPosition: {x: -36.656113, y: -696.4646}
   m_SizeDelta: {x: 220, y: 220}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &749184290
@@ -10426,6 +10426,18 @@ MonoBehaviour:
       - m_Target: {fileID: 749184290}
         m_TargetAssemblyTypeName: TestBtnAction, Assembly-CSharp
         m_MethodName: NextStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 749184290}
+        m_TargetAssemblyTypeName: TestBtnAction, Assembly-CSharp
+        m_MethodName: hide_planet_UI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22246,6 +22258,7 @@ RectTransform:
   - {fileID: 1230409308}
   - {fileID: 1052651614}
   - {fileID: 1614477714}
+  - {fileID: 749184289}
   - {fileID: 138719082}
   m_Father: {fileID: 1651236714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40227,7 +40240,6 @@ RectTransform:
   - {fileID: 1811158706}
   - {fileID: 1428324809}
   - {fileID: 1092117703}
-  - {fileID: 749184289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -49094,12 +49106,12 @@ SceneRoots:
   - {fileID: 991716753}
   - {fileID: 1353467019}
   - {fileID: 1948432642990636690}
-  - {fileID: 4935989347644298524}
   - {fileID: 2091832537}
   - {fileID: 1967347285}
   - {fileID: 1099801714}
   - {fileID: 963291426}
   - {fileID: 4349703359532754510}
+  - {fileID: 4935989347644298524}
   - {fileID: 1651236714}
   - {fileID: 1130983679}
   - {fileID: 1228897431}

@@ -484,12 +484,15 @@ public class TCP_Client_Manager : MonoBehaviour
             planet_button_list[i].gameObject.SetActive(true);
         }
     }
-    public void hide_planet_buttons()
+    public void hide_planet_buttons(bool is_going_lobby = true)
     {
-        for (int i = 0; i < lobby_button_list.Count; i++)
-        {
-            lobby_button_list[i].gameObject.SetActive(true);
+        if (is_going_lobby) {
+            for (int i = 0; i < lobby_button_list.Count; i++)
+            {
+                lobby_button_list[i].gameObject.SetActive(true);
+            }
         }
+        
         for (int i = 0; i < planet_button_list.Count; i++)
         {
             planet_button_list[i].gameObject.SetActive(false);

@@ -35,4 +35,8 @@ public class TestBtnAction : MonoBehaviour
     {
         SceneManager.LoadScene(nextScene.ToString());
     }
+
+    public void hide_planet_UI() {
+        TCP_Client_Manager.instance.hide_planet_buttons(false);
+    }
 }
