@@ -29,6 +29,6 @@ public class Test_YG : MonoBehaviour
 
     public void GoogleHashKey()
     {
-        Debug.Log("GoogleHashKey 확인 디버그:" + Backend.Utils.GetGoogleHash());
+       // Debug.Log("GoogleHashKey 확인 디버그:" + Backend.Utils.GetGoogleHash());
     }
 }
