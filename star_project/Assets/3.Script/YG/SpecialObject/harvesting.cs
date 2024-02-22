@@ -145,27 +145,54 @@ public class Harvesting : Net_Housing_Object//, IObject
 
                 MoneyManager.instance.Get_Money(Money.ark, reward);
 
-                string separator = "%%%";
+                string separator = "%^";
                 //TODO: 우편 보내기
                 
                 string[] select_temp = { "info" };
                 var n_bro = Backend.Social.GetUserInfoByNickName(TCP_Client_Manager.instance.now_room_id);
                 string gamer_indate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-                BackendReturnObject bro = Backend.PlayerData.GetOtherData("USER_DATA", gamer_indate, select_temp);                
-                string gameDataRowInDate = bro.GetInDate();                               
+                               
 
-                PostItem postItem = new PostItem
+                PostItem postItem = new PostItem();
+
+                postItem.Title = "Harvest";
+                postItem.Content = $"{TCP_Client_Manager.instance.my_player.object_id}" +
+                $"{separator}{(int)Money.ark}:{reward}";
+                postItem.TableName = "USER_DATA";
+                if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
                 {
-                    Title = "Friend Harvest Reward",
-                    Content = $"{TCP_Client_Manager.instance.my_player.object_id} harvest your Ark!" +
-                   $"{separator}{Money.ark}:{reward}",
-                    TableName = "USER_DATA",
-                    RowInDate = gameDataRowInDate,
-                    Column = "level"
-                };
 
-                Backend.UPost.SendUserPost(gamer_indate, postItem);
-                Debug.Log("send reward!");
+                    var bro_ = Backend.Social.GetUserInfoByNickName(Backend.UserNickName);
+
+                    string gamerIndate = bro_.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+
+                    Where where = new Where();
+                    where.Equal("owner_inDate", gamerIndate);
+
+                    var bro__ = Backend.GameData.Get("USER_DATA", where);
+                    Debug.Log(bro__.FlattenRows()[0]["inDate"].ToString());
+                    BackendGameData_JGD.Instance.gameDataRowInDate = bro__.FlattenRows()[0]["inDate"].ToString(); //Backend.GameData.GetMyData("USER_DATA", new Where()).FlattenRows()[0]["inDate"].ToString();
+                   
+                    postItem.RowInDate = bro__.FlattenRows()[0]["inDate"].ToString();
+                }
+                else {
+                    postItem.RowInDate = BackendGameData_JGD.Instance.gameDataRowInDate;
+                }
+                
+                postItem.Column = "level";
+
+                Debug.Log(BackendGameData_JGD.Instance.gameDataRowInDate);
+
+                var bro = Backend.UPost.SendUserPost(gamer_indate, postItem);
+                if (bro.IsSuccess())
+                {
+                    Debug.Log("우편 발송에 성공했습니다." + bro);
+
+                }
+                else
+                {
+                    Debug.LogError("우편 발송에 실패했습니다." + bro);
+                }
             }
 
             result_text.text = $"Earn {reward} Ark!";

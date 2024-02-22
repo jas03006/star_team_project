@@ -153,6 +153,10 @@ public class BackendGameData_JGD : MonoBehaviour
             return _instance;
         }
     }
+    public BackendGameData_JGD() {
+        _instance = this;
+    }
+
     public static UserData userData;
 
     public string gameDataRowInDate = string.Empty;
@@ -291,7 +295,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
                 userData = new UserData();
                 //Debug.Log("gamer id: "+gameDataJson[0]["gamer_id"].ToString());
-                userData.level = int.Parse(gameDataJson[0]["level"].ToString());
+                //userData.level = int.Parse(gameDataJson[0]["level"].ToString());
                 
                 userData.info = gameDataJson[0]["info"].ToString();
 
@@ -742,7 +746,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         if (bro.IsSuccess())
         {
-            string gameDataRowInDate = bro.GetInDate();
+            string gameDataRowInDate_ = bro.GetInDate();
             Param param = new Param();
 
             for (int i = 0; i < select.Length; i++)
@@ -825,7 +829,7 @@ public class BackendGameData_JGD : MonoBehaviour
                         break;
                 }
             }
-            var bro_ = Backend.PlayerData.UpdateOtherData("USER_DATA", gameDataRowInDate, gamer_indate, param);
+            var bro_ = Backend.PlayerData.UpdateOtherData("USER_DATA", gameDataRowInDate_, gamer_indate, param);
             if (bro_.IsSuccess())
             {
                 return;
