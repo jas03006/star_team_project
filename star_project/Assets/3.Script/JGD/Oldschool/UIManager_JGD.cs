@@ -17,7 +17,7 @@ public class UIManager_JGD : MonoBehaviour
     {
         FriendScreen.SetActive(true);
         FriendminiscreenOpen();
-        BackendFriend_JDG.Instance.GetFriendList();
+        //BackendFriend_JDG.Instance.GetFriendList();
     }
     public void CloseFriend()
     {

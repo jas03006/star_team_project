@@ -45,22 +45,24 @@ public class ChatBoxManager : MonoBehaviour
     }
     
     public void chat(string msg, bool is_global) {
-        GameObject go = Instantiate(chat_line_prefab);
-        go.GetComponentInChildren<TMP_Text>().text = msg;
+        
         if (is_global)
         {
-            go.transform.SetParent(global_chat_box);
+            GameObject go = Instantiate(chat_line_prefab, global_chat_box);
+            go.GetComponentInChildren<TMP_Text>().text = msg;
             global_chat_line_list.Add(go);
             StartCoroutine(scroll_to_bottom(global_scroll_bar));
         }
         else {
-            go.transform.SetParent(local_chat_box);
+            GameObject go = Instantiate(chat_line_prefab, local_chat_box);
+            go.GetComponentInChildren<TMP_Text>().text = msg;
             local_chat_line_list.Add(go);
             StartCoroutine(scroll_to_bottom(local_scroll_bar));
         }
     }
 
     public IEnumerator scroll_to_bottom(Scrollbar sb) {
+        yield return null;
         Canvas.ForceUpdateCanvases();
         yield return new WaitForEndOfFrame();
         Canvas.ForceUpdateCanvases();
