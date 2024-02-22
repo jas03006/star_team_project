@@ -22,7 +22,6 @@ public class Player_Controll_JGD : MonoBehaviour
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
-       
     }
     private void Start()
     {
@@ -53,6 +52,10 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
+        {
+            collision.gameObject.GetComponent<Item_game>().
+        }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
             switch (collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID)
