@@ -181,7 +181,7 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.ark_cylinder, 1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.ark_cylinder, 3));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.airship, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.star_nest, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
