@@ -17,7 +17,7 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField]public int PlayerScore;
 
     [SerializeField] int[] ItmeInven = new int[2];   //아이템 저장소
-
+    [SerializeField] List<int> Alphabet = new List<int>();
 
     private void Awake()
     {
@@ -54,7 +54,8 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
-            collision.gameObject.GetComponent<Item_game>();
+            Alphabet.Add(collision.gameObject.GetComponent<Item_game>().itemid_);
+            
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
