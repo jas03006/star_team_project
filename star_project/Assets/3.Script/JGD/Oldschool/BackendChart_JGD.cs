@@ -10,6 +10,7 @@ public class ChartData
     public List<Item> item_list = new List<Item>();
     public List<Character_amount> Characteramount_list = new List<Character_amount>();
     public List<Mission> mission_list = new List<Mission>();
+    public List<Challenge> challenge_list = new List<Challenge>();
     public List<StageClear> StageClear_list = new List<StageClear>();
 }
 
@@ -39,6 +40,7 @@ public class BackendChart_JGD : MonoBehaviour
         Character_amount("108882");
         Mission("109087");
         StageClearInfo("109338");
+        Challenge("109350");
     }
 
     public void StageClearInfo(string chartId)
@@ -83,6 +85,16 @@ public class BackendChart_JGD : MonoBehaviour
         for (int i = 0; i < Get_data(chartid).FlattenRows().Count; i++)
         {
             chartData.mission_list.Add(new Mission(Get_data(chartid).FlattenRows()[i],i));
+        }
+    }
+
+    public void Challenge(string chartid)
+    {
+
+        //차트 내용 저장
+        for (int i = 0; i < Get_data(chartid).FlattenRows().Count; i++)
+        {
+            chartData.challenge_list.Add(new Challenge(Get_data(chartid).FlattenRows()[i], i));
         }
     }
 

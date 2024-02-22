@@ -5,9 +5,38 @@ using UnityEngine;
 
 public class Challenge : Quest
 {
-    //유저 데이터
-    Challenge_userdata userdata;
-    public housing_itemID housing_ItemID; //보상으로 받을 하우징 아이템 id
+    public Challenge_userdata userdata;
+    //차트
+    public challenge_id id;
+    public int CP; //reward
+
+    public Challenge(JsonData jsonData, int index)
+    {
+        id = (challenge_id)int.Parse(jsonData["challenge_id"].ToString());
+        goal = int.Parse(jsonData["goal"].ToString());
+        CP = int.Parse(jsonData["CP"].ToString());
+
+        userdata = BackendGameData_JGD.userData.challenge_Userdatas[index];
+
+        title = jsonData["title"].ToString();
+        contents = jsonData["contents"].ToString();
+    }
+}
+
+public enum challenge_id
+{
+    none = -1,
+    common,
+    play,
+    community
+}
+
+public enum challenge_state
+{
+    none = -1,
+    incomplete,//완료X, 보상수령X
+    get_reward,//완료O, 보상수령X
+    complete//완료O, 보상수령O
 }
 
 public class Challenge_userdata
@@ -16,6 +45,7 @@ public class Challenge_userdata
     public int CP; //challenge point
     public bool get_rewarded;
     public int criterion; //현재 수치
+    public challenge_state state;
     public Dictionary<int, Challenge_info> data_dic;
 
     public Challenge_userdata(JsonData jsonData)
