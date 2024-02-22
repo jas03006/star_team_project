@@ -72,7 +72,14 @@ public class Post_Box_UI : MonoBehaviour
         item_info.text = post_e.item_str;
 
         get_reward_btn.onClick.RemoveAllListeners();
-        get_reward_btn.onClick.AddListener(delegate () { receive_post(post_e); });
+        if (post_e.is_received)
+        {
+            get_reward_btn.interactable = false;
+        }
+        else {
+            get_reward_btn.interactable = true;
+            get_reward_btn.onClick.AddListener(delegate () { receive_post(post_e); });
+        }        
     }
 
     public void receive_post(Post_Element post_e) {
