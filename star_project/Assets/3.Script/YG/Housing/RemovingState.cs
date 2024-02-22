@@ -11,15 +11,15 @@ public class RemovingState : IBuildingState
     GridData floorData;
     GridData furnitureData;
     ObjectPlacer objectPlacer;
-
-    public RemovingState(Grid gird, PreviewSystem previewSystem, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer)
+    bool is_init = false;
+    public RemovingState(Grid gird, PreviewSystem previewSystem, GridData floorData, GridData furnitureData, ObjectPlacer objectPlacer, bool is_init=false)
     {
         this.grid = gird;
         this.previewSystem = previewSystem;
         this.floorData = floorData;
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
-
+        this.is_init = is_init;
         previewSystem.StartShowingPlacementRemovePreview();
     }
 
@@ -52,7 +52,7 @@ public class RemovingState : IBuildingState
                 return;
 
             selectedData.RemoveObjectAt(gridPosition);
-            objectPlacer.RemoveObjectAt(gameObjectIndex);
+            objectPlacer.RemoveObjectAt(gameObjectIndex, is_init);
         }
         Vector3 cellPosition = grid.CellToWorld(gridPosition) + new Vector3( grid.cellSize.x / 2f,0, grid.cellSize.z / 2f);
         previewSystem.UpdatePostition(cellPosition, CheckIfSelectionIsValid(gridPosition));
