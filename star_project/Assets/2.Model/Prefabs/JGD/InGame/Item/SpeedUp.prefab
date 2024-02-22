@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7033629988511463891}
   - component: {fileID: 8182204755987381971}
   - component: {fileID: -7648754663210504124}
+  - component: {fileID: 8969872664250028022}
   m_Layer: 0
   m_Name: SpeedUp
   m_TagString: Untagged
@@ -136,5 +137,22 @@ MonoBehaviour:
   ID: 0
   discrimination: 0
   distance: 0
-  obstacle_ID: 32
+  obstacle_ID: -1
   obstacles: []
+--- !u!114 &8969872664250028022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70595785448169812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0689763fb7b9dd74a95e8d6ad0d75ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  itemid_: 0
+  duration: 0
+  percent: 0
+  Num: 0

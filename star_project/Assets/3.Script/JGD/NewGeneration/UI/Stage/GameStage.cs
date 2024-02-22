@@ -18,7 +18,7 @@ public class GameStage : MonoBehaviour
     }
 
 
-    public void LevelComplete(int starsAquired)
+    public void LevelComplete(int starsAquired)  //게임결과
     {
         if (LevelSelectMenuManager_JGD.currLevel == LevelSelectMenuManager_JGD.UnlockedLevels)
         {

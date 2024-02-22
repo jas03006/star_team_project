@@ -3,7 +3,7 @@ using UnityEngine;
 public class Character_Ingame : MonoBehaviour //인게임에서 사용할 스크립트
 {
     private int level;//차트아니고 게임데이터에서 불러옴
-    private double duration; //지속 시간
+    private float duration; //지속 시간
     private double percent; //지속 시간
     //private int give_time; //아이템 지급 주기
 

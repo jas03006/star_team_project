@@ -12,9 +12,9 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] TMP_Text ScoreTxt;
 
     //int PlayerLevel = BackendGameData_JGD.userData.level;
-    private int MaxHp = 100;
-    public int currentHp;
-    [SerializeField]private int PlayerScore;
+    public double MaxHp = 100;
+    public double currentHp;
+    [SerializeField]public int PlayerScore;
 
     [SerializeField] int[] ItmeInven = new int[2];   //아이템 저장소
 
@@ -26,13 +26,13 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Start()
     {
-        //MaxHp += (PlayerLevel - 1) * 10;  //이거 근대 기획문서대로하면 만렙이면 최대체력 390임ㅋㅋ
+        //MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
 
     }
     private void Update()
     {
-        if (this.transform.position.x >=camera.transform.position.x && camera.transform.position.x < 67.85f)
+        if (this.transform.position.x >=camera.transform.position.x && camera.transform.position.x < 67.8f)
         {
             camera.transform.position = new Vector3(this.transform.position.x, camera.transform.position.y, -3);
         }
@@ -49,25 +49,27 @@ public class Player_Controll_JGD : MonoBehaviour
 
     private void OnDamage()
     {
-        currentHp -= 20;
+        currentHp -= 80;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            switch (collision.gameObject.GetComponentInParent<ItemID_JGD>().obstacle_ID)
+            switch (collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.big_heart:
-
+                    collision.GetComponent<Heart>().UseItem();
+                    Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_heart:
-
+                    collision.GetComponent<Heart>().UseItem();
+                    Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_star:
-
+                    collision.GetComponent<Star>().UseItem();
                     break;
                 case Obstacle_ID.big_star:
-
+                    collision.GetComponent<Star>().UseItem();
                     break;
                 case Obstacle_ID.CheckBox:
                     

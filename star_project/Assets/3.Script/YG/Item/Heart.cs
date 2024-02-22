@@ -4,13 +4,33 @@ using UnityEngine;
 
 public class Heart : Item_game
 {
-    override public void Init() //차트에서 불러온 값 세팅
+    double Hp;
+    double MaxHp;
+    Item_game item_;
+
+    private void Start()
     {
-        percent = data.percent;
+        item_ = GetComponent<Item_game>();
     }
 
-    public override void UseItem()
+    public void UseItem()
     {
-        //짱규동 파이팅해라 집에 가고싶다 이게맞냐 ㅅㅂ
+        Hp = game.GetComponent<Player_Controll_JGD>().currentHp;
+        MaxHp = game.GetComponent<Player_Controll_JGD>().MaxHp;
+
+        Hp += MaxHp * item_.percent;
+        if (Hp >= MaxHp)
+        {
+            Hp = MaxHp;
+        }
+        game.GetComponent<Player_Controll_JGD>().currentHp = Hp;
     }
+
+
+    //public override void UseItem()
+    //{
+    //    //짱규동 파이팅해라 집에 가고싶다 이게맞냐 ㅅㅂ
+    //}
+
+
 }
