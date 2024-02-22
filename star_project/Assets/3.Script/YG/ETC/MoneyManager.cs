@@ -1,4 +1,5 @@
 using BackEnd;
+using TMPro;
 using UnityEngine;
 
 public enum Money
@@ -8,6 +9,11 @@ public enum Money
 public class MoneyManager : MonoBehaviour
 {
     public static MoneyManager instance;
+
+    [SerializeField] private TMP_Text ark_text;
+    [SerializeField] private TMP_Text gold_text;
+    [SerializeField] private TMP_Text ruby_text;
+
     public int ark
     {
         get
@@ -21,7 +27,9 @@ public class MoneyManager : MonoBehaviour
             {
                 ark_ = 0;
             }
-            Debug.Log($"현재 ark : {value}");
+            if (ark_text != null) {
+                ark_text.text = ark_.ToString();
+            }
         }
     }
     int ark_;
@@ -40,7 +48,10 @@ public class MoneyManager : MonoBehaviour
             {
                 gold_ = 0;
             }
-            Debug.Log($"현재 gold : {value}");
+            if (gold_text != null)
+            {
+                gold_text.text = gold_.ToString();
+            }
         }
     }
     int gold_;
@@ -59,7 +70,10 @@ public class MoneyManager : MonoBehaviour
             {
                 ruby_ = 0;
             }
-            Debug.Log($"현재 ruby : {value}");
+            if (ruby_text != null)
+            {
+                ruby_text.text = ruby_.ToString();
+            }
         }
     }
     int ruby_;
@@ -84,6 +98,11 @@ public class MoneyManager : MonoBehaviour
         ruby = BackendGameData_JGD.userData.ruby;
     }
 
+    public void update_UI() {
+        
+        gold_text.text = gold.ToString();
+        ruby_text.text = ruby.ToString();
+    }
     public void Get_Money(Money money, int num)
     {
         switch (money)
