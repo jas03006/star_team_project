@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Housing_UI_Manager : MonoBehaviour
 {
     [SerializeField] private GameObject edit_button;
+    [SerializeField] private List<GameObject> hide_UI_list;
     [SerializeField] private GameObject housing_UI;
     [SerializeField] private MeshRenderer grid_renderer;
 
@@ -45,7 +46,7 @@ public class Housing_UI_Manager : MonoBehaviour
     {
         id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
         foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) {
-            Debug.Log(item.id);
+           // Debug.Log(item.id);
             //TODO: 인벤토리 버튼 추가
             GameObject go = Instantiate(button_prefab, button_container);
             Button btn = go.GetComponent<Button>();
@@ -84,6 +85,10 @@ public class Housing_UI_Manager : MonoBehaviour
 
     public void click_edit_btn() {
         is_edit_mode = true;
+        foreach (GameObject ui in hide_UI_list) {
+            ui.SetActive(false);
+        }
+
         edit_button.SetActive(false);
         housing_UI.SetActive(true);
         grid_renderer.enabled = true;
@@ -93,6 +98,11 @@ public class Housing_UI_Manager : MonoBehaviour
     public void click_X_btn()
     {
         is_edit_mode = false;
+        foreach (GameObject ui in hide_UI_list)
+        {
+            ui.SetActive(true);
+        }
+
         edit_button.SetActive(true);
         housing_UI.SetActive(false);
         grid_renderer.enabled = false;

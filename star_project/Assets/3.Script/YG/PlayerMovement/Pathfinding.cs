@@ -45,7 +45,7 @@ public class PathFinding : MonoBehaviour
 
             if (CurrentNode == TargetNode)
             {
-                Debug.Log("Find Path");
+                //Debug.Log("Find Path");
                 return GetFinalPath(StartNode, TargetNode);
                 //;
             }

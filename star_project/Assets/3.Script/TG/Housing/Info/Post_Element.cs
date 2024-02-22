@@ -26,6 +26,7 @@ public class Post_Element : MonoBehaviour
     public void init(Post post, UnityAction btn_callback, PostType post_type_) { 
         this.post = post;
         post_type = post_type_;
+        is_received = !post.isCanReceive;
         btn.onClick.AddListener(btn_callback);
         parse_reward();
         update_UI();
