@@ -14,7 +14,7 @@ public class FriendRequest_JGD : MonoBehaviour
     public int numcount;
 
 
-
+    
     public void GetFriendRequestList()
     {
         //GetReceivedRequestFriend()

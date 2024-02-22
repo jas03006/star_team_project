@@ -37,13 +37,15 @@ public class ObjectPlacer : MonoBehaviour
         return placedGameObject.Count - 1;
     }
 
-    public void RemoveObjectAt(int gameObjectIndex)
+    public void RemoveObjectAt(int gameObjectIndex, bool is_init=false)
     {
         if (placedGameObject.Count <= gameObjectIndex || placedGameObject[gameObjectIndex] == null)
             return;
 
-
-        TCP_Client_Manager.instance.housing_ui_manager.increase_use_count(placedGameObject[gameObjectIndex].GetComponent<Net_Housing_Object>().object_enum);
+        if (!is_init) {
+            TCP_Client_Manager.instance.housing_ui_manager.increase_use_count(placedGameObject[gameObjectIndex].GetComponent<Net_Housing_Object>().object_enum);
+        }
+        
 
         Destroy(placedGameObject[gameObjectIndex]);
 
