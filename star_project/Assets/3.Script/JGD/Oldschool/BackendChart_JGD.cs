@@ -10,6 +10,7 @@ public class ChartData
     public List<Item> item_list = new List<Item>();
     public List<Character_amount> Characteramount_list = new List<Character_amount>();
     public List<Mission> mission_list = new List<Mission>();
+    public List<StageClear> StageClear_list = new List<StageClear>();
 }
 
 public class BackendChart_JGD : MonoBehaviour
@@ -37,8 +38,17 @@ public class BackendChart_JGD : MonoBehaviour
         Item("109245");
         Character_amount("108882");
         Mission("109087");
+        StageClearInfo("109338");
     }
 
+    public void StageClearInfo(string chartId)
+    {
+        //차트 내용 저장
+        foreach (JsonData gameData in Get_data(chartId).FlattenRows())
+        {
+            chartData.StageClear_list.Add(new StageClear(gameData));
+        }
+    }
 
     public void Character(string chartId)
     {

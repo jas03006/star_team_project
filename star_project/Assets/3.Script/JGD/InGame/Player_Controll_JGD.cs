@@ -11,13 +11,13 @@ public class Player_Controll_JGD : MonoBehaviour
     Rigidbody2D rigi;
     [SerializeField] TMP_Text ScoreTxt;
 
-    //int PlayerLevel = BackendGameData_JGD.userData.level;
+    int PlayerLevel = BackendGameData_JGD.userData.level;
     public double MaxHp = 100;
     public double currentHp;
     [SerializeField]public int PlayerScore;
 
     [SerializeField] int[] ItmeInven = new int[2];   //아이템 저장소
-    [SerializeField] List<int> Alphabet = new List<int>();
+    [SerializeField] public List<string> Alphabet = new List<string>();
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Start()
     {
-        //MaxHp += (PlayerLevel - 1) * 10;  
+        MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
 
     }
@@ -54,8 +54,9 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
-            Alphabet.Add(collision.gameObject.GetComponent<Item_game>().itemid_);
-            
+            Alphabet.Add(collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID.ToString());
+            Destroy(collision.gameObject);
+            return;
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
@@ -71,9 +72,11 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
                 case Obstacle_ID.small_star:
                     collision.GetComponent<Star>().UseItem();
+                    Debug.Log(PlayerScore);
                     break;
                 case Obstacle_ID.big_star:
                     collision.GetComponent<Star>().UseItem();
+                    Debug.Log(PlayerScore);
                     break;
                 case Obstacle_ID.CheckBox:
                     
@@ -98,11 +101,13 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
                 default:
                     break;
+                    
 
             }
             Destroy(collision.gameObject);
+            return;
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
         {
             //Destroy(collision.gameObject); //이거 나중에 벽 부서지는효과로 변경
             switch (collision.gameObject.GetComponentInParent<ItemID_JGD>().obstacle_ID)
@@ -133,7 +138,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.RedWall:
                 case Obstacle_ID.Red_Rockwall:
                 case Obstacle_ID.Move_RedWall:
-                    OnDamage();
+                    //OnDamage();
 
                     break;
                 case Obstacle_ID.YellowWall:
@@ -151,6 +156,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 default:
                     break;
             }
+            return;
         }
     }
 
