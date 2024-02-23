@@ -39,6 +39,10 @@ public class Post_Element : MonoBehaviour
             item_str += item_dic[key]+" " +key+ "\n";
         }
         item_info.text = item_str;
+        if (is_received)
+        {
+            item_info.text += "È¹µæ¿Ï·á";
+        }
         //item_info.text = post.postReward.;
         date.text = post.inDate.Split(".")[0];
     }
