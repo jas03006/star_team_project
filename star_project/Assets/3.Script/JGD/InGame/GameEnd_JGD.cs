@@ -14,6 +14,7 @@ public class GameEnd_JGD : MonoBehaviour
     [SerializeField] private List<string> ClearData = new List<string>();
     [Header("ClearUI")]
     [SerializeField] private GameObject StageClearUI;
+    [SerializeField] private GameObject NextClearUI;
     [SerializeField] private List<Image> PlayerStar;
     [SerializeField] private List<Image> MissionClearStar;
     [SerializeField] private Sprite ClearStar;
@@ -31,7 +32,6 @@ public class GameEnd_JGD : MonoBehaviour
     {
         Stage = LevelSelectMenuManager_JGD.currLevel;
         ClearData.Clear();
-        StageClearUI.SetActive(false);
         Debug.Log("¾Æ¾Æ");
     }
     private void Start()
@@ -76,7 +76,7 @@ public class GameEnd_JGD : MonoBehaviour
             PlayerStar[0].sprite = ClearStar;
             MissionClearStar[0].sprite = ClearStar;
 
-            if (data.Star_2 <= Player.PlayerScore && Player.PlayerScore < data.Star_3)
+            if (data.Star_2 <= Player.PlayerScore)
             {
                 PlayerStar[1].sprite = ClearStar;
                 MissionClearStar[1].sprite = ClearStar;
