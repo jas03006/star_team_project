@@ -15,7 +15,18 @@ public class GameEnd_JGD : MonoBehaviour
     [Header("ClearUI")]
     [SerializeField] private GameObject StageClearUI;
     [SerializeField] private TMP_Text PlayerScore;
-    [SerializeField] private TMP_Text PlayerStar;   //스테이지 클리어 이후 별이 띄워지는 상황이면 바꾸기
+    [SerializeField] private List<Image> PlayerStar;
+    [SerializeField] private List<Image> MissionClearStar;
+    [SerializeField] private Sprite ClearStar;
+    [Header("Mission")]
+    [SerializeField] private TMP_Text Star_2;
+    [SerializeField] private TMP_Text Star_3;
+    [Header("result")]
+    [SerializeField] private TMP_Text StageStar;
+    [SerializeField] private TMP_Text MyStar;
+    [Header("Reward")]
+    [SerializeField] private TMP_Text Gold;
+
 
     private void Awake()
     {
@@ -57,21 +68,18 @@ public class GameEnd_JGD : MonoBehaviour
             Debug.Log("와난");
             StageClearUI.SetActive(true);
             PlayerScore.text = Player.PlayerScore.ToString();
-            if (Player.PlayerScore <= 0)
+
+            if (Player.PlayerScore < data.Star_2)  //이부분 별 띄워주는거면 내용바꾸기
             {
-                PlayerStar.text = 0.ToString();
-            }
-            else if (0 < Player.PlayerScore && Player.PlayerScore < data.Star_2)  //이부분 별 띄워주는거면 내용바꾸기
-            {
-                PlayerStar.text = 1.ToString();
+                PlayerStar[0] = ClearStar;
             }
             else if (data.Star_2 <= Player.PlayerScore && Player.PlayerScore < data.Star_3)
             {
-                PlayerStar.text = 2.ToString();
+                PlayerStar[1] = ClearStar;
             }
             else
             {
-                PlayerStar.text = 3.ToString();
+                PlayerStar[2] = ClearStar;
             }
             
 
