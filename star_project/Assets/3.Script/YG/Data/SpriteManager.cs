@@ -38,7 +38,12 @@ public class SpriteManager : MonoBehaviour
 
     public Sprite Num2Sprite(int sprite_num) //번호에 맞는 스프라이트 찾는 메서드
     {
-        return spriteDictionary[sprite_num];
+        if (spriteDictionary.ContainsKey(sprite_num))
+        {
+            return spriteDictionary[sprite_num];
+
+        }
+        return null;
     }
 
     public Sprite Num2Sprite(housing_itemID id) //번호에 맞는 스프라이트 찾는 메서드

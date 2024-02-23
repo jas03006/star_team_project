@@ -35,18 +35,36 @@ public class Star_nest_UI : MonoBehaviour
     public GameObject pop_up_button;
     public GameObject pop_up_result_UI;
 
-    public GameObject add_friend_button;
+    //public GameObject add_friend_button;
 
-    public GameObject level_up_button; 
-    public GameObject level_up_UI; 
+    [Header("LevelUP")]
+   // public GameObject level_up_button; 
+    public GameObject level_up_UI;
+    public TMP_Text before_nest_text;
+    public TMP_Text after_nest_text;
+    public Image before_nest_img;
+    public Image after_nest_img;
 
+    public TMP_Text level_up_info_text;
+    public TMP_Text level_up_gold;
+    public TMP_Text level_up_ark;
+
+    string[] nest_name_arr = { "LV1 별둥지", "LV2 별둥지", "LV3 별둥지", "LV4 별둥지" };
+    int[] required_ark_arr = { 10, 20, 30 };
+    int[] required_gold_arr = { 10, 20, 30 };
 
     private UserData user_data;
   
 
-    public void show_UI() {
-        UI_Container.SetActive(true);
-        load_info();
+    public void show_UI(bool is_starnest = true) {
+        if (is_starnest)
+        {
+            show_level_UI();
+        }
+        else {
+            UI_Container.SetActive(true);
+            load_info();
+        }        
     }
 
     public void hide_UI() {
@@ -55,15 +73,24 @@ public class Star_nest_UI : MonoBehaviour
     }
 
     public void load_info() {
-        string[] select = { "profile_background",
+
+       // if (TCP_Client_Manager.instance.now_room_id != TCP_Client_Manager.instance.my_player.object_id)
+     //   {
+            string[] select = { "profile_background",
             "profile_picture",
             "popularity",
             "title_adjective",
             "title_noun",
-            "planet_name", 
-            "info", 
+            "planet_name",
+            "info",
             "memo_info" };
-        user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select);
+            user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select);
+      //  }
+     //   else {
+       //     user_data = BackendGameData_JGD.userData;
+      //  }
+
+            
 
         //TODO: 이미지 매니저 만들기 -> 유저 데이터에 선택 이미지 정보 추가 -> 이미지 매니저를 통해 가져오기
         //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
@@ -80,13 +107,13 @@ public class Star_nest_UI : MonoBehaviour
         if (TCP_Client_Manager.instance.now_room_id != TCP_Client_Manager.instance.my_player.object_id)
         {
             pop_up_button.SetActive(true);
-            level_up_button.SetActive(false);
-            add_friend_button.SetActive(true);
+           // level_up_button.SetActive(false);
+           // add_friend_button.SetActive(true);
         }
         else {
             pop_up_button.SetActive(false);
-            level_up_button.SetActive(true);
-            add_friend_button.SetActive(false);
+           // level_up_button.SetActive(true);
+           // add_friend_button.SetActive(false);
 
         }
     }
@@ -125,8 +152,24 @@ public class Star_nest_UI : MonoBehaviour
     public void show_level_UI()
     {
         level_up_UI.SetActive(true);
+        update_level_UI();
+    // TCP_Client_Manager.instance.placement_system.housing_info.level.ToString();
+    }
 
-        // TCP_Client_Manager.instance.placement_system.housing_info.level.ToString();
+    public void update_level_UI() {
+        int level_ = BackendGameData_JGD.userData.housing_Info.level;
+
+        before_nest_text.text = nest_name_arr[level_];
+        after_nest_text.text = nest_name_arr[level_ + 1];
+
+        //TODO: 이미지 적용
+        //before_nest_img.sprite ;
+        //after_nest_img.sprite;
+
+        int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
+        level_up_info_text.text = $"플래닛 크기 확장\n{level_width_arr[level_]}X{level_width_arr[level_]} -> {level_width_arr[level_ + 1]}X{level_width_arr[level_ + 1]}";
+        level_up_gold.text = required_gold_arr[level_].ToString();
+        level_up_ark.text = required_ark_arr[level_].ToString();
     }
     public void hide_level_UI()
     {
@@ -136,14 +179,25 @@ public class Star_nest_UI : MonoBehaviour
 
     public void level_up() {
         if (can_level_up()) {
+            int level_ = BackendGameData_JGD.userData.housing_Info.level;
             TCP_Client_Manager.instance.placement_system.level_up();
+            MoneyManager.instance.Spend_Money(required_gold_arr[level_], required_ark_arr[level_]);
+            update_level_UI();
         }
     }
 
     public bool can_level_up() {
         if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
         {
-            return true;
+            int level_ = BackendGameData_JGD.userData.housing_Info.level;
+            if (required_gold_arr[level_]<= MoneyManager.instance.gold && required_ark_arr[level_] <= MoneyManager.instance.ark) {
+
+                return true;
+
+            }
+
+            return false;
+
         }
         return false;
     }

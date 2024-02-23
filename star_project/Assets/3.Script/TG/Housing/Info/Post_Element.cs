@@ -40,7 +40,7 @@ public class Post_Element : MonoBehaviour
         }
         item_info.text = item_str;
         //item_info.text = post.postReward.;
-        date.text = post.inDate;
+        date.text = post.inDate.Split(".")[0];
     }
     public void parse_reward() {
         string[] arr = post.content.Split(separator);
