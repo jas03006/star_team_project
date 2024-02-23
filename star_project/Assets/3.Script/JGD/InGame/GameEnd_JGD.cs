@@ -14,7 +14,6 @@ public class GameEnd_JGD : MonoBehaviour
     [SerializeField] private List<string> ClearData = new List<string>();
     [Header("ClearUI")]
     [SerializeField] private GameObject StageClearUI;
-    [SerializeField] private TMP_Text PlayerScore;
     [SerializeField] private List<Image> PlayerStar;
     [SerializeField] private List<Image> MissionClearStar;
     [SerializeField] private Sprite ClearStar;
@@ -67,19 +66,25 @@ public class GameEnd_JGD : MonoBehaviour
             }
             Debug.Log("와난");
             StageClearUI.SetActive(true);
-            PlayerScore.text = Player.PlayerScore.ToString();
+            StageStar.text = data.Allstar.ToString();
+            MyStar.text = Player.PlayerScore.ToString();
+            Star_2.text = $"X {data.Star_2.ToString()}";
+            Star_3.text = $"X {data.Star_3.ToString()}";
+            Gold.text = $"+ {Player.PlayerScore * 10} ";
 
-            if (Player.PlayerScore < data.Star_2)  //이부분 별 띄워주는거면 내용바꾸기
+
+            PlayerStar[0].sprite = ClearStar;
+            MissionClearStar[0].sprite = ClearStar;
+
+            if (data.Star_2 <= Player.PlayerScore && Player.PlayerScore < data.Star_3)
             {
-                PlayerStar[0] = ClearStar;
+                PlayerStar[1].sprite = ClearStar;
+                MissionClearStar[1].sprite = ClearStar;
             }
-            else if (data.Star_2 <= Player.PlayerScore && Player.PlayerScore < data.Star_3)
+            if(data.Star_3 < Player.PlayerScore)
             {
-                PlayerStar[1] = ClearStar;
-            }
-            else
-            {
-                PlayerStar[2] = ClearStar;
+                PlayerStar[2].sprite = ClearStar;
+                MissionClearStar[2].sprite = ClearStar;
             }
             
 
