@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Player_Controll_JGD : MonoBehaviour
 {
-    [SerializeField] GameObject camera;
+    [SerializeField] GameObject cameraCon;
     [SerializeField] private float Jump;
     [SerializeField] public float Speed;
     Rigidbody2D rigi;
     [SerializeField] TMP_Text ScoreTxt;
 
-    int PlayerLevel = BackendGameData_JGD.userData.level;
+    private int PlayerLevel = BackendGameData_JGD.userData.level;
     public double MaxHp = 100;
     public double currentHp;
     [SerializeField]public int PlayerScore;
@@ -31,9 +31,9 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Update()
     {
-        if (this.transform.position.x >=camera.transform.position.x && camera.transform.position.x < 67.8f)
+        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 67.8f)
         {
-            camera.transform.position = new Vector3(this.transform.position.x, camera.transform.position.y, -3);
+            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
         }
 
     }

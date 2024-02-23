@@ -7,6 +7,7 @@ using UnityEngine;
 {
     public item_ID id;
     public int itemid_;
+    public int Allstar;
     protected Item data;
     private string item_name;
     private Sprite sprite;
