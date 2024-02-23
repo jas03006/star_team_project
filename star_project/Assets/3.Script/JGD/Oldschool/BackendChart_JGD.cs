@@ -39,7 +39,7 @@ public class BackendChart_JGD : MonoBehaviour
         Item("109245");
         Character_amount("108882");
         Mission("109087");
-        StageClearInfo("109427");
+        StageClearInfo("109487");
         Challenge("109421");
 
     }
