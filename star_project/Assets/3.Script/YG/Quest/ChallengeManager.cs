@@ -17,7 +17,7 @@ public enum challenge_state
 {
     none = -1,
     incomplete,//완료X, 보상수령X
-    get_reward,//완료O, 보상수령X
+    can_reward,//완료O, 보상수령X
     complete//완료O, 보상수령O
 }
 public class ChallengeManager : MonoBehaviour
