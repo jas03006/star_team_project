@@ -21,7 +21,7 @@ public class Challenge_prefab : MonoBehaviour
             case challenge_state.incomplete:
                 state_text.text = "미완료";
                 break;
-            case challenge_state.get_reward:
+            case challenge_state.can_reward:
                 state_text.text = "보상수령";
                 break;
             case challenge_state.complete:

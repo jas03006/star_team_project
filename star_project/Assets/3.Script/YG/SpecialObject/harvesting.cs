@@ -155,8 +155,8 @@ public class Harvesting : Net_Housing_Object//, IObject
 
                 PostItem postItem = new PostItem();
 
-                postItem.Title = "Harvest";
-                postItem.Content = $"{TCP_Client_Manager.instance.my_player.object_id}" +
+                postItem.Title = "대리 수확 보상";
+                postItem.Content = $"{TCP_Client_Manager.instance.my_player.object_id}님이 수확해주었습니다!" +
                 $"{separator}{(int)Money.ark}:{reward}";
                 postItem.TableName = "USER_DATA";
                 if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)

@@ -121,7 +121,18 @@ public class MoneyManager : MonoBehaviour
         }
         Data_update();
     }
+    public void Get_Money(int gold_ = 0, int ark_ = 0, int ruby_ = 0)
+    {
+        if (gold_ == 0 && ark_ == 0 && ruby_ == 0)
+        {
+            return;
+        }
+        ark += ark_;
+        gold += gold_;
+        ruby += ruby_;
 
+        Data_update();
+    }
     public void Spend_Money(Money money, int num)
     {
         //아크 돈 마이너스 시키기
@@ -140,6 +151,17 @@ public class MoneyManager : MonoBehaviour
             default:
                 break;
         }
+        Data_update();
+    }
+    public void Spend_Money(int gold_ = 0, int ark_ = 0, int ruby_=0)
+    {
+        if (gold_ == 0 && ark_ ==0 && ruby_ == 0) {
+            return;
+        }
+        ark -= ark_;
+        gold -= gold_;
+        ruby -= ruby_;
+
         Data_update();
     }
     public void Data_update()

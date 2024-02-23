@@ -51,6 +51,9 @@ public class PlacementSystem : MonoBehaviour
 
     public void level_up(int delta = 1) {
         if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id) {
+
+
+
             BackendGameData_JGD.userData.housing_Info.level += delta;
             string[] select = { "Housing_Info" }; 
             BackendGameData_JGD.Instance.GameDataUpdate(select);
