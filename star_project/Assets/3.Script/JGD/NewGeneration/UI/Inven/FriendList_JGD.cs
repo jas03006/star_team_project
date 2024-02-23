@@ -84,8 +84,16 @@ public class FriendList_JGD : MonoBehaviour
             airship_UI.GetFriendList();           
         }
     }
-
+    public void ClearRecommendList()
+    {
+        int cnt = recommend_location.transform.childCount;
+        for (int i = 0; i < cnt; i++)
+        {
+            Destroy(recommend_location.transform.GetChild(i).gameObject);
+        }
+    }
     public void show_recommend_friends() {
+        ClearRecommendList();
         BackendReturnObject bro = Backend.GameData.Get("USER_DATA", new Where());
 
 
@@ -100,7 +108,7 @@ public class FriendList_JGD : MonoBehaviour
                 {
                     string nickName = friendJson["planet_name"].ToString();
 
-                    if (friend_dic.ContainsKey(nickName)) {
+                    if (friend_dic.ContainsKey(nickName) || TCP_Client_Manager.instance.my_player.object_id == nickName) {
                         continue;
                     }
 
@@ -116,7 +124,7 @@ public class FriendList_JGD : MonoBehaviour
 
                     int ind = numcount;
                     Button[] buttons = list.GetComponentsInChildren<Button>();
-                    if (buttons.Length >= 2)
+                    if (buttons.Length >= 1)
                     {
                         buttons[0].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
                         buttons[0].onClick.AddListener(() => Destroy(list));
