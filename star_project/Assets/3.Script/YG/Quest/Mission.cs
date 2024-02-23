@@ -12,21 +12,16 @@ public enum MissionType
     month
 }
 
-public class Mission
+public class Mission : Quest
 {
     //차트
     public MissionType type;
     public DateTime reset_time;
-    public int goal; //목표 수치
     public int reward_ark;
     public int reward_gold;
 
     //유저 데이터
     public Mission_userdata userdata;
-
-    //UI
-    public string title;
-    public string contents;
 
     public Mission(JsonData jsonData, int index)
     {
