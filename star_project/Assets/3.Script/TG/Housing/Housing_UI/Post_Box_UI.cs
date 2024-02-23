@@ -130,55 +130,65 @@ public class Post_Box_UI : MonoBehaviour
             post.title = postListJson["title"].ToString();
             post.content = postListJson["content"].ToString();
             post.inDate = postListJson["inDate"].ToString();
-
-           /* if (postType == PostType.User)
+            
+            if (!postListJson.ContainsKey("receivedDate"))
             {
-                if (postListJson["itemLocation"]["tableName"].ToString() == "USER_DATA")
-                {
-                    if (postListJson["itemLocation"]["column"].ToString() == "house_inventory")
-                    {
-                        foreach (string itemKey in postListJson["item"].Keys)
-                        {
-                            post.postReward.Add(itemKey, int.Parse(postListJson["item"][itemKey].ToString()));
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("아직 지원되지 않는 컬럼 정보입니다. :" + postListJson["itemLocation"]["column"].ToString());
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("아직 지원되지 않는 테이블 정보 입니다. : " + postListJson["itemLocation"]["tableName"].ToString());
-                }
+                post.isCanReceive = true;
             }
             else
             {
-                foreach (LitJson.JsonData itemJson in postListJson["items"])
-                {
-                    if (itemJson["chartName"].ToString() == chartName)
-                    {
-                        string itemName = itemJson["item"]["itemName"].ToString();
-                        int itemCount = int.Parse(itemJson["itemCount"].ToString());
+                Debug.Log(postListJson["receivedDate"].ToString());
+                post.isCanReceive = false;
 
-                        if (post.postReward.ContainsKey(itemName))
-                        {
-                            post.postReward[itemName] += itemCount;
-                        }
-                        else
-                        {
-                            post.postReward.Add(itemName, itemCount);
-                        }
+            }
+            /* if (postType == PostType.User)
+             {
+                 if (postListJson["itemLocation"]["tableName"].ToString() == "USER_DATA")
+                 {
+                     if (postListJson["itemLocation"]["column"].ToString() == "house_inventory")
+                     {
+                         foreach (string itemKey in postListJson["item"].Keys)
+                         {
+                             post.postReward.Add(itemKey, int.Parse(postListJson["item"][itemKey].ToString()));
+                         }
+                     }
+                     else
+                     {
+                         Debug.LogWarning("아직 지원되지 않는 컬럼 정보입니다. :" + postListJson["itemLocation"]["column"].ToString());
+                     }
+                 }
+                 else
+                 {
+                     Debug.LogWarning("아직 지원되지 않는 테이블 정보 입니다. : " + postListJson["itemLocation"]["tableName"].ToString());
+                 }
+             }
+             else
+             {
+                 foreach (LitJson.JsonData itemJson in postListJson["items"])
+                 {
+                     if (itemJson["chartName"].ToString() == chartName)
+                     {
+                         string itemName = itemJson["item"]["itemName"].ToString();
+                         int itemCount = int.Parse(itemJson["itemCount"].ToString());
 
-                        post.isCanReceive = true;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("아직 지원되지 않는 차트 정보 입니다. : " + itemJson["chartName"].ToString());
-                        post.isCanReceive = false;
-                    }
-                }
-            }*/
+                         if (post.postReward.ContainsKey(itemName))
+                         {
+                             post.postReward[itemName] += itemCount;
+                         }
+                         else
+                         {
+                             post.postReward.Add(itemName, itemCount);
+                         }
+
+                         post.isCanReceive = true;
+                     }
+                     else
+                     {
+                         Debug.LogWarning("아직 지원되지 않는 차트 정보 입니다. : " + itemJson["chartName"].ToString());
+                         post.isCanReceive = false;
+                     }
+                 }
+             }*/
             _postList.Add(post);
         }
         /*for (int i = 0; i < _postList.Count; i++)
