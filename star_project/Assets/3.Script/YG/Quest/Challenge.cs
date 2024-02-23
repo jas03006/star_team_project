@@ -6,9 +6,11 @@ using UnityEngine;
 public class Challenge : Quest
 {
     public Challenge_userdata userdata;
+
     //차트
     public challenge_id id;
     public int CP; //reward
+    public string contents2;
 
     public Challenge(JsonData jsonData, int index)
     {
@@ -20,23 +22,8 @@ public class Challenge : Quest
 
         title = jsonData["title"].ToString();
         contents = jsonData["contents"].ToString();
+        contents2 = jsonData["contents2"].ToString();
     }
-}
-
-public enum challenge_id
-{
-    none = -1,
-    common,
-    play,
-    community
-}
-
-public enum challenge_state
-{
-    none = -1,
-    incomplete,//완료X, 보상수령X
-    get_reward,//완료O, 보상수령X
-    complete//완료O, 보상수령O
 }
 
 public class Challenge_userdata
@@ -46,7 +33,6 @@ public class Challenge_userdata
     public bool get_rewarded;
     public int criterion; //현재 수치
     public challenge_state state;
-    public Dictionary<int, Challenge_info> data_dic;
 
     public Challenge_userdata(JsonData jsonData)
     {
@@ -54,11 +40,8 @@ public class Challenge_userdata
         CP = int.Parse(jsonData["CP"].ToString());
         get_rewarded = bool.Parse(jsonData["get_rewarded"].ToString());
         criterion = int.Parse(jsonData["criterion"].ToString());
-
-        for (int i = 0; i < 9; i++) //9 = 업적 갯수
-        {
-            data_dic.Add(i, new Challenge_info(jsonData["data_dic"].ToString()));
-        }
+        state = (challenge_state)int.Parse(jsonData["state"].ToString());
+        //Canvas.ForceUpdateCanvases();
     }
 
     public Challenge_userdata()
@@ -67,11 +50,7 @@ public class Challenge_userdata
         CP = 0;
         get_rewarded = false;
         criterion = 0;
-
-        for (int i = 0; i < 9; i++) //9 = 업적 갯수
-        {
-            data_dic.Add(i,new Challenge_info());
-        }
+        state = challenge_state.incomplete;
     }
 
     public void Data_update()
