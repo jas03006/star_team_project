@@ -6,10 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameStage : MonoBehaviour
 {
     public GameObject[] levels;
+    [SerializeField]private GameObject ResultUI;
+    [SerializeField]private GameObject NextResultUI;
+
     [SerializeField] private SceneNames nextScene;
     private void Start()
     {
+        ResultUI.SetActive(false);
+        NextResultUI.SetActive(false);
         levels[LevelSelectMenuManager_JGD.currLevel].SetActive(true);
+
     }
 
     public void StgageSelect_Btn()
@@ -17,7 +23,11 @@ public class GameStage : MonoBehaviour
         SceneManager.LoadScene(nextScene.ToString());
     }
 
-
+    public void nextResult()
+    {
+        ResultUI.SetActive(false);
+        NextResultUI.SetActive(true);
+    }
     public void LevelComplete(int starsAquired)  //게임결과
     {
         if (LevelSelectMenuManager_JGD.currLevel == LevelSelectMenuManager_JGD.UnlockedLevels)
