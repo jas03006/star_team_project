@@ -19,9 +19,9 @@ public class Catchingstar_info
 
     public Catchingstar_info(JsonData jsonData)
     {
-        for (int i = 0; i < 5; i++)
+        foreach (JsonData json in jsonData["galaxy_Info_list"])
         {
-            galaxy_Info_list.Add(new Galaxy_info(jsonData));
+            galaxy_Info_list.Add(new Galaxy_info(json));
         }
     }
 }
@@ -56,15 +56,18 @@ public class Galaxy_info
     public Galaxy_info(JsonData jsonData)
     {
         //star_Info_list
-        for (int i = 0; i < 5; i++)
+        foreach (JsonData json in jsonData["star_Info_list"])
         {
-            star_Info_list.Add(new star_info(jsonData));
+            star_Info_list.Add(new star_info(json));
         }
 
         //galaxy_state
-        galaxy_state.Add((Galaxy_state)int.Parse(jsonData["state1"].ToString()));
-        galaxy_state.Add((Galaxy_state)int.Parse(jsonData["state2"].ToString()));
-        galaxy_state.Add((Galaxy_state)int.Parse(jsonData["state3"].ToString()));
+        foreach (JsonData json in jsonData["galaxy_state"])
+        {
+            galaxy_state.Add((Galaxy_state)int.Parse(json.ToString()));
+        }
+
+
     }
 }
 
