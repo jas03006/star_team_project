@@ -333,8 +333,8 @@ public class TCP_Client_Manager : MonoBehaviour
         chat_box_manager.clear();        
         remove_all_guest(except_self: true);
         my_player.stop_DOTween();
-        my_player.transform.position = Vector3.zero;        
-        SceneManager.LoadScene(lobby_scene_name);
+        my_player.transform.position = -Vector3.right * 1000f;        
+        //SceneManager.LoadScene(lobby_scene_name);
     }
 
     public Vector3 get_respawn_point(string uuid_) {
@@ -558,7 +558,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (send_join_request(now_room_id, my_player.object_id))
         {
             exit_room();
-            hide_planet_buttons();
+            hide_planet_buttons(is_going_lobby:false);
             //hide_buttons();
         }
     }
