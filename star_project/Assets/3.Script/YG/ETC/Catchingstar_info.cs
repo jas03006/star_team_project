@@ -1,5 +1,4 @@
 using LitJson;
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,8 +65,6 @@ public class Galaxy_info
         {
             galaxy_state.Add((Galaxy_state)int.Parse(json.ToString()));
         }
-
-
     }
 }
 
