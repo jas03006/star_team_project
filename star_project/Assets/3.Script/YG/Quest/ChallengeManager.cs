@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-/*
-해야될거 : 백엔드차트에 챌린지 데이터 추가하기
 
- */
 public enum challenge_id
 {
     none = -1,
@@ -12,7 +9,6 @@ public enum challenge_id
     play,
     community
 }
-
 public enum challenge_state
 {
     none = -1,
@@ -28,57 +24,85 @@ public class ChallengeManager : MonoBehaviour
         set
         {
             state_ = value;
-            //Reset_btn();
+            UI_update();
         }
     }
 
     public challenge_id state_;
-    List<Challenge> missions_common = new List<Challenge>();
-    List<Challenge> missions_play = new List<Challenge>();
-    List<Challenge> missions_community = new List<Challenge>();
+    List<Challenge> challenge_common = new List<Challenge>();
+    List<Challenge> challenge_play = new List<Challenge>();
+    List<Challenge> challenge_community = new List<Challenge>();
     Challenge cur_challenge;
 
     [Header("Instantiate")]
     [SerializeField] private GameObject prefab;
     [SerializeField] private GameObject content_zone;
 
-    [Header("UI")]
-    [SerializeField] private Button reward_btn;
-
 
     private void Start()
     {
         Setting();
+        UI_update();
     }
 
     private void Setting()//미션 데이터 불러오기
     {
-        List<Challenge> challenges = BackendChart_JGD.chartData.challenge_list;
-
-        foreach (var challenge in challenges)
+        foreach (var challenge in BackendChart_JGD.chartData.challenge_list)
         {
             switch (challenge.id)
             {
                 case challenge_id.common:
-                    missions_common.Add(challenge);
+                    challenge_common.Add(challenge);
                     break;
                 case challenge_id.play:
-                    missions_play.Add(challenge);
+                    challenge_play.Add(challenge);
                     break;
                 case challenge_id.community:
-                    missions_community.Add(challenge);
+                    challenge_community.Add(challenge);
                     break;
                 default:
                     break;
             }
         }
-
         state = challenge_id.common;
-        reward_btn.enabled = false;
     }
 
-    public void Make_prefab()
+    private void UI_update()
+    {
+        List<Challenge> cur_list = new List<Challenge>();
+        switch (state)
+        {
+            case challenge_id.common:
+                cur_list = challenge_common;
+                break;
+            case challenge_id.play:
+                cur_list = challenge_play;
+                break;
+            case challenge_id.community:
+                cur_list = challenge_community;
+                break;
+            default:
+                break;
+        }
+
+        foreach (var challenge in cur_list)
+        {
+            Make_prefab(challenge);
+        }
+    }
+
+    public void Make_prefab(Challenge challenge)
     {
         GameObject obj = Instantiate(prefab);
+        obj.transform.SetParent(content_zone.transform, false);
+        Canvas.ForceUpdateCanvases();
+
+        Challenge_prefab challenge_prefab = obj.GetComponent<Challenge_prefab>();
+        challenge_prefab.UI_update(challenge);
+    }
+
+    public void Change_state(int tmp) //일반,플레이,커뮤니티에 달 버튼
+    {
+        state = (challenge_id)tmp;
     }
 }

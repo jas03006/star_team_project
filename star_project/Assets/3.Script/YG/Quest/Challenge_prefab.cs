@@ -10,6 +10,8 @@ public class Challenge_prefab : MonoBehaviour
     [SerializeField] TMP_Text count_text;
     [SerializeField] TMP_Text state_text;
 
+    [SerializeField] GameObject detail;
+
     public void UI_update(Challenge challenge)
     {
         name_text.text = challenge.title;
@@ -28,5 +30,16 @@ public class Challenge_prefab : MonoBehaviour
                 state_text.text = "¿Ï·á";
                 break;
         }
+    }
+
+    public void Active_Change()
+    {
+        detail.SetActive(!detail.activeSelf);
+        Canvas.ForceUpdateCanvases();
+    }
+
+    public void Get_reward()
+    {
+        
     }
 }
