@@ -22,6 +22,11 @@ public class InputManager : MonoBehaviour
 
     public bool IsPointerOverUI() => EventSystem.current.IsPointerOverGameObject();
 
+    public bool IsPointerOverClickableUI() { // 마이플래닛에서 캐릭터와 상호작용 가능한UI 위에 있는지 체크 
+        return false;
+       // return true;
+    }
+
     public Vector3 GetSelectedPosition()
     {
         //마우스 선택 위치 찍기

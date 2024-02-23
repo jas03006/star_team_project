@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 public class PlacementSystem : MonoBehaviour
 {
-    [SerializeField] InputManager inputManager;
+    [SerializeField] public InputManager inputManager;
     [SerializeField] public Grid grid;
 
     [SerializeField] ObjectsDatabaseSO database;
@@ -161,6 +161,7 @@ public class PlacementSystem : MonoBehaviour
     {
         if (inputManager.IsPointerOverUI())
         {
+            cancel_placement();
             return;
         }
 
