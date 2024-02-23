@@ -44,4 +44,8 @@ public class TestBtnAction : MonoBehaviour
     public void hide_planet_UI() {
         TCP_Client_Manager.instance.hide_planet_buttons(false);
     }
+
+    public void exit_room() {
+        TCP_Client_Manager.instance.exit_room_btn();
+    }
 }
