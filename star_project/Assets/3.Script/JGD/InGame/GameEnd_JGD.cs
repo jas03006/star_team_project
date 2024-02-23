@@ -121,7 +121,7 @@ public class GameEnd_JGD : MonoBehaviour
         {
             int Sprite = (int)Enum.Parse(typeof(item_ID), ClearData[i]);
             Debug.Log(Sprite);
-            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(Sprite);
+            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000+Sprite);
         }
         
 
