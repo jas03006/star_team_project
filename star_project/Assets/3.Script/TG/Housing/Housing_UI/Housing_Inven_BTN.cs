@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class Housing_Inven_BTN : MonoBehaviour
+
+public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Button btn;
     [SerializeField] private Image img;
@@ -14,6 +16,13 @@ public class Housing_Inven_BTN : MonoBehaviour
     housing_itemID id;
     int usable_cnt;
     int max_cnt;
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        TCP_Client_Manager.instance.placement_system.StartPlacement((int)id);
+    }
+
+
 
     public void init(housing_itemID id_, int use_cnt_, int max_cnt_) {
         id = id_;

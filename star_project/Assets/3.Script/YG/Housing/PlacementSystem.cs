@@ -115,6 +115,7 @@ public class PlacementSystem : MonoBehaviour
         }
         
         TCP_Client_Manager.instance.send_update_request();
+        
     }
 
     public void place_structure_init(HousingObjectInfo hoi)
@@ -145,6 +146,19 @@ public class PlacementSystem : MonoBehaviour
         inputManager.Onclicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
 
+    }
+    public void remove(Net_Housing_Object ob)
+    {
+        remove(ob.transform.position);
+    }
+    public void remove(Vector3 position_)
+    {
+        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer, is_init: true);
+        position_.y = 0;
+        buildingState.OnAction( grid.WorldToCell(position_));
+        buildingState.EndState();
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
     }
 
     public void StartRemoving()
@@ -201,13 +215,17 @@ public class PlacementSystem : MonoBehaviour
             return;
 
         Vector3 mousePosition = inputManager.GetSelectedPosition();
-        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+        Debug.Log(mousePosition.y);
+        if (mousePosition.y < 10000) {
+            Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
-        if (lastDetectedPostition != gridPosition)
-        {
-            buildingState.UpdateState(gridPosition);
-            lastDetectedPostition = gridPosition;
+            if (lastDetectedPostition != gridPosition)
+            {
+                buildingState.UpdateState(gridPosition);
+                lastDetectedPostition = gridPosition;
+            }
         }
+        
     }
 
 

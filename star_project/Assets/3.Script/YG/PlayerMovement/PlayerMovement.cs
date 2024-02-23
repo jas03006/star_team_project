@@ -33,7 +33,7 @@ public class PlayerMovement : Player_Network_TG
 
 
             Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
-            if (!TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode && Input.GetMouseButtonUp(0) )
+            if (Input.GetMouseButtonUp(0) )
             {// Debug.Log("RightClick!");
              //if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
              // {
@@ -51,19 +51,31 @@ public class PlayerMovement : Player_Network_TG
 
                             Vector3 dest = hit.point;
                             dest.y = 0f;
-                            dest = grid.find_nearest_space(dest, transform.position);
+                            
 
-                            net_move(transform.position, dest);
-                            TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
-                            move(transform.position, dest, action);
+
+                            if (!TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode)
+                            {
+                                dest = grid.find_nearest_space(dest, transform.position);
+                                net_move(transform.position, dest);
+
+                                TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
+                                move(transform.position, dest, action);
+                            }
+                            else {
+                                TCP_Client_Manager.instance.housing_ui_manager.show_edit_UI(hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>());
+                            }
+
                         }
-                        else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
+                        else if (!TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode && Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
                         {
                             // Debug.Log("check!");
                             Vector3 dest = hit.point;
                             dest.y = transform.position.y;
+                            
                             net_move(transform.position, dest);
                             move(transform.position, dest);
+                           
                         }
                     }
                 }

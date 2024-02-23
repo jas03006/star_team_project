@@ -11,16 +11,38 @@ public class InputManager : MonoBehaviour
     [SerializeField] private LayerMask placement_layermask;
 
     public event Action Onclicked, OnExit;
+
+    private bool old_btn_up = false;
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        bool now_btn_up = Input.GetMouseButtonUp(0);
+        if (now_btn_up && !IsPointerOverUI()) {
             Onclicked?.Invoke();
-
-        if (Input.GetKeyDown(KeyCode.Escape))
             OnExit?.Invoke();
+        }
+
+
+        if ( now_btn_up && !old_btn_up && IsPointerOverUI())
+        {
+            Debug.Log("exit");
+           // OnExit?.Invoke();
+        }
+        old_btn_up = now_btn_up;
     }
 
-    public bool IsPointerOverUI() => EventSystem.current.IsPointerOverGameObject();
+    public bool IsPointerOverUI() {
+        
+        foreach (Touch touch in Input.touches)
+        {
+            int id = touch.fingerId;
+            if (EventSystem.current.IsPointerOverGameObject(id))
+            {
+                // ui touched
+
+            }
+        }
+        return EventSystem.current.IsPointerOverGameObject();     
+    }
 
     public bool IsPointerOverClickableUI() { // 마이플래닛에서 캐릭터와 상호작용 가능한UI 위에 있는지 체크 
         return false;
@@ -29,6 +51,14 @@ public class InputManager : MonoBehaviour
 
     public Vector3 GetSelectedPosition()
     {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.touches.Length == 0)
+            {
+                return Vector3.up * 10000;
+            }
+        }
+        
         //마우스 선택 위치 찍기
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = scene_cam.nearClipPlane; //카메라의 위치부터 렌더링을 시작 할 최소 위치까지의 거리(카메라 컴포넌트에서 near값 return)

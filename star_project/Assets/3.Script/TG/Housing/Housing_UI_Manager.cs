@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class Housing_UI_Manager : MonoBehaviour
     public LayerMask edit_mode_mask;
 
     public bool is_edit_mode = false;
+    public GameObject edit_UI;
+
+    public Action delete_action;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,11 +54,12 @@ public class Housing_UI_Manager : MonoBehaviour
             //TODO: 인벤토리 버튼 추가
             GameObject go = Instantiate(button_prefab, button_container);
             Button btn = go.GetComponent<Button>();
-            btn.onClick.AddListener(
+
+           /* btn.onClick.AddListener(
                 delegate () { 
                     TCP_Client_Manager.instance.placement_system.StartPlacement((int)item.id);
                 }
-                );
+                );*/
 
             
 
@@ -108,5 +113,24 @@ public class Housing_UI_Manager : MonoBehaviour
         grid_renderer.enabled = false;
 
         camera.cullingMask = default_mask;
+    }
+
+    public void show_edit_UI(Net_Housing_Object ob) {
+        edit_UI.SetActive(true);
+        
+        TCP_Client_Manager.instance.placement_system.StartPlacement((int)ob.object_enum);
+        delete_action = delegate(){ TCP_Client_Manager.instance.placement_system.remove(ob);  };
+       // StartCoroutine(show_edit_UI_co());
+    }
+
+    public void click_delete_btn() { 
+        
+    }
+
+    public IEnumerator show_edit_UI_co() { 
+        while(true) { 
+                    
+            yield return null;         
+        }
     }
 }
