@@ -34,7 +34,7 @@ public class GameEnd_JGD : MonoBehaviour
     [SerializeField] private TMP_Text K_word;
     [SerializeField] private TMP_Text Sentence;
     [SerializeField]List<GameObject> Stageword = new List<GameObject>();
-
+    public int StarCount = 0;
 
 
     private void Awake()
@@ -54,14 +54,14 @@ public class GameEnd_JGD : MonoBehaviour
         {
             ClearData.Add(Clearwords[i]);
         }
+        Time.timeScale = 1.0f;
 
-        
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            int count = 0;
+            //int count = 0;
             var Player = collision.GetComponent<Player_Controll_JGD>();
             //for (int i = 0; i < ClearData.Count; i++)
             //{
@@ -70,7 +70,6 @@ public class GameEnd_JGD : MonoBehaviour
             //        count++;
             //    }
             //}
-            Time.timeScale = 0;
             //if (count == ClearData.Count)
             //{
             //    // 아이템 지급
@@ -91,17 +90,20 @@ public class GameEnd_JGD : MonoBehaviour
 
             PlayerStar[0].sprite = ClearStar;
             MissionClearStar[0].sprite = ClearStar;
-
+            StarCount = 1;
             if (data.Star_2 <= Player.PlayerScore)
             {
                 PlayerStar[1].sprite = ClearStar;
                 MissionClearStar[1].sprite = ClearStar;
+                StarCount = 2;
             }
             if(data.Star_3 < Player.PlayerScore)
             {
                 PlayerStar[2].sprite = ClearStar;
                 MissionClearStar[2].sprite = ClearStar;
+                StarCount = 3;
             }
+            Time.timeScale = 0;
             
 
         }
@@ -121,7 +123,7 @@ public class GameEnd_JGD : MonoBehaviour
         {
             int Sprite = (int)Enum.Parse(typeof(item_ID), ClearData[i]);
             Debug.Log(Sprite);
-            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(Sprite);
+            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000+Sprite);
         }
         
 
