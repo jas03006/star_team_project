@@ -11,7 +11,7 @@ public class Player_Controll_JGD : MonoBehaviour
     Rigidbody2D rigi;
     [SerializeField] TMP_Text ScoreTxt;
 
-    private int PlayerLevel = BackendGameData_JGD.userData.level;
+    private int PlayerLevel = BackendGameData_JGD.userData.character_info.character_dic[0];
     public double MaxHp = 100;
     public double currentHp;
     [SerializeField]public int PlayerScore;
