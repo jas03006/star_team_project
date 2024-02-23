@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource BGM_AudioSource;
     [SerializeField] AudioSource SFX_AudioSource;
 
-    [Header("Audio")]
+    [Header("Audioclip")]
     [SerializeField] private AudioClip click;
 
     private void Awake()
