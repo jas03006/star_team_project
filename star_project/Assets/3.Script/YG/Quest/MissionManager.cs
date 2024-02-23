@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Mission_state
+public enum mission_state
 {
     daily,
     week,
@@ -13,7 +13,7 @@ public enum Mission_state
 
 public class MissionManager : MonoBehaviour
 {
-    Mission_state state
+    mission_state state
     {
         get { return state_; }
         set
@@ -22,7 +22,7 @@ public class MissionManager : MonoBehaviour
             Reset_btn();
         }
     }
-    private Mission_state state_;
+    private mission_state state_;
     List<Mission> missions_daily = new List<Mission>();
     List<Mission> missions_week = new List<Mission>();
     List<Mission> missions_month = new List<Mission>();
@@ -67,7 +67,7 @@ public class MissionManager : MonoBehaviour
                     break;
             }
         }
-        state = Mission_state.daily;
+        state = mission_state.daily;
         reward_btn.enabled = false;
     }
 
@@ -77,13 +77,13 @@ public class MissionManager : MonoBehaviour
 
         switch (state)
         {
-            case Mission_state.daily:
+            case mission_state.daily:
                 missions = missions_daily;
                 break;
-            case Mission_state.week:
+            case mission_state.week:
                 missions = missions_week;
                 break;
-            case Mission_state.month:
+            case mission_state.month:
                 missions = missions_month;
                 break;
             default:
@@ -102,13 +102,13 @@ public class MissionManager : MonoBehaviour
     {
         switch (state)
         {
-            case Mission_state.daily:
+            case mission_state.daily:
                 cur_mission = missions_daily[index];
                 break;
-            case Mission_state.week:
+            case mission_state.week:
                 cur_mission = missions_week[index];
                 break;
-            case Mission_state.month:
+            case mission_state.month:
                 cur_mission = missions_month[index];
                 break;
             default:
@@ -150,7 +150,7 @@ public class MissionManager : MonoBehaviour
 
     public void Change_state(int i) //일일,주간,월간 보상 클릭 시 호출
     {
-        state = (Mission_state)i;
+        state = (mission_state)i;
         Debug.Log(state);
         Reset_btn();
 

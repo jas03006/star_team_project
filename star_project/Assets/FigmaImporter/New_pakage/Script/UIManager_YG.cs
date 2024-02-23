@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class UIManager_YG : MonoBehaviour
 {
     [SerializeField] Canvas canvas;
-    public static UIManager Instance;
+    public static UIManager_YG Instance;
 
     private void Awake()
     {
@@ -30,13 +30,13 @@ public class UIManager : MonoBehaviour
 
     private void LoadedsceneEvent(Scene arg0, LoadSceneMode arg1)
     {
-        if (SceneManager.GetActiveScene().name == "Stage")
+        if (SceneManager.GetActiveScene().name == "Stage" || SceneManager.GetActiveScene().name == "My_Planet_TG")
         {
-            canvas.enabled = false;
+            canvas.enabled = true;
         }
         else
         {
-            canvas.enabled = true;
+            canvas.enabled = false;
         }
     }
 }
