@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameStage : MonoBehaviour
 {
     public GameObject[] levels;
-
+    [SerializeField]private GameEnd_JGD Player;
     [SerializeField] private SceneNames nextScene;
     private void Start()
     {
@@ -19,10 +19,19 @@ public class GameStage : MonoBehaviour
     {
         SceneManager.LoadScene(nextScene.ToString());
     }
-
-
-    public void LevelComplete(int starsAquired)  //게임결과
+    public void StageSelect(string stage)
     {
+        SceneManager.LoadScene(stage);
+    }
+    public void NextSceneSelect()
+    {
+        LevelSelectMenuManager_JGD.currLevel++;
+        SceneManager.LoadScene("Game");
+    }
+    public void LevelComplete()  //게임결과
+    {
+        int starsAquired = 0;
+        starsAquired = Player.StarCount;
         if (LevelSelectMenuManager_JGD.currLevel == LevelSelectMenuManager_JGD.UnlockedLevels)
         {
             LevelSelectMenuManager_JGD.UnlockedLevels++;
@@ -32,7 +41,6 @@ public class GameStage : MonoBehaviour
         {
             PlayerPrefs.SetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(), starsAquired);
         }
-        SceneManager.LoadScene("Stage");
     }
 
 
