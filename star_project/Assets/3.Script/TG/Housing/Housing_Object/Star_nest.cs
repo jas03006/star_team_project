@@ -31,7 +31,7 @@ public class Star_nest : Net_Housing_Object
     {
         if (star_nest_UI != null && !star_nest_UI.transform.GetChild(0).gameObject.activeSelf)
         {
-            star_nest_UI.show_UI();
+            star_nest_UI.show_UI(TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id);
             //star_nest_UI.ClearFriendList();
             //star_nest_UI.GetFriendList();
         }

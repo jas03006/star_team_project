@@ -67,7 +67,7 @@ public class HousingObjectInfo
     public HousingObjectInfo(housing_itemID item_ID_)
     {
         item_ID = item_ID_;
-        position = new Vector2(UnityEngine.Random.Range(0, 7), UnityEngine.Random.Range(0, 7));
+        position = new Vector2(0,0);
         direction = 0;
         start_time = DateTime.MaxValue;
         harvesting_selection = -1;
