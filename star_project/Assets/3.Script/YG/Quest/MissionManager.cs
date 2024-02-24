@@ -97,7 +97,6 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-
     private void UI_updateL()
     {
         switch (state)
@@ -153,7 +152,6 @@ public class MissionManager : MonoBehaviour
         state = (mission_state)i;
         Debug.Log(state);
         Reset_btn();
-
     }
 
     public void Get_reward() //º¸»óÈ¹µæ ¹öÆ°
