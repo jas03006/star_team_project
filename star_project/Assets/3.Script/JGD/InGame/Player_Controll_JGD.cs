@@ -24,7 +24,6 @@ public class Player_Controll_JGD : MonoBehaviour
 
 
 
-    Touch touch = Input.GetTouch(0);
 
     private void Awake()
     {
