@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player_Controll_JGD : MonoBehaviour
 {
+    private bool isMove = true;
     [SerializeField] GameObject cameraCon;
     [SerializeField] private float Jump;
     [SerializeField] public float Speed;
@@ -15,9 +17,14 @@ public class Player_Controll_JGD : MonoBehaviour
     public double MaxHp = 100;
     public double currentHp;
     [SerializeField]public int PlayerScore;
+    [SerializeField] private GameObject PlayerDieUI;
 
     [SerializeField] int[] ItmeInven = new int[2];   //아이템 저장소
     [SerializeField] public List<string> Alphabet = new List<string>();
+
+
+
+    Touch touch = Input.GetTouch(0);
 
     private void Awake()
     {
@@ -25,6 +32,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Start()
     {
+        PlayerDieUI.SetActive(false);
         PlayerLevel = BackendGameData_JGD.userData.character_info.character_dic[0];
         MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
@@ -32,7 +40,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Update()
     {
-        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 67.8f)
+        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
         {
             cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
         }
@@ -40,16 +48,28 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
-        if (Input.GetKey(KeyCode.Space))
+        if (isMove)
+        {
+            this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
+        }
+        if (Input.GetMouseButton(0))
         {
             rigi.velocity = Vector2.up *Jump;
         }
     }
 
-    private void OnDamage()
+    private IEnumerator OnDamage()
     {
+        isMove = false;
         currentHp -= 80;
+        if (currentHp < 0)
+        {
+            Time.timeScale = 0;
+            PlayerDieUI.SetActive(true);
+        }
+        rigi.AddForce(Vector2.left * 2f,ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.5f);
+        isMove = true;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -116,47 +136,48 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.NomalWall:
                 case Obstacle_ID.Nomal_Rockwall:
                 case Obstacle_ID.Move_NomalWall:
-
-                    OnDamage();
+                    
                     break;
                 case Obstacle_ID.BlueWall:
                 case Obstacle_ID.Blue_Rockwall:
                 case Obstacle_ID.Move_BlueWall:
-                    OnDamage();
+
                     break;
                 case Obstacle_ID.GreenWall:
                 case Obstacle_ID.Green_Rockwall:
                 case Obstacle_ID.Move_GreenWall:
-                    OnDamage();
+
 
                     break;
                 case Obstacle_ID.PurpleWall:
                 case Obstacle_ID.Purple_Rockwall:
                 case Obstacle_ID.Move_PurpleWall:
-                    OnDamage();
+
 
                     break;
                 case Obstacle_ID.RedWall:
                 case Obstacle_ID.Red_Rockwall:
                 case Obstacle_ID.Move_RedWall:
-                    //OnDamage();
+
 
                     break;
                 case Obstacle_ID.YellowWall:
                 case Obstacle_ID.Yellow_Rockwall:
                 case Obstacle_ID.Move_YellowWall:
-                    OnDamage();
+
 
                     break;
 
                 case Obstacle_ID.BlackHole:
                 case Obstacle_ID.Meteor:
-                    OnDamage();
+
                     break;
 
                 default:
                     break;
             }
+            StartCoroutine(OnDamage());
+            Destroy(collision.gameObject);
             return;
         }
     }
