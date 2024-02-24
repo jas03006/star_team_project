@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     SFX = SFX_Clip¿Ã∏ß (ex:SFX_chapter_open)
     ETC = Switchmode_bgm() or Switchmode_sfx()
      */
+
     static public AudioManager instance;
 
     [SerializeField] bool playing_bgm = true;

@@ -1,6 +1,6 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum challenge_id
 {
@@ -24,28 +24,27 @@ public class ChallengeManager : MonoBehaviour
         set
         {
             state_ = value;
-            UI_update();
+            Update_UI();
         }
     }
-
     public challenge_id state_;
+
     List<Challenge> challenge_common = new List<Challenge>();
     List<Challenge> challenge_play = new List<Challenge>();
     List<Challenge> challenge_community = new List<Challenge>();
-    Challenge cur_challenge;
 
-    [Header("Instantiate")]
+    List<Challenge_prefab> challenge_prefab_list = new List<Challenge_prefab>();
+
     [SerializeField] private GameObject prefab;
     [SerializeField] private GameObject content_zone;
 
-
     private void Start()
     {
-        Setting();
-        UI_update();
+        Setting_data();
+        Setting_prefab();
     }
 
-    private void Setting()//미션 데이터 불러오기
+    private void Setting_data()
     {
         foreach (var challenge in BackendChart_JGD.chartData.challenge_list)
         {
@@ -67,27 +66,36 @@ public class ChallengeManager : MonoBehaviour
         state = challenge_id.common;
     }
 
-    private void UI_update()
+    private List<Challenge> Get_list()
     {
-        List<Challenge> cur_list = new List<Challenge>();
         switch (state)
         {
             case challenge_id.common:
-                cur_list = challenge_common;
-                break;
+                return challenge_common;
             case challenge_id.play:
-                cur_list = challenge_play;
-                break;
+                return challenge_play;
             case challenge_id.community:
-                cur_list = challenge_community;
-                break;
+                return challenge_community;
             default:
-                break;
+                return null;
         }
+    }
 
-        foreach (var challenge in cur_list)
+    private void Setting_prefab()
+    {
+        foreach (Challenge challenge in Get_list())
         {
             Make_prefab(challenge);
+        }
+    }
+
+    private void Update_UI()
+    {
+        List<Challenge> cur_list = Get_list();
+
+        for (int i = 0; i < challenge_prefab_list.Count; i++)
+        {
+            challenge_prefab_list[i].challenge = cur_list[i];
         }
     }
 
@@ -98,11 +106,14 @@ public class ChallengeManager : MonoBehaviour
         Canvas.ForceUpdateCanvases();
 
         Challenge_prefab challenge_prefab = obj.GetComponent<Challenge_prefab>();
-        challenge_prefab.UI_update(challenge);
+        challenge_prefab.challenge = challenge;
+        challenge_prefab.Update_UI();
+
+        challenge_prefab_list.Add(challenge_prefab);
     }
 
-    public void Change_state(int tmp) //일반,플레이,커뮤니티에 달 버튼
+    public void Change_state(int index) //일반,플레이,커뮤니티에 달 버튼
     {
-        state = (challenge_id)tmp;
+        state = (challenge_id)index;
     }
 }

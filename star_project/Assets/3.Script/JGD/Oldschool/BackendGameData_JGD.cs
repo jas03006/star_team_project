@@ -26,6 +26,7 @@ public class UserData
     int top_score;
     
     public int level = 1;
+    public int CP = 0; //challenge point
     public float atk = 3.5f;
     public string info = string.Empty;
     public Dictionary<string, int> inventory = new Dictionary<string, int>();
@@ -180,6 +181,7 @@ public class BackendGameData_JGD : MonoBehaviour
             //레벨
             userData.level = 1;
             userData.info = "친추 환영";
+            userData.CP = 0;
 
            // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
             //userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
@@ -236,7 +238,7 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("info", userData.info);
-        
+        param.Add("CP",userData.CP);
         param.Add("memo_info", userData.memo_info);
         param.Add("equipment", userData.equipment);///////////////////////////예제코드 추후 삭제?
         param.Add("inventory", userData.inventory);///////////////////////////예제코드 추후 삭제?
@@ -312,7 +314,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 //userData.level = int.Parse(gameDataJson[0]["level"].ToString());
                 
                 userData.info = gameDataJson[0]["info"].ToString();
-
+                userData.CP = int.Parse(gameDataJson[0]["CP"].ToString());
                 userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
                 userData.catchingstar_Info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
@@ -450,6 +452,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         Param param = new Param();
         param.Add("level", userData.level);
+        param.Add("CP", userData.CP);
         param.Add("info", userData.info);
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);
         param.Add("Character_ID_List", userData.Character_ID_List);
