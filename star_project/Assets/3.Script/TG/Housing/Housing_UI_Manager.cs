@@ -25,7 +25,7 @@ public class Housing_UI_Manager : MonoBehaviour
     public LayerMask edit_mode_mask;
 
     public bool is_edit_mode = false;
-    
+    float child_cnt = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +53,7 @@ public class Housing_UI_Manager : MonoBehaviour
     {
         if (is_first_time) {
             id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
+            child_cnt = 0;
         }
         
         foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) {
@@ -68,6 +69,7 @@ public class Housing_UI_Manager : MonoBehaviour
                 }
                 continue;
             }
+            child_cnt += 1;
             GameObject go = Instantiate(button_prefab, button_container);
             Button btn = go.GetComponent<Button>();
 
@@ -83,6 +85,7 @@ public class Housing_UI_Manager : MonoBehaviour
                 id2btn_dic[pd.ID].use();
             }
         }
+        click_category_btn(0);
     }
 
 
@@ -128,19 +131,15 @@ public class Housing_UI_Manager : MonoBehaviour
     }
 
     public void click_scroll_btn(bool is_right) {
-        float cnt = 0;
-        for (int i = 0; i < button_container.childCount; i++)
-        {
-            if (button_container.GetChild(i).gameObject.activeSelf) {
-                cnt += 1;
-            }
+        if (child_cnt <= 10) {
+            return;
         }
         if (is_right)
         {
-            scrollbar.value += 1f/cnt;
+            scrollbar.value += 1f/ (float)(child_cnt - 10);
         }
         else {
-            scrollbar.value -= 1f / cnt;
+            scrollbar.value -= 1f / (float)(child_cnt - 10);
         }
         
     }
@@ -150,13 +149,16 @@ public class Housing_UI_Manager : MonoBehaviour
             cate_btn_arr[i].image.color = Color.white;
         }
         cate_btn_arr[cate].image.color = Color.yellow;
+        child_cnt = 0;
         for (int i = 0; i < button_container.childCount; i++) {
             if (cate == 0) {
                 button_container.GetChild(i).gameObject.SetActive(true);
+                child_cnt++;
                 continue;
             }
             if (cate == get_category( button_container.GetChild(i).GetComponent<Housing_Inven_BTN>().id)) {
                 button_container.GetChild(i).gameObject.SetActive(true);
+                child_cnt++;
             }
             else {
                 button_container.GetChild(i).gameObject.SetActive(false);
