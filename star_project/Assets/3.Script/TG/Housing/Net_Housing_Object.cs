@@ -24,5 +24,6 @@ public class Net_Housing_Object : Net_Object_TG
     public virtual void interact(string player_id, int interaction_id =0, int param = 0) //상호작용 시도한 플레이어 닉네임, 인터액션 종류, 파라미터
     {
         Debug.Log($"{object_enum}: Interaction!");
+        
     }
 }
