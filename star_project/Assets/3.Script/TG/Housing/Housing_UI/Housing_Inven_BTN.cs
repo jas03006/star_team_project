@@ -13,9 +13,9 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
     [SerializeField] private TMP_Text usable_text;
     [SerializeField] private TMP_Text max_text;
 
-    housing_itemID id;
-    int usable_cnt;
-    int max_cnt;
+    public housing_itemID id { private set; get; }
+    public int usable_cnt { private set; get; }
+    public int max_cnt { private set; get; }
 
     public void OnPointerDown(PointerEventData eventData)
     {
