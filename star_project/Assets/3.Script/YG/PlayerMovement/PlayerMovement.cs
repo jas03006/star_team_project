@@ -33,10 +33,15 @@ public class PlayerMovement : Player_Network_TG
 
 
             Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
-            if (Input.GetMouseButtonUp(1))
+            if (!TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode && Input.GetMouseButtonUp(0) )
             {// Debug.Log("RightClick!");
-                if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
+             //if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
+             // {
+                if (TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverUI() && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverClickableUI())
                 {
+
+                }
+                else {
                     if (can_move())
                     {
                         RaycastHit hit;
@@ -44,13 +49,13 @@ public class PlayerMovement : Player_Network_TG
                         {
                             Debug.Log("Interaction detect!");
 
-                            Vector3 dest =  hit.point;
+                            Vector3 dest = hit.point;
                             dest.y = 0f;
                             dest = grid.find_nearest_space(dest, transform.position);
 
                             net_move(transform.position, dest);
                             TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
-                            move(transform.position, dest, action);                            
+                            move(transform.position, dest, action);
                         }
                         else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
                         {
@@ -62,8 +67,8 @@ public class PlayerMovement : Player_Network_TG
                         }
                     }
                 }
-
-
+                    
+               // }
             }
         }
 

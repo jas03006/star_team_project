@@ -41,7 +41,6 @@ public class Challenge_userdata
         get_rewarded = bool.Parse(jsonData["get_rewarded"].ToString());
         criterion = int.Parse(jsonData["criterion"].ToString());
         state = (challenge_state)int.Parse(jsonData["state"].ToString());
-        //Canvas.ForceUpdateCanvases();
     }
 
     public Challenge_userdata()
