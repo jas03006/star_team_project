@@ -14,7 +14,7 @@ public class PlacementSystem : MonoBehaviour
 
     public GridData floorData, furnitureData;
 
-    [SerializeField] private PreviewSystem preview;
+    [SerializeField] public PreviewSystem preview;
 
     [SerializeField] ObjectPlacer objectPlacer;
 
@@ -97,7 +97,7 @@ public class PlacementSystem : MonoBehaviour
         lastDetectedPostition = Vector3Int.zero;
         buildingState = null;
     }
-
+   
     //button click
     public void save_edit(bool is_mine = true) {
         
@@ -153,12 +153,13 @@ public class PlacementSystem : MonoBehaviour
     }
     public void remove(Vector3 position_)
     {
-        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer, is_init: true);
+        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer, is_init: false);
         position_.y = 0;
         buildingState.OnAction( grid.WorldToCell(position_));
         buildingState.EndState();
         lastDetectedPostition = Vector3Int.zero;
         buildingState = null;
+        
     }
 
     public void StartRemoving()

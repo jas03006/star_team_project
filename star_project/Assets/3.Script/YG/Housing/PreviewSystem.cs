@@ -5,7 +5,7 @@ public class PreviewSystem : MonoBehaviour
     [SerializeField] private float previewYOffset = 0.06f;
 
     [SerializeField] private GameObject cellindicator;
-    private GameObject previewObject;
+    public GameObject previewObject;
 
     [SerializeField] private Material previewMaterialPrefab;
     private Material previewMaterialInstance;
