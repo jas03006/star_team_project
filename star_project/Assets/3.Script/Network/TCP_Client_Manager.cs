@@ -67,6 +67,7 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private Button invite_agree_button;
 
     public PlacementSystem placement_system;
+    public Camera_My_Planet camera_my_planet;
     private void Awake()
     {
         if (instance == null)
@@ -98,6 +99,7 @@ public class TCP_Client_Manager : MonoBehaviour
             my_player.find_grid();
             placement_system = FindObjectOfType<PlacementSystem>();
             housing_ui_manager = FindObjectOfType<Housing_UI_Manager>();
+            camera_my_planet = FindObjectOfType<Camera_My_Planet>();            
         }
     }
     private void Update()
@@ -375,7 +377,9 @@ public class TCP_Client_Manager : MonoBehaviour
                     position_ = get_respawn_point(uuid_);
                 }
                 my_player.transform.position = position_;
-                my_player.look_user();
+
+                camera_my_planet.init();
+                my_player.look_user();                
             }
             else
             {

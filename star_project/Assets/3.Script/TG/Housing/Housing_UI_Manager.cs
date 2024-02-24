@@ -112,7 +112,7 @@ public class Housing_UI_Manager : MonoBehaviour
 
         camera.cullingMask = edit_mode_mask;
     }
-    public void click_X_btn()
+    public void click_X_btn(bool is_cancel = true)
     {
         is_edit_mode = false;
         foreach (GameObject ui in hide_UI_list)
@@ -126,8 +126,11 @@ public class Housing_UI_Manager : MonoBehaviour
         grid_renderer.enabled = false;
 
         camera.cullingMask = default_mask;
-        TCP_Client_Manager.instance.placement_system.update_placement();
-        init_housing_inventory(false);
+
+        if (is_cancel) {
+            TCP_Client_Manager.instance.placement_system.update_placement();
+            init_housing_inventory(false);
+        }        
     }
 
     public void click_scroll_btn(bool is_right) {

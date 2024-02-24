@@ -23,18 +23,37 @@ public class PlayerMovement : Player_Network_TG
         find_grid();
     }
 
+    private float drag_timer = 0f;
+    private float drag_time_threshold = 0.15f;
     // Update is called once per frame
     protected virtual void Update()
     {
         if (!is_guest && TCP_Client_Manager.instance.now_room_id != "-")
         {
+            if (Input.touchCount >= 2)
+            {
+                return;
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 
 
             Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
+            if (Input.GetMouseButtonDown(0))
+            {
+                drag_timer = 0f;
+            }
+            if(Input.GetMouseButton(0)) {
+                drag_timer += Time.deltaTime;
+            }
+
             if (Input.GetMouseButtonUp(0))
             {// Debug.Log("RightClick!");
+
+                if (drag_timer > drag_time_threshold) {
+                    return;
+                }
              //if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
              // {
                 if (TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverUI() && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverClickableUI())
@@ -72,7 +91,7 @@ public class PlayerMovement : Player_Network_TG
             } 
         }
 
-        SetStartandTargetPos();
+        //SetStartandTargetPos();
 /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

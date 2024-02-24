@@ -14,8 +14,15 @@ public class InputManager : MonoBehaviour
 
     private bool old_btn_up = false;
     private float select_timer = 0f;
+    private float select_time_threshold = 0.5f;
+    public bool is_moving { get { return select_timer > select_time_threshold; }  }
     private void Update()
     {
+        if (Input.touchCount >= 2)
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         bool now_btn_up = Input.GetMouseButtonUp(0);
@@ -47,7 +54,7 @@ public class InputManager : MonoBehaviour
                     if (ob == TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob)
                     {
                         select_timer += Time.deltaTime;
-                        if (select_timer >= 0.5f)
+                        if (select_timer >= select_time_threshold)
                         {
                             TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
                             TCP_Client_Manager.instance.placement_system.remove(ob);
