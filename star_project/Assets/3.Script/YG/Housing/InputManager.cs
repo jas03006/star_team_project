@@ -69,11 +69,11 @@ public class InputManager : MonoBehaviour
             }
 
 
-            if (now_btn_up && !old_btn_up && IsPointerOverUI())
+            /*if (now_btn_up && !old_btn_up && IsPointerOverUI())
             {
                 Debug.Log("exit");
                 // OnExit?.Invoke();
-            }
+            }*/
 
             old_btn_up = now_btn_up;
         }

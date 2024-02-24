@@ -73,11 +73,11 @@ public class PlayerMovement : Player_Network_TG
         }
 
         SetStartandTargetPos();
-
+/*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             move(pathFinding.StartPosition.position, pathFinding.TargetPosition.position);
-        }
+        }*/
     }
 
     public void find_grid() {

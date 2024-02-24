@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class Housing_UI_Manager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class Housing_UI_Manager : MonoBehaviour
 
     [SerializeField] private Transform button_container;
     [SerializeField] private GameObject button_prefab;
+    [SerializeField] private Button[] cate_btn_arr;
+    [SerializeField] private Scrollbar scrollbar;
 
     private Dictionary<housing_itemID, Housing_Inven_BTN> id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
 
@@ -123,6 +127,51 @@ public class Housing_UI_Manager : MonoBehaviour
         init_housing_inventory(false);
     }
 
+    public void click_scroll_btn(bool is_right) {
+        float cnt = 0;
+        for (int i = 0; i < button_container.childCount; i++)
+        {
+            if (button_container.GetChild(i).gameObject.activeSelf) {
+                cnt += 1;
+            }
+        }
+        if (is_right)
+        {
+            scrollbar.value += 1f/cnt;
+        }
+        else {
+            scrollbar.value -= 1f / cnt;
+        }
+        
+    }
+    
+    public void click_category_btn(int cate) {
+        for (int i=0; i < cate_btn_arr.Length;i++) {
+            cate_btn_arr[i].image.color = Color.white;
+        }
+        cate_btn_arr[cate].image.color = Color.yellow;
+        for (int i = 0; i < button_container.childCount; i++) {
+            if (cate == 0) {
+                button_container.GetChild(i).gameObject.SetActive(true);
+                continue;
+            }
+            if (cate == get_category( button_container.GetChild(i).GetComponent<Housing_Inven_BTN>().id)) {
+                button_container.GetChild(i).gameObject.SetActive(true);
+            }
+            else {
+                button_container.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+    public int get_category(housing_itemID id_) {
+        housing_itemID[] special_arr = { housing_itemID.ark_cylinder, housing_itemID.star_nest, housing_itemID.airship, housing_itemID .post_box};
+        if (special_arr.Contains(id_)) {
+            return 1;
+        }
+        else {
+            return 2;
+        }
+    }
 
     #region object edit mode
     public Net_Housing_Object now_focus_ob = null;
@@ -162,4 +211,7 @@ public class Housing_UI_Manager : MonoBehaviour
         }
     }
     #endregion
+
+
+
 }
