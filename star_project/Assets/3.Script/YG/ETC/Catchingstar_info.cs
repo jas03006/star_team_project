@@ -25,7 +25,7 @@ public class Catchingstar_info
     }
 }
 
-public enum Galaxy_state
+public enum Galaxy_state //은하별 미션 완료상태
 {
     incomplete = 0,
     can_reward,
@@ -35,7 +35,7 @@ public enum Galaxy_state
 public class Galaxy_info
 {
     public List<star_info> star_Info_list = new List<star_info>();
-    public List<Galaxy_state> galaxy_state = new List<Galaxy_state>();
+    public List<Galaxy_state> mission_state = new List<Galaxy_state>();
 
     public Galaxy_info()
     {
@@ -48,7 +48,7 @@ public class Galaxy_info
         //galaxy_state
         for (int i = 0; i < 3; i++)
         {
-            galaxy_state.Add(Galaxy_state.incomplete);
+            mission_state.Add(Galaxy_state.incomplete);
         }
     }
 
@@ -63,7 +63,7 @@ public class Galaxy_info
         //galaxy_state
         foreach (JsonData json in jsonData["galaxy_state"])
         {
-            galaxy_state.Add((Galaxy_state)int.Parse(json.ToString()));
+            mission_state.Add((Galaxy_state)int.Parse(json.ToString()));
         }
     }
 }

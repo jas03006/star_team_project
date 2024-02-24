@@ -4,8 +4,34 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum galaxy 
+{
+    none = -1,
+    toy,
+    kitchen,
+    play_ground,
+    school,
+    emotion
+}
 public class LevelSelectMenuManager_JGD : MonoBehaviour
 {
+    //성유경
+    public galaxy galaxy
+    {
+        get { return galaxy_; }
+        set 
+        { 
+            galaxy_ = value;
+            Update_canvas();
+        }
+    }
+    private galaxy galaxy_;
+
+    public List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
+    public List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
+
+
+    //장규동
     public Level_progress_JGD[] levelProgresses;
     public static int currLevel;
     public static int UnlockedLevels;
@@ -41,9 +67,24 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         }
     }
 
+    #region 성유경
 
+    public void Select_galaxy_btn(int index)
+    {
+        galaxy = (galaxy)index;
+    }
 
-    public void OnClickLevel(int levelNum)
+    public void Update_canvas() //헷갈림 주의:캔버스 끈다고 캔버스 오브젝트가 꺼지진 않고 컴포넌트가 꺼짐
+    {
+        for (int i = 0; i < Canvas_list.Count; i++)
+        {
+            Canvas_list[i].enabled = i == (int)galaxy;
+        }
+    }
+
+    #endregion
+
+    public void OnClickLevel(int levelNum) //스테이지 선택 버튼
     {
         currLevel = levelNum;
         SceneManager.LoadScene(nextScene.ToString());//만약 게임씬을 여러개 만든다면 수정//////////////
@@ -54,6 +95,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-
-
+    public void Setting_Galaxy()
+    {
+        
+    }
 }
