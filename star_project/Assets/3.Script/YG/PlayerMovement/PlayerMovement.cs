@@ -23,8 +23,8 @@ public class PlayerMovement : Player_Network_TG
         find_grid();
     }
 
-    private float drag_timer = 0f;
-    private float drag_time_threshold = 0.15f;
+    public float drag_timer = 0f;
+    private float drag_time_threshold = 0.17f;
     // Update is called once per frame
     protected virtual void Update()
     {
@@ -52,40 +52,41 @@ public class PlayerMovement : Player_Network_TG
             {// Debug.Log("RightClick!");
 
                 if (drag_timer > drag_time_threshold) {
+                    drag_timer = 0f;
                     return;
                 }
              //if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
              // {
                 if (TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverUI() && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverClickableUI())
                 {
-
                 }
                 else {
+                    //Debug.Log("Move Click");
                     if (can_move())
                       {
                          RaycastHit hit;
-                         if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
-                         {
-                             Debug.Log("Interaction detect!");
+                        if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
+                        {
+                           // Debug.Log("Interaction detect!");
 
-                             Vector3 dest = hit.point;
-                             dest.y = 0f;
+                            Vector3 dest = hit.point;
+                            dest.y = 0f;
 
-                             dest = grid.find_nearest_space(dest, transform.position);
-                             net_move(transform.position, dest);
+                            dest = grid.find_nearest_space(dest, transform.position);
+                            net_move(transform.position, dest);
 
-                             TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
-                             move(transform.position, dest, action);                           
-                         }
-                         else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
-                         {
-                             // Debug.Log("check!");
-                             Vector3 dest = hit.point;
-                             dest.y = transform.position.y;
+                            TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
+                            move(transform.position, dest, action);
+                        }
+                        else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
+                        {
+                            //Debug.Log("check!");
+                            Vector3 dest = hit.point;
+                            dest.y = transform.position.y;
 
-                             net_move(transform.position, dest);
-                             move(transform.position, dest);
-                         }
+                            net_move(transform.position, dest);
+                            move(transform.position, dest);
+                        }
                       }
                 }                
             } 

@@ -463,6 +463,8 @@ public class TCP_Client_Manager : MonoBehaviour
         if (room_id_ == "-" ) {
             return;
         }
+
+
         invite_agree_button.onClick.RemoveAllListeners();
         invite_agree_button.onClick.AddListener(delegate { join(room_id_);});
         invite_agree_button.onClick.AddListener(delegate { hide_invite_UI(); });
