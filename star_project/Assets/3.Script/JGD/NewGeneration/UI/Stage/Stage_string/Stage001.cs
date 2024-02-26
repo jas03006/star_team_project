@@ -120,6 +120,7 @@ public class Stage001 : MonoBehaviour
     #endregion
     #region stage002
     private string stage2 = "28:10:0:0:1:1," +
+        "33:10:2:0:1:1," +
         "28:11:0:0:1:1," +
         "28:12:0:0:1:1," +
         "28:13:0:0:1:1," +

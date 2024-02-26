@@ -15,7 +15,7 @@ using UnityEngine;
 
     public float duration;
     public double percent;
-    public int Num;
+    public double Num;
     protected GameObject game;
     public void Init() //차트에서 불러온 값 세팅
     {

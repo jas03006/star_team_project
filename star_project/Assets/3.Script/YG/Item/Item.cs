@@ -12,7 +12,7 @@ public class Item //차트 정보 저장을 위한 클래스 선언(인게임에서는 Item_game 상�
     //해당하는 아이템
     public char alphabet; //스펠링 //Alphabet
     public double percent;//회복량 //heart
-    public int num; //개수 //star,shield,size,speed
+    public double num; //개수 //star,shield,size,speed
     public int duration; //지속시간 //speed,size,magnet
 
     public Item()
@@ -36,7 +36,7 @@ public class Item //차트 정보 저장을 위한 클래스 선언(인게임에서는 Item_game 상�
         }
         else if ((int)id < (int)item_ID.Megnet) //star,shield,size,speed
         {
-            num = int.Parse(gameData["num"].ToString());
+            num = double.Parse(gameData["num"].ToString());
 
             if ((int)id > (int)item_ID.Shield)//size,speed
             {

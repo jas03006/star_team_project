@@ -16,7 +16,7 @@ public class Star : Item_game
     {
         Score = game.GetComponent<Player_Controll_JGD>().PlayerScore;
 
-        Score += item_.Num;
+        Score += (int)item_.Num;
 
         game.GetComponent <Player_Controll_JGD>().PlayerScore = Score;
     }

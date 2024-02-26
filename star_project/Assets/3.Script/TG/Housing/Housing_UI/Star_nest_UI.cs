@@ -56,14 +56,14 @@ public class Star_nest_UI : MonoBehaviour
     private UserData user_data;
   
 
-    public void show_UI(bool is_starnest = true) {
-        if (is_starnest)
+    public void show_UI( bool is_profile = false) {
+        if (!is_profile && (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id))
         {
             show_level_UI();
         }
         else {
             UI_Container.SetActive(true);
-            load_info();
+            load_info(is_profile);
         }        
     }
 
@@ -72,11 +72,8 @@ public class Star_nest_UI : MonoBehaviour
         //user_data = null;
     }
 
-    public void load_info() {
-
-       // if (TCP_Client_Manager.instance.now_room_id != TCP_Client_Manager.instance.my_player.object_id)
-     //   {
-            string[] select = { "profile_background",
+    public void load_info(bool is_profile_click = false) {
+        string[] select = { "profile_background",
             "profile_picture",
             "popularity",
             "title_adjective",
@@ -84,11 +81,16 @@ public class Star_nest_UI : MonoBehaviour
             "planet_name",
             "info",
             "memo_info" };
+        if (!is_profile_click) //별둥지 클릭인 경우
+        {            
             user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select);
-      //  }
-     //   else {
-       //     user_data = BackendGameData_JGD.userData;
-      //  }
+            nickname_text.text = TCP_Client_Manager.instance.now_room_id;
+        }
+        else{
+            //user_data = BackendGameData_JGD.userData;
+            user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.my_player.object_id, select);
+            nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;
+        }
 
             
 
@@ -97,8 +99,7 @@ public class Star_nest_UI : MonoBehaviour
         pop_text.text = user_data.popularity.ToString();
 
         //TODO: 유저 데이터에 칭호 선택 정보 저장
-        title_text.text = user_data.title_adjective.ToString() +" "+ user_data.title_noun.ToString();
-        nickname_text.text = TCP_Client_Manager.instance.now_room_id;
+        title_text.text = user_data.title_adjective.ToString() +" "+ user_data.title_noun.ToString();        
         planet_name_text.text = user_data.planet_name;
         // TCP_Client_Manager.instance.placement_system.housing_info.level.ToString();
         intro_text.text = user_data.info;
