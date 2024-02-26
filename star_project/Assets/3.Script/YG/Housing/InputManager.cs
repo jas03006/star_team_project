@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour
     public event Action Onclicked, OnExit;
 
     private bool old_btn_up = false;
-    private float select_timer = 0f;
+    public float select_timer = 0f;
     private float select_time_threshold = 0.5f;
     public bool is_moving { get { return select_timer > select_time_threshold; }  }
     private void Update()
