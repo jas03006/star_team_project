@@ -65,13 +65,13 @@ public class Galaxy_info
         }
 
         //galaxy_state
-        foreach (JsonData json in jsonData["galaxy_state"])
+        foreach (JsonData json in jsonData["mission_state"])
         {
             mission_state.Add((Galaxy_state)int.Parse(json.ToString()));
         }
 
         //collect
-        collect_point = int.Parse(jsonData["collect"].ToString());
+        collect_point = int.Parse(jsonData["collect_point"].ToString());
     }
 }
 

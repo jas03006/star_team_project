@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Star_UI
+public class Star_UI : MonoBehaviour
 {
 
     //data
@@ -24,9 +24,8 @@ public class Star_UI
     public Star_info data_;
 
     //is_clear
-    public List<Image> isclear_list = new List<Image>();
-    [SerializeField] private Sprite clear_O;
-    [SerializeField] private Sprite clear_X;
+    [SerializeField] private GameObject clear_O;
+    [SerializeField] private GameObject clear_X;
 
     //is_star
     private List<Image> star_list = new List<Image>();
@@ -53,17 +52,8 @@ public class Star_UI
 
     public void Update_is_clear()
     {
-        for (int i = 0; i < isclear_list.Count; i++)
-        {
-            if (data.is_clear)
-            {
-                star_list[i].sprite = clear_O;
-            }
-            else
-            {
-                star_list[i].sprite = clear_X;
-            }
-        }
+        clear_O.SetActive(data.is_clear);
+        clear_X.SetActive(!data.is_clear);
     }
 
     public void Update_get_housing()

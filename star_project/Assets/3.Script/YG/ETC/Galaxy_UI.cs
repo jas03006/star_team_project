@@ -10,9 +10,10 @@ public class Galaxy_UI : MonoBehaviour
 {
 
     [Header("Mission State")]
-    private int point_unit; //collect point¿« ¥‹¿ß
-    [SerializeField] private Sprite state_O;
     [SerializeField] private Sprite state_X;
+    [SerializeField] private Sprite state_X_bar;
+    [SerializeField] private Sprite state_O;
+
     [SerializeField] private List<Image> mission_image = new List<Image>();
     [SerializeField] private List<Button> statebutton = new List<Button>(); 
 
