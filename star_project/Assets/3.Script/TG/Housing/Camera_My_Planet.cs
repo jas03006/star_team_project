@@ -14,7 +14,8 @@ public class Camera_My_Planet : MonoBehaviour
     public float min_distance = 3f;
     public float max_distance = 20f;
 
-    
+    public Vector3 center_pos;
+
     Camera camera;
     // Start is called before the first frame update
     void Start()
@@ -23,8 +24,9 @@ public class Camera_My_Planet : MonoBehaviour
     }
 
     public void init()
-    {
-        transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward * distance*2f;
+    {        
+        transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward * distance*3f;
+        center_pos = -transform.forward * distance * 3f;
     }
     private Vector2 nowPos, prePos;
     private Vector3 movePos;
@@ -93,7 +95,8 @@ public class Camera_My_Planet : MonoBehaviour
         //TODO: 화면 드래그 시 화면 옮기기
         if (Input.touchCount == 1)
         {
-            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving) {
+            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null)
+            {
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
                 {
@@ -103,13 +106,26 @@ public class Camera_My_Planet : MonoBehaviour
                 {
                     nowPos = touch.position - touch.deltaPosition;
                     movePos = (Vector3)(prePos - nowPos) * Time.deltaTime * dragSpeed;
-                    camera.transform.Translate(movePos);
+                    //camera.transform.Translate(movePos);
+                    adjust_cam_pos(movePos);
                     prePos = touch.position - touch.deltaPosition;
                 }
             }            
         }
     }
 
+    private void adjust_cam_pos(Vector3 transition) {
+        Vector3 delta_pos = (camera.transform.position + transition.x* camera.transform.right  + transition.y * camera.transform.up - center_pos);
+        float delta_x =Vector3.Dot(delta_pos, camera.transform.right);
+        float delta_y =  Vector3.Dot(delta_pos, camera.transform.up);
+        if (Mathf.Abs( delta_x) <= 30f) {
+            camera.transform.Translate(camera.transform.right * transition.x);
+        }
+        if (Mathf.Abs(delta_y) <= 30f) { 
+            camera.transform.Translate(camera.transform.up * transition.y);
+
+        }
+    }
     
 
     private bool can_move_camera() {
