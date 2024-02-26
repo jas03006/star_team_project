@@ -49,6 +49,7 @@ public class HousingInfo_JGD
     {
         objectInfos.Add(obj);
     }
+   
 }
 
 public class HousingObjectInfo
