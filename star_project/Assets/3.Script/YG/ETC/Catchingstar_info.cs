@@ -34,7 +34,8 @@ public enum Galaxy_state //은하별 미션 완료상태
 
 public class Galaxy_info
 {
-    public List<star_info> star_Info_list = new List<star_info>();
+    public int collect_point;//해당 스테이지에서 모은 별의 갯수
+    public List<Star_info> star_Info_list = new List<Star_info>();
     public List<Galaxy_state> mission_state = new List<Galaxy_state>();
 
     public Galaxy_info()
@@ -42,7 +43,7 @@ public class Galaxy_info
         //star_Info_list
         for (int i = 0; i < 5; i++)
         {
-            star_Info_list.Add(new star_info());
+            star_Info_list.Add(new Star_info());
         }
 
         //galaxy_state
@@ -50,6 +51,9 @@ public class Galaxy_info
         {
             mission_state.Add(Galaxy_state.incomplete);
         }
+
+        //collect
+        collect_point = 0;
     }
 
     public Galaxy_info(JsonData jsonData)
@@ -57,31 +61,34 @@ public class Galaxy_info
         //star_Info_list
         foreach (JsonData json in jsonData["star_Info_list"])
         {
-            star_Info_list.Add(new star_info(json));
+            star_Info_list.Add(new Star_info(json));
         }
 
         //galaxy_state
-        foreach (JsonData json in jsonData["galaxy_state"])
+        foreach (JsonData json in jsonData["mission_state"])
         {
             mission_state.Add((Galaxy_state)int.Parse(json.ToString()));
         }
+
+        //collect
+        collect_point = int.Parse(jsonData["collect_point"].ToString());
     }
 }
 
-public class star_info
+public class Star_info
 {
     public bool is_clear;
     public int star;
     public bool get_housing;
 
-    public star_info()
+    public Star_info()
     {
         is_clear = false;
         star = 0;
         get_housing = false;
     }
 
-    public star_info(JsonData jsonData)
+    public Star_info(JsonData jsonData)
     {
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         star = int.Parse(jsonData["star"].ToString());
