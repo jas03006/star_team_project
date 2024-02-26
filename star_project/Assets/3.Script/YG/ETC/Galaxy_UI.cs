@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BackEnd;
+using UnityEngine.SceneManagement;
+using System;
 
 public class Galaxy_UI : MonoBehaviour
 {
+    public Galaxy_info data;
+    public int galaxy_index;
 
     [Header("Mission State")]
     [SerializeField] private Sprite state_X;
@@ -19,24 +23,39 @@ public class Galaxy_UI : MonoBehaviour
     [Header("Star_info")] //너무 고봉밥 + 중복이라 따로 클래스로 뺌
     [SerializeField] private List<Star_UI> Star_UI_list = new List<Star_UI>();
 
-    public void Update_UI(Galaxy_info info)
+    private void Start()
     {
-        Update_MissionState(info.collect_point,info.mission_state);
-        Update_Starinfo(info.star_Info_list);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void Collect_update(Galaxy_info info)
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
+        Collect_update();
+    }
+
+    public void Update_data_UI()
+    {
+        //data
+        Collect_update();
+
+        //UI
+        Update_MissionState(data.collect_point, data.mission_state);
+        Update_Starinfo(data.star_Info_list);
+    }
+
+    public void Collect_update() //collect 설정
     {
         int collect = 0;
 
-        for (int i = 0; i < info.star_Info_list.Count; i++)
+        for (int i = 0; i < data.star_Info_list.Count; i++)
         {
-            collect += info.star_Info_list[i].star;
+            collect += data.star_Info_list[i].star;
         }
 
-        if (info.collect_point != collect)
+        if (data.collect_point != collect)
         {
-            info.collect_point = collect;
+            data.collect_point = collect;
             Data_update();
         }
     }
@@ -66,21 +85,29 @@ public class Galaxy_UI : MonoBehaviour
 
     private void Update_Starinfo(List<Star_info> star_info)
     {
+        bool pre = true;
+
         for (int i = 0; i < star_info.Count; i++)
         {
+            Star_UI_list[i].pre_clear = pre;
             Star_UI_list[i].data = star_info[i];
+            pre = Star_UI_list[i].data.is_clear;
         }
     }
 
-    private void Check_collect(int collect, int index, int interval)
+    private void Check_collect(int collect, int index, int interval)//interval = 간격
     {
-        if (collect <= interval)
+        if (collect > interval)
         {
             mission_image[index].sprite = state_O;
         }
-        else
+        else if (collect == interval)
         {
             mission_image[index].sprite = state_X;
+        }
+        else
+        {
+            mission_image[index].sprite = state_X_bar;
         }
     }
 

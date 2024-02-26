@@ -80,7 +80,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         {
             if (i == (int)galaxy)
             {
-                Galaxy_UI_list[i].Update_UI(BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[i]);
+                Galaxy_UI_list[i].data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[i];
+                Galaxy_UI_list[i].Update_data_UI();
                 Canvas_list[i].enabled = true;
             }
             else

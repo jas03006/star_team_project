@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Star_UI : MonoBehaviour
@@ -24,6 +25,7 @@ public class Star_UI : MonoBehaviour
     public Star_info data_;
 
     //is_clear
+    public bool pre_clear;
     [SerializeField] private GameObject clear_O;
     [SerializeField] private GameObject clear_X;
 
@@ -52,8 +54,8 @@ public class Star_UI : MonoBehaviour
 
     public void Update_is_clear()
     {
-        clear_O.SetActive(data.is_clear);
-        clear_X.SetActive(!data.is_clear);
+        clear_O.SetActive(pre_clear);
+        clear_X.SetActive(!pre_clear);
     }
 
     public void Update_get_housing()
@@ -61,4 +63,9 @@ public class Star_UI : MonoBehaviour
         get_housing.enabled = data.get_housing;
     }
 
+    public void OnClickLevel(int levelNum) //스테이지 선택 버튼
+    {
+        LevelSelectMenuManager_JGD.currLevel = levelNum;
+        SceneManager.LoadScene("Game");//만약 게임씬을 여러개 만든다면 수정//////////////
+    }
 }
