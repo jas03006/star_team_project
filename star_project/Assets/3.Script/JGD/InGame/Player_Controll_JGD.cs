@@ -238,6 +238,32 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     public void UseItem()
     {
+        
+    }
 
+    private void itemnum(int num)
+    {
+        switch (num)
+        {
+            case 30:
+
+                break;
+            case 31:
+
+                break;
+            case 32:
+
+                break;
+            case 33:
+                break;
+            case 34:
+                break;
+            case 35:
+
+                break;
+            case 36:
+
+                break;
+        }
     }
 }
