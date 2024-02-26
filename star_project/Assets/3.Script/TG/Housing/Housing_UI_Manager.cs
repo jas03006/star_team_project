@@ -114,6 +114,7 @@ public class Housing_UI_Manager : MonoBehaviour
     }
     public void click_X_btn(bool is_cancel = true)
     {
+        TCP_Client_Manager.instance.placement_system.cancel_placement();
         is_edit_mode = false;
         foreach (GameObject ui in hide_UI_list)
         {
@@ -211,7 +212,7 @@ public class Housing_UI_Manager : MonoBehaviour
 
     public IEnumerator show_edit_UI_co() { 
         while(now_focus_ob != null) { 
-            edit_UI.position =  Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) - Vector3.up*50f;
+            edit_UI.position =  Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) - Vector3.up*(7f+Camera.main.orthographicSize*0.85f);
             yield return null;         
         }
     }

@@ -184,7 +184,7 @@ public class PlacementSystem : MonoBehaviour
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
         //Debug.Log($"mousePosition: {mousePosition} /gridPosition: {gridPosition} ");
 
-        buildingState.OnAction(gridPosition);
+        buildingState?.OnAction(gridPosition);
     }
 
     public bool cancel_placement() {
@@ -216,7 +216,7 @@ public class PlacementSystem : MonoBehaviour
             return;
 
         Vector3 mousePosition = inputManager.GetSelectedPosition();
-        Debug.Log(mousePosition.y);
+        //Debug.Log(mousePosition.y);
         if (mousePosition.y < 10000) {
             Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 

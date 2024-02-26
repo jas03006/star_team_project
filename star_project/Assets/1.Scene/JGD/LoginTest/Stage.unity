@@ -563,6 +563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78202dfdbea91f498093cd27b9435c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Canvas_list: []
+  Galaxy_UI_list: []
   levelProgresses:
   - {fileID: 1344037327}
   - {fileID: 1572814236}
@@ -1820,7 +1822,7 @@ GameObject:
   - component: {fileID: 327277256}
   - component: {fileID: 327277260}
   m_Layer: 5
-  m_Name: Canvas (1)
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6945,15 +6947,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 265333961}
-  - {fileID: 1474773551}
   - {fileID: 645411265}
-  - {fileID: 1468077202}
-  - {fileID: 1336400185}
+  - {fileID: 1474773551}
+  - {fileID: 265333961}
   - {fileID: 747858517}
-  - {fileID: 201774438}
-  - {fileID: 1038910163}
+  - {fileID: 1336400185}
+  - {fileID: 1468077202}
   - {fileID: 224226961}
+  - {fileID: 1038910163}
+  - {fileID: 201774438}
   m_Father: {fileID: 1663610051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}

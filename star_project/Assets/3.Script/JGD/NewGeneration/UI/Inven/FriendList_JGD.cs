@@ -23,7 +23,7 @@ public class FriendList_JGD : MonoBehaviour
         
     }
 
-    public void GetFriendList()
+    public void GetFriendList(bool is_airship = false)
     {
         var bro = Backend.Friend.GetFriendList();
 
@@ -40,10 +40,13 @@ public class FriendList_JGD : MonoBehaviour
             name = list.GetComponentInChildren<TMP_Text>();
             name.text = nickName;
             Button[] buttons = list.GetComponentsInChildren<Button>();
-            if (buttons.Length >= 2) {
+            if (is_airship) {
                 buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
                 buttons[1].onClick.AddListener(() => TCP_Client_Manager.instance.invite(nickName));
-                buttons[2].onClick.AddListener(() => KillMyFriend(inDate, list));
+            } else  {
+                //TODO:친밀도 시스템
+                //buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
+                buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
             }
             friend_dic[nickName] = inDate;
 
@@ -81,7 +84,7 @@ public class FriendList_JGD : MonoBehaviour
         {
             airship_UI.transform.GetChild(0).gameObject.SetActive(true);
             airship_UI.ClearFriendList();
-            airship_UI.GetFriendList();           
+            airship_UI.GetFriendList(true);           
         }
     }
     public void ClearRecommendList()
