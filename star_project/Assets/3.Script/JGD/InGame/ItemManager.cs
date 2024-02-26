@@ -24,7 +24,7 @@ public class ItemManager : MonoBehaviour
     {
         data = BackendChart_JGD.chartData.item_list[(int)ID];
 
-        Player.PlayerScore += data.num;
+        Player.PlayerScore += (int)data.num;
     }
     public void UsingSize(Obstacle_ID ID)
     {
@@ -50,7 +50,7 @@ public class ItemManager : MonoBehaviour
     {
         data = BackendChart_JGD.chartData.item_list[(int)ID];
         float Speed = Player.Speed; 
-        Player.Speed = Player.Speed * data.num;
+        Player.Speed = Player.Speed * (float)data.num;
         yield return new WaitForSecondsRealtime(data.duration);
         Player.Speed = Speed;
     }

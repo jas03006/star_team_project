@@ -45,9 +45,4 @@ public class GameStage : MonoBehaviour
             PlayerPrefs.SetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(), starsAquired);
         }
     }
-
-
-
-
-
 }
