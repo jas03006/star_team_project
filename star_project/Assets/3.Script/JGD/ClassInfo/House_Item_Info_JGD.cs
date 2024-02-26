@@ -27,6 +27,12 @@ public class House_Inventory_Info_JGD
 
     public void Add(housing_itemID id_, int count_)
     {   //TODO: 중복 검사 후 누적 시키기
+        for (int i=0; i < item_list.Count; i++) {
+            if (item_list[i].id == id_) {
+                item_list[i].count += count_;
+                return;
+            }
+        }
         item_list.Add(new House_Item_Info_JGD(id_,  count_));
     }
     public void Add(House_Item_Info_JGD item_info)

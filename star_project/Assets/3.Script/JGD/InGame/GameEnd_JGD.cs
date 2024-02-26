@@ -77,8 +77,11 @@ public class GameEnd_JGD : MonoBehaviour
             //}
             if (ClearData.Count == Player.Alphabet.Count)
             {
+                BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1); 
                 Debug.Log("아이템 지급");
             }
+            MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
+
             Debug.Log("와난");
             StageClearUI.SetActive(true);
             StageStar.text = data.Allstar.ToString();
