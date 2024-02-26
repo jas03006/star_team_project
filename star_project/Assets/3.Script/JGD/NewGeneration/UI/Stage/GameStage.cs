@@ -17,14 +17,17 @@ public class GameStage : MonoBehaviour
 
     public void StgageSelect_Btn()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(nextScene.ToString());
     }
     public void StageSelect(string stage)
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(stage);
     }
     public void NextSceneSelect()
     {
+        Time.timeScale = 1;
         LevelSelectMenuManager_JGD.currLevel++;
         SceneManager.LoadScene("Game");
     }

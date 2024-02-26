@@ -7,7 +7,8 @@ public class Stage001 : MonoBehaviour
 {
     [SerializeField] public List<string> StageList = new List<string>();
     [SerializeField] public int thisStage;          //스테이지 1~5 넘어올때 받아야함
-    # region stage
+    #region stage
+    #region stage001
     private string stage1 = "28:10:0:0:1:1," +
         "28:11:0:0:1:1," +
         "28:12:0:0:1:1," +
@@ -116,7 +117,8 @@ public class Stage001 : MonoBehaviour
         "28:77:6:0:1:1," +
         "28:77:7:0:1:1," +
         "29:78:6.5:0:1:1,";
-
+    #endregion
+    #region stage002
     private string stage2 = "28:10:0:0:1:1," +
         "28:11:0:0:1:1," +
         "28:12:0:0:1:1," +
@@ -177,7 +179,7 @@ public class Stage001 : MonoBehaviour
         "55:28:9:135:1:1:1," +
         "56:30:9:180:1:1:1," +
         "28:17:4:0:1:1";
-
+    #endregion
     private string stage3;
     private string stage4;
     private string stage5;
