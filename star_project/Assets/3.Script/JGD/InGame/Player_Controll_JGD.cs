@@ -244,12 +244,12 @@ public class Player_Controll_JGD : MonoBehaviour
     private void ItemChangeSlot1(int Num)
     {
         ItemInven[0] = Num;
-        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(ItemInven[0]);
+        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000 + (int)ItemInven[0]);
     }
     private void ItemChangeSlot2(int Num)
     {
         ItemInven[1] = Num;
-        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(ItemInven[1]);
+        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + (int)ItemInven[0]);
     }
     public void UseItem()
     {

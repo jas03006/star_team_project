@@ -84,10 +84,10 @@ public enum item_ID
     small_star,
     big_star,
     Shield,
+    Megnet,
     SpeedUp,
     SizeUp,
     SizeDown,
-    Megnet,
     Random
 }
 
