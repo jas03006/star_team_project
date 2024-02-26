@@ -19,7 +19,9 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        TCP_Client_Manager.instance.placement_system.StartPlacement((int)id);
+        if (can_use()) {
+            TCP_Client_Manager.instance.placement_system.StartPlacement((int)id);
+        }        
     }
 
 
