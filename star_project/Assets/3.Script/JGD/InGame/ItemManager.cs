@@ -15,18 +15,18 @@ public class ItemManager : MonoBehaviour
         Player = FindAnyObjectByType<Player_Controll_JGD>();
     }
 
-    public void UsingHeart(Obstacle_ID ID)
+    public void UsingHeart(int ID)
     {
-        data = BackendChart_JGD.chartData.item_list[(int)ID];
+        data = BackendChart_JGD.chartData.item_list[ID];
         Player.currentHp += Player.MaxHp * data.num;
     }
-    public void UsingStar(Obstacle_ID ID)
+    public void UsingStar(int ID)
     {
-        data = BackendChart_JGD.chartData.item_list[(int)ID];
+        data = BackendChart_JGD.chartData.item_list[ID];
 
         Player.PlayerScore += (int)data.num;
     }
-    public void UsingSize(Obstacle_ID ID)
+    public void UsingSize(int ID)
     {
         StartCoroutine(Sizecon(ID));
 
@@ -35,28 +35,28 @@ public class ItemManager : MonoBehaviour
     {
         Player.Shild = true;
     }
-    public void UsingSpeedUP(Obstacle_ID ID)
+    public void UsingSpeedUP(int ID)
     {
         StartCoroutine(SpeedUp(ID));
 
     }
-    public void UsingMegnet(Obstacle_ID ID)
+    public void UsingMegnet()
     {
-        StartCoroutine(Magnetcon(ID));
+        StartCoroutine(Magnetcon());
     }
+    
 
-
-    private IEnumerator SpeedUp(Obstacle_ID ID)
+    private IEnumerator SpeedUp(int ID)
     {
-        data = BackendChart_JGD.chartData.item_list[(int)ID];
+        data = BackendChart_JGD.chartData.item_list[ID];
         float Speed = Player.Speed; 
         Player.Speed = Player.Speed * (float)data.num;
         yield return new WaitForSecondsRealtime(data.duration);
         Player.Speed = Speed;
     }
-    private IEnumerator Sizecon(Obstacle_ID ID)
+    private IEnumerator Sizecon(int ID)
     {
-        data = BackendChart_JGD.chartData.item_list[(int)ID];
+        data = BackendChart_JGD.chartData.item_list[ID];
         var scale = new Vector2(0.25f, 0.25f);
 
         Player.invincibility = true;
@@ -69,9 +69,8 @@ public class ItemManager : MonoBehaviour
         Player.invincibility = false;
 
     }
-    private IEnumerator Magnetcon(Obstacle_ID ID)
+    private IEnumerator Magnetcon()
     {
-        data = BackendChart_JGD.chartData.item_list[(int)ID];
         Magnet.SetActive(true);
 
         yield return new WaitForSecondsRealtime(data.duration);
