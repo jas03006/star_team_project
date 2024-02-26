@@ -28,7 +28,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     private galaxy galaxy_;
 
     [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
-    List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
+    [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
 
 
     //장규동
@@ -48,10 +48,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         //Debug.Log(currLevel);
         //Debug.Log(UnlockedLevels);
         //PlayerPrefs.DeleteAll();
-        for (int i = 0; i < Canvas_list.Count; i++)
-        {
-            Galaxy_UI_list[i] = Canvas_list[i].GetComponent<Galaxy_UI>();
-        }
     }
 
     private void Start()
