@@ -31,7 +31,7 @@ public class Airship : Net_Housing_Object
         if (airship_UI !=null && !airship_UI.transform.GetChild(0).gameObject.activeSelf) {
             airship_UI.transform.GetChild(0).gameObject.SetActive(true);
             airship_UI.ClearFriendList();
-            airship_UI.GetFriendList();
+            airship_UI.GetFriendList(true);
         }
     }
 

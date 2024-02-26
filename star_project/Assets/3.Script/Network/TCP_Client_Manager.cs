@@ -64,6 +64,7 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private ChatBoxManager chat_box_manager;
 
     [SerializeField] private GameObject invite_UI;
+    [SerializeField] private TMP_Text invite_text;
     [SerializeField] private Button invite_agree_button;
 
     public PlacementSystem placement_system;
@@ -463,7 +464,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (room_id_ == "-" ) {
             return;
         }
-
+        invite_text.text = $"{room_id_}님이 마이플래닛으로 초대하였습니다!";
 
         invite_agree_button.onClick.RemoveAllListeners();
         invite_agree_button.onClick.AddListener(delegate { join(room_id_);});

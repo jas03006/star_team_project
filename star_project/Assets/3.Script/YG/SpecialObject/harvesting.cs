@@ -34,14 +34,14 @@ public class Harvesting : Net_Housing_Object//, IObject
     public DateTime start_time;//버튼 클릭 시간
     private DateTime end_time = DateTime.MaxValue; //수확 가능 시간
 
-    private int[] btn_min = { 1, 2, 30, 120 };
-    private int[] ark_reward = { 1, 2, 30, 120 };
+    private int[] btn_min = { 1, 30, 120, 720, 1440 };
+    private int[] ark_reward = { 3, 10, 30, 100, 200 };
     public int selection = -1;
     private HousingObjectInfo info = null;
 
     private void Update()
     {
-        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * 50f;
+        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (10f + 450f/Camera.main.orthographicSize );
         update_state();
     }
 
@@ -143,7 +143,7 @@ public class Harvesting : Net_Housing_Object//, IObject
             }
             else {
 
-                MoneyManager.instance.Get_Money(Money.ark, reward);
+                MoneyManager.instance.Get_Money(Money.ark,(int) (reward*0.3f));
 
                 string separator = "%^";
                 //TODO: 우편 보내기
@@ -157,7 +157,7 @@ public class Harvesting : Net_Housing_Object//, IObject
 
                 postItem.Title = "대리 수확 보상";
                 postItem.Content = $"{TCP_Client_Manager.instance.my_player.object_id}님이 수확해주었습니다!" +
-                $"{separator}{(int)Money.ark}:{reward}";
+                $"{separator}{(int)Money.ark}:{(int)(reward*1.2f)}";
                 postItem.TableName = "USER_DATA";
                 if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
                 {
