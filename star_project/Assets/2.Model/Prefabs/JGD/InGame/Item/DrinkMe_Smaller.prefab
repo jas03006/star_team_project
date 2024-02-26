@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3699277651319020359}
   - component: {fileID: -700457567226593050}
   - component: {fileID: 6859599855662175994}
-  m_Layer: 0
+  - component: {fileID: 5794005182792554232}
+  m_Layer: 31
   m_Name: DrinkMe_Smaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +154,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   itemid_: 0
+  Allstar: 0
+  duration: 0
+  percent: 0
+  Num: 0
+--- !u!114 &5794005182792554232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21051130878283744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dce15e624915834598f2dfa48721505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  itemid_: 0
+  Allstar: 0
   duration: 0
   percent: 0
   Num: 0

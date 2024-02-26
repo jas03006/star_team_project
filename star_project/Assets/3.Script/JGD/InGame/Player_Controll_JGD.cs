@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Player_Controll_JGD : MonoBehaviour
 {
     private bool isMove = true;
+    public bool invincibility = false;
+    public bool Shild = false;
     [SerializeField] GameObject cameraCon;
+    [SerializeField] GameObject Itemmanager;
+    [SerializeField] ItemManager itemManager;
     [SerializeField] private float Jump;
     [SerializeField] public float Speed;
     Rigidbody2D rigi;
@@ -19,9 +24,11 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField]public int PlayerScore;
     [SerializeField] private GameObject PlayerDieUI;
 
-    [SerializeField] int[] ItmeInven = new int[2];   //아이템 저장소
+    [SerializeField] int[] ItemInven = new int[2];   //아이템 저장소
+    //[SerializeField] List<int> Iteminven = new List<int>();
+    [SerializeField] Image PlayerItem;
+    [SerializeField] Image PlayerItem2;
     [SerializeField] public List<string> Alphabet = new List<string>();
-
 
 
 
@@ -39,6 +46,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void Update()
     {
+        Itemmanager.transform.position = this.transform.position;
         if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
         {
             cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
@@ -56,19 +64,22 @@ public class Player_Controll_JGD : MonoBehaviour
             rigi.velocity = Vector2.up *Jump;
         }
     }
-
     private IEnumerator OnDamage()
     {
-        isMove = false;
-        currentHp -= 80;
-        if (currentHp < 0)
+        if (!invincibility && !Shild)
         {
-            Time.timeScale = 0;
-            PlayerDieUI.SetActive(true);
+            isMove = false;
+            currentHp -= 20;
+            if (currentHp < 0)
+            {
+                Time.timeScale = 0;
+                PlayerDieUI.SetActive(true);
+            }
+            rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.5f);
+            isMove = true;
         }
-        rigi.AddForce(Vector2.left * 2f,ForceMode2D.Impulse);
-        yield return new WaitForSeconds(0.5f);
-        isMove = true;
+        Shild = false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -102,29 +113,73 @@ public class Player_Controll_JGD : MonoBehaviour
                     
                     break;
                 case Obstacle_ID.Shield:
+                    if (ItemInven.Length == 0)
+                    {
+                        ItemInven[0] = 30;
+                    }
+                    else
+                    {
+                        ItemInven[1] = 30;
+                    }
 
                     break;
                 case Obstacle_ID.Megnet:
-
+                    if (ItemInven.Length == 0)
+                    {
+                        ItemInven[0] = 34;
+                    }
+                    else
+                    {
+                        ItemInven[1] = 34;
+                    }
                     break;
                 case Obstacle_ID.SpeedUp:
-
+                    if (ItemInven.Length == 0)
+                    {
+                        ItemInven[0] = 31;
+                    }
+                    else
+                    {
+                        ItemInven[1] = 31;
+                    }
                     break;
                 case Obstacle_ID.SizeUp:
-
+                    if (ItemInven.Length == 0)
+                    {
+                        ItemInven[0] = 32;
+                    }
+                    else
+                    {
+                        ItemInven[1] = 32;
+                    }
                     break;
                 case Obstacle_ID.SizeDown:
-
+                    if (ItemInven.Length == 0)
+                    {
+                        ItemInven[0] = 33;
+                    }
+                    else
+                    {
+                        ItemInven[1] = 33;
+                    }
                     break;
                 case Obstacle_ID.Random:
-
+                    if (ItemInven.Length == 0)
+                    {
+                        ItemInven[0] = 35;
+                    }
+                    else
+                    {
+                        ItemInven[1] = 35;
+                    }
                     break;
                 default:
                     break;
                     
 
             }
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            //Destroy(collision.gameObject);
             return;
         }
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
@@ -176,9 +231,13 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
             }
             StartCoroutine(OnDamage());
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             return;
         }
     }
+    public void UseItem()
+    {
 
+    }
 }
