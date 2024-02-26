@@ -19,7 +19,7 @@ public class Size : Item_game
     {
         var scale = new Vector2(0.25f, 0.25f);
         Player.invincibility = true; 
-        Player.transform.localScale = new Vector2(0.25f,0.25f) * item_.Num;
+        Player.transform.localScale = new Vector2(0.25f,0.25f) * (float)item_.Num;
         //Player.transform.localScale = Vector2.Lerp(scale, scale * item_.Num, Time.deltaTime);
 
         yield return new WaitForSecondsRealtime(item_.duration);
