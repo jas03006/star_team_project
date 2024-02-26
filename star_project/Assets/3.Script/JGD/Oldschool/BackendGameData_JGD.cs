@@ -49,7 +49,7 @@ public class UserData
     public HousingInfo_JGD housing_Info = new HousingInfo_JGD();
     public CharacterInfo_YG character_info = new CharacterInfo_YG();
     public Memo_info memo_info = new Memo_info();
-    public Catchingstar_info catchingstar_Info = new Catchingstar_info();
+    public Catchingstar_info catchingstar_info = new Catchingstar_info();
 
     //profile
     public int profile_background = 0;
@@ -204,7 +204,7 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.character_info.Add_object(new CharacterObj(Character_ID.Green));
 
             //캐칭스타 스테이지 정보
-            userData.catchingstar_Info = new Catchingstar_info();
+            userData.catchingstar_info = new Catchingstar_info();
 
             //Memo 정보 - i = 정보 갯수
             userData.memo_info = new Memo_info();
@@ -259,7 +259,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
         param.Add("character_info", userData.character_info);   //캐릭터 데이터
-        param.Add("catchingstar_info", userData.catchingstar_Info);
+        param.Add("catchingstar_info", userData.catchingstar_info);
 
         param.Add("profile_background", userData.profile_background);
         param.Add("profile_picture", userData.profile_picture);
@@ -317,7 +317,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.CP = int.Parse(gameDataJson[0]["CP"].ToString());
                 userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
-                userData.catchingstar_Info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
+                userData.catchingstar_info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
 
                 foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
@@ -465,7 +465,6 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("Market_ID_List", userData.Market_ID_List);/////////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);
         param.Add("Housing_Info", userData.housing_Info);
-        param.Add("catchingstar_Info", userData.catchingstar_Info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);
         param.Add("Achievements_List", userData.Achievements_List);
 
