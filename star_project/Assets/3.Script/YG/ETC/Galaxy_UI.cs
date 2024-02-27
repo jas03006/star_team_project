@@ -14,6 +14,8 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private Sprite state_X;
     [SerializeField] private Sprite state_X_bar;
     [SerializeField] private Sprite state_O;
+    [SerializeField] private Sprite state_O_bar;
+
     [SerializeField] private TMP_Text collect_text;
 
     [SerializeField] private List<Image> mission_image = new List<Image>();
@@ -97,28 +99,65 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    private void Check_collect(int collect, int index, int interval)//interval = 간격
+    private void Check_collect(int collect, int index, int interval)
     {
+        // collect가 index보다 작거나 같은 경우
         if (collect >= index)
         {
-            if (collect == 0 && index == 0 )
+            // collect가 0이고 index가 0인 경우
+            if (collect == 0 && index == 0)
             {
                 mission_image[index].sprite = state_X_bar;
             }
             else
             {
-                mission_image[index].sprite = state_O;
+                // index가 짝수인 경우
+                if (index % 2 == 0)
+                {
+                    mission_image[index].sprite = state_O_bar;
+                }
+                else // index가 홀수인 경우
+                {
+                    mission_image[index].sprite = state_O;
+                }
             }
         }
-        else if (index % 2 == 0)
+        else // collect가 index보다 큰 경우
         {
-            mission_image[index].sprite = state_X_bar;
-        }
-        else
-        {
-            mission_image[index].sprite = state_X;
+            // index가 짝수인 경우
+            if (index % 2 == 0)
+            {
+                mission_image[index].sprite = state_X_bar;
+            }
+            else // index가 홀수인 경우
+            {
+                mission_image[index].sprite = state_X;
+            }
         }
     }
+
+    //private void Check_collect(int collect, int index, int interval)//interval = 간격
+    //{
+    //    if (collect >= index)
+    //    {
+    //        if (collect == 0 && index == 0 )
+    //        {
+    //            mission_image[index].sprite = state_X_bar;
+    //        }
+    //        else
+    //        {
+    //            mission_image[index].sprite = state_O;
+    //        }
+    //    }
+    //    else if (index % 2 == 0)
+    //    {
+    //        mission_image[index].sprite = state_X_bar;
+    //    }
+    //    else
+    //    {
+    //        mission_image[index].sprite = state_X;
+    //    }
+    //}
 
     public void Data_update()
     {
