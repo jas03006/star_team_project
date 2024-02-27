@@ -28,7 +28,7 @@ public class Net_Move_Object_TG : Net_Object_TG
         load();
     }
 
-    public void load()
+    public virtual void load()
     {
         //TODO: object_id(uuid)를 이용하여 뒤끝베이스에서 유저 정보(닉네임, 외형 정보 등)를 받아와 저장하고 외형을 변경
         
