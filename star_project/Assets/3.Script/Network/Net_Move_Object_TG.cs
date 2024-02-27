@@ -9,6 +9,7 @@ public class Net_Move_Object_TG : Net_Object_TG
     
     private Coroutine now_move_co = null;
     [SerializeField] protected bool is_guest = false;
+    [SerializeField] protected Canvas canvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,12 +29,24 @@ public class Net_Move_Object_TG : Net_Object_TG
         load();
     }
 
-    public void load()
+    public virtual void load()
     {
         //TODO: object_id(uuid)를 이용하여 뒤끝베이스에서 유저 정보(닉네임, 외형 정보 등)를 받아와 저장하고 외형을 변경
         
     }
 
+    public virtual void hide_UI() {
+        if (canvas != null) {
+            canvas.gameObject.SetActive(false);
+        }
+    }
+    public virtual void show_UI()
+    {
+        if (canvas != null)
+        {
+            canvas.gameObject.SetActive(true);
+        }
+    }
     public void net_move(Vector3 start_pos, Vector3 dest_pos) {
         TCP_Client_Manager.instance.send_move_request(object_id, start_pos, dest_pos);
     }

@@ -111,6 +111,10 @@ public class Housing_UI_Manager : MonoBehaviour
         grid_renderer.enabled = true;
 
         camera.cullingMask = edit_mode_mask;
+
+        foreach (var key in TCP_Client_Manager.instance.net_mov_obj_dict.Keys) {
+            TCP_Client_Manager.instance.net_mov_obj_dict[key].hide_UI();
+        }
     }
     public void click_X_btn(bool is_cancel = true)
     {
@@ -131,7 +135,12 @@ public class Housing_UI_Manager : MonoBehaviour
         if (is_cancel) {
             TCP_Client_Manager.instance.placement_system.update_placement();
             init_housing_inventory(false);
-        }        
+        }
+
+        foreach (var key in TCP_Client_Manager.instance.net_mov_obj_dict.Keys)
+        {
+            TCP_Client_Manager.instance.net_mov_obj_dict[key].show_UI();
+        }
     }
 
     public void click_scroll_btn(bool is_right) {

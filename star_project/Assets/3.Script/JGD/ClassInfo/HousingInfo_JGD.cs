@@ -13,10 +13,10 @@ public class HousingInfo_JGD
     {
 
     }
-    public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info, ObjectPlacer objectPlacer, int level_)
+    public HousingInfo_JGD(Grid grid, Dictionary<Vector3Int, PlacementData> placement_info, ObjectPlacer objectPlacer, int level_)
     {
         level = level_;
-        foreach (Vector3Int key in placement_info.Keys)
+        /*foreach (Vector3Int key in placement_info.Keys)
         {
             PlacementData pd = placement_info[key];
             HousingObjectInfo hoi = new HousingObjectInfo(pd.ID, new Vector2(key.x, key.z), pd.direction);
@@ -29,6 +29,27 @@ public class HousingInfo_JGD
                 }
             }
             
+        }*/
+
+        for (int i=0; i <  objectPlacer.placedGameObject.Count; i++)
+        {
+            GameObject go = objectPlacer.placedGameObject[i];
+            if (go == null) {
+                continue;
+            }
+            Net_Housing_Object nho =  go.GetComponentInChildren<Net_Housing_Object>();
+            Vector3Int pos = grid.WorldToCell(go.transform.position);
+            HousingObjectInfo hoi = new HousingObjectInfo(nho.object_enum, new Vector2(pos.x, pos.z), placement_info[pos].direction);
+            objectInfos.Add(hoi);
+            if (nho.object_enum == housing_itemID.ark_cylinder)
+            {
+                Harvesting hob = nho as Harvesting;
+                if (hob != null)
+                {
+                    hoi.start_time = hob.start_time;
+                    hoi.harvesting_selection = hob.selection;
+                }
+            }
         }
     }
 
@@ -101,12 +122,20 @@ public enum housing_itemID
 {
     none = -1,
     ark_cylinder = 1,
-    airship,
-    star_nest,
-    chair,
-    bed,
-    table,
-    post_box    
+    airship=2,
+    star_nest=3,
+    chair=4,
+    bed=5,
+    table=6,
+    post_box=7,
+    panda = 8,
+    balloon =9,
+    block = 10,
+    camera = 11,
+    airplane =12
+    
+    
+    
 }
 
 public class Memo_info
