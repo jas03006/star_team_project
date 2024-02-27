@@ -188,7 +188,6 @@ public class Player_Controll_JGD : MonoBehaviour
         }
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
         {
-            //Destroy(collision.gameObject); //이거 나중에 벽 부서지는효과로 변경
             switch (collision.gameObject.GetComponentInParent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.NomalWall:

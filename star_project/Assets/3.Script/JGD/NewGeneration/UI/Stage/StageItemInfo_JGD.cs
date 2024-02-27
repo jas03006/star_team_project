@@ -126,8 +126,12 @@ public class StageItemInfo_JGD : MonoBehaviour
             Scale_X = int.Parse(list[i][4].Trim());
             Scale_Y = int.Parse(list[i][5].Trim());
 
-
-            if (ObjectNum == 50)
+            if (42 <= ObjectNum && ObjectNum <= 47)
+            {
+                discrimination = int.Parse(list[i][6].Trim());
+                distance = 0;
+            }
+            else if (ObjectNum == 50)
             {
                 discrimination = int.Parse(list[i][6].Trim());
                 distance = int.Parse(list[i][7].Trim());
