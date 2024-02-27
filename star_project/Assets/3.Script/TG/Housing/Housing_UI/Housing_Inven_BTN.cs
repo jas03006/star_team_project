@@ -38,7 +38,8 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
     {
         if (can_use()) {
             TCP_Client_Manager.instance.placement_system.StartPlacement((int)id);
-        }        
+            AudioManager.instance.SFX_Click();
+        }
     }
 
     public void init(housing_itemID id_, int use_cnt_, int max_cnt_) {

@@ -316,10 +316,11 @@ public class TCP_Client_Manager : MonoBehaviour
             now_room_id = room_id_;
             hide_lobby_buttons();
             load_house();
+            my_player.show_UI();
         }
     }
     public void go_myplanet()
-    {
+    {        
         target_room_id = my_player.object_id;
         SceneManager.sceneLoaded -= join_OnSceneLoaded;
         SceneManager.sceneLoaded += join_OnSceneLoaded;
@@ -332,6 +333,7 @@ public class TCP_Client_Manager : MonoBehaviour
         //client = null;
     }
     public void exit_room() {
+        my_player.hide_UI();
         now_room_id = "-";
         chat_box_manager.clear();        
         remove_all_guest(except_self: true);

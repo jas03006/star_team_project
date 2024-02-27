@@ -42,11 +42,18 @@ public class FriendList_JGD : MonoBehaviour
             Button[] buttons = list.GetComponentsInChildren<Button>();
             if (is_airship) {
                 buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
+                buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+
                 buttons[1].onClick.AddListener(() => TCP_Client_Manager.instance.invite(nickName));
-            } else  {
+                buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+
+            }
+            else  {
                 //TODO:친밀도 시스템
                 //buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
                 buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
+                buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+
             }
             friend_dic[nickName] = inDate;
 
@@ -131,6 +138,7 @@ public class FriendList_JGD : MonoBehaviour
                     {
                         buttons[0].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
                         buttons[0].onClick.AddListener(() => Destroy(list));
+                        buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
                         //  buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
                         //  buttons[1].onClick.AddListener(() => MyFriend(list));
                     }

@@ -112,6 +112,7 @@ public class PlayerMovement : Player_Network_TG
 
                             TweenCallback action = () => { hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>().interact(object_id); };
                             move(transform.position, dest, action);
+                            AudioManager.instance.SFX_Click();
                         }
                         else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
                         {
@@ -121,6 +122,7 @@ public class PlayerMovement : Player_Network_TG
 
                             net_move(transform.position, dest);
                             move(transform.position, dest);
+                            AudioManager.instance.SFX_Click();
                         }
                       }
                 }                
