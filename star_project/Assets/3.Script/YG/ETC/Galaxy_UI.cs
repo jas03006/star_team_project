@@ -16,6 +16,7 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private Sprite state_X;
     [SerializeField] private Sprite state_X_bar;
     [SerializeField] private Sprite state_O;
+    [SerializeField] private TMP_Text collect_text;
 
     [SerializeField] private List<Image> mission_image = new List<Image>();
     [SerializeField] private List<Button> statebutton = new List<Button>(); 
@@ -53,9 +54,12 @@ public class Galaxy_UI : MonoBehaviour
             collect += data.star_Info_list[i].star;
         }
 
+        collect_text.text = collect.ToString();
+
         if (data.collect_point != collect)
         {
             data.collect_point = collect;
+            
             Data_update();
         }
     }

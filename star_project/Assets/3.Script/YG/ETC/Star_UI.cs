@@ -30,7 +30,7 @@ public class Star_UI : MonoBehaviour
     [SerializeField] private GameObject clear_X;
 
     //is_star
-    private List<Image> star_list = new List<Image>();
+    [SerializeField] private List<Image> star_list = new List<Image>();
     [SerializeField] private Sprite star_O;
     [SerializeField] private Sprite star_X;
 
