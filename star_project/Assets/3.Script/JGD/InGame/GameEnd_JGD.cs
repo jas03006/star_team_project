@@ -1,9 +1,7 @@
+using BackEnd;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +31,7 @@ public class GameEnd_JGD : MonoBehaviour
     [SerializeField] private TMP_Text E_word;
     [SerializeField] private TMP_Text K_word;
     [SerializeField] private TMP_Text Sentence;
-    [SerializeField]List<GameObject> Stageword = new List<GameObject>();
+    [SerializeField] List<GameObject> Stageword = new List<GameObject>();
     public int StarCount = 0;
 
 
@@ -49,7 +47,7 @@ public class GameEnd_JGD : MonoBehaviour
         data = BackendChart_JGD.chartData.StageClear_list[Stage];
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(false);
-        string[] Clearwords =  data.StageWord.Split(',');
+        string[] Clearwords = data.StageWord.Split(',');
         for (int i = 0; i < Clearwords.Length; i++)
         {
             ClearData.Add(Clearwords[i]);
@@ -59,8 +57,12 @@ public class GameEnd_JGD : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.CompareTag("Player"))
         {
+            //클리어 데이터 전송
+            BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[0].star_Info_list[0].is_clear = true;
+
             //int count = 0;
             var Player = collision.GetComponent<Player_Controll_JGD>();
             //for (int i = 0; i < ClearData.Count; i++)
@@ -77,8 +79,12 @@ public class GameEnd_JGD : MonoBehaviour
             //}
             if (ClearData.Count == Player.Alphabet.Count)
             {
+                BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
+                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[0].star_Info_list[0].get_housing = true;
                 Debug.Log("아이템 지급");
             }
+            MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
+
             Debug.Log("와난");
             StageClearUI.SetActive(true);
             StageStar.text = data.Allstar.ToString();
@@ -97,14 +103,15 @@ public class GameEnd_JGD : MonoBehaviour
                 MissionClearStar[1].sprite = ClearStar;
                 StarCount = 2;
             }
-            if(data.Star_3 < Player.PlayerScore)
+            if (data.Star_3 < Player.PlayerScore)
             {
                 PlayerStar[2].sprite = ClearStar;
                 MissionClearStar[2].sprite = ClearStar;
                 StarCount = 3;
             }
+            BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[0].star_Info_list[0].star = StarCount;
             Time.timeScale = 0;
-            
+
 
         }
     }
@@ -123,10 +130,42 @@ public class GameEnd_JGD : MonoBehaviour
         {
             int Sprite = (int)Enum.Parse(typeof(item_ID), ClearData[i]);
             Debug.Log(Sprite);
-            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000+Sprite);
+            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000 + Sprite);
         }
-        
 
+
+    }
+
+    public void Data_update()
+    {
+        //데이터에 넣기
+        Param param = new Param();
+        param.Add("catchingstar_info", BackendGameData_JGD.userData.catchingstar_info);
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+
+        else
+        {
+            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
+        }
+
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
     }
 
 }

@@ -27,8 +27,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     }
     private galaxy galaxy_;
 
-    public List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
-    public List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
+    [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
+    [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
 
 
     //장규동
@@ -74,11 +74,20 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         galaxy = (galaxy)index;
     }
 
-    public void Update_canvas() //헷갈림 주의:캔버스 끈다고 캔버스 오브젝트가 꺼지진 않고 컴포넌트가 꺼짐
+    public void Update_canvas()
     {
         for (int i = 0; i < Canvas_list.Count; i++)
         {
-            Canvas_list[i].enabled = i == (int)galaxy;
+            if (i == (int)galaxy)
+            {
+                Galaxy_UI_list[i].Update_UI(BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[i]);
+                Canvas_list[i].enabled = true;
+            }
+            else
+            {
+                Canvas_list[i].enabled = false;
+            }
+            
         }
     }
 

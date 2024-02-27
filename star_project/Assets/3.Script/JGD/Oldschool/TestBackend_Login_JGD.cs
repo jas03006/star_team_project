@@ -20,7 +20,7 @@ public class TestBackend_Login_JGD : MonoBehaviour
         }
     }
 
-    public void CustomSignUp(string id, string pw)
+    public bool CustomSignUp(string id, string pw)
     {
         // 회원가입 구현로직
         Debug.Log("회원가입을 요청합니다.");
@@ -34,10 +34,12 @@ public class TestBackend_Login_JGD : MonoBehaviour
             
             }*/
             BackendGameData_JGD.Instance.GameDataInsert(nickname: id);
+            return true;
         }
         else
         {
             Debug.LogError("회원가입에 실패했습니다. : " + bro);
+            return false;
         }
 
 
