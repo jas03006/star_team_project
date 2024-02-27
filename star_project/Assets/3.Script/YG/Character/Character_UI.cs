@@ -38,6 +38,7 @@ public class Character_UI : MonoBehaviour
 
     void Start()
     {
+        index_UI = 0;
         List<Character> list = BackendChart_JGD.chartData.character_list;
 
         for (int i = 0; i < list.Count; i++)

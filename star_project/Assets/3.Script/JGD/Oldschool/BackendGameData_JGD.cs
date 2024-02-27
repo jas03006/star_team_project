@@ -197,6 +197,8 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed,1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.balloon,1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.panda,1));
 
             //캐릭터 레벨 정보
             userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow));
