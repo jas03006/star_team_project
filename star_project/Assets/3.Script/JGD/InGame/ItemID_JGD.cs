@@ -53,7 +53,7 @@ public class ItemID_JGD : MonoBehaviour
             if (Obj.GetComponentInParent<ItemID_JGD>().discrimination == this.discrimination)
             {
                 obstacles.Add(Obj);
-            }
+            }   
 
         }
     }
