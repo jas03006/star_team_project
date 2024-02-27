@@ -78,13 +78,26 @@ public class Housing_UI_Manager : MonoBehaviour
             hiBTN.init(item.id, item.count, item.count);
             id2btn_dic[item.id] = hiBTN;
         }
-        Dictionary<Vector3Int, PlacementData> po = TCP_Client_Manager.instance.placement_system.furnitureData.placedObjects;
+        /*Dictionary<Vector3Int, PlacementData> po = TCP_Client_Manager.instance.placement_system.furnitureData.placedObjects;
         foreach (var key in po.Keys) {
             PlacementData pd = po[key];
             if (id2btn_dic.ContainsKey(pd.ID)) {
                 id2btn_dic[pd.ID].use();
             }
+        }*/
+        List<GameObject> go_list = TCP_Client_Manager.instance.placement_system.objectPlacer.placedGameObject;
+        for (int i =0; i < go_list.Count; i++)
+        {
+            if (go_list[i] ==null) {
+                continue;
+            }
+            Net_Housing_Object go = go_list[i].GetComponentInChildren<Net_Housing_Object>();
+            if (id2btn_dic.ContainsKey(go.object_enum))
+            {
+                id2btn_dic[go.object_enum].use();
+            }
         }
+        
         click_category_btn(0);
     }
 

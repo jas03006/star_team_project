@@ -16,7 +16,7 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField] public PreviewSystem preview;
 
-    [SerializeField] ObjectPlacer objectPlacer;
+    [SerializeField] public ObjectPlacer objectPlacer;
 
     private Vector3Int lastDetectedPostition = Vector3Int.zero;
 
