@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4470961, g: 0.49647945, b: 0.57300985, a: 1}
+  m_IndirectSpecularColor: {r: 0.4497093, g: 0.49977696, b: 0.57563406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -19585,10 +19585,16 @@ MonoBehaviour:
   before_nest_text: {fileID: 870502460}
   after_nest_text: {fileID: 996334279}
   before_nest_img: {fileID: 49423310}
+  arrow_img: {fileID: 1964103231}
   after_nest_img: {fileID: 1040102823}
   level_up_info_text: {fileID: 1343021258}
   level_up_gold: {fileID: 915466266}
   level_up_ark: {fileID: 136141977}
+  nest_sprite_arr:
+  - {fileID: 21300000, guid: 33e0b6d317f5ae8488057b6075552547, type: 3}
+  - {fileID: 21300000, guid: 8d3b837d9486da740962282d7cd503fa, type: 3}
+  - {fileID: 21300000, guid: fe178901a69690245a967f95a8da6c22, type: 3}
+  - {fileID: 21300000, guid: 98c6f526ebe912c4ea4b20ffc513b99c, type: 3}
 --- !u!1 &1433754434
 GameObject:
   m_ObjectHideFlags: 0
@@ -21592,7 +21598,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -21613,7 +21619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 1
+  m_HorizontalFit: 0
   m_VerticalFit: 1
 --- !u!1 &1551444240
 GameObject:
