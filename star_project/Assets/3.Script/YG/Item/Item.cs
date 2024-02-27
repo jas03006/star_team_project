@@ -34,7 +34,7 @@ public class Item //차트 정보 저장을 위한 클래스 선언(인게임에서는 Item_game 상�
         {
             percent = double.Parse(gameData["percent"].ToString());
         }
-        else if ((int)id < (int)item_ID.Random && (int)id == (int)item_ID.Megnet) //star,shield,size,speed
+        else if ((int)id < (int)item_ID.Random && (int)id != (int)item_ID.Megnet) //star,shield,size,speed
         {
             num = double.Parse(gameData["num"].ToString());
 

@@ -252,8 +252,18 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     public void UseItem()
     {
+        int slot1 = ItemInven[1];
+        int slot2 = 0;
         itemnum(ItemInven[0]);
-        Debug.Log($"{ItemInven[0]} æ∆¿Ã≈€");
+        PlayerItem.sprite = PlayerItemInven;
+        ItemInven[0] = slot1;
+        if (ItemInven[1] == 0)
+        {
+            return;
+        }
+        ItemInven[1] = slot2;
+        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
+        PlayerItem2.sprite = PlayerItemInven;
     }
     public void ItemChange()
     {
