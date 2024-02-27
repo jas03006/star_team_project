@@ -7,7 +7,7 @@ public class Magnet : MonoBehaviour
     [SerializeField] float Speed;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Item") || collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
             //Vector3 Dis = this.gameObject.transform.position - collision.transform.position;
             //Vector3 pos = Dis.normalized;

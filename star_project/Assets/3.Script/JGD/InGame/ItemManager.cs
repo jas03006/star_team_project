@@ -29,6 +29,7 @@ public class ItemManager : MonoBehaviour
     }
     public void UsingSize(int ID)
     {
+        StopCoroutine(Sizecon(ID));
         StartCoroutine(Sizecon(ID));
 
     }
@@ -38,6 +39,7 @@ public class ItemManager : MonoBehaviour
     }
     public void UsingSpeedUP(int ID)
     {
+        StopCoroutine(SpeedUp(ID));
         StartCoroutine(SpeedUp(ID));
 
     }
@@ -55,12 +57,15 @@ public class ItemManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(data.duration);
         Player.Speed = Speed;
     }
-    private IEnumerator Sizecon(int ID)
+    private IEnumerator Sizecon(int ID)              //나중에 Lerp사용
     {
+        Player.invincibility = false;
         data = BackendChart_JGD.chartData.item_list[ID];
         var scale = new Vector3(0.25f, 0.25f,0.25f);
-
-        Player.invincibility = true;
+        if (ID == 33)
+        {
+            Player.invincibility = true;
+        }
         Player_obj.transform.localScale = new Vector3(0.25f, 0.25f,0.25f) * (float)data.num;
         //Player.transform.localScale = Vector2.Ler p(scale, scale * data.Num, Time.deltaTime);
 
@@ -72,6 +77,7 @@ public class ItemManager : MonoBehaviour
     }
     private IEnumerator Magnetcon()
     {
+        data = BackendChart_JGD.chartData.item_list[(int)item_ID.Megnet];
         Magnet.SetActive(true);
 
         yield return new WaitForSecondsRealtime(data.duration);
