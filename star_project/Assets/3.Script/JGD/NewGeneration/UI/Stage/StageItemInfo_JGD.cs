@@ -123,8 +123,8 @@ public class StageItemInfo_JGD : MonoBehaviour
             Pos_X = float.Parse(list[i][1].Trim());
             Pos_Y = float.Parse(list[i][2].Trim());
             Rot = float.Parse(list[i][3].Trim());
-            Scale_X = int.Parse(list[i][4].Trim());
-            Scale_Y = int.Parse(list[i][5].Trim());
+            Scale_X = float.Parse(list[i][4].Trim());
+            Scale_Y = float.Parse(list[i][5].Trim());
 
             if (42 <= ObjectNum && ObjectNum <= 47)
             {
