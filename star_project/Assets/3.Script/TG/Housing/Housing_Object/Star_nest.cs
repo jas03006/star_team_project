@@ -7,6 +7,8 @@ public class Star_nest : Net_Housing_Object
 {
     private Star_nest_UI star_nest_UI;
     private string star_nest_UI_tag = "star_nest_UI";
+
+    public GameObject[] ob_arr;
     void Awake()
     {
         object_enum = housing_itemID.star_nest;
@@ -15,6 +17,21 @@ public class Star_nest : Net_Housing_Object
     private void Start()
     {
         star_nest_UI = GameObject.FindGameObjectWithTag(star_nest_UI_tag).GetComponent<Star_nest_UI>();
+        star_nest_UI.star_nest = this;
+        apply_level();
+    }
+
+    public void apply_level() {
+        int level = TCP_Client_Manager.instance.placement_system.housing_info.level;
+        for (int i =0; i < ob_arr.Length;i++) {
+            if (i == level)
+            {
+                ob_arr[i].SetActive(true);
+            }
+            else { 
+                ob_arr[i].SetActive(false);
+            }
+        }
     }
 
     public override void interact(string player_id, int interaction_id = 0, int param = 0)

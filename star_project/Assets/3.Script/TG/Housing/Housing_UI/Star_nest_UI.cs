@@ -43,6 +43,7 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text before_nest_text;
     public TMP_Text after_nest_text;
     public Image before_nest_img;
+    public Image arrow_img;
     public Image after_nest_img;
 
     public TMP_Text level_up_info_text;
@@ -50,12 +51,13 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text level_up_ark;
 
     string[] nest_name_arr = { "LV1 별둥지", "LV2 별둥지", "LV3 별둥지", "LV4 별둥지" };
+    public Sprite[] nest_sprite_arr ;
     int[] required_ark_arr = { 10, 20, 30 };
     int[] required_gold_arr = { 10, 20, 30 };
 
     private UserData user_data;
-  
 
+    public Star_nest star_nest;
     public void show_UI( bool is_profile = false) {
         if (!is_profile && (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id))
         {
@@ -161,16 +163,34 @@ public class Star_nest_UI : MonoBehaviour
         int level_ = BackendGameData_JGD.userData.housing_Info.level;
 
         before_nest_text.text = nest_name_arr[level_];
-        after_nest_text.text = nest_name_arr[level_ + 1];
+        before_nest_img.sprite = nest_sprite_arr[level_];
 
-        //TODO: 이미지 적용
-        //before_nest_img.sprite ;
-        //after_nest_img.sprite;
+        if (level_ == nest_name_arr.Length - 1)
+        {
+            after_nest_text.gameObject.SetActive(false);
+            after_nest_img.transform.parent.gameObject.SetActive(false);
+            arrow_img.gameObject.SetActive(false);
 
-        int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
-        level_up_info_text.text = $"플래닛 크기 확장\n{level_width_arr[level_]}X{level_width_arr[level_]} -> {level_width_arr[level_ + 1]}X{level_width_arr[level_ + 1]}";
-        level_up_gold.text = required_gold_arr[level_].ToString();
-        level_up_ark.text = required_ark_arr[level_].ToString();
+            level_up_info_text.text = $"최고 레벨입니다!";
+            level_up_gold.text = "";
+            level_up_ark.text = "";
+
+        }
+        else {
+            after_nest_text.gameObject.SetActive(true);
+            after_nest_img.transform.parent.gameObject.SetActive(true);
+            arrow_img.gameObject.SetActive(true);
+
+            after_nest_text.text = nest_name_arr[level_ + 1];
+            after_nest_img.sprite = nest_sprite_arr[level_ + 1];
+
+            int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
+            level_up_info_text.text = $"플래닛 크기 확장\n{level_width_arr[level_]}X{level_width_arr[level_]} -> {level_width_arr[level_ + 1]}X{level_width_arr[level_ + 1]}";
+            level_up_gold.text = required_gold_arr[level_].ToString();
+            level_up_ark.text = required_ark_arr[level_].ToString();
+        }     
+
+        
     }
     public void hide_level_UI()
     {
@@ -184,6 +204,9 @@ public class Star_nest_UI : MonoBehaviour
             TCP_Client_Manager.instance.placement_system.level_up();
             MoneyManager.instance.Spend_Money(required_gold_arr[level_], required_ark_arr[level_]);
             update_level_UI();
+            if (star_nest != null) {
+                star_nest.apply_level();
+            }
         }
     }
 
@@ -191,7 +214,7 @@ public class Star_nest_UI : MonoBehaviour
         if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
         {
             int level_ = BackendGameData_JGD.userData.housing_Info.level;
-            if (required_gold_arr[level_]<= MoneyManager.instance.gold && required_ark_arr[level_] <= MoneyManager.instance.ark) {
+            if (level_ < nest_name_arr.Length - 1 && required_gold_arr[level_]<= MoneyManager.instance.gold && required_ark_arr[level_] <= MoneyManager.instance.ark) {
 
                 return true;
 
