@@ -81,18 +81,51 @@ public class Character
 
         //레벨 업데이트
         curlevel++;
-        Data_update();
+        characterinfo_Data_update();
         State_update();
 
     }
 
-    public void Data_update()
+    public void characterinfo_Data_update()
     {
         BackendGameData_JGD.userData.character_info.character_dic[character_ID] = curlevel;
 
         //데이터에 넣기
         Param param = new Param();
         param.Add("character_info", BackendGameData_JGD.userData.character_info);
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+
+        else
+        {
+            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
+        }
+
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
+    }
+
+    public void character_Data_update(int num)
+    {
+        BackendGameData_JGD.userData.character = num;
+        //데이터에 넣기
+        Param param = new Param();
+        param.Add("character", BackendGameData_JGD.userData.character);
 
         BackendReturnObject bro = null;
 
