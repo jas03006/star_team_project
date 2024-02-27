@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> placedGameObject = new();
+    [SerializeField] public List<GameObject> placedGameObject = new();
     GridSystem grid;
     [SerializeField] LayerMask layer;
 
