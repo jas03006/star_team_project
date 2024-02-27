@@ -31,18 +31,19 @@ public class GameStage : MonoBehaviour
         LevelSelectMenuManager_JGD.currLevel++;
         SceneManager.LoadScene("Game");
     }
-    public void LevelComplete()  //게임결과
-    {
-        int starsAquired = 0;
-        starsAquired = Player.StarCount;
-        if (LevelSelectMenuManager_JGD.currLevel == LevelSelectMenuManager_JGD.UnlockedLevels)
-        {
-            LevelSelectMenuManager_JGD.UnlockedLevels++;
-            PlayerPrefs.SetInt("UnlockedLevels", LevelSelectMenuManager_JGD.UnlockedLevels);
-        }
-        if (starsAquired > PlayerPrefs.GetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(),0))
-        {
-            PlayerPrefs.SetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(), starsAquired);
-        }
-    }
+
+    //public void LevelComplete()  //게임결과
+    //{
+    //    int starsAquired = 0;
+    //    starsAquired = Player.StarCount;
+    //    if (LevelSelectMenuManager_JGD.currLevel == LevelSelectMenuManager_JGD.UnlockedLevels)
+    //    {
+    //        LevelSelectMenuManager_JGD.UnlockedLevels++;
+    //        PlayerPrefs.SetInt("UnlockedLevels", LevelSelectMenuManager_JGD.UnlockedLevels);
+    //    }
+    //    if (starsAquired > PlayerPrefs.GetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(),0))
+    //    {
+    //        PlayerPrefs.SetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(), starsAquired);
+    //    }
+    //}
 }

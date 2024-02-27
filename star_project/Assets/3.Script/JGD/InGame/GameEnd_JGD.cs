@@ -60,8 +60,9 @@ public class GameEnd_JGD : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            Star_info stage_data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[LevelSelectMenuManager_JGD.GalaxyLevel].star_Info_list[LevelSelectMenuManager_JGD.currLevel];
             //클리어 데이터 전송
-            BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[0].star_Info_list[0].is_clear = true;
+            stage_data.is_clear = true;
 
             //int count = 0;
             var Player = collision.GetComponent<Player_Controll_JGD>();
@@ -80,7 +81,8 @@ public class GameEnd_JGD : MonoBehaviour
             if (ClearData.Count == Player.Alphabet.Count)
             {
                 BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
-                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[0].star_Info_list[0].get_housing = true;
+                stage_data.get_housing = true;
+
                 Debug.Log("아이템 지급");
             }
             MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
@@ -109,10 +111,8 @@ public class GameEnd_JGD : MonoBehaviour
                 MissionClearStar[2].sprite = ClearStar;
                 StarCount = 3;
             }
-            BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[0].star_Info_list[0].star = StarCount;
+            stage_data.star = StarCount;
             Time.timeScale = 0;
-
-
         }
     }
 
