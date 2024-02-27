@@ -26,6 +26,7 @@ public class UserData
     int top_score;
     
     public int level = 1;
+    public int character = 0;
     public int CP = 0; //challenge point
     public float atk = 3.5f;
     public string info = string.Empty;
@@ -180,6 +181,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
             //레벨
             userData.level = 1;
+            userData.character = 0;
             userData.info = "친추 환영";
             userData.CP = 0;
 
@@ -195,6 +197,8 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed,1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.balloon,1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.panda,1));
 
             //캐릭터 레벨 정보
             userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow));
@@ -237,6 +241,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         Param param = new Param();
         param.Add("level", userData.level);
+        param.Add("character", userData.character);
         param.Add("info", userData.info);
         param.Add("CP",userData.CP);
         param.Add("memo_info", userData.memo_info);
@@ -315,6 +320,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 
                 userData.info = gameDataJson[0]["info"].ToString();
                 userData.CP = int.Parse(gameDataJson[0]["CP"].ToString());
+                userData.character = int.Parse(gameDataJson[0]["character"].ToString());
                 userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
                 userData.catchingstar_info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
@@ -452,6 +458,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         Param param = new Param();
         param.Add("level", userData.level);
+        param.Add("character", userData.character);
         param.Add("CP", userData.CP);
         param.Add("info", userData.info);
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);
