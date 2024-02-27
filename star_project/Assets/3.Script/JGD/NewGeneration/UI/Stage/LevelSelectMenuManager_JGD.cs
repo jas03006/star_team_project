@@ -52,19 +52,20 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     private void Start()
     {
-       UnlockedLevels = PlayerPrefs.GetInt("UnlockedLevels", 0);    ////////////////////스테이지 클리어 정보 추후 DB로 변화
-        for (int i = 0; i < levelProgresses.Length; i++)
-        {
-            if (UnlockedLevels >= i)
-            {
-                levelProgresses[i].levelButton.interactable = true;
-                int stars = PlayerPrefs.GetInt("stars" + i.ToString(),0);
-                for (int j = 0; j < stars; j++)
-                {
-                    levelProgresses[i].stars[j].sprite = Clearscore;
-                }
-            }
-        }
+        //UnlockedLevels = PlayerPrefs.GetInt("UnlockedLevels", 0);    ////////////////////스테이지 클리어 정보 추후 DB로 변화
+        // for (int i = 0; i < levelProgresses.Length; i++)
+        // {
+        //     if (UnlockedLevels >= i)
+        //     {
+        //         levelProgresses[i].levelButton.interactable = true;
+        //         int stars = PlayerPrefs.GetInt("stars" + i.ToString(),0);
+        //         for (int j = 0; j < stars; j++)
+        //         {
+        //             levelProgresses[i].stars[j].sprite = Clearscore;
+        //         }
+        //     }
+        // }
+        galaxy = galaxy.toy;
     }
 
     #region 성유경
@@ -80,7 +81,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         {
             if (i == (int)galaxy)
             {
-                Galaxy_UI_list[i].Update_UI(BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[i]);
+                Galaxy_UI_list[i].data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[i];
+                Galaxy_UI_list[i].Update_data_UI();
                 Canvas_list[i].enabled = true;
             }
             else

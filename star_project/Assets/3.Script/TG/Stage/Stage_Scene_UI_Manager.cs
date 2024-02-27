@@ -16,7 +16,5 @@ public class Stage_Scene_UI_Manager : MonoBehaviour
         
     }
 
-    public void go_myplanet() {
-        TCP_Client_Manager.instance.go_myplanet();
-    }
+
 }
