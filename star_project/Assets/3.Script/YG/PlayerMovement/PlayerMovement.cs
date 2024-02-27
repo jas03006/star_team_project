@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : Player_Network_TG
 {
@@ -17,6 +19,10 @@ public class PlayerMovement : Player_Network_TG
 
     private SpecialObjManager specialObjManager;
 
+    public RectTransform name_tag_root;
+    public TMP_Text title_tag;
+    public TMP_Text name_tag;
+
     Tween now_tween = null;
     private void OnEnable()
     {
@@ -25,9 +31,38 @@ public class PlayerMovement : Player_Network_TG
 
     public float drag_timer = 0f;
     private float drag_time_threshold = 0.17f;
+
+    public override void load()
+    {
+        base.load();
+        name_tag.text = object_id;
+        if (!is_guest)
+        {
+            title_tag.text = BackendGameData_JGD.userData.title_adjective + " " + BackendGameData_JGD.userData.title_noun;
+            
+            //TODO: 선택 캐릭터 적용
+        }
+        else {
+            string[] select = { "title_adjective", "title_noun" };
+            UserData ud = BackendGameData_JGD.Instance.get_userdata_by_nickname(object_id, select);
+            title_tag.text = ud.title_adjective + " " + ud.title_noun;
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (TCP_Client_Manager.instance.now_room_id != "-")
+        {
+            name_tag_root.position = Camera.main.WorldToScreenPoint(player.position) + Vector3.up * (10f + 450f / Camera.main.orthographicSize);
+        }
+    }
+
     // Update is called once per frame
     protected virtual void Update()
     {
+       
+
         if (!is_guest && TCP_Client_Manager.instance.now_room_id != "-")
         {
             if (Input.touchCount >= 2)

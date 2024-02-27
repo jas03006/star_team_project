@@ -101,12 +101,17 @@ public enum housing_itemID
 {
     none = -1,
     ark_cylinder = 1,
-    airship,
-    star_nest,
-    chair,
-    bed,
-    table,
-    post_box    
+    airship=2,
+    star_nest=3,
+    chair=4,
+    bed=5,
+    table=6,
+    post_box=7,
+    balloon=8,
+    airplane=9,
+    panda=10,
+    camera=11,
+    block=12
 }
 
 public class Memo_info

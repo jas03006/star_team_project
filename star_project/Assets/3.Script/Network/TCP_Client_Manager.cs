@@ -380,7 +380,7 @@ public class TCP_Client_Manager : MonoBehaviour
                 my_player.transform.position = position_;
 
                 camera_my_planet.init();
-                my_player.look_user();                
+                my_player.look_user();
             }
             else
             {
