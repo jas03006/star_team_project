@@ -14,16 +14,7 @@ public class Character_UI : MonoBehaviour
     [SerializeField] GameObject content_zone;
 
 
-    private int index_UI
-    {
-        get { return index_UI_; }
-        set
-        {
-            index_UI_ = value;
-            Update_UI();
-        }
-    }
-    private int index_UI_;//현재 띄우고 있는 캐릭터 인덱스
+    private int index_UI;//현재 띄우고 있는 캐릭터 인덱스
     private Character index_character; //현재 띄우고 있는 캐릭터 정보
     private Character cur_character; //데이터에 넣을 캐릭터 정보
 
@@ -32,38 +23,75 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private TMP_Text character_name;
     [SerializeField] private TMP_Text level;
     [SerializeField] private TMP_Text is_equip;
+    [SerializeField] private Button is_equip_btn;
     [SerializeField] private TMP_Text HP;
     [SerializeField] private TMP_Text special; //특수 능력
     [SerializeField] private TMP_Text unique; //고유 능력
 
     void Start()
     {
-        index_UI = 0;
         List<Character> list = BackendChart_JGD.chartData.character_list;
 
         for (int i = 0; i < list.Count; i++)
         {
-            Make_prefab(list[i].sprite);
+            Make_prefab(list[i].sprite,i);
         }
+
+        Setting();
     }
 
-    public void Update_UI()
+    private void OnEnable()
+    {
+        Setting();
+    }
+
+    private void Setting()
+    {
+        index_character = BackendChart_JGD.chartData.character_list[0];
+        cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
+        Update_UI();
+        index_UI = 0;
+    }
+
+    private void Update_UI()
     {
         image.sprite = SpriteManager.instance.Num2Sprite(index_character.sprite);
         character_name.text = index_character.character_name;
         level.text = $"레벨 : {index_character.curlevel}";
-        HP.text = $"HP : {100 + (index_character.curlevel * 10)}";
-        is_equip.text = index_character == cur_character ? "장착중" : "장착 완료";
+        HP.text = $"HP : {100 + ((index_character.curlevel-1) * 10)}";
         special.text = index_character.special;
         unique.text = index_character.unique;
+        Update_is_equip();
     }
 
-    public void Make_prefab(int sprite)
+    private void Update_is_equip()
+    {
+        if (index_character == cur_character)
+        {
+            is_equip.text = "장착 완료";
+            is_equip_btn.interactable = false;
+        }
+        else
+        {
+            is_equip.text = "장착하기";
+            is_equip_btn.interactable = true;
+        }
+
+    }
+
+    private void Make_prefab(int sprite, int index)
     {
         GameObject newobj = Instantiate(btn_prefab);
         newobj.transform.SetParent(content_zone.transform, false);
+
+        Button button = newobj.GetComponent<Button>();
+
+        if (button != null)
+        {
+            button.onClick.AddListener(() => Set_cur_character_btn(index));
+        }
+
         newobj.transform.GetChild(0).GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(sprite);
-        Canvas.ForceUpdateCanvases();
     }
 
     #region btn
@@ -83,12 +111,15 @@ public class Character_UI : MonoBehaviour
     {
         index_UI = num;
         index_character = BackendChart_JGD.chartData.character_list[num];
+        Update_UI();
+        Debug.Log($"Set_cur_character_btn : {num}");
     }
 
     public void Equip_btn() //장착하기 버튼
     {
         cur_character = BackendChart_JGD.chartData.character_list[index_UI];
         cur_character.character_Data_update(index_UI);
+        Update_is_equip();
     }
 
     public void Inhance_btn() //캐릭터 강화 버튼
@@ -98,7 +129,7 @@ public class Character_UI : MonoBehaviour
         if (index_character.CanLevelup(MoneyManager.instance.gold, MoneyManager.instance.ark, out gold_req, out ark_req))
         {
             index_character.Levelup(gold_req, ark_req);
-            level.text = $"레벨 : {index_character.curlevel}";
+            Update_UI();
         }
         else
         {
