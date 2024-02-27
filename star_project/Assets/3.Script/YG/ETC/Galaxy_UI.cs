@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using BackEnd;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
+using UnityEngine.UI;
 
 public class Galaxy_UI : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private TMP_Text collect_text;
 
     [SerializeField] private List<Image> mission_image = new List<Image>();
-    [SerializeField] private List<Button> statebutton = new List<Button>(); 
+    [SerializeField] private List<Button> statebutton = new List<Button>();
 
     [Header("Star_info")] //너무 고봉밥 + 중복이라 따로 클래스로 뺌
     [SerializeField] private List<Star_UI> Star_UI_list = new List<Star_UI>();
@@ -59,7 +57,7 @@ public class Galaxy_UI : MonoBehaviour
         if (data.collect_point != collect)
         {
             data.collect_point = collect;
-            
+
             Data_update();
         }
     }
@@ -103,23 +101,22 @@ public class Galaxy_UI : MonoBehaviour
     {
         if (collect >= index)
         {
-            mission_image[index].sprite = state_O;
+            if (collect == 0 && index == 0 )
+            {
+                mission_image[index].sprite = state_X_bar;
+            }
+            else
+            {
+                mission_image[index].sprite = state_O;
+            }
         }
-        //else if(index = )
-
-
-
-        if (collect > interval)
+        else if (index % 2 == 0)
         {
-            mission_image[index].sprite = state_O;
-        }
-        else if (collect == interval)
-        {
-            mission_image[index].sprite = state_X;
+            mission_image[index].sprite = state_X_bar;
         }
         else
         {
-            mission_image[index].sprite = state_X_bar;
+            mission_image[index].sprite = state_X;
         }
     }
 
