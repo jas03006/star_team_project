@@ -57,6 +57,7 @@ public class Harvesting : Net_Housing_Object//, IObject
             get_result();
             show_result_UI();            
         }
+        AudioManager.instance.SFX_hearvest_start_and_get();        
     }
     public void init(DateTime starttime_, int selection_)
     {
