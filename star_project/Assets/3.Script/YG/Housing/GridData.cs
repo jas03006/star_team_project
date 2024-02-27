@@ -14,9 +14,14 @@ public class GridData
         foreach (var pos in positionToOccupy)
         {
             if (placedObjects.ContainsKey(pos))
+            {
                 throw new Exception($"Dictionary already contains this cell position {pos}");
+                return;
+            }
             placedObjects[pos] = data; 
         }
+
+        //placedObjects[gridPosition] = data;
     }
 
     private List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectsize)
