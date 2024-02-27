@@ -27,6 +27,11 @@ public class Test_YG : MonoBehaviour
         GoogleHashKey();
     }
 
+    public void Click()
+    {
+        AudioManager.instance.SFX_Click();
+    }
+
     public void GoogleHashKey()
     {
        // Debug.Log("GoogleHashKey 확인 디버그:" + Backend.Utils.GetGoogleHash());

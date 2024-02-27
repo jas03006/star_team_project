@@ -9,9 +9,7 @@ public class AudioManager : MonoBehaviour
     SFX = SFX_Clip¿Ã∏ß (ex:SFX_chapter_open)
     ETC = Switchmode_bgm() or Switchmode_sfx()
      */
-
-    static public AudioManager instance;
-
+    public static AudioManager instance;  
     [SerializeField] bool playing_bgm = true;
     [SerializeField] bool playing_sfx = true;
 
@@ -37,7 +35,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        //ΩÃ±€≈Ê
         if (instance == null)
         {
             instance = this;
@@ -49,6 +46,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     #region BGM
     public void BGM_myplanet()
     {
