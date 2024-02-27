@@ -46,8 +46,9 @@ public class BackendChart_JGD : MonoBehaviour
 
     public void StageClearInfo(string chartId)
     {
+        JsonData data = Get_data(chartId).FlattenRows();
         //차트 내용 저장
-        foreach (JsonData gameData in Get_data(chartId).FlattenRows())
+        foreach (JsonData gameData in data)
         {
             chartData.StageClear_list.Add(new StageClear(gameData));
         }
@@ -55,8 +56,9 @@ public class BackendChart_JGD : MonoBehaviour
 
     public void Character(string chartId)
     {
+        JsonData data = Get_data(chartId).FlattenRows();
         //차트 내용 저장
-        foreach (JsonData gameData in Get_data(chartId).FlattenRows())
+        foreach (JsonData gameData in data)
         {
            chartData.character_list.Add(new Character(gameData));
         }
@@ -64,16 +66,18 @@ public class BackendChart_JGD : MonoBehaviour
 
     public void Item(string chartId)
     {
+        JsonData data = Get_data(chartId).FlattenRows();
         //차트 내용 저장
-        foreach (JsonData gameData in Get_data(chartId).FlattenRows())
+        foreach (JsonData gameData in data)
         {
             chartData.item_list.Add(new Item(gameData));
         }
     }
     public void Character_amount(string chartid)
     {
+        JsonData data = Get_data(chartid).FlattenRows();
         //차트 내용 저장
-        foreach (JsonData gameData in Get_data(chartid).FlattenRows())
+        foreach (JsonData gameData in data)
         {
             chartData.Characteramount_list.Add(new Character_amount(gameData));
         }
@@ -81,21 +85,21 @@ public class BackendChart_JGD : MonoBehaviour
 
     public void Mission(string chartid)
     {
-
+        JsonData data = Get_data(chartid).FlattenRows();
         //차트 내용 저장
-        for (int i = 0; i < Get_data(chartid).FlattenRows().Count; i++)
+        for (int i = 0; i < data.Count; i++)
         {
-            chartData.mission_list.Add(new Mission(Get_data(chartid).FlattenRows()[i],i));
+            chartData.mission_list.Add(new Mission(data[i],i));
         }
     }
 
     public void Challenge(string chartid)
     {
-
+        JsonData data = Get_data(chartid).FlattenRows();
         //차트 내용 저장
-        for (int i = 0; i < Get_data(chartid).FlattenRows().Count; i++)
+        for (int i = 0; i < data.Count; i++)
         {
-            chartData.challenge_list.Add(new Challenge(Get_data(chartid).FlattenRows()[i], i));
+            chartData.challenge_list.Add(new Challenge(data[i], i));
         }
     }
 
