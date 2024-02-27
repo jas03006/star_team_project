@@ -28,6 +28,7 @@ public class Player_Controll_JGD : MonoBehaviour
     //[SerializeField] List<int> ItemInven = new List<int>();
     [SerializeField] Image PlayerItem;
     [SerializeField] Image PlayerItem2;
+    [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
 
 
@@ -35,9 +36,7 @@ public class Player_Controll_JGD : MonoBehaviour
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
-        itemManager = Itemmanager.GetComponent<ItemManager>();
-        PlayerItem = GetComponent<Image>();
-        PlayerItem2 = GetComponent<Image>();
+        //itemManager = Itemmanager.GetComponent<ItemManager>();
     }
     private void Start()
     {
@@ -244,12 +243,12 @@ public class Player_Controll_JGD : MonoBehaviour
     private void ItemChangeSlot1(int Num)
     {
         ItemInven[0] = Num;
-        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000 + (int)ItemInven[0]);
+        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
     }
     private void ItemChangeSlot2(int Num)
     {
         ItemInven[1] = Num;
-        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + (int)ItemInven[0]);
+        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
     }
     public void UseItem()
     {
@@ -257,13 +256,17 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     public void ItemChange()
     {
+        if (ItemInven[1] == 0)
+        {
+            return;
+        }
         int slot1 = ItemInven[0];
         int slot2 = ItemInven[1];
         ItemInven[0] = slot2;
         ItemInven[1] = slot1;
-        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(ItemInven[0]);
-        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(ItemInven[1]);
 
+        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000+ItemInven[0]);
+        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[1]);
     }
     private void itemnum(int num)
     {
@@ -273,16 +276,16 @@ public class Player_Controll_JGD : MonoBehaviour
                 itemManager.UsingShild();
                 break;
             case 31:
-                itemManager.UsingSpeedUP(31);
+                itemManager.UsingMegnet();
                 break;
             case 32:
-                itemManager.UsingSize(32);
+                itemManager.UsingSpeedUP(32);
                 break;
             case 33:
                 itemManager.UsingSize(33);
                 break;
             case 34:
-                itemManager.UsingMegnet();
+                itemManager.UsingSize(34);
                 break;
             case 35:
                 int ran;
