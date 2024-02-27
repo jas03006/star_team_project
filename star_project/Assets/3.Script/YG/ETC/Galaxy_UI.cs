@@ -69,7 +69,7 @@ public class Galaxy_UI : MonoBehaviour
         //collect check - Sprite 색 바꾸기
         for (int i = 0; i < mission_image.Count; i++)
         {
-            Check_collect(collect, i, collect * (i+1));
+            Check_collect(collect, i, 3);
         }
 
         //state check - 버튼 상태 바꾸기
@@ -101,6 +101,14 @@ public class Galaxy_UI : MonoBehaviour
 
     private void Check_collect(int collect, int index, int interval)//interval = 간격
     {
+        if (collect >= index)
+        {
+            mission_image[index].sprite = state_O;
+        }
+        //else if(index = )
+
+
+
         if (collect > interval)
         {
             mission_image[index].sprite = state_O;
