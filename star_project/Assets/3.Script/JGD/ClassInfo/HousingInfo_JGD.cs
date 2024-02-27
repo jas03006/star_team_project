@@ -13,8 +13,9 @@ public class HousingInfo_JGD
     {
 
     }
-    public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info, ObjectPlacer objectPlacer)
+    public HousingInfo_JGD(Dictionary<Vector3Int, PlacementData> placement_info, ObjectPlacer objectPlacer, int level_)
     {
+        level = level_;
         foreach (Vector3Int key in placement_info.Keys)
         {
             PlacementData pd = placement_info[key];

@@ -30,12 +30,10 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
     [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
 
+    public static int currLevel; //현재 진행중인 스테이지 레벨
+    public static int GalaxyLevel; //현재 진행중인 은하 레벨
 
-    //장규동
-    public Level_progress_JGD[] levelProgresses;
-    public static int currLevel;
-    public static int UnlockedLevels;
-    public static int Tema;
+    //public static int UnlockedLevels;
 
     public Sprite Clearscore;
 

@@ -15,6 +15,8 @@ public class Camera_My_Planet : MonoBehaviour
     public float max_distance = 20f;
 
     public Vector3 center_pos;
+    public float max_distance_x = 18f;
+    public float max_distance_y = 15f;
 
     Camera camera;
     // Start is called before the first frame update
@@ -95,7 +97,7 @@ public class Camera_My_Planet : MonoBehaviour
         //TODO: 화면 드래그 시 화면 옮기기
         if (Input.touchCount == 1)
         {
-            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null)
+            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverUI())
             {
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
@@ -106,6 +108,7 @@ public class Camera_My_Planet : MonoBehaviour
                 {
                     nowPos = touch.position - touch.deltaPosition;
                     movePos = (Vector3)(prePos - nowPos) * Time.fixedDeltaTime * dragSpeed;
+                    movePos.z = 0;
                     //camera.transform.Translate(movePos);
                     adjust_cam_pos(movePos);
                     prePos = nowPos;
@@ -119,15 +122,15 @@ public class Camera_My_Planet : MonoBehaviour
         float delta_x =Vector3.Dot(delta_pos, camera.transform.right);
         float delta_y =  Vector3.Dot(delta_pos, camera.transform.up);
         delta_pos = Vector3.zero;
-        if (Mathf.Abs( delta_x) <= 30f) {
+        if (Mathf.Abs( delta_x) <= max_distance_x) {
             delta_pos += camera.transform.right * transition.x;
             //camera.transform.Translate(camera.transform.right * transition.x);
         }
-        if (Mathf.Abs(delta_y) <= 30f) {
+        if (Mathf.Abs(delta_y) <= max_distance_y) {
             delta_pos += camera.transform.up * transition.y;
             //camera.transform.Translate(camera.transform.up * transition.y);
         }
-        camera.transform.Translate(delta_pos);
+        camera.transform.position += delta_pos;
     }
     
 
