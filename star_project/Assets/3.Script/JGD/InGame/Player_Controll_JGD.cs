@@ -25,9 +25,10 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] private GameObject PlayerDieUI;
 
     [SerializeField] int[] ItemInven = new int[2];   //아이템 저장소
-    //[SerializeField] List<int> Iteminven = new List<int>();
+    //[SerializeField] List<int> ItemInven = new List<int>();
     [SerializeField] Image PlayerItem;
     [SerializeField] Image PlayerItem2;
+    [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
 
 
@@ -35,9 +36,11 @@ public class Player_Controll_JGD : MonoBehaviour
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
+        //itemManager = Itemmanager.GetComponent<ItemManager>();
     }
     private void Start()
     {
+        ItemInven[0] = 0;
         PlayerDieUI.SetActive(false);
         PlayerLevel = BackendGameData_JGD.userData.character_info.character_dic[0];
         MaxHp += (PlayerLevel - 1) * 10;  
@@ -113,64 +116,65 @@ public class Player_Controll_JGD : MonoBehaviour
                     
                     break;
                 case Obstacle_ID.Shield:
-                    if (ItemInven.Length == 0)
+                    if (ItemInven[0] == 0)
                     {
-                        ItemInven[0] = 30;
+                        ItemChangeSlot1((int)Obstacle_ID.Shield);
                     }
                     else
                     {
-                        ItemInven[1] = 30;
+                        ItemChangeSlot2((int)Obstacle_ID.Shield);
                     }
 
                     break;
                 case Obstacle_ID.Megnet:
-                    if (ItemInven.Length == 0)
+                    if (ItemInven[0]== 0)
                     {
-                        ItemInven[0] = 34;
+                        ItemChangeSlot1((int)Obstacle_ID.Megnet);
                     }
                     else
                     {
-                        ItemInven[1] = 34;
+                        ItemChangeSlot2((int)Obstacle_ID.Megnet);
+
                     }
                     break;
                 case Obstacle_ID.SpeedUp:
-                    if (ItemInven.Length == 0)
+                    if (ItemInven[0] == 0)
                     {
-                        ItemInven[0] = 31;
+                        ItemChangeSlot1((int)Obstacle_ID.SpeedUp);
                     }
                     else
                     {
-                        ItemInven[1] = 31;
+                        ItemChangeSlot2((int)Obstacle_ID.SpeedUp);
                     }
                     break;
                 case Obstacle_ID.SizeUp:
-                    if (ItemInven.Length == 0)
+                    if (ItemInven[0] == 0)
                     {
-                        ItemInven[0] = 32;
+                        ItemChangeSlot1((int)Obstacle_ID.SizeUp);
                     }
                     else
                     {
-                        ItemInven[1] = 32;
+                        ItemChangeSlot2((int)Obstacle_ID.SizeUp);
                     }
                     break;
                 case Obstacle_ID.SizeDown:
-                    if (ItemInven.Length == 0)
+                    if (ItemInven[0] == 0)
                     {
-                        ItemInven[0] = 33;
+                        ItemChangeSlot1((int)Obstacle_ID.SizeDown);
                     }
                     else
                     {
-                        ItemInven[1] = 33;
+                        ItemChangeSlot2((int)Obstacle_ID.SizeDown);
                     }
                     break;
                 case Obstacle_ID.Random:
-                    if (ItemInven.Length == 0)
+                    if (ItemInven[0] == 0)
                     {
-                        ItemInven[0] = 35;
+                        ItemChangeSlot1((int)Obstacle_ID.Random);
                     }
                     else
                     {
-                        ItemInven[1] = 35;
+                        ItemChangeSlot2((int)Obstacle_ID.Random);
                     }
                     break;
                 default:
@@ -236,8 +240,60 @@ public class Player_Controll_JGD : MonoBehaviour
             return;
         }
     }
+    private void ItemChangeSlot1(int Num)
+    {
+        ItemInven[0] = Num;
+        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
+    }
+    private void ItemChangeSlot2(int Num)
+    {
+        ItemInven[1] = Num;
+        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
+    }
     public void UseItem()
     {
+        itemnum(ItemInven[0]);
+    }
+    public void ItemChange()
+    {
+        if (ItemInven[1] == 0)
+        {
+            return;
+        }
+        int slot1 = ItemInven[0];
+        int slot2 = ItemInven[1];
+        ItemInven[0] = slot2;
+        ItemInven[1] = slot1;
 
+        PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000+ItemInven[0]);
+        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[1]);
+    }
+    private void itemnum(int num)
+    {
+        switch (num)
+        {
+            case 30:
+                itemManager.UsingShild();
+                break;
+            case 31:
+                itemManager.UsingMegnet();
+                break;
+            case 32:
+                itemManager.UsingSpeedUP(32);
+                break;
+            case 33:
+                itemManager.UsingSize(33);
+                break;
+            case 34:
+                itemManager.UsingSize(34);
+                break;
+            case 35:
+                int ran;
+                ran = Random.Range(30, 35);
+                itemnum(ran);
+                break;
+            default:
+                break;
+        }
     }
 }

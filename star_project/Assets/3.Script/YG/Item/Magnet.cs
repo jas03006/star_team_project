@@ -9,10 +9,23 @@ public class Magnet : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            Vector3 Dis = collision.gameObject.transform.position - this.transform.position;
+            //Vector3 Dis = this.gameObject.transform.position - collision.transform.position;
+            //Vector3 pos = Dis.normalized;
+            //while(collision)
+            //{
+            //    collision.transform.position += pos * Speed * Time.deltaTime;
+            //}
+            StartCoroutine(Magnettic(collision));
+        }
+    }
+    private IEnumerator Magnettic(Collider2D collision)
+    {
+        while (collision && this.gameObject)
+        {
+            Vector3 Dis = this.gameObject.transform.position - collision.transform.position;
             Vector3 pos = Dis.normalized;
-
             collision.transform.position += pos * Speed * Time.deltaTime;
+            yield return null;
         }
     }
 }
