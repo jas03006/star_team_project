@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3487180807352334981
+--- !u!1 &7348658689703084081
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 958835396176792188}
-  - component: {fileID: 7233008743553392314}
-  - component: {fileID: 3370487827792182492}
-  - component: {fileID: 4444887702392524369}
+  - component: {fileID: 6452168072222089189}
+  - component: {fileID: 1105666358860956384}
+  - component: {fileID: 874315778303726279}
+  - component: {fileID: 2605938845261424437}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -19,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &958835396176792188
+--- !u!4 &6452168072222089189
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3487180807352334981}
+  m_GameObject: {fileID: 7348658689703084081}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 469.15878, y: 313.14258, z: 1.8836884}
@@ -34,17 +34,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &7233008743553392314
+--- !u!82 &1105666358860956384
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3487180807352334981}
+  m_GameObject: {fileID: 7348658689703084081}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8003c80f1a1673546ad58e2bd148a61f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 25a3191b92fb1f4498e4fca68bef0a5e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -130,17 +130,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!82 &3370487827792182492
+--- !u!82 &874315778303726279
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3487180807352334981}
+  m_GameObject: {fileID: 7348658689703084081}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 89a89064c36600843a8275dcc8189049, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -226,13 +226,13 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4444887702392524369
+--- !u!114 &2605938845261424437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3487180807352334981}
+  m_GameObject: {fileID: 7348658689703084081}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3888cdb85baf114095203032de38e40, type: 3}
@@ -240,6 +240,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playing_bgm: 1
   playing_sfx: 1
-  BGM_AudioSource: {fileID: 7233008743553392314}
-  SFX_AudioSource: {fileID: 3370487827792182492}
+  BGM_AudioSource: {fileID: 1105666358860956384}
+  SFX_AudioSource: {fileID: 874315778303726279}
+  catchingstar_BGM: {fileID: 8300000, guid: 25a3191b92fb1f4498e4fca68bef0a5e, type: 3}
+  myplanet_BGM: {fileID: 8300000, guid: 3057de298a17f8043b79a7ca1fc61fbe, type: 3}
+  chapter_open: {fileID: 8300000, guid: 0ef560db94a48db47858de689fbeaf85, type: 3}
+  clear_star1: {fileID: 8300000, guid: 41e0616b1348cc548a02cb961d7569e5, type: 3}
+  clear_star2: {fileID: 8300000, guid: 5c35ef3ecf876244682f89fd581a30bd, type: 3}
+  clear_star3: {fileID: 8300000, guid: 419bf8d7f07877a4f87adbf75a105cb1, type: 3}
   click: {fileID: 8300000, guid: 89a89064c36600843a8275dcc8189049, type: 3}
+  collect_heart: {fileID: 8300000, guid: 212802e1cacd0a640bd588720deff697, type: 3}
+  collect_item: {fileID: 8300000, guid: d954d08a50a1b294c80fdf295b69aa6d, type: 3}
+  collect_star: {fileID: 8300000, guid: dc05886bf2d16e642ac6817e1723ef03, type: 3}
+  game_over: {fileID: 8300000, guid: 4d85678e7e2f3c84494c1fb2492a058f, type: 3}
+  hearvest_start_and_get: {fileID: 8300000, guid: 344c18902ed81664db52329d50f22af6, type: 3}
+  hit: {fileID: 8300000, guid: 7cdab72be4b608b46a98c07e7ef4eb7c, type: 3}
+  stage_clear: {fileID: 8300000, guid: 6c67b3af82f3f3747bba45c660027b3e, type: 3}
+  stage_click: {fileID: 8300000, guid: 25a19b23eb423c54aa7c75ee8338b192, type: 3}
