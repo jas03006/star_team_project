@@ -248,11 +248,12 @@ public class Player_Controll_JGD : MonoBehaviour
     private void ItemChangeSlot2(int Num)
     {
         ItemInven[1] = Num;
-        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
+        PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[1]);
     }
     public void UseItem()
     {
         itemnum(ItemInven[0]);
+        Debug.Log($"{ItemInven[0]} æ∆¿Ã≈€");
     }
     public void ItemChange()
     {

@@ -6,13 +6,14 @@ using UnityEngine.SocialPlatforms.Impl;
 public class ItemManager : MonoBehaviour
 {
     private Item data;
-    private Player_Controll_JGD Player;
+    [SerializeField] private Player_Controll_JGD Player;
+    [SerializeField] private GameObject Player_obj;
 
     [SerializeField] GameObject Magnet;
 
     private void Start()
     {
-        Player = FindAnyObjectByType<Player_Controll_JGD>();
+
     }
 
     public void UsingHeart(int ID)
@@ -57,15 +58,15 @@ public class ItemManager : MonoBehaviour
     private IEnumerator Sizecon(int ID)
     {
         data = BackendChart_JGD.chartData.item_list[ID];
-        var scale = new Vector2(0.25f, 0.25f);
+        var scale = new Vector3(0.25f, 0.25f,0.25f);
 
         Player.invincibility = true;
-        Player.transform.localScale = new Vector2(0.25f, 0.25f) * (float)data.num;
+        Player_obj.transform.localScale = new Vector3(0.25f, 0.25f,0.25f) * (float)data.num;
         //Player.transform.localScale = Vector2.Ler p(scale, scale * data.Num, Time.deltaTime);
 
         yield return new WaitForSecondsRealtime(data.duration);
 
-        Player.transform.localScale = scale;
+        Player_obj.transform.localScale = scale;
         Player.invincibility = false;
 
     }
