@@ -2206,6 +2206,7 @@ MonoBehaviour:
   state_X: {fileID: 21300000, guid: 492afedb5462a464cabae4b49484b81e, type: 3}
   state_X_bar: {fileID: 21300000, guid: 46668d87dc6a9d544870c78a7bff9026, type: 3}
   state_O: {fileID: 21300000, guid: 34526d2d8e58a544799c318864c1a73a, type: 3}
+  state_O_bar: {fileID: 21300000, guid: dd82edfb3a40cc34eae678e115a069cd, type: 3}
   collect_text: {fileID: 2228922242104927508}
   mission_image:
   - {fileID: 1410916850417767852}
@@ -6471,9 +6472,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6256085350888127777}
-        m_TargetAssemblyTypeName: Stage_Scene_UI_Manager, Assembly-CSharp
-        m_MethodName: go_myplanet
+      - m_Target: {fileID: 1951007853171722432}
+        m_TargetAssemblyTypeName: LevelSelectMenuManager_JGD, Assembly-CSharp
+        m_MethodName: Go_home
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
