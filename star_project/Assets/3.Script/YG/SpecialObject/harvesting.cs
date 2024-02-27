@@ -107,7 +107,7 @@ public class Harvesting : Net_Housing_Object//, IObject
                 break;
             case harvest_state.processing:
                 show_processing_UI();
-                processing_timer.text  = $"{(int)remain_time.TotalMinutes}:{remain_time.Seconds}";
+                processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
                 break;
             case harvest_state.complete:
                 show_complete_UI();
