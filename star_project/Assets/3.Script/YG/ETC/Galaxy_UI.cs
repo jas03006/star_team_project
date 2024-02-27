@@ -69,7 +69,7 @@ public class Galaxy_UI : MonoBehaviour
         //collect check - Sprite 색 바꾸기
         for (int i = 0; i < mission_image.Count; i++)
         {
-            Check_collect(collect, i, 3);
+            Check_collect(collect, i,9, 3);
         }
 
         //state check - 버튼 상태 바꾸기
@@ -99,7 +99,7 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    private void Check_collect(int collect, int index, int interval)
+    private void Check_collect(int collect, int index, int max_val,int interval)
     {
         // collect가 index보다 작거나 같은 경우
         if (collect >= index)
@@ -136,29 +136,6 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    //private void Check_collect(int collect, int index, int interval)//interval = 간격
-    //{
-    //    if (collect >= index)
-    //    {
-    //        if (collect == 0 && index == 0 )
-    //        {
-    //            mission_image[index].sprite = state_X_bar;
-    //        }
-    //        else
-    //        {
-    //            mission_image[index].sprite = state_O;
-    //        }
-    //    }
-    //    else if (index % 2 == 0)
-    //    {
-    //        mission_image[index].sprite = state_X_bar;
-    //    }
-    //    else
-    //    {
-    //        mission_image[index].sprite = state_X;
-    //    }
-    //}
-
     public void Data_update()
     {
         //데이터에 넣기
@@ -189,5 +166,9 @@ public class Galaxy_UI : MonoBehaviour
         {
             Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
         }
+    }
+    public void Send_Galaxylevel() //스테이지 선택 버튼
+    {
+        LevelSelectMenuManager_JGD.GalaxyLevel = galaxy_index;
     }
 }

@@ -1127,7 +1127,6 @@ GameObject:
   - component: {fileID: 601876429}
   - component: {fileID: 601876428}
   - component: {fileID: 601876427}
-  - component: {fileID: 601876426}
   - component: {fileID: 601876425}
   m_Layer: 5
   m_Name: Level4
@@ -1178,23 +1177,6 @@ MonoBehaviour:
   star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
   star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
   get_housing: {fileID: 1021469559}
---- !u!114 &601876426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601876423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4205e8c1f108b6c42b6ed99a93377018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelButton: {fileID: 601876427}
-  stars:
-  - {fileID: 2063757973}
-  - {fileID: 2126518870}
-  - {fileID: 2002992995}
 --- !u!114 &601876427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1239,6 +1221,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1003614832}
+        m_TargetAssemblyTypeName: Galaxy_UI, Assembly-CSharp
+        m_MethodName: Send_Galaxylevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 601876425}
         m_TargetAssemblyTypeName: Star_UI, Assembly-CSharp
         m_MethodName: OnClickLevel
@@ -2709,6 +2703,140 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157510938}
   m_CullTransparentMesh: 1
+--- !u!1 &1215450841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1215450842}
+  - component: {fileID: 1215450844}
+  - component: {fileID: 1215450843}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1215450842
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215450841}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2132683838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1215450843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215450841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "\uAC1C\uBC1C\n\uC9C4\uD589\uC911"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
+  m_sharedMaterial: {fileID: -8843314284280815068, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 78.95
+  m_fontSizeBase: 78.95
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1215450844
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215450841}
+  m_CullTransparentMesh: 1
 --- !u!1 &1391262800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2900,7 +3028,6 @@ GameObject:
   - component: {fileID: 1564574539}
   - component: {fileID: 1564574538}
   - component: {fileID: 1564574537}
-  - component: {fileID: 1564574536}
   - component: {fileID: 1564574535}
   m_Layer: 5
   m_Name: Level5
@@ -2951,23 +3078,6 @@ MonoBehaviour:
   star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
   star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
   get_housing: {fileID: 2102675496}
---- !u!114 &1564574536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1564574533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4205e8c1f108b6c42b6ed99a93377018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelButton: {fileID: 1564574537}
-  stars:
-  - {fileID: 114748296}
-  - {fileID: 993163423}
-  - {fileID: 1552614275}
 --- !u!114 &1564574537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3012,7 +3122,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1564574535}
+      - m_Target: {fileID: 1003614832}
+        m_TargetAssemblyTypeName: Galaxy_UI, Assembly-CSharp
+        m_MethodName: Send_Galaxylevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 601876425}
         m_TargetAssemblyTypeName: Star_UI, Assembly-CSharp
         m_MethodName: OnClickLevel
         m_Mode: 3
@@ -3597,6 +3719,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126518868}
+  m_CullTransparentMesh: 1
+--- !u!1 &2132683837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2132683838}
+  - component: {fileID: 2132683840}
+  - component: {fileID: 2132683839}
+  m_Layer: 5
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2132683838
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132683837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1215450842}
+  m_Father: {fileID: 2396847759133319840}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -578.45636, y: -218.38632}
+  m_SizeDelta: {x: 316.5612, y: 336.7737}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2132683839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132683837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2132683840
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132683837}
   m_CullTransparentMesh: 1
 --- !u!222 &28417270732272390
 CanvasRenderer:
@@ -4442,7 +4640,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8098869484447868184}
+      - m_Target: {fileID: 1003614832}
+        m_TargetAssemblyTypeName: Galaxy_UI, Assembly-CSharp
+        m_MethodName: Send_Galaxylevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 601876425}
         m_TargetAssemblyTypeName: Star_UI, Assembly-CSharp
         m_MethodName: OnClickLevel
         m_Mode: 3
@@ -5185,12 +5395,6 @@ MonoBehaviour:
   - {fileID: 1003614830}
   Galaxy_UI_list:
   - {fileID: 1003614832}
-  levelProgresses:
-  - {fileID: 7064161641822416906}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   Clearscore: {fileID: 21300000, guid: 8d8f833a698614749ae464ad84b72207, type: 3}
   nextScene: 4
 --- !u!224 &2024863215016134762
@@ -5637,6 +5841,7 @@ RectTransform:
   - {fileID: 6154742206318023960}
   - {fileID: 8107925650221872906}
   - {fileID: 7429377078499337464}
+  - {fileID: 2132683838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6069,23 +6274,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3042878556258775504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7194410226049645196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4205e8c1f108b6c42b6ed99a93377018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelButton: {fileID: 6373379343511577968}
-  stars:
-  - {fileID: 8761624571238180789}
-  - {fileID: 3379849459871882435}
-  - {fileID: 775022727264946796}
 --- !u!222 &3071154901005916840
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6226,7 +6414,6 @@ GameObject:
   - component: {fileID: 5614499160001614069}
   - component: {fileID: 2301475828929166245}
   - component: {fileID: 1171009329548436650}
-  - component: {fileID: 7064161641822416906}
   - component: {fileID: 8098869484447868184}
   m_Layer: 5
   m_Name: Level1
@@ -6336,7 +6523,6 @@ GameObject:
   - component: {fileID: 3773811806106546687}
   - component: {fileID: 3298084107808258017}
   - component: {fileID: 2729957814552953279}
-  - component: {fileID: 6256085350888127777}
   m_Layer: 5
   m_Name: Static_canvas
   m_TagString: Untagged
@@ -7417,23 +7603,6 @@ RectTransform:
   m_AnchoredPosition: {x: 44.00011, y: 0}
   m_SizeDelta: {x: -96, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4438207068667067152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8393154751227916364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4205e8c1f108b6c42b6ed99a93377018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelButton: {fileID: 5755352394294882224}
-  stars:
-  - {fileID: 7942765470846709109}
-  - {fileID: 4128242925853709827}
-  - {fileID: 2120275325602054316}
 --- !u!222 &4475432527278513787
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8689,7 +8858,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3457544774943305218}
+      - m_Target: {fileID: 1003614832}
+        m_TargetAssemblyTypeName: Galaxy_UI, Assembly-CSharp
+        m_MethodName: Send_Galaxylevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 601876425}
         m_TargetAssemblyTypeName: Star_UI, Assembly-CSharp
         m_MethodName: OnClickLevel
         m_Mode: 3
@@ -9035,18 +9216,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5704073343736170695}
   m_CullTransparentMesh: 1
---- !u!114 &6256085350888127777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3190002466089054437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf262cc424edc864baaa944b4306525e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6266459090748051541
 GameObject:
   m_ObjectHideFlags: 0
@@ -9180,7 +9349,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4059571321769747650}
+      - m_Target: {fileID: 1003614832}
+        m_TargetAssemblyTypeName: Galaxy_UI, Assembly-CSharp
+        m_MethodName: Send_Galaxylevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 601876425}
         m_TargetAssemblyTypeName: Star_UI, Assembly-CSharp
         m_MethodName: OnClickLevel
         m_Mode: 3
@@ -9829,23 +10010,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7064161641822416906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3162975555798088534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4205e8c1f108b6c42b6ed99a93377018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelButton: {fileID: 1171009329548436650}
-  stars:
-  - {fileID: 3577269161938298479}
-  - {fileID: 7409876401974893849}
-  - {fileID: 4824454065340386230}
 --- !u!224 &7105362576725018729
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9912,7 +10076,6 @@ GameObject:
   - component: {fileID: 421153927813583151}
   - component: {fileID: 6323885570314386047}
   - component: {fileID: 6373379343511577968}
-  - component: {fileID: 3042878556258775504}
   - component: {fileID: 4059571321769747650}
   m_Layer: 5
   m_Name: Level3
@@ -11125,7 +11288,6 @@ GameObject:
   - component: {fileID: 1330225969530985455}
   - component: {fileID: 4642965299367030975}
   - component: {fileID: 5755352394294882224}
-  - component: {fileID: 4438207068667067152}
   - component: {fileID: 3457544774943305218}
   m_Layer: 5
   m_Name: Level2
