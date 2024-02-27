@@ -107,11 +107,14 @@ public enum housing_itemID
     bed=5,
     table=6,
     post_box=7,
-    balloon=8,
-    airplane=9,
-    panda=10,
-    camera=11,
-    block=12
+    panda = 8,
+    balloon =9,
+    block = 10,
+    camera = 11,
+    airplane =12
+    
+    
+    
 }
 
 public class Memo_info
