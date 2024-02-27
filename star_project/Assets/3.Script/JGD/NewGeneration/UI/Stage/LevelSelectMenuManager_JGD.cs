@@ -106,8 +106,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Setting_Galaxy()
+    public void Go_home()
     {
-        
+        TCP_Client_Manager.instance.go_myplanet();
     }
 }
