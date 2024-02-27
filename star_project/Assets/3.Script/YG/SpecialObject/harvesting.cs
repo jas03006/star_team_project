@@ -41,7 +41,7 @@ public class Harvesting : Net_Housing_Object//, IObject
 
     private void Update()
     {
-        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (10f + 450f/Camera.main.orthographicSize );
+        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (45f + 450f/Camera.main.orthographicSize );
         update_state();
     }
 
