@@ -32,7 +32,7 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
     [SerializeField] private Character cur_character;
-
+    
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
