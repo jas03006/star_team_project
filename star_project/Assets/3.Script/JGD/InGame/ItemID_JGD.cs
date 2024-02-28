@@ -35,6 +35,8 @@ public class ItemID_JGD : MonoBehaviour
             {
                 obstacles[i].GetComponentInParent<ItemID_JGD>().animator.SetTrigger("MoveWall");
             }
+            this.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
         }
     }
 

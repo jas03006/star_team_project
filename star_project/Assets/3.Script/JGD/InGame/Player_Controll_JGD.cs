@@ -31,8 +31,6 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
 
-
-
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -62,27 +60,38 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && isMove)
         {
             rigi.velocity = Vector2.up *Jump;
         }
     }
+
+    Coroutine now_damage_co = null;
     private IEnumerator OnDamage()
     {
         if (!invincibility && !Shild)
         {
             isMove = false;
             currentHp -= 20;
-            if (currentHp < 0)
+            if (currentHp <= 0)
             {
                 Time.timeScale = 0;
+                AudioManager.instance.SFX_game_over();
                 PlayerDieUI.SetActive(true);
+                if (now_damage_co != null)    //内风凭 静绰 规过
+                {
+                    StopCoroutine(now_damage_co);
+                }
+                StopCoroutine(now_damage_co);
+
             }
+            AudioManager.instance.SFX_hit();
             rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             isMove = true;
         }
         Shild = false;
+        now_damage_co = null;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -97,25 +106,34 @@ public class Player_Controll_JGD : MonoBehaviour
             switch (collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.big_heart:
-                    collision.GetComponent<Heart>().UseItem();
+                    AudioManager.instance.SFX_collect_heart();
+                    itemManager.UsingHeart((int)Obstacle_ID.big_heart);
+                    //collision.GetComponent<Heart>().UseItem();
                     Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_heart:
-                    collision.GetComponent<Heart>().UseItem();
+                    AudioManager.instance.SFX_collect_heart();
+                    itemManager.UsingHeart((int)Obstacle_ID.small_heart);
+                    //collision.GetComponent<Heart>().UseItem();
                     Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_star:
-                    collision.GetComponent<Star>().UseItem();
+                    AudioManager.instance.SFX_collect_star();
+                    itemManager.UsingStar((int)Obstacle_ID.small_star);
+                    //collision.GetComponent<Star>().UseItem();
                     Debug.Log(PlayerScore);
                     break;
                 case Obstacle_ID.big_star:
-                    collision.GetComponent<Star>().UseItem();
+                    AudioManager.instance.SFX_collect_star();
+                    itemManager.UsingStar((int)Obstacle_ID.big_star);
+                    //collision.GetComponent<Star>().UseItem();
                     Debug.Log(PlayerScore);
                     break;
                 case Obstacle_ID.CheckBox:
                     
                     break;
                 case Obstacle_ID.Shield:
+                    AudioManager.instance.SFX_collect_item();
                     if (ItemInven[0] == 0)
                     {
                         ItemChangeSlot1((int)Obstacle_ID.Shield);
@@ -127,6 +145,7 @@ public class Player_Controll_JGD : MonoBehaviour
 
                     break;
                 case Obstacle_ID.Megnet:
+                    AudioManager.instance.SFX_collect_item();
                     if (ItemInven[0]== 0)
                     {
                         ItemChangeSlot1((int)Obstacle_ID.Megnet);
@@ -138,6 +157,7 @@ public class Player_Controll_JGD : MonoBehaviour
                     }
                     break;
                 case Obstacle_ID.SpeedUp:
+                    AudioManager.instance.SFX_collect_item();
                     if (ItemInven[0] == 0)
                     {
                         ItemChangeSlot1((int)Obstacle_ID.SpeedUp);
@@ -148,6 +168,7 @@ public class Player_Controll_JGD : MonoBehaviour
                     }
                     break;
                 case Obstacle_ID.SizeUp:
+                    AudioManager.instance.SFX_collect_item();
                     if (ItemInven[0] == 0)
                     {
                         ItemChangeSlot1((int)Obstacle_ID.SizeUp);
@@ -158,6 +179,7 @@ public class Player_Controll_JGD : MonoBehaviour
                     }
                     break;
                 case Obstacle_ID.SizeDown:
+                    AudioManager.instance.SFX_collect_item();
                     if (ItemInven[0] == 0)
                     {
                         ItemChangeSlot1((int)Obstacle_ID.SizeDown);
@@ -168,6 +190,7 @@ public class Player_Controll_JGD : MonoBehaviour
                     }
                     break;
                 case Obstacle_ID.Random:
+                    AudioManager.instance.SFX_collect_item();
                     if (ItemInven[0] == 0)
                     {
                         ItemChangeSlot1((int)Obstacle_ID.Random);
@@ -233,7 +256,12 @@ public class Player_Controll_JGD : MonoBehaviour
                 default:
                     break;
             }
-            StartCoroutine(OnDamage());
+            if (now_damage_co != null)    //内风凭 静绰 规过
+            {
+                StopCoroutine(now_damage_co);
+            }
+            now_damage_co = StartCoroutine(OnDamage());
+            
             //Destroy(collision.gameObject);
             collision.gameObject.SetActive(false);
             return;
