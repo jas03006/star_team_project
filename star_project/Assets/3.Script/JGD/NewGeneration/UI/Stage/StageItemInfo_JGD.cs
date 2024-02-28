@@ -65,6 +65,8 @@ public enum Obstacle_ID
     Move_PurpleWall,
     Move_RedWall,
     Move_YellowWall,
+    Unbreakable_Wall,
+    Unbreakable_MoveWall
 }
 
 

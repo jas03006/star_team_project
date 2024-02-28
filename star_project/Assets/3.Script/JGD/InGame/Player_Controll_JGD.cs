@@ -10,6 +10,7 @@ public class Player_Controll_JGD : MonoBehaviour
     private bool isMove = true;
     public bool invincibility = false;
     public bool Shild = false;
+    private int PlayerNumber = 0;
     [SerializeField] GameObject cameraCon;
     [SerializeField] GameObject Itemmanager;
     [SerializeField] ItemManager itemManager;
@@ -30,6 +31,7 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] Image PlayerItem2;
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
+    [SerializeField] private Character cur_character;
 
     private void Awake()
     {
@@ -42,6 +44,10 @@ public class Player_Controll_JGD : MonoBehaviour
         PlayerLevel = BackendGameData_JGD.userData.character_info.character_dic[0];
         MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
+
+        //성유경
+        //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
+        Init();
 
     }
     private void Update()
@@ -63,6 +69,19 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             rigi.velocity = Vector2.up *Jump;
         }
+    }
+
+    private void Init()
+    {
+        cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
+        SpriteManager.instance.Num2Sprite(cur_character.sprite);
+        PlayerNumber = (int)cur_character.character_ID;
+
+        //Yellow = 0,
+        //Red,
+        //Blue,
+        //Purple,
+        //Green
     }
 
     Coroutine now_damage_co = null;
@@ -217,35 +236,49 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.NomalWall:
                 case Obstacle_ID.Nomal_Rockwall:
                 case Obstacle_ID.Move_NomalWall:
-                    
                     break;
                 case Obstacle_ID.BlueWall:
                 case Obstacle_ID.Blue_Rockwall:
                 case Obstacle_ID.Move_BlueWall:
-
+                    if (PlayerNumber == 2)
+                    {
+                        return;
+                    }
                     break;
                 case Obstacle_ID.GreenWall:
                 case Obstacle_ID.Green_Rockwall:
                 case Obstacle_ID.Move_GreenWall:
-
+                    if (PlayerNumber == 4)
+                    {
+                        return;
+                    }
 
                     break;
                 case Obstacle_ID.PurpleWall:
                 case Obstacle_ID.Purple_Rockwall:
                 case Obstacle_ID.Move_PurpleWall:
-
+                    if (PlayerNumber == 3)
+                    {
+                        return;
+                    }
 
                     break;
                 case Obstacle_ID.RedWall:
                 case Obstacle_ID.Red_Rockwall:
                 case Obstacle_ID.Move_RedWall:
-
+                    if (PlayerNumber == 1)
+                    {
+                        return;
+                    }
 
                     break;
                 case Obstacle_ID.YellowWall:
                 case Obstacle_ID.Yellow_Rockwall:
                 case Obstacle_ID.Move_YellowWall:
-
+                    if (PlayerNumber == 0)
+                    {
+                        return;
+                    }
 
                     break;
 
@@ -253,7 +286,15 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Meteor:
 
                     break;
+                case Obstacle_ID.Unbreakable_Wall:
+                case Obstacle_ID.Unbreakable_MoveWall:
+                    if (now_damage_co != null)
+                    {
+                        StopCoroutine(now_damage_co);
+                    }
+                    now_damage_co = StartCoroutine(OnDamage());
 
+                    return;
                 default:
                     break;
             }
@@ -325,11 +366,6 @@ public class Player_Controll_JGD : MonoBehaviour
                 break;
             case 34:
                 itemManager.UsingSize(34);
-                break;
-            case 35:
-                int ran;
-                ran = Random.Range(30, 35); /////////////나중에 지우기
-                itemnum(ran);
                 break;
             default:
                 break;
