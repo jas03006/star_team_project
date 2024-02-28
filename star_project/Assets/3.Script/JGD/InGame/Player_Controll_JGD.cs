@@ -34,7 +34,6 @@ public class Player_Controll_JGD : MonoBehaviour
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
-        //itemManager = Itemmanager.GetComponent<ItemManager>();
     }
     private void Start()
     {
@@ -78,11 +77,11 @@ public class Player_Controll_JGD : MonoBehaviour
                 Time.timeScale = 0;
                 AudioManager.instance.SFX_game_over();
                 PlayerDieUI.SetActive(true);
+                StopCoroutine(now_damage_co);
                 if (now_damage_co != null)    //内风凭 静绰 规过
                 {
                     StopCoroutine(now_damage_co);
                 }
-                StopCoroutine(now_damage_co);
 
             }
             AudioManager.instance.SFX_hit();
