@@ -19,6 +19,8 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private TMP_Text collect_text;
 
     [SerializeField] private List<Image> mission_image = new List<Image>();
+    [SerializeField] private List<Image> mission_btn = new List<Image>();
+    [SerializeField] private List<Image> check = new List<Image>();
     [SerializeField] private List<Button> statebutton = new List<Button>();
 
     [Header("Star_info")] //너무 고봉밥 + 중복이라 따로 클래스로 뺌
@@ -66,25 +68,8 @@ public class Galaxy_UI : MonoBehaviour
 
     private void Update_MissionState(int collect, List<Galaxy_state> state)
     {
-        //collect check - Sprite 색 바꾸기
-        for (int i = 0; i < mission_image.Count; i++)
-        {
-            Check_collect(collect, i,9, 3);
-        }
-
-        //state check - 버튼 상태 바꾸기
-        for (int i = 0; i < state.Count; i++)
-        {
-            switch (state[i])
-            {
-                case Galaxy_state.can_reward:
-                    statebutton[i].interactable = true;
-                    break;
-                default:
-                    statebutton[i].interactable = false;
-                    break;
-            }
-        }
+        //스프라이트 바꾸고 버튼클릭 바꾸기
+        Check_collect(collect, 5);
     }
 
     private void Update_Starinfo(List<Star_info> star_info)
@@ -99,40 +84,56 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    private void Check_collect(int collect, int index, int max_val,int interval)
+    private void Check_collect(int collect, int interval)
     {
-        // collect가 index보다 작거나 같은 경우
-        if (collect >= index)
+        List<Galaxy_state> mission_state = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state;
+
+        for (int i = 0; i < check.Count; i++)
         {
-            // collect가 0이고 index가 0인 경우
-            if (collect == 0 && index == 0)
+            check[i].enabled = false;
+        }
+
+        //btn
+        int tmp = collect;
+        for (int i = 0; i < mission_btn.Count; i++)
+        {
+            if (tmp >= interval)
             {
-                mission_image[index].sprite = state_X_bar;
+                mission_btn[i].sprite = state_O;
+                if (mission_state[i] == Galaxy_state.incomplete)
+                {
+                    mission_state[i] = Galaxy_state.can_reward;
+                    BackendGameData_JGD.userData.catchingstar_info.Data_update();
+                    statebutton[i].interactable = true;
+                }
+                else if (mission_state[i] == Galaxy_state.complete)
+                {
+                    check[i].enabled = true;
+                }
             }
             else
             {
-                // index가 짝수인 경우
-                if (index % 2 == 0)
-                {
-                    mission_image[index].sprite = state_O_bar;
-                }
-                else // index가 홀수인 경우
-                {
-                    mission_image[index].sprite = state_O;
-                }
+                mission_btn[i].sprite = state_X;
+                statebutton[i].interactable = false;
             }
+            tmp = -interval;
         }
-        else // collect가 index보다 큰 경우
+
+        //image
+        int tmp2 = collect;
+        for (int i = 0; i < mission_image.Count; i++)
         {
-            // index가 짝수인 경우
-            if (index % 2 == 0)
+            if (tmp2 > 0)
             {
-                mission_image[index].sprite = state_X_bar;
+                mission_image[i].sprite = state_O_bar;
             }
-            else // index가 홀수인 경우
+
+            else
             {
-                mission_image[index].sprite = state_X;
+                mission_image[i].sprite = state_X_bar;
             }
+
+            tmp2 = -interval;
         }
     }
 
@@ -170,5 +171,15 @@ public class Galaxy_UI : MonoBehaviour
     public void Send_Galaxylevel() //스테이지 선택 버튼
     {
         LevelSelectMenuManager_JGD.GalaxyLevel = galaxy_index;
+    }
+    public void Get_reward(int money) //미션 보상버튼
+    {
+        MoneyManager.instance.Get_Money((Money)money, 100);
+    }
+    public void Statechange_btn(int index)
+    {
+        statebutton[index].interactable = false;
+        BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state[index] = Galaxy_state.complete;
+        Update_data_UI();
     }
 }
