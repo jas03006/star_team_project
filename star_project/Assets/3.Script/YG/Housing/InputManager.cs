@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private Camera scene_cam;
@@ -100,15 +99,27 @@ public class InputManager : MonoBehaviour
 
     public bool IsPointerOverUI() {
         
-        foreach (Touch touch in Input.touches)
+        for (int i =0; i<Input.touchCount;i++)
         {
-            int id = touch.fingerId;
+            Debug.Log("touch check"+i);
+            int id = Input.GetTouch(i).fingerId;
             if (EventSystem.current.IsPointerOverGameObject(id))
             {
+                
                 // ui touched
+                return true;
+            }
 
+            var eventData = new PointerEventData(EventSystem.current) { position = Input.GetTouch(0).position };
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+            if (results.Count > 0)
+            {
+                return true;
             }
         }
+
+
         return EventSystem.current.IsPointerOverGameObject();     
     }
 

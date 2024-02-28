@@ -104,7 +104,7 @@ public class FriendList_JGD : MonoBehaviour
     }
     public void show_recommend_friends() {
         ClearRecommendList();
-        BackendReturnObject bro = Backend.GameData.Get("USER_DATA", new Where());
+        BackendReturnObject bro = Backend.GameData.Get("USER_DATA", new Where(),100);
 
 
         if (bro.IsSuccess())
@@ -118,12 +118,14 @@ public class FriendList_JGD : MonoBehaviour
                 {
                     string nickName = friendJson["planet_name"].ToString();
 
-                    if (friend_dic.ContainsKey(nickName) || TCP_Client_Manager.instance.my_player.object_id == nickName) {
+                    if (friend_dic.ContainsKey(nickName) || TCP_Client_Manager.instance.my_player.object_id == nickName || nickName==null) {
                         continue;
                     }
 
                     var n_bro = Backend.Social.GetUserInfoByNickName(nickName);
-
+                    if (!n_bro.IsSuccess() || !n_bro.HasReturnValue()) {
+                        continue;
+                    }
                     //example
                     string inDate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
 
