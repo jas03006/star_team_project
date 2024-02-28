@@ -18,8 +18,7 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] public float Speed;
     Rigidbody2D rigi;
     [SerializeField] TMP_Text ScoreTxt;
-
-    private int PlayerLevel=1;
+    private int PlayerLevel;
     public double MaxHp = 100;
     public double currentHp;
     [SerializeField]public int PlayerScore;
@@ -32,22 +31,21 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
     [SerializeField] private Character cur_character;
-    
+    SpriteRenderer character;
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
+        character = GetComponent<SpriteRenderer>();
     }
     private void Start()
     {
-        ItemInven[0] = 0;
+        Init();
         PlayerDieUI.SetActive(false);
-        PlayerLevel = BackendGameData_JGD.userData.character_info.character_dic[0];
         MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
 
         //¼ºÀ¯°æ
         //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
-        Init();
 
     }
     private void Update()
@@ -75,8 +73,29 @@ public class Player_Controll_JGD : MonoBehaviour
     private void Init()
     {
         cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
-        SpriteManager.instance.Num2Sprite(cur_character.sprite);
+        character.sprite = SpriteManager.instance.Num2Sprite(cur_character.sprite);
         PlayerNumber = (int)cur_character.character_ID;
+        PlayerLevel = cur_character.curlevel;
+        ItemChangeSlot1((int)cur_character.special_item);
+
+        switch (cur_character.character_ID)
+        {
+            case Character_ID.Yellow:
+                itemManager.Megnet = (PlayerLevel - 1) * 0.1f + 0.5f; 
+                break;
+            case Character_ID.Red:
+                itemManager.SpeedUP = (PlayerLevel - 1) * 0.1f + 0.5f;
+                break;
+            case Character_ID.Blue:
+                itemManager.Size = (PlayerLevel - 1) * 0.1f + 0.5f;
+                break;
+            case Character_ID.Purple:
+                itemManager.Size = (PlayerLevel - 1) * 0.1f + 0.5f;
+                break;
+            case Character_ID.Green:
+                itemManager.Heal = (PlayerLevel - 1) * 0.5f + 5f;
+                break;
+        }
 
         //Yellow = 0,
         //Red,
@@ -86,12 +105,12 @@ public class Player_Controll_JGD : MonoBehaviour
     }
 
     Coroutine now_damage_co = null;
-    private IEnumerator OnDamage()
+    private IEnumerator OnDamage(int num)
     {
         if (!invincibility && !Shild)
         {
             isMove = false;
-            currentHp -= 20;
+            currentHp -= num;
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;
@@ -243,6 +262,12 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_BlueWall:
                     if (PlayerNumber == 2)
                     {
+                        if (now_damage_co != null)
+                        {
+                            StopCoroutine(now_damage_co);
+                        }
+                        now_damage_co = StartCoroutine(OnDamage(0));
+                        collision.gameObject.SetActive(false);
                         return;
                     }
                     break;
@@ -251,6 +276,12 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_GreenWall:
                     if (PlayerNumber == 4)
                     {
+                        if (now_damage_co != null)
+                        {
+                            StopCoroutine(now_damage_co);
+                        }
+                        now_damage_co = StartCoroutine(OnDamage(0));
+                        collision.gameObject.SetActive(false);
                         return;
                     }
 
@@ -260,6 +291,12 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_PurpleWall:
                     if (PlayerNumber == 3)
                     {
+                        if (now_damage_co != null)
+                        {
+                            StopCoroutine(now_damage_co);
+                        }
+                        now_damage_co = StartCoroutine(OnDamage(0));
+                        collision.gameObject.SetActive(false);
                         return;
                     }
 
@@ -269,6 +306,12 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_RedWall:
                     if (PlayerNumber == 1)
                     {
+                        if (now_damage_co != null)
+                        {
+                            StopCoroutine(now_damage_co);
+                        }
+                        now_damage_co = StartCoroutine(OnDamage(0));
+                        collision.gameObject.SetActive(false);
                         return;
                     }
 
@@ -278,6 +321,12 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_YellowWall:
                     if (PlayerNumber == 0)
                     {
+                        if (now_damage_co != null)
+                        {
+                            StopCoroutine(now_damage_co);
+                        }
+                        now_damage_co = StartCoroutine(OnDamage(0));
+                        collision.gameObject.SetActive(false);
                         return;
                     }
 
@@ -293,8 +342,7 @@ public class Player_Controll_JGD : MonoBehaviour
                     {
                         StopCoroutine(now_damage_co);
                     }
-                    now_damage_co = StartCoroutine(OnDamage());
-
+                    now_damage_co = StartCoroutine(OnDamage(20));
                     return;
                 default:
                     break;
@@ -303,7 +351,7 @@ public class Player_Controll_JGD : MonoBehaviour
             {
                 StopCoroutine(now_damage_co);
             }
-            now_damage_co = StartCoroutine(OnDamage());
+            now_damage_co = StartCoroutine(OnDamage(20));
             
             //Destroy(collision.gameObject);
             collision.gameObject.SetActive(false);

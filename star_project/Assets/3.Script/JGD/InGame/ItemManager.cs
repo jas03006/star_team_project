@@ -11,6 +11,11 @@ public class ItemManager : MonoBehaviour
 
     [SerializeField] GameObject Magnet;
 
+    public float Megnet = 0;
+    public float SpeedUP = 0;
+    public float Size = 0;
+    public float Heal = 0;
+
     private void Start()
     {
 
@@ -19,7 +24,7 @@ public class ItemManager : MonoBehaviour
     public void UsingHeart(int ID)
     {
         data = BackendChart_JGD.chartData.item_list[ID];
-        Player.currentHp += Player.MaxHp * data.num;
+        Player.currentHp += Player.MaxHp * data.num + ((Player.MaxHp * data.num) * Heal);
     }
     public void UsingStar(int ID)
     {
@@ -54,7 +59,7 @@ public class ItemManager : MonoBehaviour
         data = BackendChart_JGD.chartData.item_list[ID];
         float Speed = Player.Speed; 
         Player.Speed = Player.Speed * (float)data.num;
-        yield return new WaitForSecondsRealtime(data.duration);
+        yield return new WaitForSecondsRealtime(data.duration + SpeedUP);
         Player.Speed = Speed;
     }
     private IEnumerator Sizecon(int ID)              //나중에 Lerp사용
@@ -69,7 +74,7 @@ public class ItemManager : MonoBehaviour
         Player_obj.transform.localScale = new Vector3(0.25f, 0.25f,0.25f) * (float)data.num;
         //Player.transform.localScale = Vector2.Ler p(scale, scale * data.Num, Time.deltaTime);
 
-        yield return new WaitForSecondsRealtime(data.duration);
+        yield return new WaitForSecondsRealtime(data.duration+ Size);
 
         Player_obj.transform.localScale = scale;
         Player.invincibility = false;
@@ -80,7 +85,7 @@ public class ItemManager : MonoBehaviour
         data = BackendChart_JGD.chartData.item_list[(int)item_ID.Megnet];
         Magnet.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(data.duration);
+        yield return new WaitForSecondsRealtime(data.duration+ Megnet);
 
         Magnet.SetActive(false);
 
