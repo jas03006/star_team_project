@@ -100,7 +100,8 @@ public class TCP_Client_Manager : MonoBehaviour
             my_player.find_grid();
             placement_system = FindObjectOfType<PlacementSystem>();
             housing_ui_manager = FindObjectOfType<Housing_UI_Manager>();
-            camera_my_planet = FindObjectOfType<Camera_My_Planet>();            
+            camera_my_planet = FindObjectOfType<Camera_My_Planet>();
+            chat_box_manager.hide_chat();
         }
     }
     private void Update()
