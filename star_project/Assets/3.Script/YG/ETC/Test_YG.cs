@@ -31,6 +31,14 @@ public class Test_YG : MonoBehaviour
     {
         AudioManager.instance.SFX_Click();
     }
+    public void BGM_catchingstar()
+    {
+        AudioManager.instance.BGM_catchingstar();
+    }
+    public void BGM_myplanet()
+    {
+        AudioManager.instance.BGM_myplanet();
+    }
 
     public void GoogleHashKey()
     {

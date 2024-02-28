@@ -114,7 +114,10 @@ public class GameEnd_JGD : MonoBehaviour
                 MissionClearStar[2].sprite = ClearStar;
                 StarCount = 3;
             }
-            stage_data.star = StarCount;
+            if (stage_data.star < StarCount)
+            {
+                stage_data.star = StarCount;
+            }
             Time.timeScale = 0;
         }
     }
