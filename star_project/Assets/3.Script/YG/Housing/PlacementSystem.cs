@@ -174,7 +174,7 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceStructure()
     {
-        if (inputManager.IsPointerOverUI())
+        if (InputManager.IsPointerOverUI())
         {
             cancel_placement();
             return;
@@ -231,7 +231,7 @@ public class PlacementSystem : MonoBehaviour
 
 
     public Vector3 get_spawn_point(bool is_my_planet) {
-        housing_itemID id_ = housing_itemID.airship;
+        housing_itemID id_ = housing_itemID.star_nest;
         if (is_my_planet) {
             id_ = housing_itemID.star_nest;
         }

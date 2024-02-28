@@ -35,10 +35,6 @@ public class SpriteManager : MonoBehaviour
         }
         Debug.Log("생성끝!");
     }
-    private void Update()
-    {
-        GL.Clear(true, true, Color.black);
-    }
 
     public Sprite Num2Sprite(int sprite_num) //번호에 맞는 스프라이트 찾는 메서드
     {
