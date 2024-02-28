@@ -80,18 +80,27 @@ public class FriendList_JGD : MonoBehaviour
         TCP_Client_Manager.instance.join(TCP_Client_Manager.instance.my_player.object_id);
     }
 
+
     private FriendList_JGD airship_UI = null;
     private string airship_UI_tag = "airship_UI";
-
+    [SerializeField] private GameObject go_myplanet_btn_ob;
     public void open_Airchip_UI() {
         if (airship_UI == null) {
             airship_UI = GameObject.FindGameObjectWithTag(airship_UI_tag).GetComponent<FriendList_JGD>();
         }
+        
         if (!airship_UI.transform.GetChild(0).gameObject.activeSelf)
         {
             airship_UI.transform.GetChild(0).gameObject.SetActive(true);
             airship_UI.ClearFriendList();
-            airship_UI.GetFriendList(true);           
+            airship_UI.GetFriendList(true);      
+            
+        }
+        if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id) {
+            go_myplanet_btn_ob.SetActive(false);
+        }
+        else {
+            go_myplanet_btn_ob.SetActive(true);
         }
     }
     public void ClearRecommendList()
