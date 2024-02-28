@@ -182,12 +182,17 @@ public class PlayerMovement : Player_Network_TG
             float distance = get_path_length(path_);
             float speed = 3f;
             float time_limit = distance / speed;
+            if (now_tween != null)
+            {
+                now_tween.onComplete = null;
+                now_tween = null;
+                stop_DOTween();
+            }
+
             if (time_limit > 0 ) {
                 player.DOLocalJump(Vector3.zero, 1, (int)Mathf.Round(time_limit), time_limit).SetEase(Ease.Linear);
             }
-            if (now_tween !=null) {
-                now_tween.onComplete = null;
-            }
+            
             now_tween = player_container.DOPath(path_, time_limit, PathType.Linear).SetLookAt(0.25f).SetEase(Ease.Linear).SetOptions(false);
             TweenCallback action = look_user;
             if (callback != null) {
