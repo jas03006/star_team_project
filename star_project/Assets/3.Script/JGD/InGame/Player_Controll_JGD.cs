@@ -190,13 +190,15 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
                 case Obstacle_ID.Random:
                     AudioManager.instance.SFX_collect_item();
+                    int ran;
+                    ran = Random.Range(30, 35);
                     if (ItemInven[0] == 0)
                     {
-                        ItemChangeSlot1((int)Obstacle_ID.Random);
+                        ItemChangeSlot1(ran);
                     }
                     else
                     {
-                        ItemChangeSlot2((int)Obstacle_ID.Random);
+                        ItemChangeSlot2(ran);
                     }
                     break;
                 default:
@@ -326,7 +328,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 break;
             case 35:
                 int ran;
-                ran = Random.Range(30, 35);
+                ran = Random.Range(30, 35); /////////////나중에 지우기
                 itemnum(ran);
                 break;
             default:
