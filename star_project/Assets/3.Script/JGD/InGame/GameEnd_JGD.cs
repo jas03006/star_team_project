@@ -60,6 +60,7 @@ public class GameEnd_JGD : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            AudioManager.instance.SFX_stage_clear();
             Star_info stage_data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[LevelSelectMenuManager_JGD.GalaxyLevel].star_Info_list[LevelSelectMenuManager_JGD.currLevel];
             //클리어 데이터 전송
             stage_data.is_clear = true;
