@@ -84,20 +84,10 @@ public class InputManager : MonoBehaviour
             old_btn_up = now_btn_up;
         }
 
-       
-        
-
-
-        
-       
-
-
-       
-       
         
     }
 
-    public bool IsPointerOverUI() {
+    public static bool IsPointerOverUI() {
         
         for (int i =0; i<Input.touchCount;i++)
         {

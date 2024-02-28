@@ -59,11 +59,12 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
         }
-        if (Input.GetMouseButton(0) && isMove)
+        if (Input.GetMouseButton(0) && isMove && !InputManager.IsPointerOverUI())
         {
             rigi.velocity = Vector2.up *Jump;
         }
     }
+   
 
     Coroutine now_damage_co = null;
     private IEnumerator OnDamage()

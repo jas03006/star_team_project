@@ -92,7 +92,7 @@ public class PlayerMovement : Player_Network_TG
                 }
              //if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
              // {
-                if (TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverUI() && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverClickableUI())
+                if (InputManager.IsPointerOverUI() && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverClickableUI())
                 {
                 }
                 else {

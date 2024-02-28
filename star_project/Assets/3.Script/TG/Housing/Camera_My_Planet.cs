@@ -97,7 +97,7 @@ public class Camera_My_Planet : MonoBehaviour
         //TODO: 화면 드래그 시 화면 옮기기
         if (Input.touchCount == 1)
         {
-            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null && !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverUI())
+            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null && !InputManager.IsPointerOverUI())
             {
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
