@@ -160,14 +160,14 @@ public class Player_Controll_JGD : MonoBehaviour
                     AudioManager.instance.SFX_collect_heart();
                     itemManager.UsingHeart((int)Obstacle_ID.big_heart);
                     //collision.GetComponent<Heart>().UseItem();
-                    Hpslider.value = 100 - (float)(MaxHp % currentHp);
+                    Hpslider.value = (float)currentHp;
                     Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_heart:
                     AudioManager.instance.SFX_collect_heart();
                     itemManager.UsingHeart((int)Obstacle_ID.small_heart);
                     //collision.GetComponent<Heart>().UseItem();
-                    Hpslider.value = 100 - (float)(MaxHp % currentHp);
+                    Hpslider.value = (float)currentHp;
                     Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_star:
@@ -349,7 +349,6 @@ public class Player_Controll_JGD : MonoBehaviour
 
                     break;
 
-                case Obstacle_ID.BlackHole:
                 case Obstacle_ID.Meteor:
 
                     break;

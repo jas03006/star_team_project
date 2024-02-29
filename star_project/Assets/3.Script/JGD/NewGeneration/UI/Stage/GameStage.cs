@@ -6,15 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class GameStage : MonoBehaviour
 {
+    private bool Timestop = false;
     public GameObject[] levels;
     [SerializeField]private GameEnd_JGD Player;
     [SerializeField] private SceneNames nextScene;
+    [SerializeField] GameObject Pause;
     private void Start()
     {
         levels[LevelSelectMenuManager_JGD.currLevel].SetActive(true);
 
     }
-
+    public void ComeBakeHome()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("My_Planet_TG");
+    }
     public void StgageSelect_Btn()
     {
         Time.timeScale = 1;
@@ -30,6 +36,26 @@ public class GameStage : MonoBehaviour
         Time.timeScale = 1;
         LevelSelectMenuManager_JGD.currLevel++;
         SceneManager.LoadScene("Game");
+    }
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Game");
+    }
+    public void TimeControll()
+    {
+        if (Timestop)
+        {
+            Pause.SetActive(false);
+            Time.timeScale = 1;
+            Timestop = false;
+        }
+        else
+        {
+            Pause.SetActive(true);
+            Time.timeScale = 0;
+            Timestop = true;
+        }
     }
 
     //public void LevelComplete()  //게임결과
