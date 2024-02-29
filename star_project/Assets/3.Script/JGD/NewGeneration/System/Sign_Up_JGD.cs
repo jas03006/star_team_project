@@ -106,12 +106,12 @@ public class Sign_Up_JGD : LoginBase_JGD
         if (inputFieldPW_check.contentType == TMP_InputField.ContentType.Password)
         {
             inputFieldPW_check.contentType = TMP_InputField.ContentType.Standard;
-            PWbtn_img.sprite = standard;
+            PWcheckbtn_img.sprite = standard;
         }
         else
         {
             inputFieldPW_check.contentType = TMP_InputField.ContentType.Password;
-            PWbtn_img.sprite = passward;
+            PWcheckbtn_img.sprite = passward;
         }
         inputFieldPW_check.textComponent.SetAllDirty();
     }
