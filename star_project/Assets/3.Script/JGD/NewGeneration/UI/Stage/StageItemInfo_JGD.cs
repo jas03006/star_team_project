@@ -127,8 +127,12 @@ public class StageItemInfo_JGD : MonoBehaviour
             Rot = float.Parse(list[i][3].Trim());
             Scale_X = float.Parse(list[i][4].Trim());
             Scale_Y = float.Parse(list[i][5].Trim());
-
-            if (42 <= ObjectNum && ObjectNum <= 47)
+            if (ObjectNum == 57)
+            {
+                discrimination = 0;
+                distance = 0;
+            }
+            else if (42 <= ObjectNum && ObjectNum <= 47)
             {
                 discrimination = int.Parse(list[i][6].Trim());
                 distance = 0;

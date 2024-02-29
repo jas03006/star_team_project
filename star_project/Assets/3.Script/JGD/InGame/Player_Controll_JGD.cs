@@ -51,6 +51,7 @@ public class Player_Controll_JGD : MonoBehaviour
         PlayerDieUI.SetActive(false);
         MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
+        Hpslider.maxValue = (float)MaxHp;
         Hpslider.value = float.MaxValue;
         //¼ºÀ¯°æ
         //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
@@ -119,7 +120,7 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             isMove = false;
             currentHp -= num;
-            Hpslider.value = 100 - (float)(MaxHp % currentHp);
+            Hpslider.value -= num;
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;
