@@ -10,8 +10,8 @@ public class AudioManager : MonoBehaviour
     ETC = Switchmode_bgm() or Switchmode_sfx()
      */
     public static AudioManager instance;  
-    [SerializeField] bool playing_bgm = true;
-    [SerializeField] bool playing_sfx = true;
+    public bool playing_bgm = true;
+    public bool playing_sfx = true;
 
     [SerializeField] AudioSource BGM_AudioSource;
     [SerializeField] AudioSource SFX_AudioSource;
@@ -48,6 +48,13 @@ public class AudioManager : MonoBehaviour
     }
 
     #region BGM
+    public void BGM_play()
+    {
+        if (isPlaying(true))
+        {
+            BGM_AudioSource.Play();
+        }
+    }
     public void BGM_myplanet()
     {
         if (isPlaying(true))
@@ -182,14 +189,16 @@ public class AudioManager : MonoBehaviour
 
     #endregion
     #region ETC
-    public void Switchmode_bgm()
+    public bool Switchmode_bgm()
     {
         playing_bgm = !playing_bgm;
+        return playing_bgm;
     }
 
-    public void Switchmode_sfx()
+    public bool Switchmode_sfx()
     {
         playing_sfx = !playing_sfx;
+        return playing_sfx;
     }
     public bool isPlaying(bool isBGM)
     {
