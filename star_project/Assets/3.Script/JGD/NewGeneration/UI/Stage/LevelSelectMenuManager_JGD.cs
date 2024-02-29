@@ -43,15 +43,15 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     private void Start()
     {
         galaxy = galaxy.toy;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     #region ¼ºÀ¯°æ
 
-    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-        StartCoroutine(Galaxy_unlock());
-    }
+    //private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    //{
+    //    StartCoroutine(Galaxy_unlock());
+    //}
 
     public void Select_galaxy_btn(int index)
     {
