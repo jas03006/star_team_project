@@ -33,8 +33,12 @@ public class UIManager_YG : MonoBehaviour
         DontDestroyOnLoad(canvas);
         SceneManager.sceneLoaded += LoadedsceneEvent;
 
+        update_profile();
+    }
+
+    public void update_profile() {
         nickname_text.text = Backend.UserNickName;
-        title_text.text = BackendGameData_JGD.userData.title_adjective.ToString() +" "+ BackendGameData_JGD.userData.title_noun.ToString();
+        title_text.text = BackendGameData_JGD.userData.title_adjective.ToString() + " " + BackendGameData_JGD.userData.title_noun.ToString();
         profile_image.sprite = SpriteManager.instance.Num2Sprite(BackendGameData_JGD.userData.profile_picture);
     }
 
