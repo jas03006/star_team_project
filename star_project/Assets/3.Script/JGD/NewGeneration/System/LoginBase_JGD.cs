@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class LoginBase_JGD : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textMessage;
+    //[SerializeField] private TextMeshProUGUI textMessage;
 
     protected void ResetUI(params Image[] images)
     {
-        textMessage.text = string.Empty;
+        //textMessage.text = string.Empty;
 
         for (int i = 0; i < images.Length; i++)
         {
@@ -20,12 +20,12 @@ public class LoginBase_JGD : MonoBehaviour
 
     protected void SetMessage(string msg)
     {
-        textMessage.text = msg;
+        //textMessage.text = msg;
     }
 
     protected void GuideForIncorrenctltEnteredData(Image image, string msg)
     {
-        textMessage.text = msg;
+        //textMessage.text = msg;
         image.color = Color.red;
     }
 

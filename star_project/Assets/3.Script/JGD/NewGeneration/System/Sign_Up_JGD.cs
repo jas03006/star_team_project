@@ -1,8 +1,7 @@
+using BackEnd;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using BackEnd;
-using System.Collections;
 
 public class Sign_Up_JGD : LoginBase_JGD
 {
@@ -10,13 +9,22 @@ public class Sign_Up_JGD : LoginBase_JGD
 
     [SerializeField] private TMP_InputField inputFieldID;
     [SerializeField] private TMP_InputField inputFieldPW;
+    [SerializeField] private TMP_InputField inputFieldPW_check;
+
+    [SerializeField] Image PWbtn_img;
+    [SerializeField] Image PWcheckbtn_img;
+    [SerializeField] Sprite standard;
+    [SerializeField] Sprite passward;
+
+    [SerializeField] private TMP_Text Title_text;
+    [SerializeField] private TMP_Text reason_text;
 
     [SerializeField] private Button btnRegisterAccount;
 
     [SerializeField] private Login_JGD login;
-    [SerializeField] private GameObject sing_up_success_UI;
-    [SerializeField] private GameObject sing_up_fail_UI;
-    private Coroutine now_result_co = null;
+    [SerializeField] private GameObject Done;
+    //private Coroutine now_result_co = null;
+
     public void OnclickSignUp()
     {
         Backend.BMember.CustomSignUp(inputFieldID.text, inputFieldPW.text, callback =>
@@ -42,30 +50,69 @@ public class Sign_Up_JGD : LoginBase_JGD
 
     public void testSignUp()
     {
-        if (now_result_co != null) {
-            StopCoroutine(now_result_co);
+        if (inputFieldPW.text != inputFieldPW_check.text)
+        {
+            
         }
+        //if (now_result_co != null)
+        //{
+        //    StopCoroutine(now_result_co);
+        //}
         if (TestBackend_Login_JGD.Instance.CustomSignUp(inputFieldID.text, inputFieldPW.text))
         {
             login.Login_Scene();
-            now_result_co = StartCoroutine(show_result(true));
+            show_result(true);
         }
-        else { 
-            now_result_co = StartCoroutine(show_result(false));
+        else
+        {
+            show_result(false);
         }
     }
 
-    public IEnumerator show_result(bool success) {
-        GameObject ui_ob = null;
+    public void show_result(bool success)
+    {
+
+        Done.SetActive(true);
+
         if (success)
         {
-            ui_ob = sing_up_success_UI;
+            Title_text.text = "회원가입 완료";
+            reason_text.enabled = false;
         }
-        else {
-            ui_ob = sing_up_fail_UI;
+        else
+        {
+            Title_text.text = "회원가입 실패";
+            reason_text.enabled = true;
         }
-        ui_ob.SetActive(true);
-        yield return new WaitForSeconds(2.5f);
-        ui_ob.SetActive(false);
+    }
+
+    public void Change_PWtype()
+    {
+        if (inputFieldPW.contentType == TMP_InputField.ContentType.Password)
+        {
+            inputFieldPW.contentType = TMP_InputField.ContentType.Standard;
+            PWbtn_img.sprite = standard;
+        }
+        else
+        {
+            inputFieldPW.contentType = TMP_InputField.ContentType.Password;
+            PWbtn_img.sprite = passward;
+        }
+        inputFieldPW.textComponent.SetAllDirty();
+    }
+
+    public void Change_PWchecktype()
+    {
+        if (inputFieldPW_check.contentType == TMP_InputField.ContentType.Password)
+        {
+            inputFieldPW_check.contentType = TMP_InputField.ContentType.Standard;
+            PWbtn_img.sprite = standard;
+        }
+        else
+        {
+            inputFieldPW_check.contentType = TMP_InputField.ContentType.Password;
+            PWbtn_img.sprite = passward;
+        }
+        inputFieldPW_check.textComponent.SetAllDirty();
     }
 }

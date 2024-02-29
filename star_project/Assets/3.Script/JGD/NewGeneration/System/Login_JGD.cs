@@ -12,6 +12,10 @@ public class Login_JGD : LoginBase_JGD
     [SerializeField] private Image imagePW;
     [SerializeField] private TMP_InputField inputFieldPW;
 
+    [SerializeField] Image PWbtn_img;
+    [SerializeField] Sprite standard;
+    [SerializeField] Sprite passward;
+
     [SerializeField] private Button btnLogin;
 
     [SerializeField] GameObject Login;
@@ -114,5 +118,20 @@ public class Login_JGD : LoginBase_JGD
     {
         Login.SetActive(false);
         Signup.SetActive(true);
+    }
+
+    public void Change_PWtype()
+    {
+        if (inputFieldPW.contentType == TMP_InputField.ContentType.Password)
+        {
+            inputFieldPW.contentType = TMP_InputField.ContentType.Standard;
+            PWbtn_img.sprite = standard;
+        }
+        else
+        {
+            inputFieldPW.contentType = TMP_InputField.ContentType.Password;
+            PWbtn_img.sprite = passward;
+        }
+        inputFieldPW.textComponent.SetAllDirty();
     }
 }
