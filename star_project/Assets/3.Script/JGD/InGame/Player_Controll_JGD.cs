@@ -349,7 +349,6 @@ public class Player_Controll_JGD : MonoBehaviour
 
                     break;
 
-                case Obstacle_ID.BlackHole:
                 case Obstacle_ID.Meteor:
 
                     break;
