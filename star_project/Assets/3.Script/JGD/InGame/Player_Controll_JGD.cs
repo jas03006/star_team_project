@@ -26,12 +26,18 @@ public class Player_Controll_JGD : MonoBehaviour
 
     [SerializeField] int[] ItemInven = new int[2];   //아이템 저장소
     //[SerializeField] List<int> ItemInven = new List<int>();
-    [SerializeField] Image PlayerItem;
-    [SerializeField] Image PlayerItem2;
+    [SerializeField] private Image PlayerItem;
+    [SerializeField] private Image PlayerItem2;
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
     [SerializeField] private Character cur_character;
     SpriteRenderer character;
+    [Header("PlayerUI")]
+    [SerializeField] private Slider Hpslider;
+    [SerializeField] private Slider Player_Progress;
+    [SerializeField] private TMP_Text Player_CatchingStar_Count;
+    [SerializeField] private List<Image> Player_Alphabet_progress;
+    private int Player_Alphabet_Count = 0;
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -43,7 +49,7 @@ public class Player_Controll_JGD : MonoBehaviour
         PlayerDieUI.SetActive(false);
         MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
-
+        Hpslider.value = float.MaxValue;
         //성유경
         //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
 
@@ -55,7 +61,7 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
         }
-
+        Player_Progress.value = this.transform.position.x;
     }
     private void FixedUpdate()
     {
@@ -111,6 +117,7 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             isMove = false;
             currentHp -= num;
+            Hpslider.value = 100 - (float)(MaxHp % currentHp);
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;
@@ -136,6 +143,8 @@ public class Player_Controll_JGD : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
             Alphabet.Add(collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID.ToString());
+            Player_Alphabet_progress[Player_Alphabet_Count].sprite = SpriteManager.instance.Num2Sprite(4000+(int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
+            Player_Alphabet_Count++;
             Destroy(collision.gameObject);
             return;
         }
@@ -159,12 +168,14 @@ public class Player_Controll_JGD : MonoBehaviour
                     AudioManager.instance.SFX_collect_star();
                     itemManager.UsingStar((int)Obstacle_ID.small_star);
                     //collision.GetComponent<Star>().UseItem();
+                    Player_CatchingStar_Count.text = PlayerScore.ToString();
                     Debug.Log(PlayerScore);
                     break;
                 case Obstacle_ID.big_star:
                     AudioManager.instance.SFX_collect_star();
                     itemManager.UsingStar((int)Obstacle_ID.big_star);
                     //collision.GetComponent<Star>().UseItem();
+                    Player_CatchingStar_Count.text = PlayerScore.ToString();
                     Debug.Log(PlayerScore);
                     break;
                 case Obstacle_ID.CheckBox:

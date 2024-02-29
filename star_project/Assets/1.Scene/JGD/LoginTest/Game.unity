@@ -9289,7 +9289,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14050,6 +14050,20 @@ MonoBehaviour:
   PlayerItem2: {fileID: 1722893578}
   PlayerItemInven: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   Alphabet: []
+  Hpslider: {fileID: 771940330}
+  Player_Progress: {fileID: 1537079280}
+  Player_CatchingStar_Count: {fileID: 1560830882}
+  Player_Alphabet_progress:
+  - {fileID: 1455110750}
+  - {fileID: 281972701}
+  - {fileID: 1514633042}
+  - {fileID: 474285133}
+  - {fileID: 2110795945}
+  - {fileID: 925611174}
+  - {fileID: 1661465353}
+  - {fileID: 2095672455}
+  - {fileID: 1511828913}
+  - {fileID: 2033943531}
 --- !u!1 &1182494361
 GameObject:
   m_ObjectHideFlags: 0
@@ -18001,9 +18015,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1690244917}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 96.5
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -18139,7 +18153,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100%
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
   m_sharedMaterial: {fileID: -8843314284280815068, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
@@ -22896,8 +22910,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: -1.496994, y: 0}
+  m_SizeDelta: {x: -12.993, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &3022503246303896402
 Transform:
