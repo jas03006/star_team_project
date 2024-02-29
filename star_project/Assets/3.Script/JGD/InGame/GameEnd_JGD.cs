@@ -120,6 +120,7 @@ public class GameEnd_JGD : MonoBehaviour
             }
             Time.timeScale = 0;
         }
+        Data_update();
     }
 
 
@@ -147,6 +148,9 @@ public class GameEnd_JGD : MonoBehaviour
         //데이터에 넣기
         Param param = new Param();
         param.Add("catchingstar_info", BackendGameData_JGD.userData.catchingstar_info);
+        param.Add("house_inventory", BackendGameData_JGD.userData.house_inventory);
+        param.Add("mission_Userdatas", BackendGameData_JGD.userData.mission_Userdatas);
+        param.Add("challenge_Userdatas", BackendGameData_JGD.userData.challenge_Userdatas);
 
         BackendReturnObject bro = null;
 

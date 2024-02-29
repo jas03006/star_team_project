@@ -1,4 +1,3 @@
-using BackEnd;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -15,6 +14,7 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private Sprite state_X_bar;
     [SerializeField] private Sprite state_O;
     [SerializeField] private Sprite state_O_bar;
+    public int collect_point;
 
     [SerializeField] private TMP_Text collect_text;
 
@@ -43,27 +43,28 @@ public class Galaxy_UI : MonoBehaviour
         Collect_update();
 
         //UI
-        Update_MissionState(data.collect_point, data.mission_state);
+        Update_MissionState(collect_point, data.mission_state);
         Update_Starinfo(data.star_Info_list);
     }
 
     public void Collect_update() //collect 설정
     {
-        int collect = 0;
+        collect_point = 0;
 
         for (int i = 0; i < data.star_Info_list.Count; i++)
         {
-            collect += data.star_Info_list[i].star;
+            collect_point += data.star_Info_list[i].star;
         }
 
-        collect_text.text = collect.ToString();
 
-        if (data.collect_point != collect)
-        {
-            data.collect_point = collect;
+        collect_text.text = collect_point.ToString();
 
-            Data_update();
-        }
+        //if (data.collect_point != collect)
+        //{
+        //    data.collect_point = collect;
+
+        //    Data_update();
+        //}
     }
 
     private void Update_MissionState(int collect, List<Galaxy_state> state)
@@ -137,37 +138,37 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    public void Data_update()
-    {
-        //데이터에 넣기
-        Param param = new Param();
-        param.Add("catchingstar_info", BackendGameData_JGD.userData.catchingstar_info);
+    //public void Data_update()
+    //{
+    //    //데이터에 넣기
+    //    Param param = new Param();
+    //    param.Add("catchingstar_info", BackendGameData_JGD.userData.catchingstar_info);
 
-        BackendReturnObject bro = null;
+    //    BackendReturnObject bro = null;
 
-        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
-        {
-            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+    //    if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
+    //    {
+    //        Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
 
-            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
-        }
+    //        bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+    //    }
 
-        else
-        {
-            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+    //    else
+    //    {
+    //        Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
 
-            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
-        }
+    //        bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
+    //    }
 
-        if (bro.IsSuccess())
-        {
-            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
-        }
-        else
-        {
-            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
-        }
-    }
+    //    if (bro.IsSuccess())
+    //    {
+    //        Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+    //    }
+    //}
     public void Send_Galaxylevel() //스테이지 선택 버튼
     {
         LevelSelectMenuManager_JGD.GalaxyLevel = galaxy_index;
