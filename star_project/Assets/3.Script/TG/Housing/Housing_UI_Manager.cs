@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,17 @@ public class Housing_UI_Manager : MonoBehaviour
     [SerializeField] private Transform button_container;
     [SerializeField] private GameObject button_prefab;
     [SerializeField] private Button[] cate_btn_arr;
+    [SerializeField] private TMP_Text[] cate_text_arr;
+    [SerializeField] private Color un_select_tab_text_color;
+    [SerializeField] private Color select_tab_text_color;
+    [SerializeField] private Sprite un_select_tab_sprite;
+    [SerializeField] private Sprite select_tab_sprite;
     [SerializeField] private Scrollbar scrollbar;
+    [SerializeField] private TMP_Text page_text;
+    [SerializeField] private TMP_Text total_page_text;
+    [SerializeField] private int btn_per_line = 6;
+    private int page_num=0;
+    private int total_page_num=1;
 
     private Dictionary<housing_itemID, Housing_Inven_BTN> id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
 
@@ -51,7 +62,8 @@ public class Housing_UI_Manager : MonoBehaviour
 
     public void init_housing_inventory(bool is_first_time =true)
     {
-        if (is_first_time) {
+        if (is_first_time)
+        {
             id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
             child_cnt = 0;
         }
@@ -125,9 +137,12 @@ public class Housing_UI_Manager : MonoBehaviour
 
         camera.cullingMask = edit_mode_mask;
 
-        foreach (var key in TCP_Client_Manager.instance.net_mov_obj_dict.Keys) {
+        foreach (var key in TCP_Client_Manager.instance.net_mov_obj_dict.Keys)
+        {
             TCP_Client_Manager.instance.net_mov_obj_dict[key].hide_UI();
         }
+
+        init_housing_inventory(false);
     }
     public void click_X_btn(bool is_cancel = true)
     {
@@ -157,24 +172,31 @@ public class Housing_UI_Manager : MonoBehaviour
     }
 
     public void click_scroll_btn(bool is_right) {
-        if (child_cnt <= 10) {
+        if (child_cnt <= btn_per_line) {
             return;
         }
         if (is_right)
         {
-            scrollbar.value += 1f/ (float)(child_cnt - 10);
+            scrollbar.value -= 1f/ (float)(total_page_num-1);
+            scrollbar.value = Mathf.Max(scrollbar.value, 0f);            
+            page_num = Mathf.Min(page_num+1, total_page_num);
         }
         else {
-            scrollbar.value -= 1f / (float)(child_cnt - 10);
+            scrollbar.value += 1f / (float)(total_page_num-1);
+            scrollbar.value = Mathf.Min(scrollbar.value, 1f);
+            page_num = Mathf.Max(page_num - 1, 1);
         }
-        
+        page_text.text = page_num.ToString();
     }
     
     public void click_category_btn(int cate) {
         for (int i=0; i < cate_btn_arr.Length;i++) {
-            cate_btn_arr[i].image.color = Color.white;
+            cate_btn_arr[i].image.sprite = un_select_tab_sprite;
+            cate_text_arr[i].color = un_select_tab_text_color;
         }
-        cate_btn_arr[cate].image.color = Color.yellow;
+        cate_btn_arr[cate].image.sprite = select_tab_sprite;
+        cate_text_arr[cate].color = select_tab_text_color;
+
         child_cnt = 0;
         for (int i = 0; i < button_container.childCount; i++) {
             if (cate == 0) {
@@ -190,6 +212,19 @@ public class Housing_UI_Manager : MonoBehaviour
                 button_container.GetChild(i).gameObject.SetActive(false);
             }
         }
+        total_page_num = (int)(child_cnt - 1) / btn_per_line + 1;
+        total_page_text.text = total_page_num.ToString();
+        page_num = 1;
+        page_text.text = "1";
+       // scrollbar.value = 1f;
+        StartCoroutine(init_scroll_co());
+    }
+
+    public IEnumerator init_scroll_co() {
+        yield return null;
+        scrollbar.value = 1f;
+        Canvas.ForceUpdateCanvases();
+      
     }
     public int get_category(housing_itemID id_) {
         housing_itemID[] special_arr = { housing_itemID.ark_cylinder, housing_itemID.star_nest, housing_itemID.airship, housing_itemID .post_box};
@@ -234,7 +269,7 @@ public class Housing_UI_Manager : MonoBehaviour
 
     public IEnumerator show_edit_UI_co() { 
         while(now_focus_ob != null) { 
-            edit_UI.position =  Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) - Vector3.up*(7f+Camera.main.orthographicSize*0.85f);
+            edit_UI.position =  Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) - Vector3.up*(12f+Camera.main.orthographicSize*1.8f);
             yield return null;         
         }
     }

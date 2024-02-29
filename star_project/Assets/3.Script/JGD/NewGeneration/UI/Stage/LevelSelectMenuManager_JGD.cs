@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public enum galaxy 
+public enum galaxy
 {
     none = -1,
     toy,
@@ -19,8 +19,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     public galaxy galaxy
     {
         get { return galaxy_; }
-        set 
-        { 
+        set
+        {
             galaxy_ = value;
             Update_canvas();
         }
@@ -29,44 +29,29 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
     [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
-
     public static int currLevel; //현재 진행중인 스테이지 레벨
     public static int GalaxyLevel; //현재 진행중인 은하 레벨
-
-    //public static int UnlockedLevels;
-
     public Sprite Clearscore;
+
+    [Header("unlock")]
+    private int[] unlock_conditions = { 12, 24, 36, 48 };
+    private GameObject unlock_object;
+    private Image character_image;
 
     [SerializeField] private SceneNames nextScene;  //만약 기존 구조가 아닌 게임씬을 여러개 만든다면 수정
 
-    private void Awake()
-    {
-        //currLevel = 0;
-        //UnlockedLevels = 0;
-        //Debug.Log(currLevel);
-        //Debug.Log(UnlockedLevels);
-        //PlayerPrefs.DeleteAll();
-    }
-
     private void Start()
     {
-        //UnlockedLevels = PlayerPrefs.GetInt("UnlockedLevels", 0);    ////////////////////스테이지 클리어 정보 추후 DB로 변화
-        // for (int i = 0; i < levelProgresses.Length; i++)
-        // {
-        //     if (UnlockedLevels >= i)
-        //     {
-        //         levelProgresses[i].levelButton.interactable = true;
-        //         int stars = PlayerPrefs.GetInt("stars" + i.ToString(),0);
-        //         for (int j = 0; j < stars; j++)
-        //         {
-        //             levelProgresses[i].stars[j].sprite = Clearscore;
-        //         }
-        //     }
-        // }
         galaxy = galaxy.toy;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     #region 성유경
+
+    //private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    //{
+    //    StartCoroutine(Galaxy_unlock());
+    //}
 
     public void Select_galaxy_btn(int index)
     {
@@ -87,9 +72,22 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             {
                 Canvas_list[i].enabled = false;
             }
-            
         }
     }
+
+    public IEnumerator Galaxy_unlock()
+    {
+        yield return null;
+        yield return null;
+
+        if (currLevel == 4 && Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+        {
+            unlock_object.SetActive(true);
+            character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
+            BackendGameData_JGD.userData.character_info.character_dic[(Character_ID)galaxy + 1] = 1;
+        }
+    }
+
 
     #endregion
 

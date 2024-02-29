@@ -740,6 +740,9 @@ public class BackendGameData_JGD : MonoBehaviour
                         case "planet_name":
                             user_data.planet_name = gameDataJson[0]["planet_name"].ToString();
                             break;
+                        case "nickname":
+                            user_data.nickname = gameDataJson[0]["nickname"].ToString();
+                            break;
                         case "ark":
                             user_data.ark = int.Parse(gameDataJson[0]["ark"].ToString());
                             break;
@@ -847,6 +850,9 @@ public class BackendGameData_JGD : MonoBehaviour
                         break;
                     case "planet_name":
                         param.Add(select[i], user_data.planet_name);                        
+                        break;
+                    case "nickname":
+                        param.Add(select[i], user_data.nickname);
                         break;
                     case "ark":
                         param.Add(select[i], user_data.ark);                        

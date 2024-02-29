@@ -1,24 +1,59 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using BackEnd;
-using static UnityEngine.Rendering.DebugUI;
+//using static UnityEngine.Rendering.DebugUI;
 using System.ComponentModel;
 
 public enum adjective { 
     none=-1, 
-    lovely=0
+    lovely=0,
+    Powerful = 1,
+    Hidden_Power_Of = 2,
+    Sweet = 3
 }
 public enum noun { 
     none=-1,
-    jjang = 0
+    jjang = 0,
+    Tiger = 1,
+    Fire_Punch = 2
 }
+
+/*public class Profile_Info_TG {
+    public int profile_picture = 0;
+    public string planet_name = string.Empty;
+    public adjective title_adjective = adjective.none;
+    public noun title_noun = noun.none;
+    public string info = string.Empty;
+}*/
 
 public class Star_nest_UI : MonoBehaviour
 {
+    //private Profile_Info_TG profile_info = new Profile_Info_TG();
+    string[] load_select = { "profile_background",
+            "profile_picture",
+            "popularity",
+            "title_adjective",
+            "title_noun",
+            "planet_name",
+            "info",
+            "memo_info",
+            "Housing_Info"};
+    string[] save_select = { "profile_background",
+            "profile_picture",
+            "title_adjective",
+            "title_noun",
+            "planet_name",
+            "info",
+            "memo_info" };
+    private bool is_editing = false;
+
     public GameObject UI_Container;
+
+    public GameObject cancel_check_UI_ob;
 
     public Image character_image;
     public TMP_Text pop_text;
@@ -26,17 +61,43 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text nickname_text;
     public TMP_Text planet_name_text;
     public TMP_Text intro_text;
-    public TMP_InputField memo_input;
+    public TMP_Text level_profile_text;
+    public Image level_profile_image;
 
+    [Header("Memo UI")]
+    public TMP_InputField memo_input;
     
     public Transform memo_container;
     public GameObject memo_prefab;
 
+    [Header("Pop Up")]
     public GameObject pop_up_button;
     public GameObject pop_up_result_UI;
 
+    [Header("Dependent UI")]
+    public GameObject[] edit_btn_arr;
+    public Button save_btn; 
+    public GameObject add_friend_btn_ob;
     //public GameObject add_friend_button;
 
+    [Header("Edit Picture")]
+    public GameObject edit_picture_UI;
+
+    [Header("Edit Title")]
+    public GameObject edit_title_UI;
+    public TMP_Dropdown edit_title_adjective;
+    public TMP_Dropdown edit_title_noun;
+    
+    [Header("Edit Intro")]
+    public GameObject edit_info_UI;
+    public TMP_InputField edit_info_input;
+
+    [Header("Edit Planet Name")]
+    public GameObject edit_planet_name_UI;
+    public TMP_InputField edit_planet_name_input;
+    
+    
+    
     [Header("LevelUP")]
    // public GameObject level_up_button; 
     public GameObject level_up_UI;
@@ -58,14 +119,42 @@ public class Star_nest_UI : MonoBehaviour
     private UserData user_data;
 
     public Star_nest star_nest;
-    public void show_UI( bool is_profile = false) {
+    private string now_nickname;
+
+    private void Start()
+    {
+        edit_title_adjective.ClearOptions();
+        List<TMP_Dropdown.OptionData> option_list = new List<TMP_Dropdown.OptionData>();
+        foreach (var item in Enum.GetValues(typeof(adjective)))
+        {
+            option_list.Add(new TMP_Dropdown.OptionData(item.ToString()));
+        }
+        edit_title_adjective.AddOptions(option_list);
+
+        edit_title_noun.ClearOptions();
+        option_list = new List<TMP_Dropdown.OptionData>();
+        foreach (var item in Enum.GetValues(typeof(noun)))
+        {
+            option_list.Add(new TMP_Dropdown.OptionData(item.ToString()));
+        }
+        edit_title_noun.AddOptions(option_list);
+
+    }
+
+    #region init
+    public void show_my_profile_UI() {
+        show_UI(true);
+    }
+
+    public void show_UI( bool is_profile = false, string nick_name_ = null) {
+
         if (!is_profile && (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id))
         {
             show_level_UI();
         }
         else {
             UI_Container.SetActive(true);
-            load_info(is_profile);
+            load_info(is_profile, nick_name_);
         }        
     }
 
@@ -74,52 +163,185 @@ public class Star_nest_UI : MonoBehaviour
         //user_data = null;
     }
 
-    public void load_info(bool is_profile_click = false) {
-        string[] select = { "profile_background",
-            "profile_picture",
-            "popularity",
-            "title_adjective",
-            "title_noun",
-            "planet_name",
-            "info",
-            "memo_info" };
-        if (!is_profile_click) //별둥지 클릭인 경우
-        {            
-            user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select);
-            nickname_text.text = TCP_Client_Manager.instance.now_room_id;
-        }
-        else{
-            //user_data = BackendGameData_JGD.userData;
-            user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.my_player.object_id, select);
-            nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;
-        }
-
-            
-
-        //TODO: 이미지 매니저 만들기 -> 유저 데이터에 선택 이미지 정보 추가 -> 이미지 매니저를 통해 가져오기
-        //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
-        pop_text.text = user_data.popularity.ToString();
-
-        //TODO: 유저 데이터에 칭호 선택 정보 저장
-        title_text.text = user_data.title_adjective.ToString() +" "+ user_data.title_noun.ToString();        
-        planet_name_text.text = user_data.planet_name;
-        // TCP_Client_Manager.instance.placement_system.housing_info.level.ToString();
-        intro_text.text = user_data.info;
-        load_memos_UI();
-
-        if (TCP_Client_Manager.instance.now_room_id != TCP_Client_Manager.instance.my_player.object_id)
+    public void hide_UI_ob(GameObject go) {
+        go.SetActive(false);
+    }
+    public void show_UI_ob(GameObject go)
+    {
+        go.SetActive(true);
+    }
+    
+    public void click_X_btn() {
+        if (is_editing)
         {
-            pop_up_button.SetActive(true);
-           // level_up_button.SetActive(false);
-           // add_friend_button.SetActive(true);
+            show_UI_ob(cancel_check_UI_ob);
         }
         else {
-            pop_up_button.SetActive(false);
-           // level_up_button.SetActive(true);
-           // add_friend_button.SetActive(false);
-
+            hide_UI();
         }
     }
+    public void load_info(bool is_profile_click = false, string nick_name_ = null) {
+        if (is_profile_click && (nick_name_ == null || nick_name_ == string.Empty))
+        { //내 프로필 클릭인경우
+            now_nickname = TCP_Client_Manager.instance.my_player.object_id;
+            user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.my_player.object_id, load_select);
+            nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;
+            pop_up_button.SetActive(false);           
+            add_friend_btn_ob.SetActive(false);
+            show_edit_btn();
+        }
+        else {
+            now_nickname = (nick_name_ == null ? TCP_Client_Manager.instance.now_room_id : nick_name_);
+            user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(now_nickname, load_select);
+            nickname_text.text = now_nickname;
+            pop_up_button.SetActive(true);
+            hide_edit_btn();
+
+            if (FriendList_JGD.is_friend(now_nickname))
+            {
+                add_friend_btn_ob.SetActive(false);
+            }
+            else {
+                add_friend_btn_ob.SetActive(true);
+            }
+        }
+
+        update_profile_UI();
+        level_profile_text.text = (user_data.housing_Info.level+1).ToString();
+        level_profile_image.sprite = nest_sprite_arr[user_data.housing_Info.level];
+
+        load_memos_UI();
+
+
+    }
+    #endregion
+
+    #region edit
+    public void show_edit_picture_UI()
+    {
+        //edit.text = intro_text.text;
+        edit_picture_UI.SetActive(true);
+    }
+    public void apply_edit_picture()
+    {
+       /* if (edit_info_input.text.Equals(string.Empty))
+        {
+            return;
+        }*/
+        //user_data.profile_picture = edit_info_input.text;
+        is_editing = true;
+        update_profile_UI();
+    }
+    public void show_edit_title_UI()
+    {
+        edit_title_adjective.captionText.text = user_data.title_adjective.ToString();
+        edit_title_noun.captionText.text = user_data.title_noun.ToString();
+        edit_title_UI.SetActive(true);
+    }
+    public void apply_edit_title()
+    {
+        adjective ad_ = (adjective)Enum.Parse(typeof(adjective), edit_title_adjective?.captionText?.text);
+        noun noun_ = (noun)Enum.Parse(typeof(noun), edit_title_noun?.captionText?.text);
+         if (ad_ == adjective.none || noun_ == noun.none)
+         {
+             return;
+         }
+        user_data.title_adjective = ad_;
+        user_data.title_noun = noun_;
+        is_editing = true;
+        update_profile_UI();
+    }
+
+    public void show_edit_info_UI() {
+        edit_info_input.text = intro_text.text;
+        edit_info_UI.SetActive(true);
+    }
+    public void apply_edit_info()
+    {
+        if (edit_info_input.text.Equals(string.Empty))
+        {
+            return;
+        }
+        user_data.info = edit_info_input.text;
+        is_editing = true;
+        update_profile_UI();        
+    }
+    public void show_edit_planet_name_UI()
+    {
+        edit_planet_name_input.text = planet_name_text.text;
+        edit_planet_name_UI.SetActive(true);
+    }
+    public void apply_edit_planet_name()
+    {
+        if (edit_planet_name_input.text.Equals(string.Empty)) {
+            return;
+        }
+        user_data.planet_name = edit_planet_name_input.text;
+        is_editing = true;
+        update_profile_UI();
+    }
+    public void update_profile_UI() {
+        pop_text.text = user_data.popularity.ToString();
+        title_text.text = user_data.title_adjective.ToString() + " " + user_data.title_noun.ToString();
+        planet_name_text.text = user_data.planet_name;
+        intro_text.text = user_data.info;
+        //TODO: 선택 프로필 사진 업데이트 기능
+        //TODO: 선택 배경 사진 업데이트 기능
+        //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
+
+        if (is_editing && save_btn!=null)
+        {
+            save_btn.interactable = true;
+        }
+        else {
+            save_btn.interactable = false;
+        }
+    }
+    public void cancel_edit_profile() {
+        if (is_editing)
+        {
+            user_data.profile_background = BackendGameData_JGD.userData.profile_background;
+            user_data.profile_picture = BackendGameData_JGD.userData.profile_picture;
+            user_data.planet_name = BackendGameData_JGD.userData.planet_name;
+            user_data.title_adjective = BackendGameData_JGD.userData.title_adjective;
+            user_data.title_noun = BackendGameData_JGD.userData.title_noun;
+            user_data.info = BackendGameData_JGD.userData.info;
+            is_editing = false;
+            save_btn.interactable = false;
+        }
+    }
+    public void save_edit_profile() {
+        if (is_editing) {
+            BackendGameData_JGD.userData.profile_background = user_data.profile_background;
+            BackendGameData_JGD.userData.profile_picture = user_data.profile_picture;
+            BackendGameData_JGD.userData.planet_name = user_data.planet_name;
+            BackendGameData_JGD.userData.title_adjective = user_data.title_adjective;
+            BackendGameData_JGD.userData.title_noun = user_data.title_noun;
+            BackendGameData_JGD.userData.info = user_data.info;
+
+            BackendGameData_JGD.Instance.GameDataUpdate(save_select);
+            is_editing = false;
+            save_btn.interactable = false;
+
+            UIManager_YG.Instance.update_profile();
+        }
+    }
+    
+    public void hide_edit_btn() {
+        for (int i =0; i < edit_btn_arr.Length; i++) {
+            edit_btn_arr[i].SetActive(false);
+        }
+    }
+    public void show_edit_btn()
+    {
+        for (int i = 0; i < edit_btn_arr.Length; i++)
+        {
+            edit_btn_arr[i].SetActive(true);
+        }
+        save_btn.interactable = false;
+    }
+
+    #endregion
 
     #region pop up
     public void pop_up()
@@ -145,9 +367,9 @@ public class Star_nest_UI : MonoBehaviour
     #endregion
 
     public void add_friend_btn() {
-        if (TCP_Client_Manager.instance.now_room_id != TCP_Client_Manager.instance.my_player.object_id)
+        if (now_nickname !=null && now_nickname != TCP_Client_Manager.instance.my_player.object_id)
         {
-            BackendFriend_JDG.Instance.SendFriendRequest(TCP_Client_Manager.instance.now_room_id);
+            BackendFriend_JDG.Instance.SendFriendRequest(now_nickname);
         }
     }
 
@@ -273,8 +495,8 @@ public class Star_nest_UI : MonoBehaviour
         create_memo(memo.UUID, memo.content);
 
         string[] select = {  "memo_info" };
-        BackendGameData_JGD.Instance.update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id,  select,  user_data);
-        if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
+        BackendGameData_JGD.Instance.update_userdata_by_nickname(now_nickname,  select,  user_data);
+        if (now_nickname == TCP_Client_Manager.instance.my_player.object_id)
         {
             BackendGameData_JGD.userData.memo_info = user_data.memo_info;
         }
