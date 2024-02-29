@@ -60,12 +60,20 @@ public class Housing_UI_Manager : MonoBehaviour
         housing_UI.SetActive(false);
     }
 
+    public void clear_housing_inventory() {
+        id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
+        child_cnt = 0;
+        for (int i = 0; i < button_container.childCount; i++)
+        {
+            Destroy(button_container.GetChild(i).gameObject);
+        }
+    }
+
     public void init_housing_inventory(bool is_first_time =true)
     {
         if (is_first_time)
         {
-            id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
-            child_cnt = 0;
+            clear_housing_inventory();
         }
         
         foreach (House_Item_Info_JGD item in BackendGameData_JGD.userData.house_inventory.item_list) {

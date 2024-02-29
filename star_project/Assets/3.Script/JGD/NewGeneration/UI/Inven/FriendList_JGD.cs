@@ -132,47 +132,61 @@ public class FriendList_JGD : MonoBehaviour
 
                 foreach (LitJson.JsonData friendJson in gameDataJson)
                 {
-                    string nickName = friendJson["nickname"].ToString();
+                    try {
+                        string nickName = friendJson["nickname"].ToString();
 
-                    if (friend_dic.ContainsKey(nickName) || TCP_Client_Manager.instance.my_player.object_id == nickName || nickName==null) {
+                        if (nickName == null || friend_dic.ContainsKey(nickName) || TCP_Client_Manager.instance.my_player.object_id == nickName)
+                        {
+                            continue;
+                        }
+
+                        var n_bro = Backend.Social.GetUserInfoByNickName(nickName);
+                        if (!n_bro.IsSuccess() || !n_bro.HasReturnValue())
+                        {
+                            continue;
+                        }
+                        //example
+                        string inDate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+
+                        GameObject list = Instantiate(Recommend_Friend_prefab, recommend_location.transform);
+
+                        name = list.GetComponentInChildren<TMP_Text>();
+                        name.text = nickName;
+
+                        int ind = numcount;
+                        Button[] buttons = list.GetComponentsInChildren<Button>();
+                        if (buttons.Length >= 2)
+                        {
+                            buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                            buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
+
+                            buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                            buttons[1].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
+                            buttons[1].onClick.AddListener(() => off_friend_request(buttons[1])
+                            //Destroy(list)
+                            ); ;
+
+                            //  buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
+                            //  buttons[1].onClick.AddListener(() => MyFriend(list));
+                        }
+                        numcount++;
+                    } catch {
                         continue;
                     }
-
-                    var n_bro = Backend.Social.GetUserInfoByNickName(nickName);
-                    if (!n_bro.IsSuccess() || !n_bro.HasReturnValue()) {
-                        continue;
-                    }
-                    //example
-                    string inDate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-
-                    GameObject list = Instantiate(Recommend_Friend_prefab, recommend_location.transform);
-
-                    name = list.GetComponentInChildren<TMP_Text>();
-                    name.text = nickName;
-
-                    int ind = numcount;
-                    Button[] buttons = list.GetComponentsInChildren<Button>();
-                    if (buttons.Length >= 2)
-                    {                       
-                        buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
-                        buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
-
-                        buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
-                        buttons[1].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
-                        buttons[1].onClick.AddListener(() => buttons[1].interactable = false
-                        //Destroy(list)
-                        );
-                        
-                        //  buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
-                        //  buttons[1].onClick.AddListener(() => MyFriend(list));
-                    }
-                    numcount++;
+                    
                 }
 
             }
         }
-
        
+    }
+
+    private void off_friend_request(Button btn) {
+        try {
+            btn.interactable = false;
+            btn.GetComponentInChildren<TMP_Text>().text = "요청 완료";
+        } catch {
+        }        
     }
   
 }

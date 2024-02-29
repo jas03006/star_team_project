@@ -285,8 +285,11 @@ public class Star_nest_UI : MonoBehaviour
     public void update_profile_UI() {
         pop_text.text = user_data.popularity.ToString();
         title_text.text = user_data.title_adjective.ToString() + " " + user_data.title_noun.ToString();
+
         planet_name_text.text = user_data.planet_name;
+
         intro_text.text = user_data.info;
+
         //TODO: 선택 프로필 사진 업데이트 기능
         //TODO: 선택 배경 사진 업데이트 기능
         //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
@@ -298,6 +301,7 @@ public class Star_nest_UI : MonoBehaviour
         else {
             save_btn.interactable = false;
         }
+        StartCoroutine(update_UI_co());
     }
     public void cancel_edit_profile() {
         if (is_editing)
@@ -517,4 +521,10 @@ public class Star_nest_UI : MonoBehaviour
     }
 
     #endregion
+
+    public IEnumerator update_UI_co()
+    {
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+    }
 }
