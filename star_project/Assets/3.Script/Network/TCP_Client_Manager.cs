@@ -41,7 +41,12 @@ public class TCP_Client_Manager : MonoBehaviour
     private Queue<string> log = new Queue<string>();
     StreamReader reader;//데이터를 읽는 놈
     StreamWriter writer;//데이터를 쓰는 놈
-    public string now_room_id { private set; get; } = "-";
+    private TMP_Text myplanet_text = null;
+    private string now_room_id_ ="-";
+    public string now_room_id { 
+        private set { now_room_id_ = value; if (myplanet_text != null && myplanet_text.text != null) { myplanet_text.text = now_room_id_; } } 
+        get { return now_room_id_; } 
+    }
     public string target_room_id { private set; get; } = "-";
 
     [SerializeField] private List<Button> set_button_list;
@@ -66,6 +71,8 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private TMP_Text invite_text;
     [SerializeField] private Button invite_agree_button;
+
+    
 
     public PlacementSystem placement_system;
     public Camera_My_Planet camera_my_planet;
@@ -102,6 +109,8 @@ public class TCP_Client_Manager : MonoBehaviour
             housing_ui_manager = FindObjectOfType<Housing_UI_Manager>();
             camera_my_planet = FindObjectOfType<Camera_My_Planet>();
             chat_box_manager.hide_chat();
+
+            myplanet_text = GameObject.FindGameObjectWithTag("myplanet_UI")?.GetComponent<TMP_Text>();
         }
     }
     private void Update()

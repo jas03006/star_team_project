@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class FriendList_JGD : MonoBehaviour
 {
+    public Star_nest_UI star_nest_UI;
+
     [SerializeField] private GameObject Friend;
     [SerializeField] private GameObject location;
 
@@ -17,10 +19,14 @@ public class FriendList_JGD : MonoBehaviour
     TMP_Text name;
 
 
-    private Dictionary<string,string> friend_dic = new Dictionary<string,string>();
+    private static Dictionary<string,string> friend_dic = new Dictionary<string,string>();
     private void Start()
     {
         
+    }
+
+    public static bool is_friend(string nickname_) {
+        return friend_dic.ContainsKey(nickname_);
     }
 
     public void GetFriendList(bool is_airship = false)
@@ -49,8 +55,9 @@ public class FriendList_JGD : MonoBehaviour
 
             }
             else  {
-                //TODO:친밀도 시스템
-                //buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
+                buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
+                buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+
                 buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
                 buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
 
@@ -125,7 +132,7 @@ public class FriendList_JGD : MonoBehaviour
 
                 foreach (LitJson.JsonData friendJson in gameDataJson)
                 {
-                    string nickName = friendJson["planet_name"].ToString();
+                    string nickName = friendJson["nickname"].ToString();
 
                     if (friend_dic.ContainsKey(nickName) || TCP_Client_Manager.instance.my_player.object_id == nickName || nickName==null) {
                         continue;
@@ -145,11 +152,17 @@ public class FriendList_JGD : MonoBehaviour
 
                     int ind = numcount;
                     Button[] buttons = list.GetComponentsInChildren<Button>();
-                    if (buttons.Length >= 1)
-                    {
-                        buttons[0].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
-                        buttons[0].onClick.AddListener(() => Destroy(list));
+                    if (buttons.Length >= 2)
+                    {                       
                         buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                        buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
+
+                        buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                        buttons[1].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
+                        buttons[1].onClick.AddListener(() => buttons[1].interactable = false
+                        //Destroy(list)
+                        );
+                        
                         //  buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
                         //  buttons[1].onClick.AddListener(() => MyFriend(list));
                     }
