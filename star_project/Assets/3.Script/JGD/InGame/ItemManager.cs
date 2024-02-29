@@ -24,7 +24,11 @@ public class ItemManager : MonoBehaviour
     public void UsingHeart(int ID)
     {
         data = BackendChart_JGD.chartData.item_list[ID];
-        Player.currentHp += Player.MaxHp * data.num + ((Player.MaxHp * data.num) * Heal);
+        Player.currentHp += Player.MaxHp * data.percent + ((Player.MaxHp * data.percent) * Heal);
+        if (Player.currentHp >= Player.MaxHp)
+        {
+            Player.currentHp = Player.MaxHp;
+        }
     }
     public void UsingStar(int ID)
     {

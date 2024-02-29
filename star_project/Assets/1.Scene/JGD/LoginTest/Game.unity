@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 9530746}
   - component: {fileID: 9530745}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2517,6 +2517,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190170439}
   m_CullTransparentMesh: 1
+--- !u!1 &203806129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 203806130}
+  - component: {fileID: 203806132}
+  - component: {fileID: 203806131}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &203806130
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203806129}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1515022804}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -75, y: -102}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &203806131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203806129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 124ba26c3b7b129478d78795d3c40e31, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &203806132
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203806129}
+  m_CullTransparentMesh: 1
 --- !u!1 &206144013
 GameObject:
   m_ObjectHideFlags: 0
@@ -3387,7 +3462,7 @@ GameObject:
   - component: {fileID: 281972702}
   - component: {fileID: 281972701}
   m_Layer: 5
-  m_Name: alphabet (1)
+  m_Name: alphabet_Back (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3463,7 +3538,7 @@ GameObject:
   - component: {fileID: 294539114}
   - component: {fileID: 294539113}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3538,7 +3613,7 @@ GameObject:
   - component: {fileID: 295571976}
   - component: {fileID: 295571975}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5952,7 +6027,7 @@ GameObject:
   - component: {fileID: 474285134}
   - component: {fileID: 474285133}
   m_Layer: 5
-  m_Name: alphabet (3)
+  m_Name: alphabet_Back (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6541,7 +6616,7 @@ GameObject:
   - component: {fileID: 563306588}
   - component: {fileID: 563306587}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7213,7 +7288,7 @@ GameObject:
   - component: {fileID: 614314082}
   - component: {fileID: 614314081}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7422,7 +7497,7 @@ GameObject:
   - component: {fileID: 644759093}
   - component: {fileID: 644759092}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11853,7 +11928,7 @@ GameObject:
   - component: {fileID: 925611175}
   - component: {fileID: 925611174}
   m_Layer: 5
-  m_Name: alphabet (5)
+  m_Name: alphabet_Back (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14054,6 +14129,17 @@ MonoBehaviour:
   Player_Progress: {fileID: 1537079280}
   Player_CatchingStar_Count: {fileID: 1560830882}
   Player_Alphabet_progress:
+  - {fileID: 1391751348}
+  - {fileID: 614314081}
+  - {fileID: 644759092}
+  - {fileID: 1981874369}
+  - {fileID: 563306587}
+  - {fileID: 9530745}
+  - {fileID: 1548307702}
+  - {fileID: 294539113}
+  - {fileID: 1371420613}
+  - {fileID: 295571975}
+  Player_Alphabet_BackGround:
   - {fileID: 1455110750}
   - {fileID: 281972701}
   - {fileID: 1514633042}
@@ -14064,6 +14150,7 @@ MonoBehaviour:
   - {fileID: 2095672455}
   - {fileID: 1511828913}
   - {fileID: 2033943531}
+  Alphabet_BackGround: {fileID: 21300000, guid: a122d32361bae6243931b3018fd49786, type: 3}
 --- !u!1 &1182494361
 GameObject:
   m_ObjectHideFlags: 0
@@ -16053,7 +16140,7 @@ GameObject:
   - component: {fileID: 1371420614}
   - component: {fileID: 1371420613}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16461,7 +16548,7 @@ GameObject:
   - component: {fileID: 1391751349}
   - component: {fileID: 1391751348}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16979,7 +17066,7 @@ GameObject:
   - component: {fileID: 1455110751}
   - component: {fileID: 1455110750}
   m_Layer: 5
-  m_Name: alphabet
+  m_Name: alphabet_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17554,7 +17641,7 @@ GameObject:
   - component: {fileID: 1511828914}
   - component: {fileID: 1511828913}
   m_Layer: 5
-  m_Name: alphabet (8)
+  m_Name: alphabet_Back (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17630,7 +17717,7 @@ GameObject:
   - component: {fileID: 1514633043}
   - component: {fileID: 1514633042}
   m_Layer: 5
-  m_Name: alphabet (2)
+  m_Name: alphabet_Back (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17789,6 +17876,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1224707133}
+  - {fileID: 203806130}
   m_Father: {fileID: 1165214012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -18033,7 +18121,7 @@ GameObject:
   - component: {fileID: 1548307703}
   - component: {fileID: 1548307702}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19053,7 +19141,7 @@ GameObject:
   - component: {fileID: 1661465354}
   - component: {fileID: 1661465353}
   m_Layer: 5
-  m_Name: alphabet (6)
+  m_Name: alphabet_Back (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21209,7 +21297,7 @@ GameObject:
   - component: {fileID: 1981874370}
   - component: {fileID: 1981874369}
   m_Layer: 5
-  m_Name: BackGround
+  m_Name: Alphabet3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21819,7 +21907,7 @@ GameObject:
   - component: {fileID: 2033943532}
   - component: {fileID: 2033943531}
   m_Layer: 5
-  m_Name: alphabet (9)
+  m_Name: alphabet_Back (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22234,7 +22322,7 @@ GameObject:
   - component: {fileID: 2095672456}
   - component: {fileID: 2095672455}
   m_Layer: 5
-  m_Name: alphabet (7)
+  m_Name: alphabet_Back (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22736,7 +22824,7 @@ GameObject:
   - component: {fileID: 2110795946}
   - component: {fileID: 2110795945}
   m_Layer: 5
-  m_Name: alphabet (4)
+  m_Name: alphabet_Back (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -37,6 +37,8 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] private Slider Player_Progress;
     [SerializeField] private TMP_Text Player_CatchingStar_Count;
     [SerializeField] private List<Image> Player_Alphabet_progress;
+    [SerializeField] private List<Image> Player_Alphabet_BackGround;
+    [SerializeField] private Sprite Alphabet_BackGround;
     private int Player_Alphabet_Count = 0;
     private void Awake()
     {
@@ -144,6 +146,7 @@ public class Player_Controll_JGD : MonoBehaviour
         {
             Alphabet.Add(collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID.ToString());
             Player_Alphabet_progress[Player_Alphabet_Count].sprite = SpriteManager.instance.Num2Sprite(4000+(int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
+            Player_Alphabet_BackGround[Player_Alphabet_Count].sprite = Alphabet_BackGround;
             Player_Alphabet_Count++;
             Destroy(collision.gameObject);
             return;
@@ -156,12 +159,14 @@ public class Player_Controll_JGD : MonoBehaviour
                     AudioManager.instance.SFX_collect_heart();
                     itemManager.UsingHeart((int)Obstacle_ID.big_heart);
                     //collision.GetComponent<Heart>().UseItem();
+                    Hpslider.value = 100 - (float)(MaxHp % currentHp);
                     Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_heart:
                     AudioManager.instance.SFX_collect_heart();
                     itemManager.UsingHeart((int)Obstacle_ID.small_heart);
                     //collision.GetComponent<Heart>().UseItem();
+                    Hpslider.value = 100 - (float)(MaxHp % currentHp);
                     Debug.Log(currentHp);
                     break;
                 case Obstacle_ID.small_star:
