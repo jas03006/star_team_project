@@ -117,7 +117,7 @@ public class Galaxy_UI : MonoBehaviour
                 mission_btn[i].sprite = state_X;
                 statebutton[i].interactable = false;
             }
-            tmp = -interval;
+            tmp -= interval;
         }
 
         //image
@@ -134,7 +134,7 @@ public class Galaxy_UI : MonoBehaviour
                 mission_image[i].sprite = state_X_bar;
             }
 
-            tmp2 = -interval;
+            tmp2 -= interval;
         }
     }
 
