@@ -240,8 +240,8 @@ public class Star_nest_UI : MonoBehaviour
     }
     public void apply_edit_title()
     {
-        adjective ad_ = (adjective)Enum.Parse(typeof(adjective), edit_title_adjective?.itemText?.text);
-        noun noun_ = (noun)Enum.Parse(typeof(noun), edit_title_noun?.itemText?.text);
+        adjective ad_ = (adjective)Enum.Parse(typeof(adjective), edit_title_adjective?.captionText?.text);
+        noun noun_ = (noun)Enum.Parse(typeof(noun), edit_title_noun?.captionText?.text);
          if (ad_ == adjective.none || noun_ == noun.none)
          {
              return;
@@ -322,6 +322,8 @@ public class Star_nest_UI : MonoBehaviour
             BackendGameData_JGD.Instance.GameDataUpdate(save_select);
             is_editing = false;
             save_btn.interactable = false;
+
+            UIManager_YG.Instance.update_profile();
         }
     }
     
