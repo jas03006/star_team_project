@@ -234,8 +234,10 @@ public class Star_nest_UI : MonoBehaviour
     }
     public void show_edit_title_UI()
     {
-        edit_title_adjective.captionText.text = user_data.title_adjective.ToString();
-        edit_title_noun.captionText.text = user_data.title_noun.ToString();
+        edit_title_adjective.value = edit_title_adjective.options.FindIndex(option => option.text == user_data.title_adjective.ToString());
+        edit_title_noun.value = edit_title_noun.options.FindIndex(option => option.text == user_data.title_noun.ToString());
+        //edit_title_adjective.captionText.text = user_data.title_adjective.ToString();
+        //edit_title_noun.captionText.text = user_data.title_noun.ToString();
         edit_title_UI.SetActive(true);
     }
     public void apply_edit_title()
