@@ -3,14 +3,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using TMPro;
 
 
 
 public class Progress_JGD : MonoBehaviour
 {
     [SerializeField] private Slider sliderProgress;
-    [SerializeField] private TextMeshProUGUI textProgressDate;
+    //[SerializeField] private TextMeshProUGUI textProgressDate;
     [SerializeField] private float progressTime;
+    [SerializeField] private TMP_Text num_text;
 
     public void Play(UnityAction action = null)
     {
@@ -27,9 +29,11 @@ public class Progress_JGD : MonoBehaviour
             percent = current / progressTime;
 
             //Text 정보 설정
-            textProgressDate.text = $"Now Loading... {sliderProgress.value * 100:F0}%";
+            //textProgressDate.text = $"Now Loading... {sliderProgress.value * 100:F0}%";
             //Slider값 설정
             sliderProgress.value = Mathf.Lerp(0, 1, percent);
+            //text
+            num_text.text = $"{sliderProgress.value * 100:F0}%";
 
             yield return null;
         }

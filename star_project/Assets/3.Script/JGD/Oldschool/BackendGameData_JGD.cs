@@ -59,6 +59,7 @@ public class UserData
     public adjective title_adjective = adjective.none;
     public noun title_noun = noun.none;
     public string planet_name;
+    public string nickname;
 
     //money
     public int ark =0;
@@ -215,6 +216,7 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.title_adjective = adjective.lovely;
             userData.title_noun = noun.jjang;
             userData.planet_name = nickname;
+            userData.nickname = nickname;
 
             //µ· Á¤º¸
             userData.gold = 1000;
@@ -239,6 +241,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         Param param = new Param();
         param.Add("level", userData.level);
+        param.Add("nickname", userData.nickname);
         param.Add("character", userData.character);
         param.Add("info", userData.info);
         param.Add("CP",userData.CP);
@@ -317,6 +320,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 //userData.level = int.Parse(gameDataJson[0]["level"].ToString());
                 
                 userData.info = gameDataJson[0]["info"].ToString();
+                userData.nickname = gameDataJson[0]["nickname"].ToString();
                 userData.CP = int.Parse(gameDataJson[0]["CP"].ToString());
                 userData.character = int.Parse(gameDataJson[0]["character"].ToString());
                 userData.housing_Info = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
@@ -457,6 +461,7 @@ public class BackendGameData_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("level", userData.level);
         param.Add("character", userData.character);
+        param.Add("nickname", userData.nickname);
         param.Add("CP", userData.CP);
         param.Add("info", userData.info);
         param.Add("Friend_UUID_List", userData.Friend_UUID_List);
