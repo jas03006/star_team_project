@@ -87,7 +87,7 @@ public class StageItemInfo_JGD : MonoBehaviour
     public GameObject _Objects;
     public List<GameObject> Objects = new List<GameObject>();
     //========================================================================================================
-
+    int count = 1;
 
     private void Awake()
     {
@@ -155,6 +155,8 @@ public class StageItemInfo_JGD : MonoBehaviour
 
 
             GameObject gameObject = Instantiate(Objects[ObjectNum], new Vector2(Pos_X, Pos_Y), Quaternion.Euler(0, 0, Rot));
+            count++;
+            Debug.Log(count);
             gameObject.transform.localScale = new Vector3 (Scale_X, Scale_Y, 0);
             gameObject.GetComponent<ItemID_JGD>().ID = ObjectNum;
             gameObject.GetComponent<ItemID_JGD>().discrimination = discrimination;
