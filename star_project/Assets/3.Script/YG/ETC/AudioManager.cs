@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -13,8 +14,8 @@ public class AudioManager : MonoBehaviour
     public bool playing_bgm = true;
     public bool playing_sfx = true;
 
-    [SerializeField] AudioSource BGM_AudioSource;
-    [SerializeField] AudioSource SFX_AudioSource;
+    [SerializeField] public AudioSource BGM_AudioSource;
+    [SerializeField] public AudioSource SFX_AudioSource;
 
     [Header("Audioclip")]
     [SerializeField] private AudioClip catchingstar_BGM;
@@ -32,6 +33,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip hit;
     [SerializeField] private AudioClip stage_clear;
     [SerializeField] private AudioClip stage_click;
+    [Header("StageSound_JGD")]
+    [SerializeField] public List<AudioClip> Theme01 = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> Theme02 = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> Theme03 = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> Theme04 = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> Theme05 = new List<AudioClip>();
 
     private void Awake()
     {
