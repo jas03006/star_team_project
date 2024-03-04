@@ -29,6 +29,13 @@ public class Galaxy_UI : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        Test();
+    }
+
+    private void Test()
+    {
+        int[]result = BackendGameData_JGD.userData.catchingstar_info.Check_stage_progress();
+        Debug.Log($"현재 저장된 스테이지 : {result[0]}번째 은하 {result[1]}번째 스테이지");
     }
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
@@ -55,7 +62,6 @@ public class Galaxy_UI : MonoBehaviour
         {
             collect_point += data.star_Info_list[i].star;
         }
-
 
         collect_text.text = collect_point.ToString();
 

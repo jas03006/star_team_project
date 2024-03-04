@@ -14,7 +14,7 @@ public class Sign_Up_JGD : LoginBase_JGD
     [SerializeField] Image PWbtn_img;
     [SerializeField] Image PWcheckbtn_img;
     [SerializeField] Sprite standard;
-    [SerializeField] Sprite passward;
+    [SerializeField] Sprite password;
 
     [SerializeField] private TMP_Text Title_text;
     [SerializeField] private TMP_Text reason_text;
@@ -52,7 +52,10 @@ public class Sign_Up_JGD : LoginBase_JGD
     {
         if (inputFieldPW.text != inputFieldPW_check.text)
         {
-            
+            Debug.Log("PW != PWcheck");
+            reason_text.text = "비밀번호가 일치하지 않습니다.";
+            show_result(false) ;
+            return;
         }
         //if (now_result_co != null)
         //{
@@ -96,7 +99,7 @@ public class Sign_Up_JGD : LoginBase_JGD
         else
         {
             inputFieldPW.contentType = TMP_InputField.ContentType.Password;
-            PWbtn_img.sprite = passward;
+            PWbtn_img.sprite = password;
         }
         inputFieldPW.textComponent.SetAllDirty();
     }
@@ -111,7 +114,7 @@ public class Sign_Up_JGD : LoginBase_JGD
         else
         {
             inputFieldPW_check.contentType = TMP_InputField.ContentType.Password;
-            PWcheckbtn_img.sprite = passward;
+            PWcheckbtn_img.sprite = password;
         }
         inputFieldPW_check.textComponent.SetAllDirty();
     }
