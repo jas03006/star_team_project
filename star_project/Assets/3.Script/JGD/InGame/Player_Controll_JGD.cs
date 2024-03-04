@@ -39,6 +39,9 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] private List<Image> Player_Alphabet_progress;
     [SerializeField] private List<Image> Player_Alphabet_BackGround;
     [SerializeField] private Sprite Alphabet_BackGround;
+    [Header("PlayerHitByCar")]
+    private bool isHitOn = true;
+    [SerializeField] private float DamageTime;
     private int Player_Alphabet_Count = 0;
     private void Awake()
     {
@@ -119,6 +122,7 @@ public class Player_Controll_JGD : MonoBehaviour
         if (!invincibility && !Shild)
         {
             isMove = false;
+            isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
             if (currentHp <= 0)
@@ -135,6 +139,7 @@ public class Player_Controll_JGD : MonoBehaviour
             }
             AudioManager.instance.SFX_hit();
             rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
+            rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             isMove = true;
         }
@@ -434,6 +439,21 @@ public class Player_Controll_JGD : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        {
+            if (isMove)
+            {
+                if (now_damage_co != null)
+                {
+                    StopCoroutine(now_damage_co);
+                }
+                now_damage_co = StartCoroutine(OnDamage(20));
+            }
+
         }
     }
 }
