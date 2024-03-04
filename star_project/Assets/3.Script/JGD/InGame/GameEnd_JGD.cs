@@ -52,7 +52,7 @@ public class GameEnd_JGD : MonoBehaviour
         {
             ClearData.Add(Clearwords[i]);
         }
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;  
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -65,20 +65,8 @@ public class GameEnd_JGD : MonoBehaviour
             //클리어 데이터 전송
             stage_data.is_clear = true;
 
-            //int count = 0;
             var Player = collision.GetComponent<Player_Controll_JGD>();
-            //for (int i = 0; i < ClearData.Count; i++)
-            //{
-            //    if (ClearData[i] == Player.Alphabet[i] && Player.Alphabet[i] != null)
-            //    {
-            //        count++;
-            //    }
-            //}
-            //if (count == ClearData.Count)
-            //{
-            //    // 아이템 지급
-            //    Debug.Log("아이템 지급");
-            //}
+
             if (ClearData.Count == Player.Alphabet.Count)
             {
                 if (stage_data.get_housing == false)
@@ -89,7 +77,7 @@ public class GameEnd_JGD : MonoBehaviour
                 }
             }
             MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
-
+            //TXT UI적용
             Debug.Log("와난");
             StageClearUI.SetActive(true);
             StageStar.text = data.Allstar.ToString();
@@ -98,7 +86,7 @@ public class GameEnd_JGD : MonoBehaviour
             Star_3.text = $"X {data.Star_3.ToString()}";
             Gold.text = $"+ {Player.PlayerScore * 10} ";
 
-
+            //별 생성
             PlayerStar[0].sprite = ClearStar;
             MissionClearStar[0].sprite = ClearStar;
             StarCount = 1;
