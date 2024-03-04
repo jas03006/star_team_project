@@ -27,8 +27,8 @@ public class Camera_My_Planet : MonoBehaviour
 
     public void init()
     {        
-        transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward * distance*3f;
-        center_pos = -transform.forward * distance * 3f;
+        transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward * distance*4f;
+        center_pos = -transform.forward * distance * 4f;
     }
     private Vector2 nowPos, prePos;
     private Vector3 movePos;
