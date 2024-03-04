@@ -56,6 +56,24 @@ public class Catchingstar_info
             Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
         }
     }
+
+    public int[] Check_stage_progress()
+    {
+        int[] result = {1,1};
+        for (int i = 0; i < galaxy_Info_list.Count; i++)
+        {
+            for (int j = 0; j < galaxy_Info_list[i].star_Info_list.Count; j++)
+            {
+                if (galaxy_Info_list[i].star_Info_list[j].is_clear == false)
+                {
+                    result[0] = i+1;
+                    result[1] = j+1;
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
 }
 
 public enum Galaxy_state //은하별 미션 완료상태
