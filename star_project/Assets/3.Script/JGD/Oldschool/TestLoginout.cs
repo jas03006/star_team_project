@@ -22,6 +22,7 @@ public class TestLoginout : MonoBehaviour
         string userID = InputID.text;
         string userPW = InputPW.text;
 
+        Debug.Log("signin");
         TestBackend_Login_JGD.Instance.CustomSignUp(userID, userPW);   //회원가입
 
     }
