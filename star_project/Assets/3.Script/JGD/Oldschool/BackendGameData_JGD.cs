@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using LitJson;
+using System.Data.SqlTypes;
 
 
 //Friend_UUID_List

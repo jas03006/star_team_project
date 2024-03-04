@@ -49,6 +49,7 @@ public class FriendList_JGD : MonoBehaviour
             if (is_airship) {
                 buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
                 buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                buttons[0].onClick.AddListener(() => hide_airchip_UI());
 
                 buttons[1].onClick.AddListener(() => TCP_Client_Manager.instance.invite(nickName));
                 buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
@@ -108,6 +109,18 @@ public class FriendList_JGD : MonoBehaviour
         }
         else {
             go_myplanet_btn_ob.SetActive(true);
+        }
+    }
+
+    public void hide_airchip_UI() {
+        if (airship_UI == null)
+        {
+            airship_UI = GameObject.FindGameObjectWithTag(airship_UI_tag).GetComponent<FriendList_JGD>();
+        }
+
+        if (airship_UI.transform.GetChild(0).gameObject.activeSelf)
+        {
+            airship_UI.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
     public void ClearRecommendList()
