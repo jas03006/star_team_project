@@ -138,7 +138,7 @@ public class GameEnd_JGD : MonoBehaviour
             Star_3.text = $"X {data.Star_3.ToString()}";
             Gold.text = $"+ {Player.PlayerScore * 10} ";
 
-            //喊 积己
+            //喊 积己 
             PlayerStar[0].sprite = ClearStar;
             MissionClearStar[0].sprite = ClearStar;
             StarCount = 1;
@@ -162,6 +162,17 @@ public class GameEnd_JGD : MonoBehaviour
         }
         Data_update();
     }
+
+    //货肺款 喊 积己 局聪皋捞记
+    public void OneStar()
+    {
+        if (StarCount == 1)
+        {
+            
+        }
+    }
+
+
 
 
     //狐瓢

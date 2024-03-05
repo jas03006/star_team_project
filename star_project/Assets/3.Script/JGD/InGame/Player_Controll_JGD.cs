@@ -105,7 +105,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 itemManager.Size = (PlayerLevel - 1) * 0.1f + 0.5f;
                 break;
             case Character_ID.Green:
-                itemManager.Heal = (PlayerLevel - 1) * 0.5f + 5f;
+                itemManager.Heal = (PlayerLevel - 1) * 0.005f + 0.05f;
                 break;
         }
 
@@ -452,7 +452,6 @@ public class Player_Controll_JGD : MonoBehaviour
                 }
                 now_damage_co = StartCoroutine(OnDamage(20));
             }
-
         }
     }
 }
