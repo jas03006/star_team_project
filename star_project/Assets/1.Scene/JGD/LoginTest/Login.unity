@@ -4175,7 +4175,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1261979194}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6054594405926437061}
+        m_TargetAssemblyTypeName: BackendFederationAuth_TG, Assembly-CSharp
+        m_MethodName: OnCFBLogin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1261979194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6186,6 +6198,7 @@ GameObject:
   - component: {fileID: 4201157915021960634}
   - component: {fileID: 3865897305317168476}
   - component: {fileID: 6054594405926437060}
+  - component: {fileID: 6054594405926437061}
   m_Layer: 5
   m_Name: Login
   m_TagString: Untagged
@@ -6215,6 +6228,19 @@ MonoBehaviour:
   btnLogin: {fileID: 232522933918646543}
   Login: {fileID: 6054594405926437059}
   Signup: {fileID: 187869018}
+  nextScene: 2
+--- !u!114 &6054594405926437061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054594405926437059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c73c0dab077d6084baeb9fea8078bdb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   nextScene: 2
 --- !u!114 &7675616380157762397
 MonoBehaviour:
