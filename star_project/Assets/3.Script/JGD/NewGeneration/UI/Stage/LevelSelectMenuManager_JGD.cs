@@ -35,14 +35,15 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     [Header("unlock")]
     private int[] unlock_conditions = { 12, 24, 36, 48 };
-    private GameObject unlock_object;
-    private Image character_image;
+    [SerializeField] private GameObject unlock_object;
+    [SerializeField] private Image character_image;
 
     [SerializeField] private SceneNames nextScene;  //만약 기존 구조가 아닌 게임씬을 여러개 만든다면 수정
 
     private void Start()
     {
         galaxy = galaxy.toy;
+        StartCoroutine(Galaxy_unlock());
         //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -50,7 +51,10 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     //private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     //{
-    //    StartCoroutine(Galaxy_unlock());
+    //    if (SceneManager.GetActiveScene().name == "Stage")
+    //    {
+            
+    //    }
     //}
 
     public void Select_galaxy_btn(int index)
@@ -79,12 +83,17 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     {
         yield return null;
         yield return null;
-
-        if (currLevel == 4 && Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+        //!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear &&
+        if ( Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
         {
             unlock_object.SetActive(true);
+            CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
             character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
-            BackendGameData_JGD.userData.character_info.character_dic[(Character_ID)galaxy + 1] = 1;
+            info.character_list[(int)galaxy + 1].level = 1;
+            info.Change_dic((int)galaxy+1,1);
+            info.Characterinfo_update();
+            BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
+            
         }
     }
 

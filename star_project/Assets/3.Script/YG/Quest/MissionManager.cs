@@ -130,7 +130,6 @@ public class MissionManager : MonoBehaviour
     public void Accept_btn() //수락버튼 클릭 시 호출
     {
         cur_mission.userdata.is_accept = true;
-        Debug.Log($"수락 여부 : {cur_mission.userdata.is_accept}");
     }
 
     public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시

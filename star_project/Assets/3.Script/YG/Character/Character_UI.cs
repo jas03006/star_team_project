@@ -30,18 +30,37 @@ public class Character_UI : MonoBehaviour
 
     void Start()
     {
-        List<Character> list = BackendChart_JGD.chartData.character_list;
+        //List<Character> list = BackendChart_JGD.chartData.character_list;
 
-        for (int i = 0; i < list.Count; i++)
-        {
-            Make_prefab(list[i].sprite,i);
-        }
+        //for (int i = 0; i < list.Count; i++)
+        //{
+        //    if (list[i].curlevel >= 1)
+        //    {
+        //        Make_prefab(list[i].sprite,i);
+        //    }
+        //}
 
-        Setting();
+        //Setting();
     }
 
     private void OnEnable()
     {
+        List<Character> list = BackendChart_JGD.chartData.character_list;
+        //content_zone.transform.childCount != list.Count일 경우 오브젝트 삭제 후 재생성
+
+        for (int i = 0; i < content_zone.transform.childCount; i++)
+        {
+            Destroy(content_zone.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].curlevel >= 1)
+            {
+                Make_prefab(list[i].sprite, i);
+            }
+        }
+
         Setting();
     }
 
@@ -58,7 +77,7 @@ public class Character_UI : MonoBehaviour
         image.sprite = SpriteManager.instance.Num2Sprite(index_character.sprite);
         character_name.text = index_character.character_name;
         level.text = $"레벨 : {index_character.curlevel}";
-        HP.text = $"HP : {100 + ((index_character.curlevel-1) * 10)}";
+        HP.text = $"HP : {100 + ((index_character.curlevel - 1) * 10)}";
         special.text = index_character.special;
         unique.text = index_character.unique;
         Update_is_equip();

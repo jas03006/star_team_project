@@ -85,7 +85,7 @@ public enum Galaxy_state //은하별 미션 완료상태
 
 public class Galaxy_info
 {
-    //public int collect_point;//해당 스테이지에서 모은 별의 갯수
+    public bool is_clear = false;
     public List<Star_info> star_Info_list = new List<Star_info>();
     public List<Galaxy_state> mission_state = new List<Galaxy_state>();
 
@@ -103,8 +103,7 @@ public class Galaxy_info
             mission_state.Add(Galaxy_state.incomplete);
         }
 
-        //collect
-        //collect_point = 0;
+        is_clear = false;
     }
 
     public Galaxy_info(JsonData jsonData)
@@ -122,7 +121,8 @@ public class Galaxy_info
         }
 
         //collect
-        //collect_point = int.Parse(jsonData["collect_point"].ToString());
+        is_clear = false;
+        //is_clear = bool.Parse(jsonData["is_clear"][0].ToString());
     }
 }
 
