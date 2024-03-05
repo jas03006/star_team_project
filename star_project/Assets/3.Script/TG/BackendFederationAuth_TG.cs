@@ -43,7 +43,7 @@ public class BackendFederationAuth_TG : MonoBehaviour
         }
     }
     public void OnCFBLogin() {
-        var perms = new List<string>() { "public_profile", "email", "name" }; // 이메일 정보를 요구하기 위한 값입니다.
+        var perms = new List<string>() { "gaming_profile", "email" }; // 이메일 정보를 요구하기 위한 값입니다.
         FB.LogInWithReadPermissions(perms, AuthCallback);
     
     }
