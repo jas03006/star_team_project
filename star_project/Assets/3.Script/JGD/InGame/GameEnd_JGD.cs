@@ -56,7 +56,7 @@ public class GameEnd_JGD : MonoBehaviour
         }
         //Time.timeScale = 1.0f;
         //
-        switch (data.Stage) //나중에 Theme로 바꾸기
+        switch (data.Theme) //나중에 Theme로 바꾸기
         {
             case 1:
                 StageEnd = AudioManager.instance.Theme01;

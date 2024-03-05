@@ -36,10 +36,10 @@ public class BackendChart_JGD : MonoBehaviour
         chartData = new ChartData();
 
         Character("108885");
-        Item("110139");
+        Item("110518");
         Character_amount("108882");
         Mission("109087");
-        StageClearInfo("110010");
+        StageClearInfo("110517");
         Challenge("109531");
 
     }
