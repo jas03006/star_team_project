@@ -226,10 +226,10 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.ark = 1000;
 
             //퀘스트 정보
-            for (int i = 0; i < 9; i++)
-            {
-                userData.mission_Userdatas.Add(new Mission_userdata());
-            }
+            //for (int i = 0; i < 9; i++)
+            //{
+            //    userData.mission_Userdatas.Add(new Mission_userdata());
+            //}
 
             for (int i = 0; i < 9; i++)
             {

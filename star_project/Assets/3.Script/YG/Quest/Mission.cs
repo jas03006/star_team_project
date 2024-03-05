@@ -1,6 +1,7 @@
 using BackEnd;
 using LitJson;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,6 +11,71 @@ public enum MissionType
     daily,
     week,
     month
+}
+
+public class Mission_info
+{
+    public List<Mission_userdata> mission_list = new List<Mission_userdata>();//미션관련 데이터
+    public List<int> daily_missions = new List<int>();
+    public List<int> weekly_missions = new List<int>();
+    public List<int> monthly_missions = new List<int>();
+
+    public Mission_info() { }
+    public Mission_info(JsonData json) //데이터 있을때
+    {
+        if (json.IsObject)
+        {
+            foreach (JsonData data in json["mission_list"])
+            {
+                mission_list.Add(new Mission_userdata());
+            }
+
+            foreach (JsonData data in json["daily_missions"])
+            {
+                daily_missions.Add(int.Parse(data["daily_missions"].ToString()));
+            }
+
+            foreach (JsonData data in json["weekly_missions"])
+            {
+                weekly_missions.Add(int.Parse(data["weekly_missions"].ToString()));
+            }
+
+            foreach (JsonData data in json["monthly_missions"])
+            {
+                monthly_missions.Add(int.Parse(data["monthly_missions"].ToString()));
+            }
+        }
+        else
+        {
+            Debug.Log("데이터 없음");
+        }
+    }
+
+    public void Init_info_data() //회원가입
+    {
+
+        for (int i = 0; i < 9; i++)
+        {
+            mission_list.Add(new Mission_userdata());
+        }
+
+        Init_list_data(daily_missions, 3, 12);
+        Init_list_data(weekly_missions, 2, 8);
+        Init_list_data(monthly_missions, 1, 4);
+    }
+
+    private List<int> Init_list_data(List<int> list, int count, int max)//count = 뽑을갯수, max = 전체갯수
+    {
+        while (list.Count < count + 1)
+        {
+            int tmp = UnityEngine.Random.Range(0, max);
+            if (!list.Contains(tmp))
+            {
+                list.Add(tmp);
+            }
+        }
+        return list;
+    }
 }
 
 
