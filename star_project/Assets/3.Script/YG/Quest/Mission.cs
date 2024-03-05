@@ -12,6 +12,7 @@ public enum MissionType
     month
 }
 
+
 public class Mission : Quest
 {
     //차트
@@ -144,9 +145,22 @@ public class Mission : Quest
      */
 
 }
+public enum CriterionType
+{
+    none = -1,
+    stage_clear,//스테이지 클리어 횟수
+    proxy_harvesting, //대리수확 횟수
+    redstar,//스테이지 별 획득 횟수
+    galaxy_clear, //은하 클리어 횟수
+    character_levelup, //캐릭터 레벨업 횟수
+    alphabet, //알파벳 완성횟수(= 하우징오브젝트 획득)
+    starnest,//별둥지 업그레이드 횟수
+    friend //친구 인원 수
+}
 
 public class Mission_userdata
 {
+    public CriterionType criterion_type;
     public DateTime reset_time;
     public bool is_clear;
     public bool get_rewarded;
@@ -171,6 +185,7 @@ public class Mission_userdata
 
     public Mission_userdata(JsonData jsonData)
     {
+        criterion_type = (CriterionType)int.Parse(jsonData["criterion_type"].ToString());
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         is_accept = bool.Parse(jsonData["is_accept"].ToString());
         get_rewarded = bool.Parse(jsonData["get_rewarded"].ToString());
@@ -179,8 +194,10 @@ public class Mission_userdata
         criterion_ = int.Parse(jsonData["criterion"].ToString());
         criterion = int.Parse(jsonData["criterion"].ToString());
     }
+
     public Mission_userdata()
     {
+        criterion_type = CriterionType.none;
         is_clear = false;
         is_accept = false;
         get_rewarded = false;
@@ -189,6 +206,7 @@ public class Mission_userdata
         criterion = 0;
         criterion_ = 0;
     }
+
     public void Data_update()
     {
         //데이터에 넣기

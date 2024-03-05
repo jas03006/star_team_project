@@ -81,14 +81,14 @@ public class Character
 
         //레벨 업데이트
         curlevel++;
-        characterinfo_Data_update();
+        Characterinfo_Data_update();
         State_update();
-
     }
 
-    public void characterinfo_Data_update()
+    public void Characterinfo_Data_update()
     {
         BackendGameData_JGD.userData.character_info.character_dic[character_ID] = curlevel;
+        BackendGameData_JGD.userData.character_info.character_list[(int)character_ID].level = curlevel;
 
         //데이터에 넣기
         Param param = new Param();
