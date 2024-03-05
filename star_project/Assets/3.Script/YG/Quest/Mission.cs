@@ -197,6 +197,7 @@ public class Mission_userdata
 
     public Mission_userdata()
     {
+        criterion_type = CriterionType.none;
         is_clear = false;
         is_accept = false;
         get_rewarded = false;

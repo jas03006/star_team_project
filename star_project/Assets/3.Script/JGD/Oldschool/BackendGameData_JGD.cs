@@ -271,6 +271,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
         param.Add("character_info", userData.character_info);   //캐릭터 데이터
         param.Add("catchingstar_info", userData.catchingstar_info);
+        param.Add("shop_info", userData.shop_info);
 
         param.Add("profile_background", userData.profile_background);
         param.Add("profile_picture", userData.profile_picture);
