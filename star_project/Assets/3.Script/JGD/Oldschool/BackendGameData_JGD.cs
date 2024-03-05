@@ -52,6 +52,7 @@ public class UserData
     public CharacterInfo_YG character_info = new CharacterInfo_YG();
     public Memo_info memo_info = new Memo_info();
     public Catchingstar_info catchingstar_info = new Catchingstar_info();
+    public Shop_info shop_info = new Shop_info();
 
     //profile
     public int profile_background = 0;
@@ -201,11 +202,11 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed,1));
 
             //캐릭터 레벨 정보
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Red));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Blue));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Purple));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Green));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow,1));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Red,0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Blue,0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Purple,0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Green,0));
 
             //캐칭스타 스테이지 정보
             userData.catchingstar_info = new Catchingstar_info();
@@ -234,6 +235,9 @@ public class BackendGameData_JGD : MonoBehaviour
             {
                 userData.challenge_Userdatas.Add(new Challenge_userdata());
             }
+
+            //상점 정보
+            userData.shop_info.Insert_data();
 
         }
 
@@ -328,6 +332,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
                 userData.catchingstar_info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
+                userData.shop_info = new Shop_info(gameDataJson[0]["shop_info"]);
 
                 foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
                 {
@@ -476,6 +481,7 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("Market_ID_List", userData.Market_ID_List);/////////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);
         param.Add("Housing_Info", userData.housing_Info);
+        param.Add("shop_info", userData.shop_info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);
         param.Add("Achievements_List", userData.Achievements_List);
 
@@ -657,6 +663,7 @@ public class BackendGameData_JGD : MonoBehaviour
         }
         return null;
     }
+
     public UserData get_userdata_by_nickname(string nickname, string[] select)
     {
         //select = { "Housing_Info" };

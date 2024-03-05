@@ -1,3 +1,4 @@
+using BackEnd;
 using LitJson;
 using System;
 using System.Collections;
@@ -42,12 +43,49 @@ public class CharacterInfo_YG  //각 캐릭터 레벨 저장을 위한 클래스
         character_list.Add(obj);
         character_dic.Add(obj.pet_id, obj.level);
     }
+
+    public void Change_dic(int index, int level)
+    {
+        character_dic[character_list[index].pet_id] = level;
+    }
+
+    public void Characterinfo_update()
+    {
+        //데이터에 넣기
+        Param param = new Param();
+        param.Add("character_info", BackendGameData_JGD.userData.character_info);
+
+        BackendReturnObject bro = null;
+
+        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
+        {
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
+
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        }
+
+        else
+        {
+            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
+
+            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
+        }
+
+        if (bro.IsSuccess())
+        {
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        }
+        else
+        {
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
+    }
 }
 
 public class CharacterObj
 {
     public Character_ID pet_id;
-    public int level =1;
+    public int level = 0;
     //public Dictionary<pet_ID, int> dic = new Dictionary<pet_ID, int>();
 
     public CharacterObj(JsonData json)
@@ -59,10 +97,10 @@ public class CharacterObj
         }
     }
 
-    public CharacterObj(Character_ID pet_ID)
+    public CharacterObj(Character_ID pet_ID,int lev)
     {
         pet_id = pet_ID;
-        level = 1;
+        level = lev;
     }
 }
 
