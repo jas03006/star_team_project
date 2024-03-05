@@ -4410,7 +4410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &339599943
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10694,7 +10694,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 839397468}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 128207307}
+        m_TargetAssemblyTypeName: GameEnd_JGD, Assembly-CSharp
+        m_MethodName: Speak_EnglishWord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &839397468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13518,6 +13530,7 @@ MonoBehaviour:
   - {fileID: 1511828913}
   - {fileID: 2033943531}
   Alphabet_BackGround: {fileID: 21300000, guid: a122d32361bae6243931b3018fd49786, type: 3}
+  DamageTime: 5
 --- !u!1 &1182494361
 GameObject:
   m_ObjectHideFlags: 0
@@ -13955,7 +13968,7 @@ Transform:
   m_GameObject: {fileID: 1229694488}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14309,7 +14322,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 15
 --- !u!114 &1271142739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17148,37 +17161,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514633040}
   m_CullTransparentMesh: 1
---- !u!1 &1514682375
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1514682376}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1514682376
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514682375}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.310295, y: 36.441208, z: -1.1002408}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1515022800
 GameObject:
   m_ObjectHideFlags: 0
@@ -19554,7 +19536,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1785614511}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 128207307}
+        m_TargetAssemblyTypeName: GameEnd_JGD, Assembly-CSharp
+        m_MethodName: Speak_KoreanWord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1785614511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21534,7 +21528,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2062633770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 128207307}
+        m_TargetAssemblyTypeName: GameEnd_JGD, Assembly-CSharp
+        m_MethodName: Speak_Sentence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2062633770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24454,4 +24460,3 @@ SceneRoots:
   - {fileID: 9142686607791919443}
   - {fileID: 1229694489}
   - {fileID: 6939033529475247628}
-  - {fileID: 1514682376}

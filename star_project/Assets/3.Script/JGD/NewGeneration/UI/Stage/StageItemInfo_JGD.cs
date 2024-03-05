@@ -121,6 +121,7 @@ public class StageItemInfo_JGD : MonoBehaviour
 
         for (int i = 0; i < list.Count; i++)
         {
+            
             ObjectNum = int.Parse(list[i][0].Trim());
             Pos_X = float.Parse(list[i][1].Trim());
             Pos_Y = float.Parse(list[i][2].Trim());

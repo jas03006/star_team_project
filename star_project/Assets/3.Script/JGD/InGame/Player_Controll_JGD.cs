@@ -39,6 +39,9 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] private List<Image> Player_Alphabet_progress;
     [SerializeField] private List<Image> Player_Alphabet_BackGround;
     [SerializeField] private Sprite Alphabet_BackGround;
+    [Header("PlayerHitByCar")]
+    private bool isHitOn = true;
+    [SerializeField] private float DamageTime;
     private int Player_Alphabet_Count = 0;
     private void Awake()
     {
@@ -102,7 +105,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 itemManager.Size = (PlayerLevel - 1) * 0.1f + 0.5f;
                 break;
             case Character_ID.Green:
-                itemManager.Heal = (PlayerLevel - 1) * 0.5f + 5f;
+                itemManager.Heal = (PlayerLevel - 1) * 0.005f + 0.05f;
                 break;
         }
 
@@ -119,6 +122,7 @@ public class Player_Controll_JGD : MonoBehaviour
         if (!invincibility && !Shild)
         {
             isMove = false;
+            isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
             if (currentHp <= 0)
@@ -126,7 +130,6 @@ public class Player_Controll_JGD : MonoBehaviour
                 Time.timeScale = 0;
                 AudioManager.instance.SFX_game_over();
                 PlayerDieUI.SetActive(true);
-                StopCoroutine(now_damage_co);
                 if (now_damage_co != null)    //内风凭 静绰 规过
                 {
                     StopCoroutine(now_damage_co);
@@ -135,6 +138,7 @@ public class Player_Controll_JGD : MonoBehaviour
             }
             AudioManager.instance.SFX_hit();
             rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
+            rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             isMove = true;
         }
@@ -434,6 +438,20 @@ public class Player_Controll_JGD : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        {
+            if (isMove)
+            {
+                if (now_damage_co != null)
+                {
+                    StopCoroutine(now_damage_co);
+                }
+                now_damage_co = StartCoroutine(OnDamage(20));
+            }
         }
     }
 }

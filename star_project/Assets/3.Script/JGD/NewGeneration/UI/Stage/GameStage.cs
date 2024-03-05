@@ -35,7 +35,14 @@ public class GameStage : MonoBehaviour
     {
         Time.timeScale = 1;
         LevelSelectMenuManager_JGD.currLevel++;
-        SceneManager.LoadScene("Game");
+        if (LevelSelectMenuManager_JGD.currLevel < 5)
+        {
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            SceneManager.LoadScene("Stage");
+        }
     }
     public void RestartGame()
     {

@@ -33,6 +33,8 @@ public class GameEnd_JGD : MonoBehaviour
     [SerializeField] private TMP_Text Sentence;
     [SerializeField] List<GameObject> Stageword = new List<GameObject>();
     public int StarCount = 0;
+    private List<AudioClip> StageEnd = new List<AudioClip>();
+    private List<AudioClip> WordList = new List<AudioClip>();
 
 
     private void Awake()
@@ -52,8 +54,58 @@ public class GameEnd_JGD : MonoBehaviour
         {
             ClearData.Add(Clearwords[i]);
         }
-        //Time.timeScale = 1.0f;  
-
+        //Time.timeScale = 1.0f;
+        //
+        switch (data.Theme) //나중에 Theme로 바꾸기
+        {
+            case 1:
+                StageEnd = AudioManager.instance.Theme01;
+                break;
+            case 2:
+                StageEnd = AudioManager.instance.Theme02;
+                break;
+            case 3:
+                StageEnd = AudioManager.instance.Theme03;
+                break;
+            case 4:
+                StageEnd = AudioManager.instance.Theme04;
+                break;
+            case 5:
+                StageEnd = AudioManager.instance.Theme05;
+                break;
+            default:
+                break;
+        }
+        switch (data.Stage)
+        {
+            case 1:
+                WordList.Add(StageEnd[0]);
+                WordList.Add(StageEnd[1]);
+                WordList.Add(StageEnd[2]);
+                break;
+            case 2:
+                WordList.Add(StageEnd[3]);
+                WordList.Add(StageEnd[4]);
+                WordList.Add(StageEnd[5]);
+                break;
+            case 3:
+                WordList.Add(StageEnd[6]);
+                WordList.Add(StageEnd[7]);
+                WordList.Add(StageEnd[8]);
+                break;
+            case 4:
+                WordList.Add(StageEnd[9]);
+                WordList.Add(StageEnd[10]);
+                WordList.Add(StageEnd[11]);
+                break;
+            case 5:
+                WordList.Add(StageEnd[12]);
+                WordList.Add(StageEnd[13]);
+                WordList.Add(StageEnd[14]);
+                break;
+            default:
+                break;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -86,7 +138,7 @@ public class GameEnd_JGD : MonoBehaviour
             Star_3.text = $"X {data.Star_3.ToString()}";
             Gold.text = $"+ {Player.PlayerScore * 10} ";
 
-            //별 생성
+            //별 생성 
             PlayerStar[0].sprite = ClearStar;
             MissionClearStar[0].sprite = ClearStar;
             StarCount = 1;
@@ -96,13 +148,13 @@ public class GameEnd_JGD : MonoBehaviour
                 MissionClearStar[1].sprite = ClearStar;
                 StarCount = 2;
             }
-            if (data.Star_3 < Player.PlayerScore)
+            if (data.Star_3 <= Player.PlayerScore)
             {
                 PlayerStar[2].sprite = ClearStar;
                 MissionClearStar[2].sprite = ClearStar;
                 StarCount = 3;
             }
-            if (stage_data.star < StarCount)
+            if (stage_data.star <= StarCount)
             {
                 stage_data.star = StarCount;
             }
@@ -110,6 +162,17 @@ public class GameEnd_JGD : MonoBehaviour
         }
         Data_update();
     }
+
+    //새로운 별 생성 애니메이션
+    public void OneStar()
+    {
+        if (StarCount == 1)
+        {
+            
+        }
+    }
+
+
 
 
     //빠튼
@@ -165,5 +228,28 @@ public class GameEnd_JGD : MonoBehaviour
             Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
         }
     }
-
+    public void Speak_EnglishWord()
+    {
+        if (AudioManager.instance.isPlaying(false))
+        {
+            AudioManager.instance.SFX_AudioSource.clip = WordList[0];
+            AudioManager.instance.SFX_AudioSource.Play();
+        }
+    }
+    public void Speak_KoreanWord()
+    {
+        if (AudioManager.instance.isPlaying(false))
+        {
+            AudioManager.instance.SFX_AudioSource.clip = WordList[1];
+            AudioManager.instance.SFX_AudioSource.Play();
+        }
+    }
+    public void Speak_Sentence()
+    {
+        if (AudioManager.instance.isPlaying(false))
+        {
+            AudioManager.instance.SFX_AudioSource.clip = WordList[2];
+            AudioManager.instance.SFX_AudioSource.Play();
+        }
+    }
 }
