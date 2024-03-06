@@ -11,7 +11,6 @@ public class Character_UI : MonoBehaviour
     [SerializeField] GameObject btn_prefab;
     [SerializeField] GameObject content_zone;
 
-
     private int index_UI;//현재 띄우고 있는 캐릭터 인덱스
     private Character index_character; //현재 띄우고 있는 캐릭터 정보
     private Character cur_character; //데이터에 넣을 캐릭터 정보
@@ -34,20 +33,17 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private Sprite select_border;
     [SerializeField] private Sprite notselect_border;
 
-    void Start()
-    {
-        //List<Character> list = BackendChart_JGD.chartData.character_list;
+    [Header("done pannel")]
+    [SerializeField] private GameObject donepannel;
 
-        //for (int i = 0; i < list.Count; i++)
-        //{
-        //    if (list[i].curlevel >= 1)
-        //    {
-        //        Make_prefab(list[i].sprite,i);
-        //    }
-        //}
-
-        //Setting();
-    }
+    [Header("Levelup")]
+    [SerializeField] private TMP_Text next_hp;
+    [SerializeField] private TMP_Text cur_hp;
+    [SerializeField] private TMP_Text next_level;
+    [SerializeField] private TMP_Text cur_level;
+    [SerializeField] private TMP_Text gold;
+    [SerializeField] private TMP_Text ark;
+    [SerializeField] private TMP_Text basic;
 
     private void OnEnable()
     {
@@ -103,6 +99,7 @@ public class Character_UI : MonoBehaviour
 
         for (int i = 0; i < prefab_btn_list.Count; i++)
         {
+
             if (i == index_UI)
             {
                 prefab_btn_list[i].GetComponent<Image>().sprite = select_border;
@@ -111,12 +108,16 @@ public class Character_UI : MonoBehaviour
             {
                 prefab_btn_list[i].GetComponent<Image>().sprite = notselect_border;
             }
-        }
 
-        foreach (GameObject item in prefab_btn_list)
-        {
-            //if (prefab_btn_list[])
-            //    item.GetComponent<Image>().sprite
+
+            if (i == BackendGameData_JGD.userData.character)
+            {
+                prefab_btn_list[i].transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else
+            {
+                prefab_btn_list[i].transform.GetChild(1).gameObject.SetActive(false);
+            }
         }
     }
 
@@ -196,5 +197,33 @@ public class Character_UI : MonoBehaviour
         }
     }
 
+    #endregion
+    #region levelup
+    private void Enable_levelup_pannel()
+    {
+        Character_amount chartdata = BackendChart_JGD.chartData.Characteramount_list[index_character.curlevel - 1];
+
+        if (BackendChart_JGD.chartData.Characteramount_list.Count == index_character.curlevel)
+        {
+            Colored_text(false, "MAX", gold);
+            Colored_text(false, "MAX", ark);
+        }
+
+        Colored_text(MoneyManager.instance.gold > chartdata.gold, MoneyManager.instance.gold, gold);
+        Colored_text(MoneyManager.instance.ark > chartdata.ark, MoneyManager.instance.ark, ark);
+
+    }
+
+    private void Colored_text(bool bool_, object obj, TMP_Text text)
+    {
+        if (bool_)
+        {
+            text.text = "<color=#FFFFFF>" + obj + "</color>";
+        }
+        else
+        {
+            text.text = "<color=#FF511A>" + obj + "</color>";
+        }
+    }
     #endregion
 }
