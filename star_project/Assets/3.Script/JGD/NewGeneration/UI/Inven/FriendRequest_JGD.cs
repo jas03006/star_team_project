@@ -13,14 +13,12 @@ public class FriendRequest_JGD : MonoBehaviour
     TMP_Text name;
     public int numcount;
 
-
-    
+    [SerializeField] FriendList_JGD friendlist;
     public void GetFriendRequestList()
     {
         //GetReceivedRequestFriend()
         //foreach _requestFriendList
         //
-
         BackendFriend_JDG.Instance.GetReceivedRequestFriend();
         numcount = 0;
         foreach  (Tuple<string, string> request in BackendFriend_JDG.Instance._requestFriendList)
@@ -41,6 +39,10 @@ public class FriendRequest_JGD : MonoBehaviour
                 buttons[0].onClick.AddListener(() => MyFriend(list));
                 buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
                 buttons[1].onClick.AddListener(() => MyFriend(list));
+            }
+            else {
+                buttons[0].onClick.AddListener(() => friendlist.select_element(nickName, BackendFriend_JDG.Instance.get_indate(ind), list));
+                buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
             }
             numcount++;
         }              

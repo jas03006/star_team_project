@@ -38,7 +38,7 @@ public class BackendChart_JGD : MonoBehaviour
         Character("108885");
         Item("110518");
         Character_amount("108882");
-        Mission("109087");
+        Mission("110571");
         StageClearInfo("110517");
         Challenge("109531");
 
@@ -89,7 +89,7 @@ public class BackendChart_JGD : MonoBehaviour
         //차트 내용 저장
         for (int i = 0; i < data.Count; i++)
         {
-            chartData.mission_list.Add(new Mission(data[i],i));
+            chartData.mission_list.Add(new Mission(data[i]));
         }
     }
 
