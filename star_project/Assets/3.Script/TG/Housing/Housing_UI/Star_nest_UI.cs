@@ -41,7 +41,8 @@ public class Star_nest_UI : MonoBehaviour
             "planet_name",
             "info",
             "memo_info",
-            "Housing_Info"};
+            "Housing_Info",
+            "catchingstar_info"};
     string[] save_select = { "profile_background",
             "profile_picture",
             "title_adjective",
@@ -63,6 +64,7 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text intro_text;
     public TMP_Text level_profile_text;
     public Image level_profile_image;
+    public TMP_Text chapter_stage_text;
 
     [Header("Memo UI")]
     public TMP_InputField memo_input;
@@ -78,6 +80,10 @@ public class Star_nest_UI : MonoBehaviour
     public GameObject[] edit_btn_arr;
     public Button save_btn; 
     public GameObject add_friend_btn_ob;
+    public GameObject request_complete_btn_ob;
+    public GameObject delete_friend_btn_ob;
+    public GameObject memo_input_ob;
+    public GameObject friend_only_ob;
     //public GameObject add_friend_button;
 
     [Header("Edit Picture")]
@@ -95,9 +101,12 @@ public class Star_nest_UI : MonoBehaviour
     [Header("Edit Planet Name")]
     public GameObject edit_planet_name_UI;
     public TMP_InputField edit_planet_name_input;
-    
-    
-    
+
+    [Header("Edit Achiv Name")]
+    public GameObject edit_achiv_UI;
+    public TMP_InputField edit_achiv_input;
+
+
     [Header("LevelUP")]
    // public GameObject level_up_button; 
     public GameObject level_up_UI;
@@ -181,28 +190,63 @@ public class Star_nest_UI : MonoBehaviour
         }
     }
     public void load_info(bool is_profile_click = false, string nick_name_ = null) {
+        
+
         if (is_profile_click && (nick_name_ == null || nick_name_ == string.Empty))
         { //내 프로필 클릭인경우
             now_nickname = TCP_Client_Manager.instance.my_player.object_id;
             user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.my_player.object_id, load_select);
             nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;
-            pop_up_button.SetActive(false);           
+           
+
+
+            pop_up_button.SetActive(false);
+
             add_friend_btn_ob.SetActive(false);
+            request_complete_btn_ob.SetActive(false);
+            delete_friend_btn_ob.SetActive(false);
+            memo_input_ob.SetActive(false);
+            friend_only_ob.SetActive(true);
+
+
             show_edit_btn();
         }
         else {
             now_nickname = (nick_name_ == null ? TCP_Client_Manager.instance.now_room_id : nick_name_);
             user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(now_nickname, load_select);
             nickname_text.text = now_nickname;
+
+
             pop_up_button.SetActive(true);
             hide_edit_btn();
 
             if (FriendList_JGD.is_friend(now_nickname))
             {
+                
                 add_friend_btn_ob.SetActive(false);
+                request_complete_btn_ob.SetActive(false);
+                delete_friend_btn_ob.SetActive(true);
+
+                memo_input_ob.SetActive(true);
+                friend_only_ob.SetActive(false);
             }
             else {
-                add_friend_btn_ob.SetActive(true);
+                pop_up_button.SetActive(false);
+                BackendFriend_JDG.GetSentRequestFriend();
+                if (BackendFriend_JDG.is_requested(now_nickname))
+                {
+                    add_friend_btn_ob.SetActive(false);
+                    request_complete_btn_ob.SetActive(true);
+
+                }
+                else {
+                    add_friend_btn_ob.SetActive(true);
+                    request_complete_btn_ob.SetActive(false);
+                }                
+                delete_friend_btn_ob.SetActive(false);
+                memo_input_ob.SetActive(false);
+                friend_only_ob.SetActive(true);
+
             }
         }
 
@@ -282,6 +326,22 @@ public class Star_nest_UI : MonoBehaviour
         is_editing = true;
         update_profile_UI();
     }
+    public void show_edit_achiv_UI()
+    {
+        //TODO: 편집 창에 현재 선택된 업적 표기
+       // edit_planet_name_input.text = planet_name_text.text;
+        edit_achiv_UI.SetActive(false);
+        
+    }
+    public void apply_edit_achiv()
+    {
+        //TODO: 선택된 업적을 프로필 창에 반영
+        //TODO: 업적 선택 현황을 userdata에 반영
+        //TODO: 관련 DB column 을 select에 추가하기
+        
+        is_editing = true;
+        update_profile_UI();
+    }
     public void update_profile_UI() {
         pop_text.text = user_data.popularity.ToString();
         title_text.text = user_data.title_adjective.ToString() + " " + user_data.title_noun.ToString();
@@ -289,6 +349,9 @@ public class Star_nest_UI : MonoBehaviour
         planet_name_text.text = user_data.planet_name;
 
         intro_text.text = user_data.info;
+
+        int[] result = user_data.catchingstar_info.Check_stage_progress();
+        chapter_stage_text.text = "챕터" + result[0] + "\n" + result[1] + "스테이지";
 
         //TODO: 선택 프로필 사진 업데이트 기능
         //TODO: 선택 배경 사진 업데이트 기능
@@ -376,6 +439,18 @@ public class Star_nest_UI : MonoBehaviour
         if (now_nickname !=null && now_nickname != TCP_Client_Manager.instance.my_player.object_id)
         {
             BackendFriend_JDG.Instance.SendFriendRequest(now_nickname);
+            add_friend_btn_ob.SetActive(false);
+            request_complete_btn_ob.SetActive(true);
+        }
+    }
+    public void delete_friend_btn()
+    {
+        if (now_nickname != null && now_nickname != TCP_Client_Manager.instance.my_player.object_id)
+        {
+            Backend.Friend.BreakFriend(FriendList_JGD.friend_dic[now_nickname]);
+            add_friend_btn_ob.SetActive(true);
+            request_complete_btn_ob.SetActive(false);
+            delete_friend_btn_ob.SetActive(false);
         }
     }
 
@@ -516,8 +591,8 @@ public class Star_nest_UI : MonoBehaviour
         memo_go.transform.SetParent(memo_container);
         memo_go.transform.localScale = Vector3.one;
         TMP_Text[] text_arr = memo_go.GetComponentsInChildren<TMP_Text>();
-        text_arr[0].text = uuid_;
-        text_arr[1].text = content_;
+        text_arr[0].text = "<color=#FF9900>" + uuid_+ ":</color>" + content_;
+        text_arr[1].text = text_arr[0].text;
     }
 
     #endregion

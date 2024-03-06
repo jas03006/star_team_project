@@ -1,22 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager_JGD : MonoBehaviour
 {
     [SerializeField] GameObject FriendScreen;
     [SerializeField] GameObject FriendList;
     [SerializeField] GameObject FriendList2;
+    [SerializeField] GameObject FriendRecommnedList;
 
     [SerializeField] GameObject FriendMiniScreen1;
     [SerializeField] GameObject FriendMiniScreen2;
+    [SerializeField] GameObject FriendRecommendMiniScreen;
 
+    [SerializeField] Button friend_list_btn;
+    [SerializeField] Button request_list_btn;
+    [SerializeField] Button recommend_list_btn;
+
+    [SerializeField] Button reject_btn;
+    [SerializeField] Button show_profile_btn;
+    [SerializeField] Button accept_btn;
+
+    [SerializeField] TMP_InputField friend_request_input;
 
     public void OpenFriend()
     {
         FriendScreen.SetActive(true);
         FriendminiscreenOpen();
+        friend_request_input.text = "";
         //BackendFriend_JDG.Instance.GetFriendList();
     }
     public void CloseFriend()
@@ -37,14 +51,55 @@ public class UIManager_JGD : MonoBehaviour
     }
     public void RequestMiniScene()
     {
+        friend_list_btn.interactable = true;
+        request_list_btn.interactable = false;
+        recommend_list_btn.interactable = true;
+
         FriendMiniScreen1.SetActive(false);
         FriendMiniScreen2.SetActive(true);
+        FriendRecommendMiniScreen.SetActive(false);
+
+        reject_btn.gameObject.SetActive(true);
+        accept_btn.gameObject.SetActive(true);
+        reject_btn.interactable = false;
+        accept_btn.interactable = false;
     }
 
     public void FriendminiscreenOpen()
     {
+        friend_list_btn.interactable = false;
+        request_list_btn.interactable = true;
+        recommend_list_btn.interactable = true;
+
         FriendMiniScreen1.SetActive(true);
         FriendMiniScreen2.SetActive(false);
-    }
+        FriendRecommendMiniScreen.SetActive(false);
 
+        reject_btn.gameObject.SetActive(false);
+        accept_btn.gameObject.SetActive(false);
+    }
+    public void RecommendminiscreenOpen()
+    {
+        friend_list_btn.interactable = true;
+        request_list_btn.interactable = true;
+        recommend_list_btn.interactable = false;
+
+        FriendMiniScreen1.SetActive(false);
+        FriendMiniScreen2.SetActive(false);
+        FriendRecommendMiniScreen.SetActive(true);
+
+        reject_btn.gameObject.SetActive(false);
+        accept_btn.gameObject.SetActive(false);
+    }
+    public void activate_btn_after_select() {
+        reject_btn.interactable = true;
+        accept_btn.interactable = true;
+        show_profile_btn.interactable = true;
+    }
+    public void deactivate_btn_after_unselect()
+    {
+        reject_btn.interactable = false;
+        accept_btn.interactable = false;
+        show_profile_btn.interactable = false;
+    }
 }

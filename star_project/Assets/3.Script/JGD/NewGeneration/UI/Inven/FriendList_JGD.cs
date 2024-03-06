@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class FriendList_JGD : MonoBehaviour
 {
+    public UIManager_JGD uimanager;
     public Star_nest_UI star_nest_UI;
 
     [SerializeField] private GameObject Friend;
@@ -16,10 +17,24 @@ public class FriendList_JGD : MonoBehaviour
 
     [SerializeField] private GameObject Recommend_Friend_prefab;
     [SerializeField] private GameObject recommend_location;
+
+    [Header("airship")]
+    [SerializeField] private GameObject check_join_go;
+    [SerializeField] private TMP_Text check_join_text;
+    [SerializeField] private GameObject check_invite_go;
+    [SerializeField] private TMP_Text check_invite_text;
+    [SerializeField] private GameObject invite_result_go;
+    [SerializeField] private TMP_Text invite_result_text;
+
+
+
     TMP_Text name;
 
+    private GameObject select_profile_go = null;
+    private string select_nickname = string.Empty;
+    private string select_indate = string.Empty;
 
-    private static Dictionary<string,string> friend_dic = new Dictionary<string,string>();
+    public static Dictionary<string,string> friend_dic = new Dictionary<string,string>();
     private void Start()
     {
         
@@ -47,20 +62,34 @@ public class FriendList_JGD : MonoBehaviour
             name.text = nickName;
             Button[] buttons = list.GetComponentsInChildren<Button>();
             if (is_airship) {
-                buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
-                buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
-                buttons[0].onClick.AddListener(() => hide_airchip_UI());
+                if (buttons.Length >= 2)
+                {
+                    buttons[0].onClick.AddListener(() => TCP_Client_Manager.instance.join(nickName));
+                    buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                    buttons[0].onClick.AddListener(() => hide_airchip_UI());
 
-                buttons[1].onClick.AddListener(() => TCP_Client_Manager.instance.invite(nickName));
-                buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                    buttons[1].onClick.AddListener(() => TCP_Client_Manager.instance.invite(nickName));
+                    buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                }
+                else {
+                    buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                    buttons[0].onClick.AddListener(() => select_element(nickName, inDate));
+                }
 
             }
             else  {
-                buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
-                buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                if (buttons.Length>=2) {
+                    buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
+                    buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
 
-                buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
-                buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                    buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
+                    buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                }else
+                {
+                    buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                    buttons[0].onClick.AddListener(() => select_element(nickName, inDate));
+                }
+
 
             }
             friend_dic[nickName] = inDate;
@@ -133,6 +162,8 @@ public class FriendList_JGD : MonoBehaviour
     }
     public void show_recommend_friends() {
         ClearRecommendList();
+        BackendFriend_JDG.GetSentRequestFriend();
+       
         BackendReturnObject bro = Backend.GameData.Get("USER_DATA", new Where(),100);
 
 
@@ -173,14 +204,25 @@ public class FriendList_JGD : MonoBehaviour
                             buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
                             buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
 
-                            buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
-                            buttons[1].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
-                            buttons[1].onClick.AddListener(() => off_friend_request(buttons[1])
-                            //Destroy(list)
-                            ); ;
+                            if (BackendFriend_JDG.is_requested(nickName))
+                            {
+                                buttons[1].interactable = false;
+                                buttons[1].GetComponentInChildren<TMP_Text>().text = "요청 완료";
+                            }
+                            else
+                            {
+                                buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                                buttons[1].onClick.AddListener(() => Backend.Friend.RequestFriend(inDate));
+                                buttons[1].onClick.AddListener(() => BackendFriend_JDG._sentRequestList.Add(nickName));
+                                buttons[1].onClick.AddListener(() => off_friend_request(buttons[1]));
+                            }
 
                             //  buttons[1].onClick.AddListener(() => BackendFriend_JDG.Instance.reject_friend_request(ind));
                             //  buttons[1].onClick.AddListener(() => MyFriend(list));
+                        }
+                        else {
+                            buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
+                            buttons[0].onClick.AddListener(() => select_element(nickName, inDate));
                         }
                         numcount++;
                     } catch {
@@ -201,5 +243,90 @@ public class FriendList_JGD : MonoBehaviour
         } catch {
         }        
     }
-  
+    public void init_selections() {
+        select_nickname = string.Empty;
+        select_indate = string.Empty;
+        select_profile_go = null;
+        if (uimanager != null)
+        {
+            uimanager.deactivate_btn_after_unselect();
+        }
+    }
+
+    public void select_element(string nickName, string indate, GameObject go = null) {
+        select_nickname = nickName;
+        select_indate = indate;
+        select_profile_go = go;
+        if (uimanager !=null) {
+            uimanager.activate_btn_after_select();
+        }       
+    }
+
+    public void show_profile() {
+        if (select_indate != string.Empty)
+        {
+            star_nest_UI.show_UI(true, select_nickname);
+            init_selections();
+        }
+    }
+
+    public void accept_friend() {
+        if (select_indate != string.Empty) {
+            Backend.Friend.AcceptFriend(select_indate);
+        }
+        
+        if (select_profile_go != null) {
+            Destroy(select_profile_go);
+            init_selections();
+        }
+        
+    }
+    public void reject_friend()
+    {
+        if (select_indate != string.Empty)
+        {
+            Backend.Friend.RejectFriend(select_indate);
+        }
+        if (select_profile_go != null)
+        {
+            Destroy(select_profile_go);
+            init_selections();
+        }
+        
+    }
+
+
+
+    public void invite_friend()
+    {
+        if (select_nickname != string.Empty)
+        {
+            TCP_Client_Manager.instance.invite(select_nickname);
+        }
+    }
+    public void join_friend()
+    {
+        if (select_nickname != string.Empty)
+        {
+            TCP_Client_Manager.instance.join(select_nickname);
+            init_selections();
+            hide_airchip_UI();
+        }
+    }
+
+    public void show_check_join() {
+        check_join_go.SetActive(true);
+        check_join_text.text = "<color=white><"+select_nickname+"></color>님의 \r\n행성으로 이동할까요?";
+    }
+
+    public void show_check_invite()
+    {
+        check_invite_go.SetActive(true);
+        check_invite_text.text = "<color=white><" + select_nickname + "></color>님을 \r\n내 행성으로 초대할까요?";
+    }
+    public void show_invite_result()
+    {
+        invite_result_go.SetActive(true);
+       // invite_result_text.text = "친구에게 초대장이 발송됐어요!";
+    }
 }
