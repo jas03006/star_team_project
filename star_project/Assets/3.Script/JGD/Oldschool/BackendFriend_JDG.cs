@@ -28,12 +28,15 @@ public class BackendFriend_JDG : MonoBehaviour
             instance = this;
         }
         else {
-            Destroy(this);   
+            Destroy(this);
+            return;
         }
+        GetSentRequestFriend();
     }
 
 
     public List<Tuple<string, string>> _requestFriendList = new List<Tuple<string, string>>();
+    public static List<string> _sentRequestList = new List<string>();
 
     public void SendFriendRequest(string nickName)
     {
@@ -58,8 +61,13 @@ public class BackendFriend_JDG : MonoBehaviour
             return;
         }
         Debug.Log("친구 요청에 성공했습니다." + friendBro);
+        _sentRequestList.Add(nickName);
     }
 
+    public static bool is_requested(string nickname) { 
+        return _sentRequestList.Contains(nickname);
+    }
+    
     public void GetReceivedRequestFriend()
     {
         //친구요청 불러오기
@@ -91,6 +99,19 @@ public class BackendFriend_JDG : MonoBehaviour
             index++;
         }
 
+    }
+    public string get_indate(int index) {
+        if (_requestFriendList.Count <= 0)
+        {
+            Debug.LogError("요청이 온 친구가 존재하지 않습니다.");
+            return "";
+        }
+        if (index >= _requestFriendList.Capacity)
+        {
+            Debug.LogError($"요청한 친구 요청 리스트의 범위를 벗어났습니다.선택 : {index} / 리스트 최대 : {_requestFriendList.Count}");
+            return "";
+        }
+        return _requestFriendList[index].Item2;
     }
     public void reject_friend_request(int index) {
         //친구요청 rjwjf하기 
@@ -175,6 +196,38 @@ public class BackendFriend_JDG : MonoBehaviour
         //Debug.Log(friendListString);
 
     }
+    public static void GetSentRequestFriend()
+    {
+        
+        //보낸 친구요청 불러오기
+        var bro = Backend.Friend.GetSentRequestList();
 
+        if (bro.IsSuccess() == false)
+        {
+            Debug.Log("친구 요청 보낸 리스트를 불러오는 중 에러가 발생했습니다.");
+            return;
+        }
+        if (bro.FlattenRows().Count <= 0)
+        {
+            _sentRequestList.Clear();
+            Debug.LogError("친구 요청이 온 내역이 존재하지 않습니다.");
+            return;
+        }
+        Debug.Log("친구 요청 보낸 리스트 불러오기에 성공했습니다." + bro);
+
+        int index = 0;
+        _sentRequestList.Clear();
+        foreach (LitJson.JsonData friendJson in bro.FlattenRows())
+        {
+            string nickName = friendJson["nickname"]?.ToString();
+            string inDate = friendJson["inDate"].ToString();
+
+            _sentRequestList.Add(nickName);
+
+            //Debug.Log($"{index}. {nickName} - {inDate}");
+            index++;
+        }
+
+    }
 
 }

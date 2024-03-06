@@ -298,6 +298,9 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public void join(string room_id_)
     {
+        if (now_room_id == room_id_) {
+            return;
+        }
         target_room_id = room_id_;
         if (!SceneManager.GetActiveScene().name.Equals(planet_scene_name))
         {            
@@ -476,7 +479,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (room_id_ == "-" ) {
             return;
         }
-        invite_text.text = $"{room_id_}님이 마이플래닛으로 초대하였습니다!";
+        invite_text.text = $"<color=white><{room_id_}></color>님의 \n초대장이 도착했습니다\n행성으로 이동할까요?";
 
         invite_agree_button.onClick.RemoveAllListeners();
         invite_agree_button.onClick.AddListener(delegate { join(room_id_);});
