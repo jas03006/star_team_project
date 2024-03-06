@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class Character_UI : MonoBehaviour
 {
-    [SerializeField] int child_cnt;
-
-    [SerializeField] Scrollbar scrollbar;
+    List<GameObject> prefab_btn_list = new List<GameObject>();
 
     [Header("btn_prefab")]
     [SerializeField] GameObject btn_prefab;
@@ -22,11 +20,19 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text character_name;
     [SerializeField] private TMP_Text level;
-    [SerializeField] private TMP_Text is_equip;
     [SerializeField] private Button is_equip_btn;
+    [SerializeField] private Button levelup_btn;
     [SerializeField] private TMP_Text HP;
     [SerializeField] private TMP_Text special; //특수 능력
     [SerializeField] private TMP_Text unique; //고유 능력
+
+    [Header("sprite")]
+    [SerializeField] private Sprite equip_btn_O;
+    [SerializeField] private Sprite equip_btn_X;
+    [SerializeField] private Sprite levelup_O;
+    [SerializeField] private Sprite levelup_X;
+    [SerializeField] private Sprite select_border;
+    [SerializeField] private Sprite notselect_border;
 
     void Start()
     {
@@ -69,39 +75,84 @@ public class Character_UI : MonoBehaviour
         index_character = BackendChart_JGD.chartData.character_list[0];
         cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
         Update_UI();
+
         index_UI = 0;
     }
 
     private void Update_UI()
     {
         image.sprite = SpriteManager.instance.Num2Sprite(index_character.sprite);
+
         character_name.text = index_character.character_name;
-        level.text = $"레벨 : {index_character.curlevel}";
-        HP.text = $"HP : {100 + ((index_character.curlevel - 1) * 10)}";
+        level.text = index_character.curlevel.ToString();
+        HP.text = (100 + ((index_character.curlevel - 1) * 10)).ToString();
         special.text = index_character.special;
         unique.text = index_character.unique;
+
+
+        if (cur_character.curlevel >= cur_character.maxlevel)
+        {
+            Update_btn(false, levelup_btn, levelup_O, levelup_X);
+        }
+        else
+        {
+            Update_btn(true, levelup_btn, levelup_O, levelup_X);
+        }
+
         Update_is_equip();
+
+        for (int i = 0; i < prefab_btn_list.Count; i++)
+        {
+            if (i == index_UI)
+            {
+                prefab_btn_list[i].GetComponent<Image>().sprite = select_border;
+            }
+            else
+            {
+                prefab_btn_list[i].GetComponent<Image>().sprite = notselect_border;
+            }
+        }
+
+        foreach (GameObject item in prefab_btn_list)
+        {
+            //if (prefab_btn_list[])
+            //    item.GetComponent<Image>().sprite
+        }
     }
 
     private void Update_is_equip()
     {
         if (index_character == cur_character)
         {
-            is_equip.text = "장착 완료";
-            is_equip_btn.interactable = false;
+            Update_btn(false, is_equip_btn, equip_btn_O, equip_btn_X);
         }
         else
         {
-            is_equip.text = "장착하기";
-            is_equip_btn.interactable = true;
+            Update_btn(true, is_equip_btn, equip_btn_O, equip_btn_X);
         }
 
     }
 
+    private void Update_btn(bool bool_, Button btn, Sprite O, Sprite X)
+    {
+        if (bool_)
+        {
+            btn.interactable = true;
+            btn.gameObject.GetComponent<Image>().sprite = O;
+        }
+
+        else
+        {
+            btn.interactable = false;
+            btn.gameObject.GetComponent<Image>().sprite = X;
+        }
+    }
+
     private void Make_prefab(int sprite, int index)
     {
-        GameObject newobj = Instantiate(btn_prefab);
-        newobj.transform.SetParent(content_zone.transform, false);
+        GameObject newobj = Instantiate(btn_prefab, content_zone.transform);
+        prefab_btn_list.Add(newobj);
+        //newobj.transform.SetParent(content_zone.transform, false);
 
         Button button = newobj.GetComponent<Button>();
 
@@ -114,17 +165,6 @@ public class Character_UI : MonoBehaviour
     }
 
     #region btn
-    public void click_scroll_btn(bool is_right)
-    {
-        if (is_right)
-        {
-            scrollbar.value += 1f / (float)(child_cnt - 10);
-        }
-        else
-        {
-            scrollbar.value -= 1f / (float)(child_cnt - 10);
-        }
-    }
 
     public void Set_cur_character_btn(int num)
     {
