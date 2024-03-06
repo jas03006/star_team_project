@@ -53,6 +53,7 @@ public class UserData
     public Memo_info memo_info = new Memo_info();
     public Catchingstar_info catchingstar_info = new Catchingstar_info();
     public Shop_info shop_info = new Shop_info();
+    public Quest_info_YG quest_Info = new Quest_info_YG();
 
     //profile
     public int profile_background = 0;
@@ -225,12 +226,16 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.ruby = 1000;
             userData.ark = 1000;
 
-            //퀘스트 정보
-            //for (int i = 0; i < 9; i++)
-            //{
-            //    userData.mission_Userdatas.Add(new Mission_userdata());
-            //}
+            //미션 정보(전)
+            for (int i = 0; i < 9; i++)
+            {
+                userData.mission_Userdatas.Add(new Mission_userdata());
+            }
 
+            //퀘스트 정보(후)
+            userData.quest_Info.Init_info_data();
+
+            //업적 정보(전)
             for (int i = 0; i < 9; i++)
             {
                 userData.challenge_Userdatas.Add(new Challenge_userdata());
@@ -272,6 +277,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("character_info", userData.character_info);   //캐릭터 데이터
         param.Add("catchingstar_info", userData.catchingstar_info);
         param.Add("shop_info", userData.shop_info);
+        param.Add("quest_Info", userData.quest_Info);
 
         param.Add("profile_background", userData.profile_background);
         param.Add("profile_picture", userData.profile_picture);
@@ -334,6 +340,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.catchingstar_info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
                 userData.shop_info = new Shop_info(gameDataJson[0]["shop_info"]);
+                userData.quest_Info = new Quest_info_YG(gameDataJson[0]["quest_Info"]);
 
                 foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
                 {
@@ -481,6 +488,7 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("House_Item_ID_List", userData.House_Item_ID_List);
         //param.Add("Market_ID_List", userData.Market_ID_List);/////////////////////////////////////////////////////////////////
         param.Add("StageInfo_List", userData.StageInfo_List);
+        param.Add("quest_Info", userData.quest_Info);
         param.Add("Housing_Info", userData.housing_Info);
         param.Add("shop_info", userData.shop_info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);

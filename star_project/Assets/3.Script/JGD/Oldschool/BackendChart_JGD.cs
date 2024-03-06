@@ -89,7 +89,7 @@ public class BackendChart_JGD : MonoBehaviour
         //차트 내용 저장
         for (int i = 0; i < data.Count; i++)
         {
-            chartData.mission_list.Add(new Mission(data[i],i));
+            chartData.mission_list.Add(new Mission(data[i]));
         }
     }
 
