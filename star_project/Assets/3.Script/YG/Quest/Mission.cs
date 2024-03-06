@@ -101,7 +101,8 @@ public class Mission : Quest
 {
     //차트
     public int mission_id;
-    public MissionType type;
+    public MissionType mission_type;
+    public CriterionType criterion_type;
     public DateTime reset_time;
     public int reward_ark;
     public int reward_gold;
@@ -112,7 +113,8 @@ public class Mission : Quest
     public Mission(JsonData jsonData)
     {
         mission_id = int.Parse(jsonData["mission_id"].ToString());
-        type = (MissionType)int.Parse(jsonData["type"].ToString());
+        mission_type = (MissionType)int.Parse(jsonData["type"].ToString());
+        criterion_type = (CriterionType)int.Parse(jsonData["type"].ToString());
 
         goal = int.Parse(jsonData["goal"].ToString());
         reward_ark = int.Parse(jsonData["reward_ark"].ToString());
@@ -143,7 +145,7 @@ public class Mission : Quest
     private void Reset_mission()
     {
         TimeSpan difference = DateTime.Now.Date.Subtract(reset_time.Date);
-        switch (type)
+        switch (mission_type)
         {
             case MissionType.daily:
                 if (difference.Days >= 1 || (DateTime.Now.Hour == 0 && DateTime.Now.Minute == 0)) //현재 - 초기화일자가 1일 이상 || 자정 12시 
@@ -248,6 +250,7 @@ public class Mission_userdata
 {
     public int mission_id;
     public MissionType mission_type;
+    public CriterionType criterion_type;
 
     public DateTime reset_time;
 
@@ -276,7 +279,8 @@ public class Mission_userdata
     public Mission_userdata(JsonData jsonData)
     {
         mission_id = int.Parse(jsonData["mission_id"].ToString());
-        mission_type = (MissionType)int.Parse(jsonData["mission_id"].ToString());
+        mission_type = (MissionType)int.Parse(jsonData["mission_type"].ToString());
+        criterion_type = (CriterionType)int.Parse(jsonData["criterion_type"].ToString());
 
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         is_accept = bool.Parse(jsonData["is_accept"].ToString());
@@ -301,6 +305,7 @@ public class Mission_userdata
     public Mission_userdata(MissionType type)
     {
         mission_type = type;
+        criterion_type = CriterionType.none;
 
         is_clear = false;
         is_accept = false;
@@ -316,7 +321,7 @@ public class Mission_userdata
     {
         //데이터에 넣기
         Param param = new Param();
-        param.Add("mission_Userdatas", BackendGameData_JGD.userData.mission_Userdatas);
+        param.Add("quest_Info", BackendGameData_JGD.userData.quest_Info);
 
         BackendReturnObject bro = null;
 

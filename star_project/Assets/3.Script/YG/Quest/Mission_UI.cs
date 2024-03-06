@@ -11,7 +11,7 @@ public enum mission_state
     month
 }
 
-public class MissionManager : MonoBehaviour
+public class Mission_UI : MonoBehaviour
 {
     mission_state state
     {
@@ -22,10 +22,13 @@ public class MissionManager : MonoBehaviour
             Reset_btn();
         }
     }
+
     private mission_state state_;
+
     List<Mission> missions_daily = new List<Mission>();
     List<Mission> missions_week = new List<Mission>();
     List<Mission> missions_month = new List<Mission>();
+
     Mission cur_mission;
 
     [Header("Left_UI")]
@@ -46,13 +49,11 @@ public class MissionManager : MonoBehaviour
         Reset_btn();
     }
 
-    private void Setting()//미션 데이터 불러오기
+    private void Setting()
     {
-        List<Mission> missions = BackendChart_JGD.chartData.mission_list;
-
-        foreach (var mission in missions)
+        foreach (Mission mission in MissionManager_.instance.missions)
         {
-            switch (mission.type)
+            switch (mission.mission_type)
             {
                 case MissionType.daily:
                     missions_daily.Add(mission);
@@ -127,10 +128,12 @@ public class MissionManager : MonoBehaviour
         Debug.Log(index);
         UI_updateL();
     }
-    //public void Accept_btn() //수락버튼 클릭 시 호출
-    //{
-    //    cur_mission.userdata.is_accept = true;
-    //}
+
+    public void Accept_btn() //수락버튼 클릭 시 호출
+    {
+        MissionManager_.instance.Mission2data(cur_mission).is_accept = true;
+        MissionManager_.instance.cur_missiontypes.Add(cur_mission.criterion_type);
+    }
 
     //public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
     //{
