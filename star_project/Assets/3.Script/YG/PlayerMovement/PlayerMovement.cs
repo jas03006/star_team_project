@@ -23,6 +23,9 @@ public class PlayerMovement : Player_Network_TG
     public TMP_Text title_tag;
     public TMP_Text name_tag;
 
+    [SerializeField] private GameObject emozi_box;
+    [SerializeField] private Image emozi_image;
+    
     Tween now_tween = null;
     private void OnEnable()
     {
@@ -265,5 +268,18 @@ public class PlayerMovement : Player_Network_TG
         }
 
         return waypoints;
+    }
+
+    public void show_emozi_net(int id_) {
+        show_emozi(id_);
+    }
+    public void show_emozi(int id_) {
+        StartCoroutine(show_emozi_co(id_));
+    }
+    public IEnumerator show_emozi_co(int id_) {
+        emozi_box.SetActive(true);
+        emozi_image.sprite = SpriteManager.instance.Num2emozi(id_);
+        yield return new WaitForSeconds(1);
+        emozi_box.SetActive(false);
     }
 }

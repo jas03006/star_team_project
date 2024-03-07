@@ -26,7 +26,8 @@ public enum command_flag
     update = 5, // 건물 상태 업데이트
     chat = 6, //채팅 전송
     interact = 7, //채팅 전송
-    invite = 8 //초대
+    invite = 8, //초대
+    emo = 9 //이모티콘 사용
 }
 
 // 현재
@@ -67,6 +68,7 @@ public class TCP_Client_Manager : MonoBehaviour
 
     public Housing_UI_Manager housing_ui_manager;
     [SerializeField] private ChatBoxManager chat_box_manager;
+    [SerializeField] private EmoziBoxManager emozi_box_manager;
 
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private TMP_Text invite_text;
@@ -109,6 +111,7 @@ public class TCP_Client_Manager : MonoBehaviour
             housing_ui_manager = FindObjectOfType<Housing_UI_Manager>();
             camera_my_planet = FindObjectOfType<Camera_My_Planet>();
             chat_box_manager.hide_chat();
+            emozi_box_manager.hide_box();
 
             myplanet_text = GameObject.FindGameObjectWithTag("myplanet_UI")?.GetComponent<TMP_Text>();
         }
@@ -278,7 +281,15 @@ public class TCP_Client_Manager : MonoBehaviour
                     if (cmd_arr[2] == my_player.object_id) {
                         show_invite_UI(cmd_arr[1]);
                     }                
-                break;
+                    break;
+                case command_flag.emo:
+                    host_id = cmd_arr[1];
+                    uuid_ = cmd_arr[2];
+                    if (host_id == now_room_id && uuid_ != my_player.object_id)
+                    {
+                        (net_mov_obj_dict[uuid_] as PlayerMovement).show_emozi(int.Parse(cmd_arr[3]));
+                    }
+                    break;
             default:
                     break;
             }
@@ -471,7 +482,10 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         return false;
     }
-
+    public bool send_emo_request(int emozi_id)
+    {
+        return sending_Message($"{(int)command_flag.emo} {now_room_id} {my_player.object_id} {emozi_id}");
+    }
     #endregion
 
     #region UI
