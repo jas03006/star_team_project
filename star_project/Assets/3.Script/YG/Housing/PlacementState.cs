@@ -54,12 +54,16 @@ public class PlacementState : IBuildingState
     {
         if (!is_init && !TCP_Client_Manager.instance.housing_ui_manager.can_use(id))
         {
+            TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
             return;
         }
 
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
         if (placementValidity == false)
+        {
+            TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
             return;
+        }
 
         int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), this);
 

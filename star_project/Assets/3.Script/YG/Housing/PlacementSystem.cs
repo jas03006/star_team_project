@@ -174,8 +174,6 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceStructure()
     {
-        TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
-
         if (InputManager.IsPointerOverUI())
         {
             Debug.Log("cancel placement");
@@ -184,13 +182,17 @@ public class PlacementSystem : MonoBehaviour
         }
 
         Vector3 mousePosition = inputManager.GetSelectedPosition();
+        
+
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
         //Debug.Log($"mousePosition: {mousePosition} /gridPosition: {gridPosition} ");
 
         buildingState?.OnAction(gridPosition);
+        TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
     }
 
     public bool cancel_placement() {
+        TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
         if (buildingState == null)
             return false;
         buildingState.EndState();

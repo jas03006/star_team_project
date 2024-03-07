@@ -255,7 +255,7 @@ public class Housing_UI_Manager : MonoBehaviour
         edit_UI.gameObject.SetActive(true);
         now_focus_ob = ob;
         //TCP_Client_Manager.instance.placement_system.StartPlacement((int)ob.object_enum);
-        delete_action = delegate(){ TCP_Client_Manager.instance.placement_system.remove(ob);  };
+        //delete_action = delegate(){ TCP_Client_Manager.instance.placement_system.remove(ob);  };
 
         if (edit_show_co!=null) {
             StopCoroutine(edit_show_co);
@@ -269,11 +269,14 @@ public class Housing_UI_Manager : MonoBehaviour
             edit_show_co = null;
         }
         now_focus_ob = null;        
-        delete_action = null;
+        //delete_action = null;
         edit_UI.gameObject.SetActive(false);
     }
     public void click_delete_btn() {
-        delete_action?.Invoke();
+        if (now_focus_ob != null) {
+            TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
+        }
+        //delete_action?.Invoke();
         hide_edit_UI();
     }
 
@@ -297,8 +300,8 @@ public class Housing_UI_Manager : MonoBehaviour
 
     public IEnumerator show_edit_UI_co() { 
         while(now_focus_ob != null) {
-            ui_distance = Camera.main.orthographicSize * 1.8f;
-            edit_UI.position = Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) + Vector3.up* (Camera.main.orthographicSize * 12f);
+            ui_distance =100f- 192f / Camera.main.orthographicSize;
+            edit_UI.position = Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) + Vector3.up* (192f / Camera.main.orthographicSize);
             yield return null;         
         }
     }

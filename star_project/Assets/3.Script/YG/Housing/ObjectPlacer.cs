@@ -17,7 +17,7 @@ public class ObjectPlacer : MonoBehaviour
         //오브젝트 설치
         GameObject newobject = Instantiate(prefab);
 
-        TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob = newobject.GetComponent<Net_Housing_Object>();
+        TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob =newobject.GetComponent<Net_Housing_Object>();
         if (ps.id==housing_itemID.ark_cylinder) {
             Harvesting hob = newobject.GetComponent<Harvesting>();
             if (hob != null)
