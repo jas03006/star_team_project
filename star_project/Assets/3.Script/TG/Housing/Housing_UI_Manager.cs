@@ -36,6 +36,8 @@ public class Housing_UI_Manager : MonoBehaviour
     public LayerMask edit_mode_mask;
 
     public bool is_edit_mode = false;
+    public bool is_move = false;
+    public float ui_distance=0f;
     float child_cnt = 1f;
     // Start is called before the first frame update
     void Start()
@@ -275,9 +277,28 @@ public class Housing_UI_Manager : MonoBehaviour
         hide_edit_UI();
     }
 
+    public void click_down_move_btn() {
+        if (is_move) {
+            return;
+        }
+        is_move = true;
+        TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
+        TCP_Client_Manager.instance.placement_system.StartPlacement((int)now_focus_ob.object_enum);
+    }
+
+    public void click_up_move_btn()
+    {
+        if (!is_move)
+        {
+            return;
+        }
+        is_move = false;
+    }
+
     public IEnumerator show_edit_UI_co() { 
-        while(now_focus_ob != null) { 
-            edit_UI.position =  Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) - Vector3.up*(12f+Camera.main.orthographicSize*1.8f);
+        while(now_focus_ob != null) {
+            ui_distance = Camera.main.orthographicSize * 1.8f;
+            edit_UI.position = Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) + Vector3.up* (Camera.main.orthographicSize * 12f);
             yield return null;         
         }
     }

@@ -29,6 +29,7 @@ public class PreviewSystem : MonoBehaviour
     public void StartShowingPlacementPreview(GameObject prefab, Vector2Int size)
     {
         previewObject = Instantiate(prefab);
+        TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob = previewObject.GetComponent<Net_Housing_Object>();
         PreparePreview(previewObject);
         PrepareCursor(size);
         cellindicator.SetActive(true);
@@ -62,7 +63,10 @@ public class PreviewSystem : MonoBehaviour
     {
         cellindicator.SetActive(false);
         if (previewObject != null)
-            Destroy(previewObject);
+        {
+            TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob = null;
+            Destroy(previewObject);            
+        }
     }
 
     public void UpdatePostition(Vector3 postition, bool validity)
