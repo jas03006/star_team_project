@@ -236,14 +236,14 @@ public class Mission : Quest
 public enum CriterionType
 {
     none = -1,
-    stage_clear,//스테이지 클리어 횟수
-    proxy_harvesting, //대리수확 횟수
-    redstar,//스테이지 별 획득 횟수
-    galaxy_clear, //은하 클리어 횟수
-    character_levelup, //캐릭터 레벨업 횟수
-    alphabet, //알파벳 완성횟수(= 하우징오브젝트 획득)
-    starnest,//별둥지 업그레이드 횟수
-    friend //친구 인원 수
+    stage_clear = 0,//스테이지 클리어 횟수
+    proxy_harvesting = 1, //대리수확 횟수
+    redstar = 2,//스테이지 별 획득 횟수
+    galaxy_clear = 3, //은하 클리어 횟수
+    character_levelup = 4, //캐릭터 레벨업 횟수
+    alphabet = 5, //알파벳 완성횟수(= 하우징오브젝트 획득)
+    starnest = 6,//별둥지 업그레이드 횟수
+    friend = 7 //친구 인원 수
 }
 
 public class Mission_userdata
