@@ -93,7 +93,7 @@ public class Player_Controll_JGD : MonoBehaviour
         switch (cur_character.character_ID)
         {
             case Character_ID.Yellow:
-                itemManager.Megnet = (PlayerLevel - 1) * 0.1f + 0.5f; 
+                itemManager.Megnetnum = (PlayerLevel - 1) * 0.1f + 0.5f; 
                 break;
             case Character_ID.Red:
                 itemManager.SpeedUP = (PlayerLevel - 1) * 0.1f + 0.5f;

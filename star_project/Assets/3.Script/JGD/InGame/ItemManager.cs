@@ -11,7 +11,7 @@ public class ItemManager : MonoBehaviour
 
     [SerializeField] GameObject Magnet;
 
-    public float Megnet = 0;
+    public float Megnetnum = 0;
     public float SpeedUP = 0;
     public float Size = 0;
     public float Heal = 0;
@@ -89,7 +89,7 @@ public class ItemManager : MonoBehaviour
         data = BackendChart_JGD.chartData.item_list[(int)item_ID.Megnet];
         Magnet.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(data.duration+ Megnet);
+        yield return new WaitForSecondsRealtime(data.duration+ Megnetnum);
 
         Magnet.SetActive(false);
 
