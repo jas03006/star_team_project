@@ -42,7 +42,9 @@ public class Star_nest_UI : MonoBehaviour
             "info",
             "memo_info",
             "Housing_Info",
-            "catchingstar_info"};
+            "catchingstar_info",
+    "emozi_List",
+    "background_List"};
     string[] save_select = { "profile_background",
             "profile_picture",
             "title_adjective",
@@ -57,6 +59,7 @@ public class Star_nest_UI : MonoBehaviour
     public GameObject cancel_check_UI_ob;
 
     public Image character_image;
+    public Image background_image;
     public TMP_Text pop_text;
     public TMP_Text title_text;
     public TMP_Text nickname_text;
@@ -68,7 +71,7 @@ public class Star_nest_UI : MonoBehaviour
 
     [Header("Memo UI")]
     public TMP_InputField memo_input;
-    
+
     public Transform memo_container;
     public GameObject memo_prefab;
 
@@ -78,7 +81,7 @@ public class Star_nest_UI : MonoBehaviour
 
     [Header("Dependent UI")]
     public GameObject[] edit_btn_arr;
-    public Button save_btn; 
+    public Button save_btn;
     public GameObject add_friend_btn_ob;
     public GameObject request_complete_btn_ob;
     public GameObject delete_friend_btn_ob;
@@ -88,12 +91,20 @@ public class Star_nest_UI : MonoBehaviour
 
     [Header("Edit Picture")]
     public GameObject edit_picture_UI;
+    public Button emozi_btn;
+    public Button bg_btn;
+    [SerializeField] private GameObject emozi_list_view;
+    [SerializeField] private Transform emozi_list_container;
+    [SerializeField] private GameObject emozi_element_prefab;
+    [SerializeField] private GameObject bg_list_view;
+    [SerializeField] private Transform bg_list_container;
+    [SerializeField] private GameObject bg_element_prefab;
 
     [Header("Edit Title")]
     public GameObject edit_title_UI;
     public TMP_Dropdown edit_title_adjective;
     public TMP_Dropdown edit_title_noun;
-    
+
     [Header("Edit Intro")]
     public GameObject edit_info_UI;
     public TMP_InputField edit_info_input;
@@ -108,7 +119,7 @@ public class Star_nest_UI : MonoBehaviour
 
 
     [Header("LevelUP")]
-   // public GameObject level_up_button; 
+    // public GameObject level_up_button; 
     public GameObject level_up_UI;
     public TMP_Text before_nest_text;
     public TMP_Text after_nest_text;
@@ -121,7 +132,7 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text level_up_ark;
 
     string[] nest_name_arr = { "LV1 별둥지", "LV2 별둥지", "LV3 별둥지", "LV4 별둥지" };
-    public Sprite[] nest_sprite_arr ;
+    public Sprite[] nest_sprite_arr;
     int[] required_ark_arr = { 10, 20, 30 };
     int[] required_gold_arr = { 10, 20, 30 };
 
@@ -155,7 +166,7 @@ public class Star_nest_UI : MonoBehaviour
         show_UI(true);
     }
 
-    public void show_UI( bool is_profile = false, string nick_name_ = null) {
+    public void show_UI(bool is_profile = false, string nick_name_ = null) {
 
         if (!is_profile && (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id))
         {
@@ -164,7 +175,7 @@ public class Star_nest_UI : MonoBehaviour
         else {
             UI_Container.SetActive(true);
             load_info(is_profile, nick_name_);
-        }        
+        }
     }
 
     public void hide_UI() {
@@ -179,7 +190,7 @@ public class Star_nest_UI : MonoBehaviour
     {
         go.SetActive(true);
     }
-    
+
     public void click_X_btn() {
         if (is_editing)
         {
@@ -189,15 +200,43 @@ public class Star_nest_UI : MonoBehaviour
             hide_UI();
         }
     }
+    public void init_emozi_list()
+    {
+        for (int i =0; i < emozi_list_container.childCount; i++ ) {
+            Destroy(emozi_list_container.GetChild(i).gameObject);
+        }
+        //TODO: read emozi inventory data and creat emozi element and add it into container
+        foreach (int i in user_data.emozi_List) {
+            GameObject go = Instantiate(emozi_element_prefab, emozi_list_container);
+            go.GetComponent<Image>().sprite = SpriteManager.instance.Num2emozi(i);
+            Button btn = go.GetComponent<Button>();
+            btn.onClick.AddListener(() => { apply_edit_picture(emozi: i); AudioManager.instance.SFX_Click(); });            
+        }
+    }
+    public void init_bg_list()
+    {
+        for (int i = 0; i < bg_list_container.childCount; i++)
+        {
+            Destroy(bg_list_container.GetChild(i).gameObject);
+        }
+        //TODO: read bg inventory data and creat bg element and add it into container
+        foreach (int i in user_data.background_List)
+        {
+            GameObject go = Instantiate(bg_element_prefab, bg_list_container);
+            go.GetComponent<Image>().sprite = SpriteManager.instance.Num2BG(i);
+            Button btn = go.GetComponent<Button>();
+            btn.onClick.AddListener(() => { apply_edit_picture(bg: i); AudioManager.instance.SFX_Click(); });
+        }
+    }
     public void load_info(bool is_profile_click = false, string nick_name_ = null) {
-        
+
 
         if (is_profile_click && (nick_name_ == null || nick_name_ == string.Empty))
         { //내 프로필 클릭인경우
             now_nickname = TCP_Client_Manager.instance.my_player.object_id;
             user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.my_player.object_id, load_select);
             nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;
-           
+
 
 
             pop_up_button.SetActive(false);
@@ -210,6 +249,9 @@ public class Star_nest_UI : MonoBehaviour
 
 
             show_edit_btn();
+
+            init_emozi_list();
+            init_bg_list();
         }
         else {
             now_nickname = (nick_name_ == null ? TCP_Client_Manager.instance.now_room_id : nick_name_);
@@ -222,7 +264,7 @@ public class Star_nest_UI : MonoBehaviour
 
             if (FriendList_JGD.is_friend(now_nickname))
             {
-                
+
                 add_friend_btn_ob.SetActive(false);
                 request_complete_btn_ob.SetActive(false);
                 delete_friend_btn_ob.SetActive(true);
@@ -242,7 +284,7 @@ public class Star_nest_UI : MonoBehaviour
                 else {
                     add_friend_btn_ob.SetActive(true);
                     request_complete_btn_ob.SetActive(false);
-                }                
+                }
                 delete_friend_btn_ob.SetActive(false);
                 memo_input_ob.SetActive(false);
                 friend_only_ob.SetActive(true);
@@ -251,29 +293,51 @@ public class Star_nest_UI : MonoBehaviour
         }
 
         update_profile_UI();
-        level_profile_text.text = (user_data.housing_Info.level+1).ToString();
+        level_profile_text.text = (user_data.housing_Info.level + 1).ToString();
         level_profile_image.sprite = nest_sprite_arr[user_data.housing_Info.level];
 
         load_memos_UI();
-
 
     }
     #endregion
 
     #region edit
+    
+    public void click_emozi_list_btn() {
+        emozi_btn.interactable = false;
+        emozi_list_view.SetActive(true);
+        bg_btn.interactable = true;
+        bg_list_view.SetActive(false);
+    }
+    public void click_bg_list_btn()
+    {
+        emozi_btn.interactable = true;
+        emozi_list_view.SetActive(false);
+        bg_btn.interactable = false;
+        bg_list_view.SetActive(true);
+    }
     public void show_edit_picture_UI()
     {
         //edit.text = intro_text.text;
         edit_picture_UI.SetActive(true);
+        click_emozi_list_btn();
     }
-    public void apply_edit_picture()
+    public void apply_edit_picture(int emozi = -1, int bg = -1)
     {
-       /* if (edit_info_input.text.Equals(string.Empty))
+        /* if (edit_info_input.text.Equals(string.Empty))
+         {
+             return;
+         }*/
+        if (emozi >= 0) {
+            user_data.profile_picture = emozi;
+            is_editing = true;
+        }
+        if (bg >= 0)
         {
-            return;
-        }*/
-        //user_data.profile_picture = edit_info_input.text;
-        is_editing = true;
+            user_data.profile_background = bg;
+            is_editing = true;
+        }
+        
         update_profile_UI();
     }
     public void show_edit_title_UI()
@@ -355,6 +419,9 @@ public class Star_nest_UI : MonoBehaviour
 
         //TODO: 선택 프로필 사진 업데이트 기능
         //TODO: 선택 배경 사진 업데이트 기능
+        character_image.sprite = SpriteManager.instance.Num2emozi(user_data.profile_picture);
+        background_image.sprite = SpriteManager.instance.Num2BG(user_data.profile_background);
+        
         //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
 
         if (is_editing && save_btn!=null)

@@ -9,6 +9,8 @@ public class SpriteDataBaseSO : ScriptableObject
 {
     public List<Image_data> ImageData;
     public List<HousingImage_data> HousingImageData;
+    public List<Image_data> emoziData;
+    public List<Image_data> backgroundData;
 }
 
 [Serializable]
