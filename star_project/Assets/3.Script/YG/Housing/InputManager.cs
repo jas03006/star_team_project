@@ -45,7 +45,7 @@ public class InputManager : MonoBehaviour
                 }
             }    
 
-            if (Input.GetMouseButton(0) && TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob != null && !IsPointerOverUI())
+            /*if (Input.GetMouseButton(0) && TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob != null && !IsPointerOverUI())
             {
                 if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
                 {
@@ -72,7 +72,7 @@ public class InputManager : MonoBehaviour
             }
             else {
                 select_timer = 0f;
-            }
+            }*/
 
 
             /*if (now_btn_up && !old_btn_up && IsPointerOverUI())
@@ -85,6 +85,16 @@ public class InputManager : MonoBehaviour
         }
 
         
+    }
+
+    public void invoke_onclick_while_move() {
+        if (TCP_Client_Manager.instance.housing_ui_manager.is_move && Onclicked != null)
+        {
+            TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
+            Onclicked?.Invoke();
+            OnExit?.Invoke();
+            
+        }
     }
 
     public static bool IsPointerOverUI() {
@@ -105,6 +115,12 @@ public class InputManager : MonoBehaviour
             EventSystem.current.RaycastAll(eventData, results);
             if (results.Count > 0)
             {
+                foreach (RaycastResult result in results) {
+                    if (result.gameObject.GetComponentsInChildren<Housing_Move_BTN>().Length > 0) {
+                        Debug.Log("is on move btn");
+                        return false;
+                    }
+                }
                 return true;
             }
         }
@@ -131,6 +147,12 @@ public class InputManager : MonoBehaviour
         //마우스 선택 위치 찍기
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = scene_cam.nearClipPlane; //카메라의 위치부터 렌더링을 시작 할 최소 위치까지의 거리(카메라 컴포넌트에서 near값 return)
+
+        if (TCP_Client_Manager.instance.housing_ui_manager.is_move)
+        {
+            mousePos.y += TCP_Client_Manager.instance.housing_ui_manager.ui_distance;
+        }
+
         Ray ray = scene_cam.ScreenPointToRay(mousePos);
         RaycastHit hit;
 

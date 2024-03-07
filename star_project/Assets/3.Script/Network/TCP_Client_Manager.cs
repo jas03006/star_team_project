@@ -484,6 +484,9 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public bool send_emo_request(int emozi_id)
     {
+        if (now_room_id == "-") {
+            return false;
+        }
         return sending_Message($"{(int)command_flag.emo} {now_room_id} {my_player.object_id} {emozi_id}");
     }
     #endregion
