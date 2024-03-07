@@ -20,7 +20,7 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private TMP_Text character_name;
     [SerializeField] private TMP_Text level;
     [SerializeField] private Button is_equip_btn;
-    [SerializeField] private Button levelup_btn;
+    [SerializeField] private Button leveluppannel_btn;
     [SerializeField] private TMP_Text HP;
     [SerializeField] private TMP_Text special; //특수 능력
     [SerializeField] private TMP_Text unique; //고유 능력
@@ -44,16 +44,16 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private TMP_Text gold;
     [SerializeField] private TMP_Text ark;
     [SerializeField] private TMP_Text basic;
+    [SerializeField] private Button levelup_btn;
+    [SerializeField] private GameObject max_level;
+    [SerializeField] private GameObject max_hp;
 
     private void OnEnable()
     {
         List<Character> list = BackendChart_JGD.chartData.character_list;
         //content_zone.transform.childCount != list.Count일 경우 오브젝트 삭제 후 재생성
 
-        for (int i = 0; i < content_zone.transform.childCount; i++)
-        {
-            Destroy(content_zone.transform.GetChild(i).gameObject);
-        }
+
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -64,6 +64,16 @@ public class Character_UI : MonoBehaviour
         }
 
         Setting();
+    }
+
+    private void OnDisable()
+    {
+        for (int i = 0; i < content_zone.transform.childCount; i++)
+        {
+            Destroy(content_zone.transform.GetChild(i).gameObject);
+        }
+
+        prefab_btn_list.Clear();
     }
 
     private void Setting()
@@ -83,7 +93,15 @@ public class Character_UI : MonoBehaviour
         level.text = index_character.curlevel.ToString();
         HP.text = (100 + ((index_character.curlevel - 1) * 10)).ToString();
         special.text = index_character.special;
-        unique.text = index_character.unique;
+
+        if (index_character.character_ID == Character_ID.Green)
+        {
+            unique.text = index_character.unique + index_character.percent + "% 추가 증가";
+        }
+        else
+        {
+            unique.text = index_character.unique + index_character.duration + "초 증가";
+        }
 
 
         if (cur_character.curlevel >= cur_character.maxlevel)
@@ -96,7 +114,11 @@ public class Character_UI : MonoBehaviour
         }
 
         Update_is_equip();
+        btn_update();
+    }
 
+    private void btn_update()
+    {
         for (int i = 0; i < prefab_btn_list.Count; i++)
         {
 
@@ -132,6 +154,7 @@ public class Character_UI : MonoBehaviour
             Update_btn(true, is_equip_btn, equip_btn_O, equip_btn_X);
         }
 
+        btn_update();
     }
 
     private void Update_btn(bool bool_, Button btn, Sprite O, Sprite X)
@@ -199,18 +222,62 @@ public class Character_UI : MonoBehaviour
 
     #endregion
     #region levelup
-    private void Enable_levelup_pannel()
+    public void Enable_levelup_pannel_btn()
     {
-        Character_amount chartdata = BackendChart_JGD.chartData.Characteramount_list[index_character.curlevel - 1];
+        Character_amount cur_chartdata = BackendChart_JGD.chartData.Characteramount_list[index_character.curlevel - 1];
+        Character_amount next_chartdata = null;
 
-        if (BackendChart_JGD.chartData.Characteramount_list.Count == index_character.curlevel)
+        if (index_character.curlevel < BackendChart_JGD.chartData.Characteramount_list.Count)
         {
-            Colored_text(false, "MAX", gold);
-            Colored_text(false, "MAX", ark);
+            next_chartdata = BackendChart_JGD.chartData.Characteramount_list[index_character.curlevel];
         }
 
-        Colored_text(MoneyManager.instance.gold > chartdata.gold, MoneyManager.instance.gold, gold);
-        Colored_text(MoneyManager.instance.ark > chartdata.ark, MoneyManager.instance.ark, ark);
+        if (next_chartdata == null)
+        {
+            max_hp.SetActive(true);
+            max_level.SetActive(true);
+
+            max_hp.transform.GetChild(0).GetComponent<TMP_Text>().text = (100 + ((cur_chartdata.level - 1) * 10)).ToString();
+            max_level.transform.GetChild(0).GetComponent<TMP_Text>().text = cur_chartdata.level.ToString();
+
+            Colored_text(false, "MAX", gold);
+            Colored_text(false, "MAX", ark);
+
+            levelup_btn.interactable = false;
+
+            if (index_character.character_ID == Character_ID.Green)
+            {
+                basic.text = index_character.unique + index_character.percent + "% 추가 증가";
+            }
+            else
+            {
+                basic.text = index_character.unique + index_character.duration + "초 증가";
+            }
+            return;
+        }
+
+        max_hp.SetActive(false);
+        max_level.SetActive(false);
+
+        cur_level.text = cur_chartdata.level.ToString();
+        next_level.text = next_chartdata.level.ToString();
+
+        cur_hp.text = (100 + ((cur_chartdata.level - 1) * 10)).ToString();
+        next_hp.text = (100 + ((next_chartdata.level - 1) * 10)).ToString();
+
+        levelup_btn.interactable = true;
+
+        if (index_character.character_ID == Character_ID.Green)
+        {
+            basic.text = index_character.unique + index_character.percent + "(<color=#B4FC11>" + 0.5 + "</color>)" + "% 추가 증가";
+        }
+        else
+        {
+            basic.text = index_character.unique + index_character.duration + "(<color=#B4FC11>" + 0.1 + "</color>)" + "초 증가";
+        }
+
+        Colored_text(MoneyManager.instance.gold > cur_chartdata.gold, cur_chartdata.gold, gold);
+        Colored_text(MoneyManager.instance.ark > cur_chartdata.ark, cur_chartdata.ark, ark);
 
     }
 
@@ -224,6 +291,7 @@ public class Character_UI : MonoBehaviour
         {
             text.text = "<color=#FF511A>" + obj + "</color>";
         }
+        Debug.Log(obj);
     }
     #endregion
 }

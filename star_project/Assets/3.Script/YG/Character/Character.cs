@@ -32,10 +32,13 @@ public class Character
         curlevel = BackendGameData_JGD.userData.character_info.character_dic[character_ID];
 
         if (character_ID == Character_ID.Green)
-            percent = 5;
+        {
+            percent = 5 + ((curlevel - 1) * 0.5);
+        }
         else
-            duration = 0.5f;
-
+        {
+            duration = 0.5f + ((curlevel - 1) * 0.1f) ;
+        }
         special_item = (item_ID)int.Parse(gameData["special_item"].ToString());
         unique_item = (item_ID)int.Parse(gameData["unique_item"].ToString());
 
