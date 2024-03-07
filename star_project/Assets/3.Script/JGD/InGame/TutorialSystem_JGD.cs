@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 
 enum State
@@ -87,24 +85,73 @@ public class TutorialSystem_JGD : MonoBehaviour
                 FirstPanel.SetActive(true);
                 MentList[0].SetActive(true);
                 break;
-            case 1:
+            case 1:                                        //캐릭터 상승패널
                 FirstPanel.SetActive(false);
                 TouchPanel.SetActive(true);
+                MentList[0].SetActive(false);
                 MentList[1].SetActive(true);
                 break;
-            case 2:
+            case 2:                                        //캐릭터 상승
                 UI_On = false;
                 //Key_Up = true;
                 Player.isUp = true;
                 TouchPanel.SetActive(false);
                 MentList[1].SetActive(false);
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
                 Time.timeScale = 1;
                 progress++;
+                Invoke("NextLevel_", 1f);
                 break;
-            case 3:
+            case 3:                                        //캐릭터 하강패널
+                ReTry(0, true,2);
+                //UI_On = true;
+                //Key_Up = true;
+                //Time.timeScale = 0;
+                //TouchPanel.SetActive(true);
+                //MentList[2].SetActive(true);
+
                 break;
-            case 4:
+            case 4:                                        //캐릭터 하강
+                ReTry(1, false,2);
+                //UI_On = false;
+                //Key_Up = false;
+                //Time.timeScale = 1;
+                //TouchPanel.SetActive(false);
+                //MentList[2].SetActive(false);
+                progress++;
+                Invoke("NextLevel_", 1.5f);
+                break;
+            case 5:                                        //캐릭터 상승패널
+                UI_On = true;
+                Time.timeScale = 0;
+                TouchPanel.SetActive(true);
+                MentList[1].SetActive(true);
+                break;
+            case 6:                                        //캐릭터 상승
+                ReTry(0, false, 1);
+                //UI_On = false;
+                //Key_Up = false;
+                //Time.timeScale = 1;
+                //TouchPanel.SetActive(false);
+                //MentList[1].SetActive(false);
+                progress++;
+                Invoke("NextLevel_", 1.5f);
+                break;
+            case 7:                                        //캐릭터 하강
+                ReTry(0, true,2);
+                //UI_On = true;
+                //Key_Up = true;
+                //Time.timeScale = 0;
+                //TouchPanel.SetActive(true);
+                //MentList[2].SetActive(true);
+                break;
+            case 8:
+                ReTry(1, false,2);
+                //UI_On = false;
+                //Key_Up = false;
+                //Time.timeScale = 1;
+                //TouchPanel.SetActive(false);
+                //MentList[2].SetActive(false);
                 break;
             default:
                 break;
@@ -139,6 +186,17 @@ public class TutorialSystem_JGD : MonoBehaviour
             GameStart();
         }
     }
-
+    private void NextLevel_()
+    {
+        GameStart();
+    }
+    private void ReTry(int num , bool tf , int count)
+    {
+        UI_On = tf;
+        Key_Up = tf;
+        Time.timeScale = num;
+        TouchPanel.SetActive(tf);
+        MentList[count].SetActive(tf);
+    }
 
 }
