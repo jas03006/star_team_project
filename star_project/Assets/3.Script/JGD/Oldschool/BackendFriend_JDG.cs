@@ -210,7 +210,7 @@ public class BackendFriend_JDG : MonoBehaviour
         if (bro.FlattenRows().Count <= 0)
         {
             _sentRequestList.Clear();
-            Debug.LogError("친구 요청이 온 내역이 존재하지 않습니다.");
+            Debug.LogError("친구 요청을 보낸 내역이 존재하지 않습니다.");
             return;
         }
         Debug.Log("친구 요청 보낸 리스트 불러오기에 성공했습니다." + bro);

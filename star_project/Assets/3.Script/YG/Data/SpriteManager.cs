@@ -10,6 +10,8 @@ public class SpriteManager : MonoBehaviour
     private Dictionary<int, Sprite> spriteDictionary = new Dictionary<int, Sprite>();
     private Dictionary<housing_itemID, Sprite> HousingspriteDictionary = new Dictionary<housing_itemID, Sprite>();
 
+    private Dictionary<int, Sprite> emoziDictionary = new Dictionary<int, Sprite>();
+    private Dictionary<int, Sprite> backgroundDictionary = new Dictionary<int, Sprite>();
     private void Awake()
     {
         if (instance == null)
@@ -33,6 +35,15 @@ public class SpriteManager : MonoBehaviour
         {
             HousingspriteDictionary.Add(imageData.id, imageData.sprite);
         }
+
+        foreach (var imageData in spriteDB.emoziData)
+        {
+            emoziDictionary.Add(imageData.id, imageData.sprite);
+        }
+        foreach (var imageData in spriteDB.backgroundData)
+        {
+            backgroundDictionary.Add(imageData.id, imageData.sprite);
+        }
         Debug.Log("생성끝!");
     }
 
@@ -51,6 +62,12 @@ public class SpriteManager : MonoBehaviour
         return HousingspriteDictionary[id];
     }
 
-    
-
+    public Sprite Num2emozi(int sprite_num) //번호에 맞는 스프라이트 찾는 메서드
+    {
+        return emoziDictionary[sprite_num];
+    }
+    public Sprite Num2BG(int sprite_num) //번호에 맞는 스프라이트 찾는 메서드
+    {
+        return backgroundDictionary[sprite_num];
+    }
 }
