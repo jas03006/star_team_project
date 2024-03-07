@@ -37,8 +37,10 @@ public class UserData
     public List<string> Friend_UUID_List = new List<string>();                             //친구정보
     public List<int> Character_ID_List = new List<int>();                                  //보유 캐릭터 리스트
     public List<int> Char_Item_ID_List = new List<int>();                                  //캐릭터 아이템 리스트
-    public List<int> Adjective_ID_List = new List<int>();                                  //형용사 칭호 리스트
-    public List<int> Noun_ID_List = new List<int>();                                       //명사 칭호 리스트
+    public List<adjective> Adjective_ID_List = new List<adjective>();                                  //형용사 칭호 리스트
+    public List<noun> Noun_ID_List = new List<noun>();                                       //명사 칭호 리스트
+    public List<int> emozi_List = new List<int>();                                       //이모티콘 리스트
+    public List<int> background_List = new List<int>();                                       //배경사진 리스트
 
     public House_Inventory_Info_JGD house_inventory = new House_Inventory_Info_JGD();
     //public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
@@ -175,7 +177,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
     public void GameDataInsert(string nickname = "")
     {
-        
+
         //게임정보 삽입
         if (userData == null)
         {
@@ -189,25 +191,30 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.info = "친추 환영";
             userData.CP = 0;
 
-           // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
+            // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
             //userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
             userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
-           // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
-           // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
+            // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
+            // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.ark_cylinder, 3));
             //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.airship, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.star_nest, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed,1));
+            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed, 1));
 
             //캐릭터 레벨 정보
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow,1));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Red,0));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Blue,0));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Purple,0));
-            userData.character_info.Add_object(new CharacterObj(Character_ID.Green,0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow, 1));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Red, 0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Blue, 0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Purple, 0));
+            userData.character_info.Add_object(new CharacterObj(Character_ID.Green, 0));
+
+            for (int i =1; i < 12; i++) {
+                userData.emozi_List.Add(i);
+                userData.background_List.Add(i);
+            }
 
             //캐칭스타 스테이지 정보
             userData.catchingstar_info = new Catchingstar_info();
@@ -263,6 +270,8 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);                     //캐릭터 아이템 리스트
         param.Add("Adjective_ID_List", userData.Adjective_ID_List);                     //형용사 칭호 리스트
         param.Add("Noun_ID_List", userData.Noun_ID_List);                               //명사 칭호 리스트
+        param.Add("emozi_List", userData.emozi_List);                               //이모지 리스트
+        param.Add("background_List", userData.background_List);                               //배경 사진 리스트
         param.Add("house_inventory", userData.house_inventory);                               //하우징 아이템 리스트
         //param.Add("House_Item_ID_List", userData.House_Item_ID_List);                   //하우징 아이템 리스트
         //param.Add("Market_ID_List", userData.Market_ID_List);                           //상점 상태 정보
@@ -352,10 +361,27 @@ public class BackendGameData_JGD : MonoBehaviour
                 }
 
                 userData.house_inventory = new House_Inventory_Info_JGD(gameDataJson[0]["house_inventory"]);
-               /* foreach (JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
+                /* foreach (JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
+                 {
+                     userData.House_Item_ID_List.Add(new House_Item_Info_JGD(equip));
+                 }*/
+
+                foreach (LitJson.JsonData equip in gameDataJson[0]["Adjective_ID_List"])  //형용사 칭호 리스트
                 {
-                    userData.House_Item_ID_List.Add(new House_Item_Info_JGD(equip));
-                }*/
+                    userData.Adjective_ID_List.Add((adjective)int.Parse(equip.ToString()));
+                }
+                foreach (LitJson.JsonData equip in gameDataJson[0]["Noun_ID_List"])  //명사 칭호 리스트
+                {
+                    userData.Noun_ID_List.Add((noun)int.Parse(equip.ToString()));
+                }
+                foreach (LitJson.JsonData equip in gameDataJson[0]["emozi_List"]) 
+                {
+                    userData.emozi_List.Add(int.Parse(equip.ToString()));
+                }
+                foreach (LitJson.JsonData equip in gameDataJson[0]["background_List"])  
+                {
+                    userData.background_List.Add(int.Parse(equip.ToString()));
+                }
 
                 #region 주석
                 //foreach(LitJson.JsonData equip in gameDataJson[0]["Friend_UUID_List"])  //친구정보
@@ -370,14 +396,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 //{
                 //    userData.Char_Item_ID_List.Add(int.Parse(equip.ToString()));
                 //}
-                //foreach (LitJson.JsonData equip in gameDataJson[0]["Adjective_ID_List"])  //형용사 칭호 리스트
-                //{
-                //    userData.Adjective_ID_List.Add(int.Parse(equip.ToString()));
-                //}
-                //foreach (LitJson.JsonData equip in gameDataJson[0]["Noun_ID_List"])  //명사 칭호 리스트
-                //{
-                //    userData.Noun_ID_List.Add(int.Parse(equip.ToString()));
-                //}
+
                 ////foreach (string itemKey in gameDataJson[0]["Market_ID_List"]) //상점 상태 정보
                 ////{
                 ////    userData.inventory.Add(itemKey, int.Parse(gameDataJson[0]["Market_ID_List"][itemKey].ToString()));
@@ -483,6 +502,8 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Char_Item_ID_List", userData.Char_Item_ID_List);
         param.Add("Adjective_ID_List", userData.Adjective_ID_List);
         param.Add("Noun_ID_List", userData.Noun_ID_List);
+        param.Add("emozi_List", userData.emozi_List);                               //이모지 리스트
+        param.Add("background_List", userData.background_List);                               //배경 사진 리스트
 
         param.Add("house_inventory", userData.house_inventory);
         //param.Add("House_Item_ID_List", userData.House_Item_ID_List);
@@ -769,6 +790,21 @@ public class BackendGameData_JGD : MonoBehaviour
                         case "ruby":
                             user_data.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
                             break;
+                        case "catchingstar_info":
+                            user_data.catchingstar_info = new Catchingstar_info(gameDataJson[0]["catchingstar_info"]);
+                            break;
+                        case "emozi_List":
+                            foreach (LitJson.JsonData equip in gameDataJson[0]["emozi_List"]) 
+                            {
+                                user_data.emozi_List.Add(int.Parse(equip.ToString()));
+                            }
+                            break;
+                        case "background_List":
+                            foreach (LitJson.JsonData equip in gameDataJson[0]["background_List"])  
+                            {
+                                user_data.background_List.Add(int.Parse(equip.ToString()));
+                            }
+                            break;                           
                         default:
                             break;
                     }
