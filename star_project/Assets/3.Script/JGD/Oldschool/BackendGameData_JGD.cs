@@ -46,7 +46,7 @@ public class UserData
     //public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
-    public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
+    public List<int> Achievements_List = new List<int>();//선택한 업적 리스트 
     public List<Mission_userdata> mission_Userdatas = new List<Mission_userdata>();
     public List<Challenge_userdata> challenge_Userdatas = new List<Challenge_userdata>();
 
@@ -202,8 +202,8 @@ public class BackendGameData_JGD : MonoBehaviour
             //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.airship, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.star_nest, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed, 1));
+            //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
+            //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed, 1));
 
             //캐릭터 레벨 정보
             userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow, 1));
@@ -254,7 +254,6 @@ public class BackendGameData_JGD : MonoBehaviour
 
             //튜토리얼 정보
             userData.tutorial_Info = new Tutorial_info();
-
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -364,7 +363,14 @@ public class BackendGameData_JGD : MonoBehaviour
                 foreach (JsonData mission in gameDataJson[0]["challenge_Userdatas"]) 
                 {
                     userData.challenge_Userdatas.Add(new Challenge_userdata(mission));
+                }                
+                
+                foreach (JsonData data in gameDataJson[0]["Achievements_List"]) 
+                {
+                    userData.Achievements_List.Add(int.Parse(data.ToString()));
                 }
+
+
 
                 userData.house_inventory = new House_Inventory_Info_JGD(gameDataJson[0]["house_inventory"]);
                 /* foreach (JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트

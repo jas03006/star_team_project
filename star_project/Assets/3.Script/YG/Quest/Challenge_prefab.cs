@@ -13,6 +13,7 @@ public class Challenge_prefab : MonoBehaviour
         }
     }
     private Challenge challenge_;
+    public int index;
     [SerializeField] TMP_Text name_text;
     [SerializeField] TMP_Text contents_text;
     [SerializeField] TMP_Text count_text;
@@ -60,6 +61,7 @@ public class Challenge_prefab : MonoBehaviour
     public void Get_reward_btn() //보상받기 버튼에 넣어둘 메서드
     {
         challenge.Get_reward();
+        BackendGameData_JGD.userData.Achievements_List.Add(index);
         Update_UI_state();
     }
 
