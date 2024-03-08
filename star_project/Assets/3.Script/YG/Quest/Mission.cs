@@ -27,7 +27,7 @@ public class Quest_info_YG
     {
         if (json.IsObject)
         {
-            foreach (JsonData data in json["userdata"])
+            foreach (JsonData data in json["mission_userdata"])
             {
                 Mission_userdata newdata = new Mission_userdata(data);
                 missions.Add(newdata.mission_id);
