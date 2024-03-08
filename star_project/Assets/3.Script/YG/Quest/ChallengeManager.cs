@@ -83,10 +83,15 @@ public class ChallengeManager : MonoBehaviour
 
     private void Setting_prefab()
     {
-        foreach (Challenge challenge in Get_list())
+        for (int i = 0; i < Get_list().Count; i++)
         {
-            Make_prefab(challenge);
+            Make_prefab(Get_list()[i], i);
         }
+
+        //foreach (Challenge challenge in Get_list())
+        //{
+        //    Make_prefab(challenge);
+        //}
     }
 
     private void Update_UI()
@@ -99,7 +104,7 @@ public class ChallengeManager : MonoBehaviour
         }
     }
 
-    public void Make_prefab(Challenge challenge)
+    public void Make_prefab(Challenge challenge, int index)
     {
         GameObject obj = Instantiate(prefab);
         obj.transform.SetParent(content_zone.transform, false);
@@ -107,6 +112,7 @@ public class ChallengeManager : MonoBehaviour
 
         Challenge_prefab challenge_prefab = obj.GetComponent<Challenge_prefab>();
         challenge_prefab.challenge = challenge;
+        challenge_prefab.index = index;
         challenge_prefab.Update_UI();
 
         challenge_prefab_list.Add(challenge_prefab);
