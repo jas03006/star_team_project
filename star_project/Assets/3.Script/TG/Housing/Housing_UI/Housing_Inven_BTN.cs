@@ -20,18 +20,16 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
 
     private string[] name_arr = {
         "none",
-        "아크실린더",
-        "비행선",
-        "별둥지",
-        "의자",
-        "침대",
-        "탁자",
+        "아크실린더", "비행선", "별둥지",
+        "의자","침대","탁자",
         "우체통",
-        "인형",
-        "풍선",
-        "블럭",
-        "카메라",
-        "비행기"
+
+        "인형", "풍선", "블럭","카메라","비행기",
+        "사과", "우유", "컵", "의자", "식탁",
+         "벤치","공", "시소", "그네", "미끄럼틀",
+         "연필","가위","책상","컴퓨터","스쿨 버스"
+
+
      };
 
     public void OnPointerDown(PointerEventData eventData)
