@@ -145,6 +145,7 @@ public class Harvesting : Net_Housing_Object//, IObject
             else {
 
                 MoneyManager.instance.Get_Money(Money.ark,(int) (reward*0.3f));
+                QuestManager.instance.Check_mission(Criterion_type.proxy_harvesting);
 
                 string separator = "%^";
                 //TODO: 우편 보내기

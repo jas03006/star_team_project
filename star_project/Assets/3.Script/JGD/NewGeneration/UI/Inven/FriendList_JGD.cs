@@ -96,6 +96,9 @@ public class FriendList_JGD : MonoBehaviour
 
             //index++;
         }
+        
+        QuestManager.instance.Check_challenge(Clear_type.add_friend);
+
     }
     public void ClearFriendList()
     {
