@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,8 +44,17 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         //튜토리얼 단계 입장유도
-
-        
+        switch (BackendGameData_JGD.userData.tutorial_Info.state)
+        {
+            case Tutorial_state.catchingstar_chapter:
+                GoToStage();
+                break;
+            case Tutorial_state.catchingstar_play:
+                GoToCatchingstar();
+                break;
+            default:
+                return;
+        }
     }
 
     private void GoToStage()
