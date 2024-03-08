@@ -241,7 +241,7 @@ public class BackendGameData_JGD : MonoBehaviour
             }
 
             //업적 정보(전)
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 27; i++)
             {
                 userData.challenge_Userdatas.Add(new Challenge_userdata());
             }
@@ -735,7 +735,10 @@ public class BackendGameData_JGD : MonoBehaviour
                             //user_data.inventory = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
                             break;
                         case "Achievements_List":
-                            //user_data.Achievements_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            foreach (LitJson.JsonData equip in gameDataJson[0]["Achievements_List"])
+                            {
+                                user_data.Achievements_List.Add(int.Parse(equip.ToString()));
+                            }
                             break;
                         case "QuestInfo_List":
                             //user_data.QuestInfo_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
@@ -762,13 +765,19 @@ public class BackendGameData_JGD : MonoBehaviour
                             user_data.memo_info = new Memo_info(gameDataJson[0]["memo_info"]);
                             break;
                         case "Adjective_ID_List":
-                            //user_data.Adjective_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            foreach (LitJson.JsonData equip in gameDataJson[0]["Adjective_ID_List"])  //형용사 칭호 리스트
+                            {
+                                user_data.Adjective_ID_List.Add((adjective)int.Parse(equip.ToString()));
+                            }                            
                             break;
                         case "level":
                             user_data.level = int.Parse(gameDataJson[0]["level"].ToString());
                             break;
                         case "Noun_ID_List":
-                            // user_data.Noun_ID_List = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
+                            foreach (LitJson.JsonData equip in gameDataJson[0]["Noun_ID_List"])  //명사 칭호 리스트
+                            {
+                                user_data.Noun_ID_List.Add((noun)int.Parse(equip.ToString()));
+                            }
                             break;
                         case "equipment":
                             //user_data.equipment = new HousingInfo_JGD(gameDataJson[0]["Housing_Info"]);
@@ -817,7 +826,13 @@ public class BackendGameData_JGD : MonoBehaviour
                             {
                                 user_data.background_List.Add(int.Parse(equip.ToString()));
                             }
-                            break;                           
+                            break;
+                        case "challenge_Userdatas":
+                            foreach (JsonData mission in gameDataJson[0]["challenge_Userdatas"])
+                            {
+                                user_data.challenge_Userdatas.Add(new Challenge_userdata(mission));
+                            }
+                            break;
                         default:
                             break;
                     }

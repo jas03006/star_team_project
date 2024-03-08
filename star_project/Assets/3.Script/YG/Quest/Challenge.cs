@@ -1,29 +1,43 @@
 using BackEnd;
 using LitJson;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+
+public enum Clear_type
+{
+    none = -1,
+    first_connection = 0,
+    clear_tutorial = 1,
+    buy = 2,
+    attendance = 3,
+    get_star = 4,
+    catchingstar_clear = 5,
+    make_word = 6,
+    add_friend = 7,
+    visit_friendplanet = 8,
+    proxy_harvesting = 9
+}
 
 public class Challenge : Quest
 {
     public Challenge_userdata userdata;
 
     //차트
-    public challenge_cate id;
+    public challenge_cate challenge_cate;
+    public Clear_type clear_type;
+    public int id;
     public int CP; //reward
-    public string contents2;
 
     public Challenge(JsonData jsonData, int index)
     {
-        id = (challenge_cate)int.Parse(jsonData["challenge_id"].ToString());
-        goal = int.Parse(jsonData["goal"].ToString());
+        challenge_cate = (challenge_cate)int.Parse(jsonData["challenge_cate"].ToString());
+        id = int.Parse(jsonData["challenge_id"].ToString());
+        goal = int.Parse(jsonData["clear_val"].ToString());
         CP = int.Parse(jsonData["CP"].ToString());
 
         userdata = BackendGameData_JGD.userData.challenge_Userdatas[index];
 
         title = jsonData["title"].ToString();
-        contents = jsonData["contents"].ToString();
-        contents2 = jsonData["contents2"].ToString();
+        contents = jsonData["info"].ToString();
     }
 
     public void Get_reward()
@@ -44,6 +58,7 @@ public class Challenge : Quest
     {
         Param param = new Param();
         param.Add("CP", BackendGameData_JGD.userData.CP);
+        param.Add("challenge_Userdatas", BackendGameData_JGD.userData.challenge_Userdatas);
 
         BackendReturnObject bro = null;
 
@@ -77,6 +92,7 @@ public class Challenge : Quest
         {
             userdata.is_clear = true;
             userdata.state = challenge_state.can_reward;
+            Data_update();
             return true;
         }
         return false;
@@ -88,7 +104,23 @@ public class Challenge_userdata
     public bool is_clear;
     public int CP; //challenge point
     public bool get_rewarded;
-    public int criterion; //현재 수치
+    public int criterion //현재 수치
+    {
+        get
+        {
+            return criterion_;
+        }
+
+        set
+        {
+            criterion_ = value;
+            if (is_clear)
+            {
+                return;
+            }
+        }
+    }
+    private int criterion_;
     public challenge_state state;
 
     public Challenge_userdata(JsonData jsonData)
@@ -113,7 +145,8 @@ public class Challenge_userdata
     {
         //데이터에 넣기
         Param param = new Param();
-        param.Add("mission_Userdatas", BackendGameData_JGD.userData.mission_Userdatas);
+        param.Add("challenge_Userdatas", BackendGameData_JGD.userData.challenge_Userdatas);
+        param.Add("Achievements_List", BackendGameData_JGD.userData.Achievements_List);
 
         BackendReturnObject bro = null;
 
@@ -146,7 +179,7 @@ public class Challenge_userdata
         public bool is_clear;
         public bool get_rewarded;
 
-        public Challenge_info() 
+        public Challenge_info()
         {
             is_clear = false;
             get_rewarded = false;

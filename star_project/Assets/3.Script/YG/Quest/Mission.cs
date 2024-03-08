@@ -244,22 +244,7 @@ public enum Criterion_type
     character_levelup = 4, //캐릭터 레벨업 횟수
     alphabet = 5, //알파벳 완성횟수(= 하우징오브젝트 획득)
     starnest = 6,//별둥지 업그레이드 횟수
-    friend = 7 //친구 인원 수
-}
-
-public enum Clear_type
-{
-    none = -1,
-    first_connection = 0,
-    clear_tutorial = 1,
-    buy = 2,
-    attendance = 3,
-    get_star = 4,
-    catchingstar_clear = 5,
-    make_word = 6,
-    add_friend = 7,
-    visit_friendplanet = 8,
-    proxy_harvesting = 9
+    friend = 7 //친구 인원 수 //고쳐야함
 }
 
 public class Mission_userdata
@@ -283,11 +268,14 @@ public class Mission_userdata
         set
         {
             criterion_ = value;
+            if (is_clear)
+            {
+                return;
+            }   
             if (!is_accept)
             {
                 criterion_ = 0;
             }
-            Debug.Log(criterion_);
         }
     }
     private int criterion_;

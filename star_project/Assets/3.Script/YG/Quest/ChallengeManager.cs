@@ -18,22 +18,15 @@ public enum challenge_state
 }
 public class ChallengeManager : MonoBehaviour
 {
-    challenge_cate cate
-    {
-        get { return state_; }
-        set
-        {
-            state_ = value;
-            Update_UI();
-        }
-    }
-    public challenge_cate state_;
+    challenge_cate cate;
 
     List<Challenge> challenge_common = new List<Challenge>();
     List<Challenge> challenge_play = new List<Challenge>();
     List<Challenge> challenge_community = new List<Challenge>();
 
-    List<Challenge_prefab> challenge_prefab_list = new List<Challenge_prefab>();
+    [SerializeField] List<Challenge_prefab> challengeprefab_script_list = new List<Challenge_prefab>();
+    [SerializeField] List<GameObject> challengeprefab_list = new List<GameObject>();
+
 
     [SerializeField] private GameObject prefab;
     [SerializeField] private GameObject content_zone;
@@ -42,13 +35,14 @@ public class ChallengeManager : MonoBehaviour
     {
         Setting_data();
         Setting_prefab();
+        Update_UI();
     }
 
     private void Setting_data()
     {
         foreach (var challenge in BackendChart_JGD.chartData.challenge_list)
         {
-            switch (challenge.id)
+            switch (challenge.challenge_cate)
             {
                 case challenge_cate.common:
                     challenge_common.Add(challenge);
@@ -83,43 +77,73 @@ public class ChallengeManager : MonoBehaviour
 
     private void Setting_prefab()
     {
-        for (int i = 0; i < Get_list().Count; i++)
+        int prefab_count = challengeprefab_script_list.Count;
+        int get_list_count = Get_list().Count;
+        Debug.Log($"{prefab_count} / {get_list_count}");
+        if (prefab_count == get_list_count)
+            return;
+
+        if (challengeprefab_script_list.Count == 0) //처음 생성
         {
-            Make_prefab(Get_list()[i], i);
+            Debug.Log("처음 생성");
+            for (int i = 0; i < get_list_count; i++)
+            {
+                Make_prefab(Get_list()[i]);
+            }
         }
 
-        //foreach (Challenge challenge in Get_list())
-        //{
-        //    Make_prefab(challenge);
-        //}
+        else if (prefab_count > get_list_count) 
+        {
+            Debug.Log($"{prefab_count - get_list_count}개 삭제");
+            for (int i = 0; i < prefab_count - get_list_count; i++)
+            {
+                Destroy(challengeprefab_list[i]);
+
+                challengeprefab_list.Remove(challengeprefab_list[i]);
+                challengeprefab_script_list.Remove(challengeprefab_script_list[i]);
+            }
+        }
+
+        else if (prefab_count < get_list_count)
+        {
+            Debug.Log($"{prefab_count - get_list_count}개 생성");
+            for (int i = 0; i < get_list_count - prefab_count; i++)
+            {
+                Make_prefab(Get_list()[i]);
+            }
+        }
     }
 
     private void Update_UI()
     {
         List<Challenge> cur_list = Get_list();
 
-        for (int i = 0; i < challenge_prefab_list.Count; i++)
+        for (int i = 0; i < challengeprefab_script_list.Count; i++)
         {
-            challenge_prefab_list[i].challenge = cur_list[i];
+            challengeprefab_script_list[i].challenge = cur_list[i];
+            challengeprefab_script_list[i].Update_UI();
         }
     }
 
-    public void Make_prefab(Challenge challenge, int index)
+    public void Make_prefab(Challenge challenge)
     {
-        GameObject obj = Instantiate(prefab);
-        obj.transform.SetParent(content_zone.transform, false);
-        Canvas.ForceUpdateCanvases();
+        GameObject obj = Instantiate(prefab, content_zone.transform);
+        challengeprefab_list.Add(obj);
+
+        //obj.transform.SetParent(content_zone.transform, false);
+        //Canvas.ForceUpdateCanvases();
 
         Challenge_prefab challenge_prefab = obj.GetComponent<Challenge_prefab>();
         challenge_prefab.challenge = challenge;
-        challenge_prefab.index = index;
         challenge_prefab.Update_UI();
 
-        challenge_prefab_list.Add(challenge_prefab);
+        challengeprefab_script_list.Add(challenge_prefab);
     }
 
     public void Change_state(int index) //일반,플레이,커뮤니티에 달 버튼
     {
         cate = (challenge_cate)index;
+        Setting_prefab();
+        Update_UI();
     }
 }

@@ -62,6 +62,7 @@ public class BackendFriend_JDG : MonoBehaviour
         }
         Debug.Log("친구 요청에 성공했습니다." + friendBro);
         _sentRequestList.Add(nickName);
+        QuestManager.instance.Check_mission(Criterion_type.friend);
     }
 
     public static bool is_requested(string nickname) { 

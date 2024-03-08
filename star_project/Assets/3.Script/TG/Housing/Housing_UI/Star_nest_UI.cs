@@ -43,15 +43,20 @@ public class Star_nest_UI : MonoBehaviour
             "memo_info",
             "Housing_Info",
             "catchingstar_info",
-    "emozi_List",
-    "background_List"};
+            "emozi_List",
+            "background_List",
+            "Achievements_List",
+            "challenge_Userdatas",
+            "Noun_ID_List",
+            "Adjective_ID_List"};
     string[] save_select = { "profile_background",
             "profile_picture",
             "title_adjective",
             "title_noun",
             "planet_name",
             "info",
-            "memo_info" };
+            "memo_info",
+            "Achievements_List"};
     private bool is_editing = false;
 
     public GameObject UI_Container;
@@ -68,6 +73,7 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text level_profile_text;
     public Image level_profile_image;
     public TMP_Text chapter_stage_text;
+    public TMP_Text[] achiv_select_text_arr;
 
     [Header("Memo UI")]
     public TMP_InputField memo_input;
@@ -113,10 +119,9 @@ public class Star_nest_UI : MonoBehaviour
     public GameObject edit_planet_name_UI;
     public TMP_InputField edit_planet_name_input;
 
-    [Header("Edit Achiv Name")]
+    [Header("Edit Achivements")]
+    public Achiv_Select_Manager achiv_select_manager;
     public GameObject edit_achiv_UI;
-    public TMP_InputField edit_achiv_input;
-
 
     [Header("LevelUP")]
     // public GameObject level_up_button; 
@@ -143,9 +148,15 @@ public class Star_nest_UI : MonoBehaviour
 
     private void Start()
     {
+        
+    }
+
+    #region init
+    public void init_title_edit_UI() {
         edit_title_adjective.ClearOptions();
         List<TMP_Dropdown.OptionData> option_list = new List<TMP_Dropdown.OptionData>();
-        foreach (var item in Enum.GetValues(typeof(adjective)))
+        //foreach (var item in Enum.GetValues(typeof(adjective)))
+        foreach (var item in user_data.Adjective_ID_List)
         {
             option_list.Add(new TMP_Dropdown.OptionData(item.ToString()));
         }
@@ -153,15 +164,14 @@ public class Star_nest_UI : MonoBehaviour
 
         edit_title_noun.ClearOptions();
         option_list = new List<TMP_Dropdown.OptionData>();
-        foreach (var item in Enum.GetValues(typeof(noun)))
+       //foreach (var item in Enum.GetValues(typeof(noun)))
+        foreach (var item in user_data.Noun_ID_List)
         {
             option_list.Add(new TMP_Dropdown.OptionData(item.ToString()));
         }
         edit_title_noun.AddOptions(option_list);
-
     }
 
-    #region init
     public void show_my_profile_UI() {
         show_UI(true);
     }
@@ -250,8 +260,10 @@ public class Star_nest_UI : MonoBehaviour
 
             show_edit_btn();
 
+            init_title_edit_UI();
             init_emozi_list();
             init_bg_list();
+            achiv_select_manager.init(user_data.Achievements_List, user_data.challenge_Userdatas);
         }
         else {
             now_nickname = (nick_name_ == null ? TCP_Client_Manager.instance.now_room_id : nick_name_);
@@ -297,7 +309,7 @@ public class Star_nest_UI : MonoBehaviour
         level_profile_image.sprite = nest_sprite_arr[user_data.housing_Info.level];
 
         load_memos_UI();
-
+        
     }
     #endregion
 
@@ -394,14 +406,19 @@ public class Star_nest_UI : MonoBehaviour
     {
         //TODO: 편집 창에 현재 선택된 업적 표기
        // edit_planet_name_input.text = planet_name_text.text;
-        edit_achiv_UI.SetActive(false);
+        edit_achiv_UI.SetActive(true);
         
+        achiv_select_manager.refresh(user_data.Achievements_List);
     }
     public void apply_edit_achiv()
     {
         //TODO: 선택된 업적을 프로필 창에 반영
         //TODO: 업적 선택 현황을 userdata에 반영
         //TODO: 관련 DB column 을 select에 추가하기
+        user_data.Achievements_List = new List<int>();
+        for (int i=0; i < achiv_select_manager.select_list.Count; i++) {
+            user_data.Achievements_List.Add(achiv_select_manager.select_list[i]);
+        } 
         
         is_editing = true;
         update_profile_UI();
@@ -421,8 +438,12 @@ public class Star_nest_UI : MonoBehaviour
         //TODO: 선택 배경 사진 업데이트 기능
         character_image.sprite = SpriteManager.instance.Num2emozi(user_data.profile_picture);
         background_image.sprite = SpriteManager.instance.Num2BG(user_data.profile_background);
-        
+
         //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
+
+        for (int i=0; i < achiv_select_text_arr.Length; i++) {
+            achiv_select_text_arr[i].text = (user_data.Achievements_List.Count > i ? BackendChart_JGD.chartData.challenge_list[user_data.Achievements_List[i]].title:"");
+        }
 
         if (is_editing && save_btn!=null)
         {
@@ -456,6 +477,7 @@ public class Star_nest_UI : MonoBehaviour
             BackendGameData_JGD.userData.title_adjective = user_data.title_adjective;
             BackendGameData_JGD.userData.title_noun = user_data.title_noun;
             BackendGameData_JGD.userData.info = user_data.info;
+            BackendGameData_JGD.userData.Achievements_List = user_data.Achievements_List;
 
             BackendGameData_JGD.Instance.GameDataUpdate(save_select);
             is_editing = false;
@@ -579,6 +601,8 @@ public class Star_nest_UI : MonoBehaviour
             if (star_nest != null) {
                 star_nest.apply_level();
             }
+            //성유경
+            QuestManager.instance.Check_mission(Criterion_type.starnest);
         }
     }
 
