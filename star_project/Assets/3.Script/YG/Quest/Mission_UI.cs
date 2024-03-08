@@ -51,7 +51,7 @@ public class Mission_UI : MonoBehaviour
 
     private void Setting()
     {
-        foreach (Mission mission in MissionManager_.instance.missions)
+        foreach (Mission mission in QuestManager.instance.missions)
         {
             switch (mission.mission_type)
             {
@@ -131,8 +131,8 @@ public class Mission_UI : MonoBehaviour
 
     public void Accept_btn() //수락버튼 클릭 시 호출
     {
-        MissionManager_.instance.Mission2data(cur_mission).is_accept = true;
-        MissionManager_.instance.cur_missiontypes.Add(cur_mission.criterion_type);
+        QuestManager.instance.Mission2data(cur_mission).is_accept = true;
+        QuestManager.instance.cur_missiontypes.Add(cur_mission.criterion_type);
     }
 
     //public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시

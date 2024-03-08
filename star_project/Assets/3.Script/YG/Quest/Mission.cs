@@ -247,21 +247,6 @@ public enum Criterion_type
     friend = 7 //친구 인원 수
 }
 
-public enum Clear_type
-{
-    none = -1,
-    first_connection = 0,
-    clear_tutorial = 1,
-    buy = 2,
-    attendance = 3,
-    get_star = 4,
-    catchingstar_clear = 5,
-    make_word = 6,
-    add_friend = 7,
-    visit_friendplanet = 8,
-    proxy_harvesting = 9
-}
-
 public class Mission_userdata
 {
     public int mission_id;
@@ -283,11 +268,14 @@ public class Mission_userdata
         set
         {
             criterion_ = value;
+            if (is_clear)
+            {
+                return;
+            }   
             if (!is_accept)
             {
                 criterion_ = 0;
             }
-            Debug.Log(criterion_);
         }
     }
     private int criterion_;
