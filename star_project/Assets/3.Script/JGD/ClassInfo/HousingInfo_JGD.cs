@@ -124,17 +124,33 @@ public enum housing_itemID
     ark_cylinder = 1,
     airship=2,
     star_nest=3,
-    chair=4,
-    bed=5,
-    table=6,
+    chair_old=4,
+    bed_old=5,
+    table_old=6,
     post_box=7,
     panda = 8,
     balloon =9,
     block = 10,
     camera = 11,
-    airplane =12
+    airplane =12,
     
-    
+    apple=13,
+    milk=14,
+    cup=15,
+    chair=16,
+    table=17,
+
+    bench = 18,
+    ball = 19,
+    seesaw = 20,
+    swing = 21,
+    slider = 22,
+
+    pencil = 23,
+    scissor = 24,
+    desk = 25,
+    computer = 26,
+    school_bus = 27
     
 }
 
