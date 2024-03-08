@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum challenge_id
+public enum challenge_cate
 {
     none = -1,
     common,
@@ -18,7 +18,7 @@ public enum challenge_state
 }
 public class ChallengeManager : MonoBehaviour
 {
-    challenge_id state
+    challenge_cate cate
     {
         get { return state_; }
         set
@@ -27,7 +27,7 @@ public class ChallengeManager : MonoBehaviour
             Update_UI();
         }
     }
-    public challenge_id state_;
+    public challenge_cate state_;
 
     List<Challenge> challenge_common = new List<Challenge>();
     List<Challenge> challenge_play = new List<Challenge>();
@@ -50,31 +50,31 @@ public class ChallengeManager : MonoBehaviour
         {
             switch (challenge.id)
             {
-                case challenge_id.common:
+                case challenge_cate.common:
                     challenge_common.Add(challenge);
                     break;
-                case challenge_id.play:
+                case challenge_cate.play:
                     challenge_play.Add(challenge);
                     break;
-                case challenge_id.community:
+                case challenge_cate.community:
                     challenge_community.Add(challenge);
                     break;
                 default:
                     break;
             }
         }
-        state = challenge_id.common;
+        cate = challenge_cate.common;
     }
 
     private List<Challenge> Get_list()
     {
-        switch (state)
+        switch (cate)
         {
-            case challenge_id.common:
+            case challenge_cate.common:
                 return challenge_common;
-            case challenge_id.play:
+            case challenge_cate.play:
                 return challenge_play;
-            case challenge_id.community:
+            case challenge_cate.community:
                 return challenge_community;
             default:
                 return null;
@@ -114,6 +114,6 @@ public class ChallengeManager : MonoBehaviour
 
     public void Change_state(int index) //일반,플레이,커뮤니티에 달 버튼
     {
-        state = (challenge_id)index;
+        cate = (challenge_cate)index;
     }
 }
