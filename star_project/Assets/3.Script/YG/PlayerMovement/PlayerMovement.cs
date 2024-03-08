@@ -127,6 +127,9 @@ public class PlayerMovement : Player_Network_TG
                             net_move(transform.position, dest);
                             move(transform.position, dest);
                             AudioManager.instance.SFX_Click();
+                            if (Tutorial_TG.instance.is_move_tutorial) {
+                                Tutorial_TG.instance.step();
+                            }
                         }
                       }
                 }                
