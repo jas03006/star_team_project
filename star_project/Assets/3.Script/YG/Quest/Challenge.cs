@@ -2,12 +2,28 @@ using BackEnd;
 using LitJson;
 using UnityEngine;
 
+public enum Clear_type
+{
+    none = -1,
+    first_connection = 0,
+    clear_tutorial = 1,
+    buy = 2,
+    attendance = 3,
+    get_star = 4,
+    catchingstar_clear = 5,
+    make_word = 6,
+    add_friend = 7,
+    visit_friendplanet = 8,
+    proxy_harvesting = 9
+}
+
 public class Challenge : Quest
 {
     public Challenge_userdata userdata;
 
     //차트
     public challenge_cate challenge_cate;
+    public Clear_type clear_type;
     public int id;
     public int CP; //reward
 
@@ -88,7 +104,23 @@ public class Challenge_userdata
     public bool is_clear;
     public int CP; //challenge point
     public bool get_rewarded;
-    public int criterion; //현재 수치
+    public int criterion //현재 수치
+    {
+        get
+        {
+            return criterion_;
+        }
+
+        set
+        {
+            criterion_ = value;
+            if (is_clear)
+            {
+                return;
+            }
+        }
+    }
+    private int criterion_;
     public challenge_state state;
 
     public Challenge_userdata(JsonData jsonData)

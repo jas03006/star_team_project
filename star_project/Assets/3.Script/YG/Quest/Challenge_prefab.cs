@@ -4,16 +4,7 @@ using UnityEngine.UI;
 
 public class Challenge_prefab : MonoBehaviour
 {
-    public Challenge challenge
-    {
-        get { return challenge_; }
-        set
-        {
-            challenge_ = value;
-            Update_UI();
-        }
-    }
-    private Challenge challenge_;
+    public Challenge challenge;
     [SerializeField] TMP_Text name_text;
     [SerializeField] TMP_Text contents_text;
     [SerializeField] TMP_Text count_text;
