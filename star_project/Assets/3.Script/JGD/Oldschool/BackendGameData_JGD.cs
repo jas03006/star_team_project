@@ -56,6 +56,7 @@ public class UserData
     public Catchingstar_info catchingstar_info = new Catchingstar_info();
     public Shop_info shop_info = new Shop_info();
     public Quest_info_YG quest_Info = new Quest_info_YG();
+    public Tutorial_info tutorial_Info = new Tutorial_info();
 
     //profile
     public int profile_background = 0;
@@ -239,17 +240,20 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.mission_Userdatas.Add(new Mission_userdata());
             }
 
-            //퀘스트 정보(후)
-            userData.quest_Info.Init_info_data();
-
             //업적 정보(전)
             for (int i = 0; i < 9; i++)
             {
                 userData.challenge_Userdatas.Add(new Challenge_userdata());
             }
 
+            //퀘스트 정보(후)
+            userData.quest_Info.Init_info_data();
+
             //상점 정보
             userData.shop_info.Insert_data();
+
+            //튜토리얼 정보
+            userData.tutorial_Info = new Tutorial_info();
 
         }
 
@@ -287,6 +291,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("catchingstar_info", userData.catchingstar_info);
         param.Add("shop_info", userData.shop_info);
         param.Add("quest_Info", userData.quest_Info);
+        param.Add("tutorial_Info", userData.tutorial_Info);
 
         param.Add("profile_background", userData.profile_background);
         param.Add("profile_picture", userData.profile_picture);
@@ -350,6 +355,7 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
                 userData.shop_info = new Shop_info(gameDataJson[0]["shop_info"]);
                 userData.quest_Info = new Quest_info_YG(gameDataJson[0]["quest_Info"]);
+                userData.tutorial_Info = new Tutorial_info(gameDataJson[0]["tutorial_Info"]);
 
                 foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
                 {
@@ -504,6 +510,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Noun_ID_List", userData.Noun_ID_List);
         param.Add("emozi_List", userData.emozi_List);                               //이모지 리스트
         param.Add("background_List", userData.background_List);                               //배경 사진 리스트
+        param.Add("tutorial_Info", userData.tutorial_Info);                               //배경 사진 리스트
 
         param.Add("house_inventory", userData.house_inventory);
         //param.Add("House_Item_ID_List", userData.House_Item_ID_List);

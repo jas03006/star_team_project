@@ -9,13 +9,13 @@ public class Challenge : Quest
     public Challenge_userdata userdata;
 
     //Â÷Æ®
-    public challenge_id id;
+    public challenge_cate id;
     public int CP; //reward
     public string contents2;
 
     public Challenge(JsonData jsonData, int index)
     {
-        id = (challenge_id)int.Parse(jsonData["challenge_id"].ToString());
+        id = (challenge_cate)int.Parse(jsonData["challenge_id"].ToString());
         goal = int.Parse(jsonData["goal"].ToString());
         CP = int.Parse(jsonData["CP"].ToString());
 
