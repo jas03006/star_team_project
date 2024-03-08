@@ -64,7 +64,6 @@ public class PreviewSystem : MonoBehaviour
         cellindicator.SetActive(false);
         if (previewObject != null)
         {
-            TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob = null;
             Destroy(previewObject);            
         }
     }

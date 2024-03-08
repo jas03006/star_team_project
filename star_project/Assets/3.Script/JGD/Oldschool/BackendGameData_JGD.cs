@@ -46,7 +46,7 @@ public class UserData
     //public List<House_Item_Info_JGD> House_Item_ID_List = new List<House_Item_Info_JGD>(); //하우징 아이템 리스트
     public List<StageInfo_JGD> StageInfo_List = new List<StageInfo_JGD>();                 //스테이지 별 정보
     public List<QuestInfo_JGD> QuestInfo_List = new List<QuestInfo_JGD>();                 //퀘스트 별 클리어 여부
-    public List<AchievementsInfo_JGD> Achievements_List = new List<AchievementsInfo_JGD>();//업적 별 클리어 여부 
+    public List<int> Achievements_List = new List<int>();//선택한 업적 리스트 
     public List<Mission_userdata> mission_Userdatas = new List<Mission_userdata>();
     public List<Challenge_userdata> challenge_Userdatas = new List<Challenge_userdata>();
 
@@ -56,6 +56,7 @@ public class UserData
     public Catchingstar_info catchingstar_info = new Catchingstar_info();
     public Shop_info shop_info = new Shop_info();
     public Quest_info_YG quest_Info = new Quest_info_YG();
+    public Tutorial_info tutorial_Info = new Tutorial_info();
 
     //profile
     public int profile_background = 0;
@@ -201,8 +202,8 @@ public class BackendGameData_JGD : MonoBehaviour
             //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.airship, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.star_nest, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed, 1));
+            //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
+            //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed, 1));
 
             //캐릭터 레벨 정보
             userData.character_info.Add_object(new CharacterObj(Character_ID.Yellow, 1));
@@ -239,18 +240,20 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.mission_Userdatas.Add(new Mission_userdata());
             }
 
-            //퀘스트 정보(후)
-            userData.quest_Info.Init_info_data();
-
             //업적 정보(전)
             for (int i = 0; i < 9; i++)
             {
                 userData.challenge_Userdatas.Add(new Challenge_userdata());
             }
 
+            //퀘스트 정보(후)
+            userData.quest_Info.Init_info_data();
+
             //상점 정보
             userData.shop_info.Insert_data();
 
+            //튜토리얼 정보
+            userData.tutorial_Info = new Tutorial_info();
         }
 
         Debug.Log("데이터를 초기화 합니다.");
@@ -279,7 +282,7 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
-        param.Add("mission_Userdatas", userData.mission_Userdatas);                     
+        //param.Add("mission_Userdatas", userData.mission_Userdatas);                     
         param.Add("challenge_Userdatas", userData.challenge_Userdatas);                              
 
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
@@ -287,6 +290,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("catchingstar_info", userData.catchingstar_info);
         param.Add("shop_info", userData.shop_info);
         param.Add("quest_Info", userData.quest_Info);
+        param.Add("tutorial_Info", userData.tutorial_Info);
 
         param.Add("profile_background", userData.profile_background);
         param.Add("profile_picture", userData.profile_picture);
@@ -350,15 +354,23 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.character_info = new CharacterInfo_YG(gameDataJson[0]["character_info"]);
                 userData.shop_info = new Shop_info(gameDataJson[0]["shop_info"]);
                 userData.quest_Info = new Quest_info_YG(gameDataJson[0]["quest_Info"]);
+                userData.tutorial_Info = new Tutorial_info(gameDataJson[0]["tutorial_Info"]);
 
-                foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
-                {
-                    userData.mission_Userdatas.Add(new Mission_userdata(mission));
-                }                
+                //foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
+                //{
+                //    userData.mission_Userdatas.Add(new Mission_userdata(mission));
+                //}                
                 foreach (JsonData mission in gameDataJson[0]["challenge_Userdatas"]) 
                 {
                     userData.challenge_Userdatas.Add(new Challenge_userdata(mission));
+                }                
+                
+                foreach (JsonData data in gameDataJson[0]["Achievements_List"]) 
+                {
+                    userData.Achievements_List.Add(int.Parse(data.ToString()));
                 }
+
+
 
                 userData.house_inventory = new House_Inventory_Info_JGD(gameDataJson[0]["house_inventory"]);
                 /* foreach (JsonData equip in gameDataJson[0]["House_Item_ID_List"])  //하우징 아이템 리스트
@@ -504,6 +516,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Noun_ID_List", userData.Noun_ID_List);
         param.Add("emozi_List", userData.emozi_List);                               //이모지 리스트
         param.Add("background_List", userData.background_List);                               //배경 사진 리스트
+        param.Add("tutorial_Info", userData.tutorial_Info);                               //배경 사진 리스트
 
         param.Add("house_inventory", userData.house_inventory);
         //param.Add("House_Item_ID_List", userData.House_Item_ID_List);

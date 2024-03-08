@@ -7,7 +7,7 @@ public class MissionManager_ : MonoBehaviour
     public static MissionManager_ instance;
 
     public List<Mission> missions = new List<Mission>(); //전체미션
-    public List<CriterionType> cur_missiontypes = new List<CriterionType>(); //미션 수락 시 내용 담김
+    public List<Criterion_type> cur_missiontypes = new List<Criterion_type>(); //미션 수락 시 내용 담김
 
     private void Awake()
     {
@@ -29,11 +29,11 @@ public class MissionManager_ : MonoBehaviour
         Debug.Log("설정 시작!");
         bool is_change = false;
 
-        foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.userdata)
+        foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.mission_userdata)
         {
             Mission mission = BackendChart_JGD.chartData.mission_list[data.mission_id - 1];
 
-            if (data.criterion_type == CriterionType.none)
+            if (data.criterion_type == Criterion_type.none)
             {
                 data.criterion_type = mission.criterion_type;
                 is_change = true;
@@ -51,7 +51,7 @@ public class MissionManager_ : MonoBehaviour
 
         if (is_change)
         {
-            BackendGameData_JGD.userData.quest_Info.userdata[0].Data_update();
+            BackendGameData_JGD.userData.quest_Info.mission_userdata[0].Data_update();
         }
     }
 
@@ -62,19 +62,19 @@ public class MissionManager_ : MonoBehaviour
 
     public void Test_btn(int index)
     {
-        Debug.Log(index + "/"+ (CriterionType)index);
+        Debug.Log(index + "/"+ (Criterion_type)index);
         Debug.Log(cur_missiontypes.Count);
-        Check_mission((CriterionType)index);
+        Check_mission((Criterion_type)index);
     }
 
     //CriterionType에 맞는 수락한 미션이 있는지 확인
     //조건에서 해당 메서드 부르면 됨
-    public void Check_mission(CriterionType type)
+    public void Check_mission(Criterion_type type)
     {
         if (cur_missiontypes.Contains(type))
         {
             Debug.Log("미션 있음");
-            foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.userdata)
+            foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.mission_userdata)
             {
                 if (data.criterion_type == type)
                 {
@@ -93,7 +93,7 @@ public class MissionManager_ : MonoBehaviour
         {
             if (missions[i] == mission)
             {
-                return BackendGameData_JGD.userData.quest_Info.userdata[i + 1];
+                return BackendGameData_JGD.userData.quest_Info.mission_userdata[i + 1];
             }
         }
         Debug.Log("대응하는 Mission_userdata 없음");
@@ -102,7 +102,7 @@ public class MissionManager_ : MonoBehaviour
 
     public void ALL_Accept_btn() //수락버튼 클릭 시 호출
     {
-        for (int i = 0; i < BackendGameData_JGD.userData.quest_Info.userdata.Count; i++)
+        for (int i = 0; i < BackendGameData_JGD.userData.quest_Info.mission_userdata.Count; i++)
         {
             Accept_mission(i);
         }
@@ -111,7 +111,7 @@ public class MissionManager_ : MonoBehaviour
 
     public void Accept_mission(int index)
     {
-        Mission_userdata mission =BackendGameData_JGD.userData.quest_Info.userdata[index];
+        Mission_userdata mission =BackendGameData_JGD.userData.quest_Info.mission_userdata[index];
         mission.is_accept = true;
         cur_missiontypes.Add(mission.criterion_type);
         Debug.Log("수락완료");

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class FriendList_JGD : MonoBehaviour
 {
     public UIManager_JGD uimanager;
-    public Star_nest_UI star_nest_UI;
+    //public Star_nest_UI star_nest_UI;
 
     [SerializeField] private GameObject Friend;
     [SerializeField] private GameObject location;
@@ -79,7 +79,7 @@ public class FriendList_JGD : MonoBehaviour
             }
             else  {
                 if (buttons.Length>=2) {
-                    buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
+                    buttons[0].onClick.AddListener(() => UIManager_YG.Instance.star_nest_UI.show_UI(true, nickName));
                     buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
 
                     buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
@@ -202,7 +202,7 @@ public class FriendList_JGD : MonoBehaviour
                         if (buttons.Length >= 2)
                         {
                             buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
-                            buttons[0].onClick.AddListener(() => star_nest_UI.show_UI(true, nickName));
+                            buttons[0].onClick.AddListener(() => UIManager_YG.Instance.star_nest_UI.show_UI(true, nickName));
 
                             if (BackendFriend_JDG.is_requested(nickName))
                             {
@@ -265,7 +265,7 @@ public class FriendList_JGD : MonoBehaviour
     public void show_profile() {
         if (select_indate != string.Empty)
         {
-            star_nest_UI.show_UI(true, select_nickname);
+            UIManager_YG.Instance.star_nest_UI.show_UI(true, select_nickname);
             init_selections();
         }
     }

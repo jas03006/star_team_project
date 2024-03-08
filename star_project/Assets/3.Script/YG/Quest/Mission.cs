@@ -17,20 +17,21 @@ public class Quest_info_YG
 {
     //mission
     public List<int> missions = new List<int>();
-    public List<Mission_userdata> userdata = new List<Mission_userdata>();//미션관련 데이터
+    public List<Mission_userdata> mission_userdata = new List<Mission_userdata>();//미션관련 데이터
 
     //challenge
+    public List<Challenge_userdata> challenge_userdata = new List<Challenge_userdata>();//퀘스트 관련 데이터
 
     public Quest_info_YG() { }
     public Quest_info_YG(JsonData json) //데이터 있을때
     {
         if (json.IsObject)
         {
-            foreach (JsonData data in json["userdata"])
+            foreach (JsonData data in json["mission_userdata"])
             {
                 Mission_userdata newdata = new Mission_userdata(data);
                 missions.Add(newdata.mission_id);
-                userdata.Add(newdata);
+                mission_userdata.Add(newdata);
             }
         }
         else
@@ -88,7 +89,7 @@ public class Quest_info_YG
 
             if (!missions.Contains(data.mission_id))
             {
-                userdata.Add(data);
+                mission_userdata.Add(data);
                 missions.Add(data.mission_id);
                 break;
             }
@@ -102,7 +103,7 @@ public class Mission : Quest
     //차트
     public int mission_id;
     public MissionType mission_type;
-    public CriterionType criterion_type;
+    public Criterion_type criterion_type;
     public DateTime reset_time;
     public int reward_ark;
     public int reward_gold;
@@ -114,7 +115,7 @@ public class Mission : Quest
     {
         mission_id = int.Parse(jsonData["mission_id"].ToString());
         mission_type = (MissionType)int.Parse(jsonData["type"].ToString());
-        criterion_type = (CriterionType)int.Parse(jsonData["type"].ToString());
+        criterion_type = (Criterion_type)int.Parse(jsonData["type"].ToString());
 
         goal = int.Parse(jsonData["goal"].ToString());
         reward_ark = int.Parse(jsonData["reward_ark"].ToString());
@@ -233,7 +234,7 @@ public class Mission : Quest
      */
 
 }
-public enum CriterionType
+public enum Criterion_type
 {
     none = -1,
     stage_clear = 0,//스테이지 클리어 횟수
@@ -246,11 +247,26 @@ public enum CriterionType
     friend = 7 //친구 인원 수
 }
 
+public enum Clear_type
+{
+    none = -1,
+    first_connection = 0,
+    clear_tutorial = 1,
+    buy = 2,
+    attendance = 3,
+    get_star = 4,
+    catchingstar_clear = 5,
+    make_word = 6,
+    add_friend = 7,
+    visit_friendplanet = 8,
+    proxy_harvesting = 9
+}
+
 public class Mission_userdata
 {
     public int mission_id;
     public MissionType mission_type;
-    public CriterionType criterion_type;
+    public Criterion_type criterion_type;
 
     public DateTime reset_time;
 
@@ -280,7 +296,7 @@ public class Mission_userdata
     {
         mission_id = int.Parse(jsonData["mission_id"].ToString());
         mission_type = (MissionType)int.Parse(jsonData["mission_type"].ToString());
-        criterion_type = (CriterionType)int.Parse(jsonData["criterion_type"].ToString());
+        criterion_type = (Criterion_type)int.Parse(jsonData["criterion_type"].ToString());
 
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         is_accept = bool.Parse(jsonData["is_accept"].ToString());
@@ -305,7 +321,7 @@ public class Mission_userdata
     public Mission_userdata(MissionType type)
     {
         mission_type = type;
-        criterion_type = CriterionType.none;
+        criterion_type = Criterion_type.none;
 
         is_clear = false;
         is_accept = false;
