@@ -90,10 +90,11 @@ public class InputManager : MonoBehaviour
     public void invoke_onclick_while_move() {
         if (TCP_Client_Manager.instance.housing_ui_manager.is_move && Onclicked != null)
         {
-            TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
+            
             Onclicked?.Invoke();
             OnExit?.Invoke();
-            
+            //TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
+
         }
     }
 
@@ -101,15 +102,7 @@ public class InputManager : MonoBehaviour
         
         for (int i =0; i<Input.touchCount;i++)
         {
-            Debug.Log("touch check"+i);
-            int id = Input.GetTouch(i).fingerId;
-            if (EventSystem.current.IsPointerOverGameObject(id))
-            {
-                
-                // ui touched
-                return true;
-            }
-
+           
             var eventData = new PointerEventData(EventSystem.current) { position = Input.GetTouch(0).position };
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
@@ -121,6 +114,15 @@ public class InputManager : MonoBehaviour
                         return false;
                     }
                 }
+                return true;
+            }
+
+            Debug.Log("touch check" + i);
+            int id = Input.GetTouch(i).fingerId;
+            if (EventSystem.current.IsPointerOverGameObject(id))
+            {
+
+                // ui touched
                 return true;
             }
         }

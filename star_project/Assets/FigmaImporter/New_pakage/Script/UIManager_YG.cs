@@ -12,8 +12,11 @@ public class UIManager_YG : MonoBehaviour
     [SerializeField] TMP_Text nickname_text;
     [SerializeField] TMP_Text title_text;
     [SerializeField] Image profile_image;
+    [SerializeField] Image profile_background_image;
 
     public static UIManager_YG Instance;
+
+    public Star_nest_UI star_nest_UI;
 
     private void Awake()
     {
@@ -39,7 +42,8 @@ public class UIManager_YG : MonoBehaviour
     public void update_profile() {
         nickname_text.text = Backend.UserNickName;
         title_text.text = BackendGameData_JGD.userData.title_adjective.ToString() + " " + BackendGameData_JGD.userData.title_noun.ToString();
-        profile_image.sprite = SpriteManager.instance.Num2Sprite(BackendGameData_JGD.userData.profile_picture);
+        profile_image.sprite = SpriteManager.instance.Num2emozi(BackendGameData_JGD.userData.profile_picture);
+        profile_background_image.sprite = SpriteManager.instance.Num2BG(BackendGameData_JGD.userData.profile_background);
     }
 
     private void LoadedsceneEvent(Scene arg0, LoadSceneMode arg1)
