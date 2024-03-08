@@ -283,7 +283,7 @@ public class BackendGameData_JGD : MonoBehaviour
         //param.Add("Housing_List", userData.Housing_List);                               //하우징 정보
         param.Add("QuestInfo_List", userData.QuestInfo_List);                           //퀘스트 별 클리어 여부
         param.Add("Achievements_List", userData.Achievements_List);                     //업적 별 클리어 여부 
-        param.Add("mission_Userdatas", userData.mission_Userdatas);                     
+        //param.Add("mission_Userdatas", userData.mission_Userdatas);                     
         param.Add("challenge_Userdatas", userData.challenge_Userdatas);                              
 
         param.Add("Housing_Info", userData.housing_Info);   //하우징 데이터
@@ -357,10 +357,10 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.quest_Info = new Quest_info_YG(gameDataJson[0]["quest_Info"]);
                 userData.tutorial_Info = new Tutorial_info(gameDataJson[0]["tutorial_Info"]);
 
-                foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
-                {
-                    userData.mission_Userdatas.Add(new Mission_userdata(mission));
-                }                
+                //foreach (JsonData mission in gameDataJson[0]["mission_Userdatas"]) 
+                //{
+                //    userData.mission_Userdatas.Add(new Mission_userdata(mission));
+                //}                
                 foreach (JsonData mission in gameDataJson[0]["challenge_Userdatas"]) 
                 {
                     userData.challenge_Userdatas.Add(new Challenge_userdata(mission));

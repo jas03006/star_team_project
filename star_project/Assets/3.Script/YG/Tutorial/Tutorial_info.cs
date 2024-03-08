@@ -11,7 +11,7 @@ public enum Tutorial_state
 }
 public class Tutorial_info
 {
-    Tutorial_state state;
+    public Tutorial_state state;
 
     public Tutorial_info()
     {
