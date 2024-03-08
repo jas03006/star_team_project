@@ -10,11 +10,10 @@ public class Tuto_Player_Controll : MonoBehaviour
     private bool isMove = true;
     public bool isUp = true;
     public bool invincibility = false;
-    public bool Shild = false;
     private int PlayerNumber = 0;
     [SerializeField] GameObject cameraCon;
-    [SerializeField] GameObject Itemmanager;
-    [SerializeField] ItemManager itemManager;
+    //[SerializeField] GameObject Itemmanager;
+    //[SerializeField] ItemManager itemManager;
     [SerializeField] private float Jump;
     [SerializeField] public float Speed;
     Rigidbody2D rigi;
@@ -30,7 +29,6 @@ public class Tuto_Player_Controll : MonoBehaviour
     [SerializeField] private Image PlayerItem2;
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
-    [SerializeField] private Character cur_character;
     SpriteRenderer character;
     [Header("PlayerUI")]
     [SerializeField] private Slider Hpslider;
@@ -40,14 +38,12 @@ public class Tuto_Player_Controll : MonoBehaviour
     [SerializeField] private List<Image> Player_Alphabet_BackGround;
     [SerializeField] private Sprite Alphabet_BackGround;
     [Header("PlayerHitByCar")]
-    private bool isHitOn = true;
-    [SerializeField] private float DamageTime;
     Coroutine now_damage_co = null;
     private int Player_Alphabet_Count = 0;
     [Header("Tuto")]
     //[SerializeField] GameObject TutoObj;
     [SerializeField] TutorialSystem_JGD Tuto;
-
+    [SerializeField] GameObject Magnet;
 
 
 
@@ -55,21 +51,18 @@ public class Tuto_Player_Controll : MonoBehaviour
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
-        character = GetComponent<SpriteRenderer>();
     }
     private void Start()
     {
-        MaxHp += (PlayerLevel - 1) * 10;
         currentHp = MaxHp;
         Hpslider.maxValue = (float)MaxHp;
         Hpslider.value = float.MaxValue;
-
-
+        PlayerItem.sprite = PlayerItemInven;
     }
     private void Update()
     {
-        Itemmanager.transform.position = this.transform.position;
-        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
+        Magnet.transform.position = this.transform.position;  //Magnet
+        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 191.3f)
         {
             cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
         }
@@ -88,30 +81,17 @@ public class Tuto_Player_Controll : MonoBehaviour
     }
     private IEnumerator OnDamage(int num)
     {
-        if (!invincibility && !Shild)
+        if (!invincibility)
         {
             isMove = false;
-            isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
-            //if (currentHp <= 0)
-            //{
-            //    Time.timeScale = 0;
-            //    AudioManager.instance.SFX_game_over();
-            //    PlayerDieUI.SetActive(true);
-            //    if (now_damage_co != null)    //코루틴 쓰는 방법
-            //    {
-            //        StopCoroutine(now_damage_co);
-            //    }
-            //
-            //}
-            AudioManager.instance.SFX_hit();
+            //AudioManager.instance.SFX_hit();
             rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
             rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             isMove = true;
         }
-        Shild = false;
         now_damage_co = null;
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -145,17 +125,59 @@ public class Tuto_Player_Controll : MonoBehaviour
                 now_damage_co = null;
             }
             now_damage_co = StartCoroutine(OnDamage(50));
+            Tuto.GameStart();
+            collision.gameObject.SetActive(false);
 
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        else if (collision.gameObject.CompareTag("star_nest_UI"))               //별 아이템
         {
-            //노란색 벽
-            if (now_damage_co != null)  
-            {
-                now_damage_co = null;
-            }
-            now_damage_co = StartCoroutine(OnDamage(0));
+            PlayerScore += 5;
+            Player_CatchingStar_Count.text = PlayerScore.ToString();
         }
+        else if (collision.gameObject.CompareTag("post_box_UI"))               //별 아이템
+        {
+            PlayerScore += 1;
+            Player_CatchingStar_Count.text = PlayerScore.ToString();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        {
+            currentHp = 100f;
+            collision.gameObject.SetActive(false);
+            Hpslider.value = (float)currentHp;
+            if (Tuto.progress == 3)
+            {
+                Tuto.GameStart();
+            }
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall_YG"))  //자석아이템
+        {
+            if (ItemInven[0] != 1)
+            {
+                PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4031);
+                ItemInven[0] = 1;
+                Tuto.GameStart();
+            }
+            else if (ItemInven[0] == 1)
+            {
+                PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4031);
+                ItemInven[1] = 1;
+            }
+            else
+            {
+                return;
+            }
+            collision.gameObject.SetActive(false);
+        }
+        //else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        //{
+        //    //노란색 벽
+        //    if (now_damage_co != null)  
+        //    {
+        //        now_damage_co = null;
+        //    }
+        //    now_damage_co = StartCoroutine(OnDamage(0));
+        //    collision.gameObject.SetActive(false);
+        //}
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
             Alphabet.Add("a");
@@ -183,5 +205,25 @@ public class Tuto_Player_Controll : MonoBehaviour
             }
         }
 
+    }
+    public void UsingItem()
+    {
+        if (ItemInven[1] == 1)
+        {
+            ItemInven[1] = 0;
+            PlayerItem2.sprite = PlayerItemInven;
+            Magnet.SetActive(true);
+        }
+        else if (ItemInven[0] == 1)
+        {
+            ItemInven[0] = 0;
+            PlayerItem.sprite = PlayerItemInven;
+            Magnet.SetActive(true);
+        }
+        if (ItemInven[0] == 1 && Tuto.progress == 8)
+        {
+            Tuto.progress++;
+            Tuto.GameStart();
+        }
     }
 }
