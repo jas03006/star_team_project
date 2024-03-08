@@ -432,6 +432,8 @@ public class Star_nest_UI : MonoBehaviour
             save_btn.interactable = false;
         }
         StartCoroutine(update_UI_co());
+
+        UIManager_YG.Instance.update_profile();
     }
     public void cancel_edit_profile() {
         if (is_editing)
