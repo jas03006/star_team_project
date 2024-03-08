@@ -48,7 +48,6 @@ public class Tuto_Player_Controll : MonoBehaviour
 
 
 
-
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -58,7 +57,7 @@ public class Tuto_Player_Controll : MonoBehaviour
         currentHp = MaxHp;
         Hpslider.maxValue = (float)MaxHp;
         Hpslider.value = float.MaxValue;
-
+        PlayerItem.sprite = PlayerItemInven;
     }
     private void Update()
     {
@@ -205,15 +204,17 @@ public class Tuto_Player_Controll : MonoBehaviour
             ItemInven[1] = 0;
             PlayerItem2.sprite = PlayerItemInven;
             Magnet.SetActive(true);
-            Tuto.GameStart();
         }
         else if (ItemInven[0] == 1)
         {
             ItemInven[0] = 0;
             PlayerItem.sprite = PlayerItemInven;
             Magnet.SetActive(true);
+        }
+        if (ItemInven[0] == 1 && Tuto.progress == 9)
+        {
+            Tuto.progress++;
             Tuto.GameStart();
         }
-        
     }
 }
