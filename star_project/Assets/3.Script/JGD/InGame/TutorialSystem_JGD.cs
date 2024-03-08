@@ -29,10 +29,13 @@ public class TutorialSystem_JGD : MonoBehaviour
     [SerializeField] GameObject HPPanel;
     [SerializeField] GameObject ItemPanel;
     [SerializeField] List<GameObject> MentList = new List<GameObject>();
+    [SerializeField] List<GameObject> Fingers = new List<GameObject>();
     [SerializeField] Button Itembtn;
-
     State state;
 
+
+    Press_Any_Key press_any_key;
+    Press_Any_Key FingerPress;
     private void Start()
     {
         Player.isUp = false;
@@ -41,7 +44,12 @@ public class TutorialSystem_JGD : MonoBehaviour
         for (int i = 0; i < MentList.Count; i++)
         {
             MentList[i].SetActive(false);
-            Kill_The_Child(i);
+            MentList[i].transform.GetChild(0).gameObject.SetActive(false);
+            //Kill_The_Child(i);
+        }
+        for (int i = 1; i < Fingers.Count; i++)
+        {
+            Fingers[i].SetActive(false);
         }
     }
 
@@ -89,19 +97,20 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Time.timeScale = 0;
                 FirstPanel.SetActive(true);
                 //MentList[0].SetActive(true);
-                StartCoroutine(MentBox_Timmer(0));
+                StartCoroutine(MentBox_Timmer(0,0));
                 break;
             case 1:                                        //캐릭터 상승패널     (추후 손가락 애니메이션
-                Kill_The_Child(0);
+                Kill_The_Child(0,0);
                 UI_On = true;
                 FirstPanel.SetActive(false);
                 TouchPanel.SetActive(true);
                 //MentList[0].SetActive(false);
                 //MentList[1].SetActive(true);
-                StartCoroutine(MentBox_Timmer(1));
+
+                StartCoroutine(MentBox_Timmer(1,1));
                 break;
             case 2:                                        //캐릭터 상승
-                Kill_The_Child(1);
+                Kill_The_Child(1,1);
                 UI_On = false;
                 //Key_Up = true;
                 Player.isUp = true;
@@ -125,12 +134,13 @@ public class TutorialSystem_JGD : MonoBehaviour
                 //GameStart();
                 break;
             case 4:                                        //캐릭터 하강
+                UI_On = false;
                 Key_Up = false;
                 Time.timeScale = 1;
                 TouchPanel.SetActive(false);
-                //MentList[2].SetActive(false);
+                MentList[2].SetActive(false);
                 //StartCoroutine(MentBox_Timmer(3, 2));
-                Kill_The_Child(2);
+                //Kill_The_Child(2, 0);
                 //UI_On = true;
                 progress++;
                 Invoke("NextLevel_", 1.5f);
@@ -140,7 +150,7 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Key_Up = false;
                 Panel.SetActive(true);
                 //MentList[3].SetActive(true); 
-                StartCoroutine(MentBox_Timmer(3));
+                StartCoroutine(MentBox_Timmer(3,0));
                 Time.timeScale = 0;
                 break;
             case 6:
@@ -148,7 +158,7 @@ public class TutorialSystem_JGD : MonoBehaviour
                 UI_On = false;
                 Panel.SetActive(false);
                 //MentList[3].SetActive(false);
-                Kill_The_Child(3);
+                Kill_The_Child(3, 0);
                 StateReset(State.Item);
                 break;
             default:
@@ -167,11 +177,11 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Time.timeScale = 0;
                 Key_Up = false;
                 HPPanel.SetActive(true);
-                StartCoroutine(MentBox_Timmer(4));
+                StartCoroutine(MentBox_Timmer(4, 0));
                 //MentList[4].SetActive(true);
                 break;
             case 2:
-                Kill_The_Child(4);
+                Kill_The_Child(4, 0);
                 Time.timeScale = 1;
                 HPPanel.SetActive(false);
                 //MentList[4].SetActive(false);
@@ -185,11 +195,11 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Key_Up = false;
                 Time.timeScale = 0;
                 HPPanel.SetActive(true);
-                StartCoroutine(MentBox_Timmer(5));
+                StartCoroutine(MentBox_Timmer(5,0));
                 //MentList[5].SetActive(true);
                 break;
             case 5:
-                Kill_The_Child(5);
+                Kill_The_Child(5,0);
                 Key_Up = false;
                 Time.timeScale = 1;
                 HPPanel.SetActive(false);
@@ -201,33 +211,60 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Invoke("NextLevel_", 1.5f);
                 break;
             case 7:
-                Key_Up = false;
+                Key_Up = true;
                 Time.timeScale = 0;
                 ItemPanel.SetActive(true);
-                StartCoroutine (MentBox_Timmer(6));
+                StartCoroutine (MentBox_Timmer(6,0));
                 //MentList[6].SetActive(true);
                 break;
             case 8:                                 //자석 아이템 사용     (추후 손가락 애니메이션
-                Kill_The_Child(6);
-                
-                Key_Up = true;
-                //MentList[6].SetActive(false);
+                Kill_The_Child(6,0);
+                Key_Up = false;
                 MentList[7].SetActive(true);
+                MentList[7].transform.GetChild(0).gameObject.SetActive(true);  //ㅈ같네
+                Fingers[2].SetActive(true);
+                //StartCoroutine(MentBox_Timmer(7, 2));
                 Itembtn.interactable = true;
                 break;
             case 9:
                 Key_Up = false;
                 Time.timeScale = 1;
-                Kill_The_Child(7);
+                Kill_The_Child(7,2);
                 ItemPanel.SetActive(false);
                 StateReset(State.Magnet);
-                //MentList[7].SetActive(false);
                 break;
             default:
                 break;
         }
     }
+    private void Tutorial_Magent_Part()
+    {
+        switch (progress)
+        {
+            case 0:
+                Time.timeScale = 0;
+                Panel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(8,0));
+                break;
+            case 1:
+                Kill_The_Child(8, 0);
+                StartCoroutine(MentBox_Timmer(9, 0));
+                break;
+            case 2:
+                Kill_The_Child(9, 0);
+                Time.timeScale = 1;
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
 
+            default:
+                break;
+        }
+    }
 
 
 
@@ -240,20 +277,37 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
 
 
-    private IEnumerator MentBox_Timmer(int ListCount)
+    private IEnumerator MentBox_Timmer(int ListCount, int Finger)
     {
         UI_On = false;
         MentList[ListCount].SetActive(true);
         yield return new WaitForSecondsRealtime(NextMentTimmer);
         MentList[ListCount].transform.GetChild(0).gameObject.SetActive(true);
         UI_On = true;
+        if (Finger != 0)
+        {
+            Fingers[Finger].SetActive(true);
+        }
 
     }
-    private void Kill_The_Child(int ListCount)
+    private void Kill_The_Child(int ListCount, int Finger)
     {
+        press_any_key = MentList[ListCount].GetComponentInChildren<Press_Any_Key>();
         UI_On = false;
         MentList[ListCount].SetActive(false);
-        MentList[ListCount].transform.GetChild(0).gameObject.SetActive(false);
+        MentList[ListCount].transform.GetChild(0).gameObject.SetActive(false);  //추후 변경
+        if (Finger != 0)
+        {
+            FingerPress = Fingers[Finger].GetComponent<Press_Any_Key>();
+            FingerPress.StopCoroutine(FingerPress.PressNext);
+            Fingers[Finger].SetActive(false);
+
+        }
+        if (press_any_key.PressNext != null)
+        {
+            press_any_key.StopCoroutine(press_any_key.PressNext);   
+        }
+
     }
 
 

@@ -129,9 +129,18 @@ public class Tuto_Player_Controll : MonoBehaviour
             collision.gameObject.SetActive(false);
 
         }
+        else if (collision.gameObject.CompareTag("star_nest_UI"))               //별 아이템
+        {
+            PlayerScore += 5;
+            Player_CatchingStar_Count.text = PlayerScore.ToString();
+        }
+        else if (collision.gameObject.CompareTag("post_box_UI"))               //별 아이템
+        {
+            PlayerScore += 1;
+            Player_CatchingStar_Count.text = PlayerScore.ToString();
+        }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            //일반 벽
             currentHp = 100f;
             collision.gameObject.SetActive(false);
             Hpslider.value = (float)currentHp;
@@ -159,16 +168,16 @@ public class Tuto_Player_Controll : MonoBehaviour
             }
             collision.gameObject.SetActive(false);
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
-        {
-            //노란색 벽
-            if (now_damage_co != null)  
-            {
-                now_damage_co = null;
-            }
-            now_damage_co = StartCoroutine(OnDamage(0));
-            collision.gameObject.SetActive(false);
-        }
+        //else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        //{
+        //    //노란색 벽
+        //    if (now_damage_co != null)  
+        //    {
+        //        now_damage_co = null;
+        //    }
+        //    now_damage_co = StartCoroutine(OnDamage(0));
+        //    collision.gameObject.SetActive(false);
+        //}
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
             Alphabet.Add("a");
@@ -211,7 +220,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             PlayerItem.sprite = PlayerItemInven;
             Magnet.SetActive(true);
         }
-        if (ItemInven[0] == 1 && Tuto.progress == 9)
+        if (ItemInven[0] == 1 && Tuto.progress == 8)
         {
             Tuto.progress++;
             Tuto.GameStart();
