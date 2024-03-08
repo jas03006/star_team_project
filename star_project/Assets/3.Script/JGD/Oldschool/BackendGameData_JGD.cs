@@ -241,7 +241,7 @@ public class BackendGameData_JGD : MonoBehaviour
             }
 
             //업적 정보(전)
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 27; i++)
             {
                 userData.challenge_Userdatas.Add(new Challenge_userdata());
             }
