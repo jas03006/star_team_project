@@ -220,7 +220,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             PlayerItem.sprite = PlayerItemInven;
             Magnet.SetActive(true);
         }
-        if (ItemInven[0] == 1 && Tuto.progress == 8)
+        if (Tuto.Itembtn.interactable && Tuto.progress == 8)
         {
             Tuto.progress++;
             Tuto.GameStart();

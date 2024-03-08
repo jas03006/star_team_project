@@ -30,9 +30,8 @@ public class TutorialSystem_JGD : MonoBehaviour
     [SerializeField] GameObject ItemPanel;
     [SerializeField] List<GameObject> MentList = new List<GameObject>();
     [SerializeField] List<GameObject> Fingers = new List<GameObject>();
-    [SerializeField] Button Itembtn;
+    [SerializeField] public Button Itembtn;
     State state;
-
 
     Press_Any_Key press_any_key;
     Press_Any_Key FingerPress;
@@ -79,7 +78,7 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Tutorial_Item_Part();
                 break;
             case State.Magnet:
-
+                Tutorial_Magent_Part();
                 break;
             case State.End:
 
@@ -111,7 +110,6 @@ public class TutorialSystem_JGD : MonoBehaviour
                 break;
             case 2:                                        //캐릭터 상승
                 Kill_The_Child(1,1);
-                UI_On = false;
                 //Key_Up = true;
                 Player.isUp = true;
                 TouchPanel.SetActive(false);
@@ -227,10 +225,14 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Itembtn.interactable = true;
                 break;
             case 9:
+                UI_On = false;
                 Key_Up = false;
-                Time.timeScale = 1;
-                Kill_The_Child(7,2);
+                //Kill_The_Child(7,2);
+                MentList[7].SetActive(false);
+                Fingers[2].GetComponent<Press_Any_Key>().StopCoroutine(FingerPress.PressNext);
+                Fingers[2].SetActive(false);
                 ItemPanel.SetActive(false);
+                Time.timeScale = 1;
                 StateReset(State.Magnet);
                 break;
             default:
@@ -277,16 +279,20 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
 
 
-    private IEnumerator MentBox_Timmer(int ListCount, int Finger)
+    private IEnumerator MentBox_Timmer(int ListCount, int Finger)  //안대면 이거임 ㅇㅇ///////////////////////////////////////////////////////////////
     {
+        press_any_key = MentList[ListCount].transform.GetChild(0).gameObject.GetComponent<Press_Any_Key>();
+        FingerPress = Fingers[Finger].gameObject.GetComponent<Press_Any_Key>();
         UI_On = false;
         MentList[ListCount].SetActive(true);
         yield return new WaitForSecondsRealtime(NextMentTimmer);
         MentList[ListCount].transform.GetChild(0).gameObject.SetActive(true);
+        press_any_key.StartAnyKeyco();
         UI_On = true;
         if (Finger != 0)
         {
-            Fingers[Finger].SetActive(true);
+            Fingers[Finger].SetActive(true); //코루틴 실행해야함
+            FingerPress.StartAnyKeyco();
         }
 
     }
@@ -305,7 +311,7 @@ public class TutorialSystem_JGD : MonoBehaviour
         }
         if (press_any_key.PressNext != null)
         {
-            press_any_key.StopCoroutine(press_any_key.PressNext);   
+            press_any_key.StopCoroutine(press_any_key.PressNext);
         }
 
     }
