@@ -10,6 +10,8 @@ public class QuestManager : MonoBehaviour
     public List<Mission> missions = new List<Mission>(); //전체미션
     public List<Criterion_type> cur_missiontypes = new List<Criterion_type>(); //미션 수락 시 내용 담김
 
+    public int friend_num;
+
     private void Awake()
     {
         if (instance == null)

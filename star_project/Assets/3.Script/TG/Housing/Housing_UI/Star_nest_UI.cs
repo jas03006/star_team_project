@@ -601,6 +601,8 @@ public class Star_nest_UI : MonoBehaviour
             if (star_nest != null) {
                 star_nest.apply_level();
             }
+            //¼ºÀ¯°æ
+            QuestManager.instance.Check_mission(Criterion_type.starnest);
         }
     }
 
