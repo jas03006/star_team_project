@@ -133,11 +133,13 @@ public class Tuto_Player_Controll : MonoBehaviour
         {
             PlayerScore += 5;
             Player_CatchingStar_Count.text = PlayerScore.ToString();
+            collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.CompareTag("post_box_UI"))               //별 아이템
         {
             PlayerScore += 1;
             Player_CatchingStar_Count.text = PlayerScore.ToString();
+            collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {

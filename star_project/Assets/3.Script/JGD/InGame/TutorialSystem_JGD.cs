@@ -28,13 +28,21 @@ public class TutorialSystem_JGD : MonoBehaviour
     [SerializeField] GameObject TouchPanel;
     [SerializeField] GameObject HPPanel;
     [SerializeField] GameObject ItemPanel;
+    [SerializeField] GameObject StarPanel;
+
+    [SerializeField] GameObject NextMent_Alarm;
     [SerializeField] List<GameObject> MentList = new List<GameObject>();
     [SerializeField] List<GameObject> Fingers = new List<GameObject>();
     [SerializeField] public Button Itembtn;
     State state;
 
+    [SerializeField] GameObject MagnetItem;
     Press_Any_Key press_any_key;
     Press_Any_Key FingerPress;
+    private void Awake()
+    {
+        press_any_key = NextMent_Alarm.GetComponent<Press_Any_Key>();
+    }
     private void Start()
     {
         Player.isUp = false;
@@ -43,7 +51,7 @@ public class TutorialSystem_JGD : MonoBehaviour
         for (int i = 0; i < MentList.Count; i++)
         {
             MentList[i].SetActive(false);
-            MentList[i].transform.GetChild(0).gameObject.SetActive(false);
+            //MentList[i].transform.GetChild(0).gameObject.SetActive(false);
             //Kill_The_Child(i);
         }
         for (int i = 1; i < Fingers.Count; i++)
@@ -100,7 +108,7 @@ public class TutorialSystem_JGD : MonoBehaviour
                 break;
             case 1:                                        //캐릭터 상승패널     (추후 손가락 애니메이션
                 Kill_The_Child(0,0);
-                UI_On = true;
+                UI_On = false;
                 FirstPanel.SetActive(false);
                 TouchPanel.SetActive(true);
                 //MentList[0].SetActive(false);
@@ -254,9 +262,15 @@ public class TutorialSystem_JGD : MonoBehaviour
                 break;
             case 2:
                 Kill_The_Child(9, 0);
+                Panel.SetActive(false);
+                //MagnetItem.gameObject.SetActive(false);
                 Time.timeScale = 1;
+                progress++;
                 break;
             case 3:
+                Time.timeScale = 0;
+                StarPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(10, 0));
                 break;
             case 4:
                 break;
@@ -281,16 +295,15 @@ public class TutorialSystem_JGD : MonoBehaviour
 
     private IEnumerator MentBox_Timmer(int ListCount, int Finger)  //안대면 이거임 ㅇㅇ///////////////////////////////////////////////////////////////
     {
-        press_any_key = MentList[ListCount].transform.GetChild(0).gameObject.GetComponent<Press_Any_Key>();
-        FingerPress = Fingers[Finger].gameObject.GetComponent<Press_Any_Key>();
         UI_On = false;
         MentList[ListCount].SetActive(true);
         yield return new WaitForSecondsRealtime(NextMentTimmer);
-        MentList[ListCount].transform.GetChild(0).gameObject.SetActive(true);
+        NextMent_Alarm.SetActive(true);
         press_any_key.StartAnyKeyco();
         UI_On = true;
         if (Finger != 0)
         {
+            FingerPress = Fingers[Finger].GetComponent<Press_Any_Key>();
             Fingers[Finger].SetActive(true); //코루틴 실행해야함
             FingerPress.StartAnyKeyco();
         }
@@ -298,21 +311,21 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
     private void Kill_The_Child(int ListCount, int Finger)
     {
-        press_any_key = MentList[ListCount].GetComponentInChildren<Press_Any_Key>();
         UI_On = false;
         MentList[ListCount].SetActive(false);
-        MentList[ListCount].transform.GetChild(0).gameObject.SetActive(false);  //추후 변경
+        NextMent_Alarm.SetActive(false);
+        //MentList[ListCount].transform.GetChild(0).gameObject.SetActive(false);  //추후 변경
         if (Finger != 0)
         {
             FingerPress = Fingers[Finger].GetComponent<Press_Any_Key>();
-            FingerPress.StopCoroutine(FingerPress.PressNext);
+            //FingerPress.StopCoroutine(FingerPress.PressNext);
             Fingers[Finger].SetActive(false);
 
         }
-        if (press_any_key.PressNext != null)
-        {
-            press_any_key.StopCoroutine(press_any_key.PressNext);
-        }
+        //if (press_any_key.PressNext != null)
+        //{
+        //    press_any_key.StopCoroutine(press_any_key.PressNext);
+        //}
 
     }
 

@@ -32,6 +32,8 @@ public class Press_Any_Key : MonoBehaviour
     }
     private IEnumerator Press()
     {
+        num = 0f;
+        num2 = 1f;
         while (true)
         {
             num += Time.unscaledDeltaTime * num2 ;
