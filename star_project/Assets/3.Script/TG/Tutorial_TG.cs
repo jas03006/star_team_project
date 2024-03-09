@@ -6,30 +6,38 @@ using UnityEngine;
 
 [Serializable]
 public enum tutorial_type_TG { 
+    none=-1,
     any_touch=0,
     particular_touch,
     timeout,
     housing,
-    move
+    move,
+    housing_object_touch,
+    housing_inven_touch
 }
 public class Tutorial_TG : MonoBehaviour
 {
     public static Tutorial_TG instance = null;
     private int now_index =0;
     public List<Tutorial_Screen_Object> tutorial_sequence;
-    public bool is_housing_tutorial = false;
+    //public bool is_housing_tutorial = false;
     public float blink_delay = 0.5f;
     public bool is_progressing = false;
-    public bool is_move_tutorial = false;
+    // public bool is_move_tutorial = false;
+
+    private float timer = 0f;
+    public float time_delay = 0.1f;
+
+    [SerializeField] private Camera_My_Planet camera;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else { 
-            Destroy(this.gameObject);
+            Destroy(instance.gameObject);
+            instance = this;
             return;
         }
     }
@@ -37,16 +45,30 @@ public class Tutorial_TG : MonoBehaviour
     {
         start_tutorial();
     }
+    private void Update()
+    {
+        timer += Time.deltaTime;
+    }
     public void start_tutorial() {
         is_progressing = true;
         now_index = 0;
         show();
+
+        camera.set_tutorial_position();
     }
 
     public void step() {
+        if (timer < time_delay) {
+            return;
+        }
+        timer = 0f;
+
         now_index++;
-        is_move_tutorial = false;
-        is_housing_tutorial = false;
+        show();
+    }
+
+    public void force_step() {
+        now_index++;
         show();
     }
 
@@ -65,6 +87,14 @@ public class Tutorial_TG : MonoBehaviour
             //Á¾·á
         }              
     }
+
+    public tutorial_type_TG get_type() {
+        if (!is_progressing || now_index < 0 || now_index >= tutorial_sequence.Count) {
+            return tutorial_type_TG.none;
+        }
+        return tutorial_sequence[now_index].type;
+    }
+
     public void check_housing_condition() {
 
         bool has_star_nest = false;
@@ -99,6 +129,18 @@ public class Tutorial_TG : MonoBehaviour
         }
 
         if (has_star_nest && has_post_box && has_ark_cylinder) {
+            step();
+        }
+    }
+    public void check_housing_object_touch(housing_itemID id_) {
+        if (id_ == tutorial_sequence[now_index].target) {
+            step();
+        }
+    }
+    public void check_housing_inven_touch(housing_itemID id_)
+    {
+        if (id_ == tutorial_sequence[now_index].target)
+        {
             step();
         }
     }

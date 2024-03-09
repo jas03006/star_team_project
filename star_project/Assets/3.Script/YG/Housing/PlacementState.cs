@@ -71,7 +71,7 @@ public class PlacementState : IBuildingState
         selectedData.AddObjectAt(gridPosition, database.objectData[selectedObjectIndex].size, database.objectData[selectedObjectIndex].id, index);
         previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), false);
 
-        if (Tutorial_TG.instance.is_housing_tutorial) {
+        if (Tutorial_TG.instance.get_type() == tutorial_type_TG.housing) {
             Tutorial_TG.instance.check_housing_condition();
         }
     }

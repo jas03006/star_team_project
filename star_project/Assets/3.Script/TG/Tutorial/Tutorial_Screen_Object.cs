@@ -10,8 +10,9 @@ public class Tutorial_Screen_Object : MonoBehaviour
 
     public tutorial_type_TG type;
     public bool is_finger_move = false;
-    public float delay_time = 3f;
-    public housing_itemID target = housing_itemID.none; 
+    private float delay_time = 0.7f;
+    public housing_itemID target = housing_itemID.none;
+    public GameObject target_go = null;
 
 
     public Button screen;
@@ -27,14 +28,16 @@ public class Tutorial_Screen_Object : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        step_action = () => { AudioManager.instance.SFX_Click(); Tutorial_TG.instance.step(); target_button?.onClick.RemoveListener(step_action); };
+        step_action = () => { AudioManager.instance.SFX_Click(); Tutorial_TG.instance.step(); };
         press_screen_UI.SetActive(false);
-        
+
         screen.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
-        
-        if (target != 0)
+
+        if (type != tutorial_type_TG.housing_inven_touch && target != housing_itemID.none)
         {
             find_target();
+        } else if (target_go != null) {
+            find_target_go();
         }
 
         if (is_finger_move) {
@@ -74,7 +77,8 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 screen.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.particular_touch:
-                yield return new WaitForSeconds(delay_time);
+                //yield return new WaitForSeconds(delay_time);
+                step_action = () => { AudioManager.instance.SFX_Click(); Tutorial_TG.instance.step(); target_button?.onClick.RemoveListener(step_action); };
                 target_button?.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.timeout:
@@ -82,11 +86,13 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 Tutorial_TG.instance.step();
                 break;
             case tutorial_type_TG.housing:
-                Tutorial_TG.instance.is_housing_tutorial = true;
                 break;
             case tutorial_type_TG.move:
-                Tutorial_TG.instance.is_move_tutorial = true;
-                break;                
+                break;
+            case tutorial_type_TG.housing_object_touch:
+                break;
+            case tutorial_type_TG.housing_inven_touch:
+                break;
             default:
                 break;
         }
@@ -120,5 +126,8 @@ public class Tutorial_Screen_Object : MonoBehaviour
         }
 
         screen.transform.position = Camera.main.WorldToScreenPoint(target_go.transform.position);
+    }
+    public void find_target_go() {
+        screen.transform.position = target_go.transform.position;
     }
 }
