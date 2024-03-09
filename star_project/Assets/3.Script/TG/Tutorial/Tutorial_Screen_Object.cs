@@ -10,6 +10,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
 
     public tutorial_type_TG type;
     public bool is_finger_move = false;
+    public bool is_giving_objects = false;
     private float delay_time = 0.7f;
     public housing_itemID target = housing_itemID.none;
     public GameObject target_go = null;
@@ -43,6 +44,12 @@ public class Tutorial_Screen_Object : MonoBehaviour
         if (is_finger_move) {
             finger_UI.transform.position = start_pos.position;
             dir = end_pos.position - start_pos.position;
+        }
+
+        if (is_giving_objects) {
+            BackendGameData_JGD.userData.house_inventory.Add(housing_itemID.ark_cylinder, 1);
+            BackendGameData_JGD.userData.house_inventory.Add(housing_itemID.post_box, 1);
+            TCP_Client_Manager.instance.housing_ui_manager.init_housing_inventory();
         }
     }
 

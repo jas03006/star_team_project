@@ -28,7 +28,11 @@ public class Tutorial_TG : MonoBehaviour
     private float timer = 0f;
     public float time_delay = 0.1f;
 
+    [SerializeField] private GameObject reward_UI;
+    [SerializeField] private GameObject container;
+    
     [SerializeField] private Camera_My_Planet camera;
+
     private void Awake()
     {
         if (instance == null)
@@ -50,13 +54,27 @@ public class Tutorial_TG : MonoBehaviour
         timer += Time.deltaTime;
     }
     public void start_tutorial() {
+        container.SetActive(true);
         is_progressing = true;
         now_index = 0;
         show();
 
         camera.set_tutorial_position();
+        BackendGameData_JGD.userData.housing_Info = new HousingInfo_JGD();
+        BackendGameData_JGD.userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest, new Vector2(-1,-1),0));
+        TCP_Client_Manager.instance.placement_system.housing_info = BackendGameData_JGD.userData.housing_Info;
+        TCP_Client_Manager.instance.placement_system.update_placement();
+        TCP_Client_Manager.instance.housing_ui_manager.init_housing_inventory();
     }
 
+    public void end_tutorial() {
+        is_progressing = false;
+        BackendGameData_JGD.userData.Adjective_ID_List.Add(adjective.Sweet);
+        BackendGameData_JGD.userData.Noun_ID_List.Add(noun.Fire_Punch);
+        //TODO: 받은 칭호 DB에 저장 (상위 매니저가 처리해도됨)
+        reward_UI.SetActive(true);
+        container.SetActive(false);
+    }
     public void step() {
         if (timer < time_delay) {
             return;
@@ -83,8 +101,7 @@ public class Tutorial_TG : MonoBehaviour
             tutorial_sequence[now_index].start_process();
         }
         else {
-            is_progressing = false;
-            //종료
+            end_tutorial();
         }              
     }
 
