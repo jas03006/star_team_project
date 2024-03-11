@@ -164,13 +164,13 @@ public class Tutorial_YG : MonoBehaviour
         }
 
         Stop_blink_btn();
-        Debug.Log("카운트" + count);
+        //Debug.Log("카운트" + count);
 
         if (solo_timings.Contains(count))
         {
             image_100.SetActive(true);
             gameobject_50.SetActive(false);
-            Debug.Log("안터치");
+            //Debug.Log("안터치");
             StartCoroutine(Timecheck_nottouch_co(false));
         }
 
@@ -179,7 +179,7 @@ public class Tutorial_YG : MonoBehaviour
             image_100.SetActive(true);
             gameobject_50.SetActive(true);
 
-            Debug.Log("둘다");
+            //Debug.Log("둘다");
             StartCoroutine(Timecheck_nottouch_co(true));
             StartCoroutine(Timecheck_touch_co(true));
         }
@@ -188,7 +188,7 @@ public class Tutorial_YG : MonoBehaviour
         {
             image_100.SetActive(false);
             gameobject_50.SetActive(true);
-            Debug.Log("터치");
+            //Debug.Log("터치");
             StartCoroutine(Timecheck_touch_co(false));
 
         }

@@ -37,6 +37,7 @@ public class TutorialManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(canvas);
         }
         else
         {
@@ -46,9 +47,10 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
+        pannel.SetActive(true);
         pannel_image.alphaHitTestMinimumThreshold = 0.5f;
 
         //튜토리얼 단계 입장유도
@@ -71,7 +73,21 @@ public class TutorialManager : MonoBehaviour
         if (scene.name == "Stage")
         {
             tutorial_YG = FindObjectOfType<Tutorial_YG>();
-            tutorial_YG.Count_up();
+
+            //Debug.Log("현재"+BackendGameData_JGD.userData.tutorial_Info.state);
+            if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.catchingstar_play)
+            {
+                GoToCatchingstar();
+            }
+            else
+            {
+                pannel.SetActive(false);
+            }
+        }
+        
+        if (scene.name == "Tutorial")
+        {
+            pannel.SetActive(false);
         }
     }
     private void GoToStage()
@@ -79,17 +95,12 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("GoToStage");
         pannel.SetActive(true);
         SceneManager.LoadScene("Stage");
-
-        if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.catchingstar_play)
-        {
-            GoToCatchingstar();
-        }
     }
 
     private void GoToCatchingstar()
     {
         Debug.Log("GoToCatchingstar");
-        pannel.GetComponent<Image>().sprite = ingame_sprite;
+        pannel_image.sprite = ingame_sprite;
         pannel.SetActive(true);
     }
 }

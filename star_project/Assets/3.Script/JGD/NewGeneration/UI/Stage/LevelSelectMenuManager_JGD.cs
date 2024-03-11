@@ -45,7 +45,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     private void OnEnable()
     {
-        if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.catchingstar_chapter)
+        if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.clear)
         {
             tutorial_canvas.enabled = true;
 
