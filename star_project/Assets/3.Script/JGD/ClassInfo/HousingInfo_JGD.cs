@@ -121,13 +121,15 @@ public class HousingObjectInfo
 public enum housing_itemID
 {
     none = -1,
-    ark_cylinder = 1,
-    airship=2,
-    star_nest=3,
-    chair_old=4,
+
+    star_nest=1,
+    post_box = 2,
+    ark_cylinder = 3,
+    chair_old =4,
     bed_old=5,
-    table_old=6,
-    post_box=7,
+    table_old=6,    
+    airship = 7,
+
     panda = 8,
     balloon =9,
     block = 10,

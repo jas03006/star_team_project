@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1093053256974684220}
   - component: {fileID: 4869627202347348849}
   - component: {fileID: 1552887668676461867}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 22Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749391515b4716745b3828c3b16a3af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  object_enum: 21
+  object_enum: 22
 --- !u!65 &1552887668676461867
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -198,6 +198,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 95c0e3c9552815347a0d35c59b6817d9, type: 3}
       propertyPath: m_Name
       value: SM_Playground_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 95c0e3c9552815347a0d35c59b6817d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -20,9 +20,9 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
 
     private string[] name_arr = {
         "none",
-        "아크실린더", "비행선", "별둥지",
+        "별둥지", "우체통", "아크실린더",
         "의자","침대","탁자",
-        "우체통",
+        "비행선",
 
         "인형", "풍선", "블럭","카메라","비행기",
         "사과", "우유", "컵", "의자", "식탁",
@@ -38,6 +38,10 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
             TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
             TCP_Client_Manager.instance.placement_system.StartPlacement((int)id);            
             AudioManager.instance.SFX_Click();
+
+            if (Tutorial_TG.instance.get_type() ==tutorial_type_TG.housing_inven_touch) {
+                Tutorial_TG.instance.check_housing_inven_touch(id);
+            }
         }
     }
 
@@ -50,6 +54,9 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
         update_UI();
     }
 
+    public int get_sort_score() {
+        return usable_cnt * 10000 + (1000 - (int)id);
+    }
     public void use()
     {
         if (can_use()) {

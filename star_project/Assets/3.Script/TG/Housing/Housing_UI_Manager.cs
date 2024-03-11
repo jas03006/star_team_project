@@ -119,17 +119,32 @@ public class Housing_UI_Manager : MonoBehaviour
                 id2btn_dic[go.object_enum].use();
             }
         }
-        
-        click_category_btn(0);
-    }
 
+        sort();
+        click_category_btn(0);
+        
+    }
+    public void sort() {
+        Transform[] m_Children = new Transform[button_container.childCount];
+        for (int i = 0; i < button_container.childCount; i++) {
+            m_Children[i] = button_container.GetChild(i);
+        }
+        m_Children = m_Children.OrderByDescending(go => go.GetComponent<Housing_Inven_BTN>()?.get_sort_score()).ToArray();
+
+        for (int i = 0; i < m_Children.Length; i++)
+        {
+            m_Children[i].SetSiblingIndex(i);
+        }
+    }
 
     public void decrease_use_count(housing_itemID id) {
         id2btn_dic[id].use();
+        sort();
     }
     public void increase_use_count(housing_itemID id)
     {
         id2btn_dic[id].back();
+        sort();
     }
     public bool can_use(housing_itemID id) { 
         return id2btn_dic[id].can_use(); ;
@@ -247,8 +262,11 @@ public class Housing_UI_Manager : MonoBehaviour
     }
 
     #region object edit mode
+    [Header("Edit Mode")]
+
     public Net_Housing_Object now_focus_ob = null;
     public RectTransform edit_UI;
+    [SerializeField] private Button delete_edit_BTN;
     public Action delete_action;
     private Coroutine edit_show_co=null;
     public void show_edit_UI(Net_Housing_Object ob) {
@@ -257,10 +275,23 @@ public class Housing_UI_Manager : MonoBehaviour
         //TCP_Client_Manager.instance.placement_system.StartPlacement((int)ob.object_enum);
         //delete_action = delegate(){ TCP_Client_Manager.instance.placement_system.remove(ob);  };
 
+        if (now_focus_ob.object_enum == housing_itemID.star_nest || now_focus_ob.object_enum == housing_itemID.post_box)
+        {
+            delete_edit_BTN.interactable = false;
+        }
+        else { 
+            delete_edit_BTN.interactable = true;
+        }
+
         if (edit_show_co!=null) {
             StopCoroutine(edit_show_co);
         }
         edit_show_co = StartCoroutine(show_edit_UI_co());
+
+        if (Tutorial_TG.instance.get_type() == tutorial_type_TG.housing_object_touch)
+        {
+            Tutorial_TG.instance.check_housing_object_touch(now_focus_ob.object_enum);
+        }
     }
     public void hide_edit_UI() {
         if (edit_show_co != null)
