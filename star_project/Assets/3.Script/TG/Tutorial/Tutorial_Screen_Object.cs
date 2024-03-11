@@ -24,6 +24,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
     public Transform end_pos;
     private Vector3 dir;
 
+
     public Button target_button;
     private UnityAction step_action;
     // Start is called before the first frame update
@@ -132,7 +133,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 break;
         }
 
-        screen.transform.position = Camera.main.WorldToScreenPoint(target_go.transform.position);
+        screen.transform.position = Camera.main.WorldToScreenPoint(target_go.transform.position) + Vector3.up * 10f;
     }
     public void find_target_go() {
         screen.transform.position = target_go.transform.position;

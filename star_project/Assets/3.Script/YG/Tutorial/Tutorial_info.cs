@@ -10,6 +10,6 @@ public class Tutorial_info
     }
     public Tutorial_info(JsonData json)
     {
-        state = (Tutorial_state)(item_ID)int.Parse(json["state"].ToString());
+        state = (Tutorial_state)int.Parse(json["state"].ToString());
     }
 }
