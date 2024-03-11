@@ -47,7 +47,11 @@ public class Tutorial_TG : MonoBehaviour
     }
     private void Start()
     {
-        start_tutorial();
+        Debug.Log($"Tutorail: {BackendGameData_JGD.userData.tutorial_Info.state.ToString()}");
+        if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.myplanet) {
+
+            start_tutorial();
+        }
     }
     private void Update()
     {
@@ -62,18 +66,25 @@ public class Tutorial_TG : MonoBehaviour
         camera.set_tutorial_position();
         BackendGameData_JGD.userData.housing_Info = new HousingInfo_JGD();
         BackendGameData_JGD.userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest, new Vector2(-1,-1),0));
+        
         TCP_Client_Manager.instance.placement_system.housing_info = BackendGameData_JGD.userData.housing_Info;
         TCP_Client_Manager.instance.placement_system.update_placement();
-        TCP_Client_Manager.instance.housing_ui_manager.init_housing_inventory();
+
+        BackendGameData_JGD.userData.house_inventory.Remove(housing_itemID.ark_cylinder);
+        BackendGameData_JGD.userData.house_inventory.Remove(housing_itemID.post_box);
+        TCP_Client_Manager.instance.housing_ui_manager.init_housing_inventory(true);
     }
 
     public void end_tutorial() {
         is_progressing = false;
+        now_index = 0;
         BackendGameData_JGD.userData.Adjective_ID_List.Add(adjective.Sweet);
         BackendGameData_JGD.userData.Noun_ID_List.Add(noun.Fire_Punch);
         //TODO: 받은 칭호 DB에 저장 (상위 매니저가 처리해도됨)
         reward_UI.SetActive(true);
         container.SetActive(false);
+
+        BackendGameData_JGD.userData.tutorial_Info.state = Tutorial_state.clear;
     }
     public void step() {
         if (timer < time_delay) {
@@ -91,18 +102,21 @@ public class Tutorial_TG : MonoBehaviour
     }
 
     public void show() {
+        
+
         if (now_index > 0) {
             tutorial_sequence[now_index - 1].StopAllCoroutines();
             tutorial_sequence[now_index - 1].gameObject.SetActive(false);
         }
-        if (now_index < tutorial_sequence.Count)
+        if (now_index >= tutorial_sequence.Count)
+        {
+            end_tutorial();
+            return;
+        }else if (now_index >= 0)
         {
             tutorial_sequence[now_index].gameObject.SetActive(true);
             tutorial_sequence[now_index].start_process();
-        }
-        else {
-            end_tutorial();
-        }              
+        }            
     }
 
     public tutorial_type_TG get_type() {

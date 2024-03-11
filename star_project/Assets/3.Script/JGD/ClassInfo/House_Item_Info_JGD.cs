@@ -37,7 +37,28 @@ public class House_Inventory_Info_JGD
     }
     public void Add(House_Item_Info_JGD item_info)
     {
+        for (int i = 0; i < item_list.Count; i++)
+        {
+            if (item_list[i].id == item_info.id)
+            {
+                item_list[i].count += item_info.count;
+                return;
+            }
+        }
         item_list.Add(item_info);
+    }
+
+    public void Remove(housing_itemID id_, int count_=0) {
+        if (count_ <= 0) {
+            for (int i = 0; i < item_list.Count; i++)
+            {
+                if (item_list[i].id == id_)
+                {
+                    item_list.RemoveAt(i);
+                    return;
+                }
+            }
+        }
     }
 }
 
