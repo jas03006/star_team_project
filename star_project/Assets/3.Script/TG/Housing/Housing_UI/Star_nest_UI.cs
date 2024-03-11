@@ -48,7 +48,8 @@ public class Star_nest_UI : MonoBehaviour
             "Achievements_List",
             "challenge_Userdatas",
             "Noun_ID_List",
-            "Adjective_ID_List"};
+            "Adjective_ID_List",
+            "popularity_history"};
     string[] save_select = { "profile_background",
             "profile_picture",
             "title_adjective",
@@ -66,6 +67,8 @@ public class Star_nest_UI : MonoBehaviour
     public Image character_image;
     public Image background_image;
     public TMP_Text pop_text;
+    [SerializeField] private Color pop_color_yes;
+    [SerializeField] private Color pop_color_no;
     public TMP_Text title_text;
     public TMP_Text nickname_text;
     public TMP_Text planet_name_text;
@@ -245,11 +248,11 @@ public class Star_nest_UI : MonoBehaviour
         { //내 프로필 클릭인경우
             now_nickname = TCP_Client_Manager.instance.my_player.object_id;
             user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(TCP_Client_Manager.instance.my_player.object_id, load_select);
-            nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;
+            nickname_text.text = TCP_Client_Manager.instance.my_player.object_id;           
 
 
-
-            pop_up_button.SetActive(false);
+            //pop_up_button.SetActive(false);
+            pop_up_button.GetComponentInChildren<Button>().interactable = false;
 
             add_friend_btn_ob.SetActive(false);
             request_complete_btn_ob.SetActive(false);
@@ -271,12 +274,10 @@ public class Star_nest_UI : MonoBehaviour
             nickname_text.text = now_nickname;
 
 
-            pop_up_button.SetActive(true);
             hide_edit_btn();
 
             if (FriendList_JGD.is_friend(now_nickname))
             {
-
                 add_friend_btn_ob.SetActive(false);
                 request_complete_btn_ob.SetActive(false);
                 delete_friend_btn_ob.SetActive(true);
@@ -285,7 +286,6 @@ public class Star_nest_UI : MonoBehaviour
                 friend_only_ob.SetActive(false);
             }
             else {
-                pop_up_button.SetActive(false);
                 BackendFriend_JDG.GetSentRequestFriend();
                 if (BackendFriend_JDG.is_requested(now_nickname))
                 {
@@ -300,7 +300,6 @@ public class Star_nest_UI : MonoBehaviour
                 delete_friend_btn_ob.SetActive(false);
                 memo_input_ob.SetActive(false);
                 friend_only_ob.SetActive(true);
-
             }
         }
 
@@ -452,6 +451,17 @@ public class Star_nest_UI : MonoBehaviour
         else {
             save_btn.interactable = false;
         }
+
+        //인기도
+        if (TCP_Client_Manager.instance.my_player.object_id == now_nickname || user_data.popularity_history.Contains(TCP_Client_Manager.instance.my_player.object_id))
+        {
+            //TODO: 인기도 버튼 상태 변경
+            pop_up_button.GetComponentInChildren<Image>().color = pop_color_yes;
+        }
+        else { 
+            pop_up_button.GetComponentInChildren<Image>().color = pop_color_no;
+        }
+
         StartCoroutine(update_UI_co());
 
         UIManager_YG.Instance.update_profile();
@@ -506,18 +516,31 @@ public class Star_nest_UI : MonoBehaviour
     #region pop up
     public void pop_up()
     {
-        user_data.popularity += 1;
-        string[] select = {"popularity"};
-        BackendGameData_JGD.Instance.update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select, user_data);
+        if (user_data.popularity_history.Contains(TCP_Client_Manager.instance.my_player.object_id))
+        {
+            user_data.popularity -= 1;
+            user_data.popularity_history.Remove(TCP_Client_Manager.instance.my_player.object_id);
+            pop_up_button.GetComponentInChildren<Image>().color = pop_color_no;
+        }
+        else {
+            user_data.popularity += 1;
+            user_data.popularity_history.Add(TCP_Client_Manager.instance.my_player.object_id);
+            pop_up_button.GetComponentInChildren<Image>().color = pop_color_yes;
+        }
+
+        
+        string[] select = {"popularity",
+            "popularity_history"};
+        BackendGameData_JGD.Instance.update_userdata_by_nickname(now_nickname, select, user_data);
         pop_text.text = user_data.popularity.ToString();
-        show_pop_up_result();
+        //show_pop_up_result(true);
     }
 
-    public void show_pop_up_result() {
-        StartCoroutine(show_pop_up_result_co());
+    public void show_pop_up_result(bool success) {
+        StartCoroutine(show_pop_up_result_co(success));
     }
 
-    public IEnumerator show_pop_up_result_co() {
+    public IEnumerator show_pop_up_result_co(bool success) {
         pop_up_result_UI.SetActive(true);
         yield return new WaitForSeconds(1);
         pop_up_result_UI.SetActive(false);

@@ -16,7 +16,7 @@ public class Test_YG : MonoBehaviour
 
     private void Start()
     {
-        //Test();
+        Test();
     }
     public void Send_level()
     {
@@ -51,10 +51,10 @@ public class Test_YG : MonoBehaviour
        // Debug.Log("GoogleHashKey 확인 디버그:" + Backend.Utils.GetGoogleHash());
     }
 
-    //public void Test()
-    //{
-    //    //튜토리얼 시 참고
-    //    //0.7로 테스트했을땐 안되는데 0.5로 테스트할땐 됨
-    //    image.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
-    //}
+    public void Test()
+    {
+        //튜토리얼 시 참고
+        //0.7로 테스트했을땐 안되는데 0.5로 테스트할땐 됨
+        //image.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
+    }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using LitJson;
 using System.Data.SqlTypes;
+using System.Linq;
 
 
 //Friend_UUID_List
@@ -66,6 +67,7 @@ public class UserData
     public noun title_noun = noun.none;
     public string planet_name;
     public string nickname;
+    public List<string> popularity_history = new List<string>();
 
     //money
     public int ark =0;
@@ -194,14 +196,14 @@ public class BackendGameData_JGD : MonoBehaviour
 
             // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.ark_cylinder));
             //userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.airship));
-            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest));
+            userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.star_nest, new Vector2(-1, -1), 0));
             // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.chair));
             // userData.housing_Info.Add_object(new HousingObjectInfo(housing_itemID.bed));
 
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.ark_cylinder, 3));
+            //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.ark_cylinder, 3));
             //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.airship, 1));
             userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.star_nest, 1));
-            userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
+            //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.post_box, 1));
             //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.chair, 1));
             //userData.house_inventory.Add(new House_Item_Info_JGD(housing_itemID.bed, 1));
 
@@ -212,8 +214,15 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.character_info.Add_object(new CharacterObj(Character_ID.Purple, 0));
             userData.character_info.Add_object(new CharacterObj(Character_ID.Green, 0));
 
-            for (int i =1; i < 12; i++) {
+            int[] except_emozi = {6, 10, 12,14,15};
+            for (int i =0; i < 24; i++) {
+                if (except_emozi.Contains(i)) {
+                    continue;
+                }
                 userData.emozi_List.Add(i);
+            }
+            for (int i = 0; i < 13; i++)
+            {
                 userData.background_List.Add(i);
             }
 
@@ -298,6 +307,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("title_adjective", userData.title_adjective);
         param.Add("title_noun", userData.title_noun);
         param.Add("planet_name", userData.planet_name);
+        param.Add("popularity_history", userData.popularity_history);
 
         param.Add("ark", userData.ark);
         param.Add("gold", userData.gold);
@@ -443,6 +453,12 @@ public class BackendGameData_JGD : MonoBehaviour
                 userData.title_adjective = (adjective)int.Parse(gameDataJson[0]["title_adjective"].ToString());
                 userData.title_noun = (noun)int.Parse(gameDataJson[0]["title_noun"].ToString());
                 userData.planet_name = gameDataJson[0]["planet_name"].ToString();
+
+                foreach (LitJson.JsonData equip in gameDataJson[0]["popularity_history"])
+                {
+                    userData.popularity_history.Add(equip.ToString());
+                }
+
                 userData.ark = int.Parse(gameDataJson[0]["ark"].ToString());
                 userData.gold = int.Parse(gameDataJson[0]["gold"].ToString());
                 userData.ruby = int.Parse(gameDataJson[0]["ruby"].ToString());
@@ -534,6 +550,8 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("title_adjective", userData.title_adjective);
         param.Add("title_noun", userData.title_noun);
         param.Add("planet_name", userData.planet_name);
+        param.Add("popularity_history", userData.popularity_history);
+
         param.Add("ark", userData.ark);
         param.Add("gold", userData.gold);
         param.Add("ruby", userData.ruby);
@@ -639,6 +657,9 @@ public class BackendGameData_JGD : MonoBehaviour
                     break;
                 case "planet_name":
                     param.Add(select[i], userData.planet_name);
+                    break;
+                case "popularity_history":
+                    param.Add(select[i], userData.popularity_history);
                     break;
                 case "ark":
                     param.Add(select[i], userData.ark);
@@ -833,6 +854,12 @@ public class BackendGameData_JGD : MonoBehaviour
                                 user_data.challenge_Userdatas.Add(new Challenge_userdata(mission));
                             }
                             break;
+                        case "popularity_history":
+                            foreach (LitJson.JsonData equip in gameDataJson[0]["popularity_history"])
+                            {
+                                user_data.popularity_history.Add(equip.ToString());
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -943,6 +970,9 @@ public class BackendGameData_JGD : MonoBehaviour
                         break;
                     case "ruby":
                         param.Add(select[i], user_data.ruby);
+                        break;
+                    case "popularity_history":
+                        param.Add(select[i], user_data.popularity_history);
                         break;
                     default:
                         break;
