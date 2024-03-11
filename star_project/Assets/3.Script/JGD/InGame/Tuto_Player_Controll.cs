@@ -146,7 +146,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             currentHp = 100f;
             collision.gameObject.SetActive(false);
             Hpslider.value = (float)currentHp;
-            if (Tuto.progress == 3)
+            if (Tuto.progress == 6)
             {
                 Tuto.GameStart();
             }
@@ -182,6 +182,11 @@ public class Tuto_Player_Controll : MonoBehaviour
         //}
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
+            if (Tuto.progress == 10)
+            {
+                Tuto.GameStart();
+                Tuto.progress++;
+            }
             Alphabet.Add("a");
             switch (Alphabet.Count)
             {
@@ -205,6 +210,7 @@ public class Tuto_Player_Controll : MonoBehaviour
                 default:
                     break;
             }
+            collision.gameObject.SetActive(false);
         }
 
     }
@@ -222,7 +228,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             PlayerItem.sprite = PlayerItemInven;
             Magnet.SetActive(true);
         }
-        if (Tuto.Itembtn.interactable && Tuto.progress == 8)
+        if (Tuto.Itembtn.interactable && Tuto.progress == 14)
         {
             Tuto.progress++;
             Tuto.GameStart();
