@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4470961, g: 0.49647945, b: 0.57300985, a: 1}
+  m_IndirectSpecularColor: {r: 0.4497093, g: 0.49977696, b: 0.57563406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9685,6 +9685,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beccc980f41629e46ac79a876d97cb50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &292747946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 292747948}
+  - component: {fileID: 292747947}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &292747947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292747946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778f073f8f50c054fa281de93e17edf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missions: []
+  cur_missiontypes: 
+  friend_num: 0
+--- !u!4 &292747948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292747946}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 800, y: 450, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &299324690
 GameObject:
   m_ObjectHideFlags: 0
@@ -27820,14 +27867,14 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: f9665587b0513e745bc67bd0c47b1068, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: f9665587b0513e745bc67bd0c47b1068, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: f9665587b0513e745bc67bd0c47b1068, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: f9665587b0513e745bc67bd0c47b1068, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -43524,6 +43571,8 @@ MonoBehaviour:
   character_image: {fileID: 1342825985}
   background_image: {fileID: 1472046147}
   pop_text: {fileID: 2096528042}
+  pop_color_yes: {r: 1, g: 1, b: 1, a: 1}
+  pop_color_no: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   title_text: {fileID: 715427109}
   nickname_text: {fileID: 741474511}
   planet_name_text: {fileID: 508676862}
@@ -95928,3 +95977,4 @@ SceneRoots:
   - {fileID: 1010070738}
   - {fileID: 433029983}
   - {fileID: 852674446}
+  - {fileID: 292747948}

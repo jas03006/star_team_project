@@ -964,7 +964,7 @@ public class BackendGameData_JGD : MonoBehaviour
                         param.Add(select[i], user_data.ruby);
                         break;
                     case "popularity_history":
-                        param.Add(select[i], userData.popularity_history);
+                        param.Add(select[i], user_data.popularity_history);
                         break;
                     default:
                         break;
