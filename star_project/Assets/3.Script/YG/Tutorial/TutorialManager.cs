@@ -20,7 +20,7 @@ public class TutorialManager : MonoBehaviour
     //[SerializeField] private int cur_stage; //현재 스테이지
     //[SerializeField] private int stop_sec; //멈추는 시간
 
-    [SerializeField] private Tutorial_YG tutorial_YG;
+    [SerializeField] public Tutorial_YG tutorial_YG;
     [SerializeField] private Tutorial_TG tutorial_TG;
 
     [SerializeField] private Canvas canvas;

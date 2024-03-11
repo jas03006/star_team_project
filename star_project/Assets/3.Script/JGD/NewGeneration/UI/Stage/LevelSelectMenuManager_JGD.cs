@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum galaxy
 {
-    none = -1,
+    tutorial = -1,
     toy,
     kitchen,
     play_ground,
@@ -28,6 +29,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     private galaxy galaxy_;
 
     [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
+    [SerializeField] List<GameObject> stage_case = new List<GameObject>();
+    [SerializeField] Canvas tutorial_canvas;//오브젝트
     [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
     public static int currLevel; //현재 진행중인 스테이지 레벨
     public static int GalaxyLevel; //현재 진행중인 은하 레벨
@@ -40,8 +43,32 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     [SerializeField] private SceneNames nextScene;  //만약 기존 구조가 아닌 게임씬을 여러개 만든다면 수정
 
-    private void Start()
+    private void OnEnable()
     {
+        if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.catchingstar_chapter)
+        {
+            tutorial_canvas.enabled = true;
+
+            for (int i = 0; i < Canvas_list.Count; i++)
+            {
+                Canvas_list[i].enabled = false;
+            }
+
+            stage_case[0].transform.GetChild(0).GetComponent<TMP_Text>().text = "별둥지 은하";
+            for (int i = 1; i < stage_case.Count; i++)
+            {
+                stage_case[i].SetActive(false);
+            }
+
+            return;
+        }
+
+        stage_case[0].transform.GetChild(0).GetComponent<TMP_Text>().text = "장난감 은하";
+        for (int i = 1; i < stage_case.Count; i++)
+        {
+            stage_case[i].SetActive(true);
+        }
+
         galaxy = galaxy.toy;
         StartCoroutine(Galaxy_unlock());
         //SceneManager.sceneLoaded += OnSceneLoaded;

@@ -29,7 +29,7 @@ public class Galaxy_UI : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        Test();
+        //Test();
     }
 
     private void Test()
