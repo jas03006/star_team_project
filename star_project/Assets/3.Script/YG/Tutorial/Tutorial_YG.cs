@@ -125,7 +125,7 @@ public class Tutorial_YG : MonoBehaviour
         count++;
     }
 
-    private void Stop_blink()
+    public void Stop_blink()
     {
         if (is_blinking)
         {
@@ -149,7 +149,6 @@ public class Tutorial_YG : MonoBehaviour
         { return; }
 
         count++;
-        Debug.Log(count);
     }
 
     private void Progress()
