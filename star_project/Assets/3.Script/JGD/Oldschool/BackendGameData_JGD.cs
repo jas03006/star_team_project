@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using LitJson;
 using System.Data.SqlTypes;
+using System.Linq;
 
 
 //Friend_UUID_List
@@ -213,8 +214,15 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.character_info.Add_object(new CharacterObj(Character_ID.Purple, 0));
             userData.character_info.Add_object(new CharacterObj(Character_ID.Green, 0));
 
-            for (int i =1; i < 12; i++) {
+            int[] except_emozi = {6, 10, 12,14,15};
+            for (int i =0; i < 24; i++) {
+                if (except_emozi.Contains(i)) {
+                    continue;
+                }
                 userData.emozi_List.Add(i);
+            }
+            for (int i = 0; i < 13; i++)
+            {
                 userData.background_List.Add(i);
             }
 
