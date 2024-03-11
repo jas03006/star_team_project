@@ -48,7 +48,8 @@ public class Star_nest_UI : MonoBehaviour
             "Achievements_List",
             "challenge_Userdatas",
             "Noun_ID_List",
-            "Adjective_ID_List"};
+            "Adjective_ID_List",
+            "popularity_history"};
     string[] save_select = { "profile_background",
             "profile_picture",
             "title_adjective",
@@ -249,7 +250,8 @@ public class Star_nest_UI : MonoBehaviour
 
 
 
-            pop_up_button.SetActive(false);
+            //pop_up_button.SetActive(false);
+            pop_up_button.GetComponentInChildren<Button>().interactable = false;
 
             add_friend_btn_ob.SetActive(false);
             request_complete_btn_ob.SetActive(false);
@@ -506,18 +508,29 @@ public class Star_nest_UI : MonoBehaviour
     #region pop up
     public void pop_up()
     {
-        user_data.popularity += 1;
-        string[] select = {"popularity"};
+        if (user_data.popularity_history.Contains(TCP_Client_Manager.instance.my_player.object_id))
+        {
+            user_data.popularity -= 1;
+            user_data.popularity_history.Remove(TCP_Client_Manager.instance.my_player.object_id);
+        }
+        else {
+            user_data.popularity += 1;
+            user_data.popularity_history.Add(TCP_Client_Manager.instance.my_player.object_id);
+        }
+
+        
+        string[] select = {"popularity",
+            "popularity_history"};
         BackendGameData_JGD.Instance.update_userdata_by_nickname(TCP_Client_Manager.instance.now_room_id, select, user_data);
         pop_text.text = user_data.popularity.ToString();
-        show_pop_up_result();
+        //show_pop_up_result(true);
     }
 
-    public void show_pop_up_result() {
-        StartCoroutine(show_pop_up_result_co());
+    public void show_pop_up_result(bool success) {
+        StartCoroutine(show_pop_up_result_co(success));
     }
 
-    public IEnumerator show_pop_up_result_co() {
+    public IEnumerator show_pop_up_result_co(bool success) {
         pop_up_result_UI.SetActive(true);
         yield return new WaitForSeconds(1);
         pop_up_result_UI.SetActive(false);

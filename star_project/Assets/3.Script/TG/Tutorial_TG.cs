@@ -47,7 +47,6 @@ public class Tutorial_TG : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log($"Tutorail: {BackendGameData_JGD.userData.tutorial_Info.state.ToString()}");
         if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.myplanet) {
 
             start_tutorial();
