@@ -148,10 +148,10 @@ public enum housing_itemID
     swing = 21,
     slider = 22,
 
-    pencil = 23,
-    scissor = 24,
-    desk = 25,
-    computer = 26,
+    tape = 23,
+    stapler = 24,
+    pencil = 25,
+    note = 26,
     school_bus = 27
     
 }

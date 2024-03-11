@@ -27,9 +27,7 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
         "인형", "풍선", "블럭","카메라","비행기",
         "사과", "우유", "컵", "의자", "식탁",
          "벤치","공", "시소", "그네", "미끄럼틀",
-         "연필","가위","책상","컴퓨터","스쿨 버스"
-
-
+         "테이프","스테이플러","연필","공책","버스"
      };
 
     public void OnPointerDown(PointerEventData eventData)
