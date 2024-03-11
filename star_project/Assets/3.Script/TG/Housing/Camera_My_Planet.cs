@@ -30,10 +30,18 @@ public class Camera_My_Planet : MonoBehaviour
         transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward * distance*4f;
         center_pos = -transform.forward * distance * 4f;
     }
+
+    public void set_tutorial_position() {
+        transform.position = center_pos;
+    }
     private Vector2 nowPos, prePos;
     private Vector3 movePos;
     private void FixedUpdate()
     {
+        if (Tutorial_TG.instance.is_progressing) {
+            transform.position = center_pos;
+            return;
+        }
         //if (!can_move_camera())
       //  {
         if (Input.mouseScrollDelta.y != 0)

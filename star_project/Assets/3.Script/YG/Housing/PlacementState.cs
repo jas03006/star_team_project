@@ -69,7 +69,11 @@ public class PlacementState : IBuildingState
 
         GridData selectedData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
         selectedData.AddObjectAt(gridPosition, database.objectData[selectedObjectIndex].size, database.objectData[selectedObjectIndex].id, index);
-        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), false);                
+        previewSystem.UpdatePostition(gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), false);
+
+        if (Tutorial_TG.instance.get_type() == tutorial_type_TG.housing) {
+            Tutorial_TG.instance.check_housing_condition();
+        }
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
