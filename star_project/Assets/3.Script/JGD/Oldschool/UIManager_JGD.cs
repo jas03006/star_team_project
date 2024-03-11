@@ -26,6 +26,7 @@ public class UIManager_JGD : MonoBehaviour
 
     [SerializeField] TMP_InputField friend_request_input;
 
+    public int now_selection = 0;
     public void OpenFriend()
     {
         FriendScreen.SetActive(true);
@@ -51,6 +52,8 @@ public class UIManager_JGD : MonoBehaviour
     }
     public void RequestMiniScene()
     {
+        now_selection = 2;
+
         friend_list_btn.interactable = true;
         request_list_btn.interactable = false;
         recommend_list_btn.interactable = true;
@@ -67,6 +70,8 @@ public class UIManager_JGD : MonoBehaviour
 
     public void FriendminiscreenOpen()
     {
+        now_selection = 0;
+
         friend_list_btn.interactable = false;
         request_list_btn.interactable = true;
         recommend_list_btn.interactable = true;
@@ -80,6 +85,8 @@ public class UIManager_JGD : MonoBehaviour
     }
     public void RecommendminiscreenOpen()
     {
+        now_selection = 1;
+
         friend_list_btn.interactable = true;
         request_list_btn.interactable = true;
         recommend_list_btn.interactable = false;
