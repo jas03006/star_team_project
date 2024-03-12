@@ -591,8 +591,9 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
     public void EndTuto()
     {
-        //SceneManager.LoadScene("My_Planet_TG");
         Time.timeScale = 1;
+        BackendGameData_JGD.userData.tutorial_Info.state = Tutorial_state.myplanet;
+        BackendGameData_JGD.Instance.GameDataUpdate();
         TCP_Client_Manager.instance.go_myplanet();
     }
 }
