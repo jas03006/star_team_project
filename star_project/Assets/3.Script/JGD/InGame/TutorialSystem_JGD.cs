@@ -592,6 +592,7 @@ public class TutorialSystem_JGD : MonoBehaviour
     public void EndTuto()
     {
         //SceneManager.LoadScene("My_Planet_TG");
+        Time.timeScale = 1;
         TCP_Client_Manager.instance.go_myplanet();
     }
 }
