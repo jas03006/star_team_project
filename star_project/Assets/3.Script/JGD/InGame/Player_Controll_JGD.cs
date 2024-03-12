@@ -151,6 +151,7 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
+            AudioManager.instance.SFX_collect_item();
             Alphabet.Add(collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID.ToString());
             Player_Alphabet_progress[Player_Alphabet_Count].sprite = SpriteManager.instance.Num2Sprite(4000+(int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
             Player_Alphabet_BackGround[Player_Alphabet_Count].sprite = Alphabet_BackGround;
