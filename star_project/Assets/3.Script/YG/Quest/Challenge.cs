@@ -38,6 +38,7 @@ public class Challenge : Quest
 
         title = jsonData["title"].ToString();
         contents = jsonData["info"].ToString();
+        sub_text = jsonData["sub_text"].ToString();
     }
 
     public void Get_reward()

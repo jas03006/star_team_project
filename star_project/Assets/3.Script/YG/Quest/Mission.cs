@@ -125,6 +125,7 @@ public class Mission : Quest
 
         title = jsonData["title"].ToString();
         contents = jsonData["contents"].ToString();
+        sub_text = jsonData["sub_text"].ToString();
     }
 
     public void Reset()
