@@ -1,6 +1,10 @@
+using DG.Tweening.Plugins.Options;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 enum State
@@ -30,11 +34,23 @@ public class TutorialSystem_JGD : MonoBehaviour
     [SerializeField] GameObject ItemPanel;
     [SerializeField] GameObject StarPanel;
     [SerializeField] GameObject StarcountPanel;
+    [SerializeField] GameObject ResultPanel;
+    [SerializeField] GameObject RewardPanel;
+    [SerializeField] GameObject MissionPanel;
+    [SerializeField] GameObject englishRewardPanel;
+    [SerializeField] GameObject StarinfoPanel;
+    [SerializeField] GameObject StudyPanel;
+    [SerializeField] GameObject SoundPanel;
+    [SerializeField] GameObject MainPanel;
+    [SerializeField] GameObject NextResult;
 
+    [Header("ETC")]
     [SerializeField] GameObject NextMent_Alarm;
     [SerializeField] List<GameObject> MentList = new List<GameObject>();
     [SerializeField] List<GameObject> Fingers = new List<GameObject>();
     [SerializeField] public Button Itembtn;
+    [SerializeField] public Button NextResultBtn;
+    [SerializeField] public Button MainBtn;
     State state;
 
     [SerializeField] GameObject MagnetItem;
@@ -51,6 +67,7 @@ public class TutorialSystem_JGD : MonoBehaviour
     {
         Player.isUp = false;
         Itembtn.interactable = false;
+        NextResultBtn.interactable = false;
         state = State.Start;
         for (int i = 0; i < MentList.Count; i++)
         {
@@ -93,7 +110,7 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Tutorial_Magent_Part();
                 break;
             case State.End:
-
+                Tutorial_End_Part();
                 break;
 
         }
@@ -345,26 +362,27 @@ public class TutorialSystem_JGD : MonoBehaviour
             case 11:
                 Time.timeScale = 0;
                 StarcountPanel.SetActive(true);
-                StartCoroutine(MentBox_Timmer(24, 0));
-                break;
-            case 12:
-                Kill_The_Child(24, 0);
                 StartCoroutine(MentBox_Timmer(25, 0));
                 break;
-            case 13:
+            case 12:
                 Kill_The_Child(25, 0);
-                StarcountPanel.SetActive(false);
-                Time.timeScale = 1;
                 StartCoroutine(MentBox_Timmer(26, 0));
                 break;
-            case 14:
+            case 13:
                 Kill_The_Child(26, 0);
-                Time.timeScale = 0;
+                StarcountPanel.SetActive(false);
+                //Time.timeScale = 1;
                 StartCoroutine(MentBox_Timmer(27, 0));
+                break;
+            case 14:
+                Kill_The_Child(27, 0);
+                UI_On = false;
+                //Time.timeScale = 0;
+                Results_screen.SetActive(true);
+                StartCoroutine(TimmuStoopu());
                 break;
             case 15:
                 Kill_The_Child(27, 0);
-                Results_screen.SetActive(true);
                 Panel.SetActive(true);
                 StartCoroutine(MentBox_Timmer(28, 0));
                 break;
@@ -373,13 +391,141 @@ public class TutorialSystem_JGD : MonoBehaviour
                 StartCoroutine(MentBox_Timmer(29, 0));
                 break;
             case 17:
-
+                Kill_The_Child(29, 0);
+                Panel.SetActive(false);
+                ResultPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(30, 0));
+                break;
+            case 18:
+                Kill_The_Child(30, 0);
+                ResultPanel.SetActive(false);
+                RewardPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(31, 0));
+                break;
+            case 19:
+                Kill_The_Child(31, 0);
+                StartCoroutine(MentBox_Timmer(32, 0));
+                break;
+            case 20:
+                Kill_The_Child(32, 0);
+                RewardPanel.SetActive(false);
+                MissionPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(33, 0));
+                break;
+            case 21:
+                Kill_The_Child(33, 0);
+                StartCoroutine(MentBox_Timmer(34, 0));
+                break;
+            case 22:
+                Kill_The_Child(34, 0);
+                StartCoroutine(MentBox_Timmer(35, 0));
+                break;
+            case 23:
+                Kill_The_Child(35, 0);
+                StartCoroutine(MentBox_Timmer(36, 0));
+                break;
+            case 24:
+                Kill_The_Child(36, 0);
+                MissionPanel.SetActive(false);
+                Key_Up = false;
+                NextResult.SetActive(true);
+                StateReset(State.End);
+                MentList[37].SetActive(true);
+                Fingers[3].SetActive(true);
+                Fingers[3].GetComponent<Press_Any_Key>().StartAnyKeyco();
+                //StartCoroutine(MentBox_Timmer(7, 2));
+                NextResultBtn.interactable = true;
                 break;
             default:
                 break;
         }
     }
-
+    private void Tutorial_End_Part()
+    {
+        switch(progress)
+        {
+            case 0:
+                NextResult.SetActive(false);
+                englishRewardPanel.SetActive(true);
+                StartCoroutine(TimmuStoopu());
+                break;
+            case 1:
+                StartCoroutine(MentBox_Timmer(38, 0));
+                break;
+            case 2:
+                Kill_The_Child(38, 0);
+                StartCoroutine(MentBox_Timmer(39, 0));
+                break;
+            case 3:
+                Kill_The_Child(39, 0);
+                StartCoroutine(MentBox_Timmer(40, 0));
+                break;
+            case 4:
+                Kill_The_Child(40, 0);
+                StartCoroutine(MentBox_Timmer(41, 0));
+                break;
+            case 5:
+                Kill_The_Child(41, 0);
+                StartCoroutine(MentBox_Timmer(42, 0));
+                break;
+            case 6:
+                Kill_The_Child(42, 0);
+                StartCoroutine(MentBox_Timmer(43, 4));
+                break;
+            case 7:
+                Kill_The_Child(43, 4);
+                englishRewardPanel.SetActive(false);
+                StartCoroutine(TimmuStoopu());
+                break;
+            case 8:
+                Panel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(44, 0));
+                break;
+            case 9:
+                Kill_The_Child(44, 0);
+                Panel.SetActive(false);
+                StarinfoPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(45, 0));
+                break;
+            case 10:
+                Kill_The_Child(45, 0);
+                StartCoroutine(MentBox_Timmer(46, 0));
+                break;
+            case 11:
+                Kill_The_Child(46, 0);
+                StarinfoPanel.SetActive(false);
+                StudyPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(47, 0));
+                break;
+            case 12:
+                Kill_The_Child(47, 0);
+                StudyPanel.SetActive(false);
+                SoundPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(48, 0));
+                break;
+            case 13:
+                Kill_The_Child(48, 0);
+                SoundPanel.SetActive(false);
+                Panel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(49, 0));
+                break;
+            case 14:
+                Kill_The_Child(49, 0);
+                Panel.SetActive(false);
+                MainPanel.SetActive(true);
+                StartCoroutine(MentBox_Timmer(50, 0));
+                break;
+            case 15:
+                MentList[50].SetActive(true);
+                Fingers[5].SetActive(true);
+                Fingers[5].GetComponent<Press_Any_Key>().StartAnyKeyco();
+                //StartCoroutine(MentBox_Timmer(7, 2));
+                MainBtn.interactable = true;
+                break;
+            default:
+                break;
+        }
+    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -460,13 +606,21 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
     private IEnumerator TimmuStoopu()
     {
-        yield return new WaitForSecondsRealtime(NextMentTimmer);
+        yield return new WaitForSecondsRealtime(3f);//NextMentTimmer);
         progress++;
         GameStart();
     }
     public void Nextpage()
     {
         Results_screen.SetActive(false);
-        Results_screen2.SetActive(true) ;
+        Results_screen2.SetActive(true);
+        MainBtn.interactable = false;
+        MentList[37].SetActive(false);
+        Fingers[3].SetActive(false);
+        GameStart();
+    }
+    public void EndTuto()
+    {
+        SceneManager.LoadScene("My_Planet_TG");
     }
 }
