@@ -41,7 +41,6 @@ public class Tuto_Player_Controll : MonoBehaviour
     Coroutine now_damage_co = null;
     private int Player_Alphabet_Count = 0;
     [Header("Tuto")]
-    //[SerializeField] GameObject TutoObj;
     [SerializeField] TutorialSystem_JGD Tuto;
     [SerializeField] GameObject Magnet;
 
@@ -86,7 +85,6 @@ public class Tuto_Player_Controll : MonoBehaviour
             isMove = false;
             currentHp -= num;
             Hpslider.value -= num;
-            //AudioManager.instance.SFX_hit();
             rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
             rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
@@ -96,19 +94,6 @@ public class Tuto_Player_Controll : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //string layer = collision.gameObject.layer.ToString();
-        //if (collision.gameObject.layer == LayerMask.GetMask($"{layer}"))  //이거 되면 이거로
-        //{
-        //    switch (layer)
-        //    {
-        //        case "Water":
-        //
-        //        break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Water"))
         {
             //튜토리얼 가이드라인
