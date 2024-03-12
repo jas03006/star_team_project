@@ -41,7 +41,9 @@ public class UIManager_YG : MonoBehaviour
 
     public void update_profile() {
         nickname_text.text = Backend.UserNickName;
-        title_text.text = BackendGameData_JGD.userData.title_adjective.ToString() + " " + BackendGameData_JGD.userData.title_noun.ToString();
+        title_text.text = (BackendGameData_JGD.userData.title_adjective == adjective.none ? "" : BackendGameData_JGD.userData.title_adjective.ToString()) 
+            + " " + (BackendGameData_JGD.userData.title_noun == noun.none ? "" : BackendGameData_JGD.userData.title_noun.ToString());
+       // title_text.text = BackendGameData_JGD.userData.title_adjective.ToString() + " " + BackendGameData_JGD.userData.title_noun.ToString();
         profile_image.sprite = SpriteManager.instance.Num2emozi(BackendGameData_JGD.userData.profile_picture);
         profile_background_image.sprite = SpriteManager.instance.Num2BG(BackendGameData_JGD.userData.profile_background);
     }
