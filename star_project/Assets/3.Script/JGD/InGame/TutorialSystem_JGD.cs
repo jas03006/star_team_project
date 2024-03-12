@@ -124,8 +124,6 @@ public class TutorialSystem_JGD : MonoBehaviour
             case 0:
                 Time.timeScale = 0;
                 Panel.SetActive(true);
-                //FirstPanel.SetActive(true);
-                //MentList[0].SetActive(true);
                 StartCoroutine(MentBox_Timmer(0,0));
                 break;
             case 1:
@@ -138,18 +136,12 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Kill_The_Child(1, 0);
                 FirstPanel.SetActive(false);
                 TouchPanel.SetActive(true);
-                //MentList[0].SetActive(false);
-                //MentList[1].SetActive(true);
-
                 StartCoroutine(MentBox_Timmer(2,1));
                 break;
             case 3:                                        //캐릭터 상승
                 Kill_The_Child(2,1);
-                //Key_Up = true;
                 Player.isUp = true;
                 TouchPanel.SetActive(false);
-                //MentList[1].SetActive(false);
-                //this.gameObject.SetActive(false);
                 Time.timeScale = 1;
                 progress++;
                 Invoke("NextLevel_", 1.5f);
@@ -166,10 +158,6 @@ public class TutorialSystem_JGD : MonoBehaviour
                 TouchPanel.SetActive(true);
                 MentList[4].SetActive(true);
                 StartCoroutine(TimmuStoopu());
-                //Invoke("NextLevel_", 3f);
-                //StartCoroutine(MentBox_Timmer(3, 2));
-                //progress++;
-                //GameStart();
                 break;
             case 6:                                        //캐릭터 하강
                 UI_On = false;
@@ -177,9 +165,6 @@ public class TutorialSystem_JGD : MonoBehaviour
                 Time.timeScale = 1;
                 TouchPanel.SetActive(false);
                 MentList[4].SetActive(false);
-                //StartCoroutine(MentBox_Timmer(3, 2));
-                //Kill_The_Child(2, 0);
-                //UI_On = true;
                 progress++;
                 Invoke("NextLevel_", 1.5f);
                 break;
@@ -187,13 +172,11 @@ public class TutorialSystem_JGD : MonoBehaviour
                 UI_On = true;
                 Key_Up = false;
                 Panel.SetActive(true);
-                //MentList[3].SetActive(true); 
                 StartCoroutine(MentBox_Timmer(5,0));
                 Time.timeScale = 0;
                 break;
             case 8:
                 Kill_The_Child(5, 0);
-                //MentList[3].SetActive(false);
                 StartCoroutine(MentBox_Timmer(6, 0));
                 break;
             case 9:
@@ -333,7 +316,6 @@ public class TutorialSystem_JGD : MonoBehaviour
             case 5:
                 Kill_The_Child(21, 0);
                 Panel.SetActive(false);
-                //MagnetItem.gameObject.SetActive(false);
                 Time.timeScale = 1;
                 progress++;
                 break;
@@ -371,13 +353,11 @@ public class TutorialSystem_JGD : MonoBehaviour
             case 13:
                 Kill_The_Child(26, 0);
                 StarcountPanel.SetActive(false);
-                //Time.timeScale = 1;
                 StartCoroutine(MentBox_Timmer(27, 0));
                 break;
             case 14:
                 Kill_The_Child(27, 0);
                 UI_On = false;
-                //Time.timeScale = 0;
                 Results_screen.SetActive(true);
                 StartCoroutine(TimmuStoopu());
                 break;
@@ -433,7 +413,6 @@ public class TutorialSystem_JGD : MonoBehaviour
                 MentList[37].SetActive(true);
                 Fingers[3].SetActive(true);
                 Fingers[3].GetComponent<Press_Any_Key>().StartAnyKeyco();
-                //StartCoroutine(MentBox_Timmer(7, 2));
                 NextResultBtn.interactable = true;
                 break;
             default:
@@ -519,7 +498,6 @@ public class TutorialSystem_JGD : MonoBehaviour
                 MentList[50].SetActive(true);
                 Fingers[5].SetActive(true);
                 Fingers[5].GetComponent<Press_Any_Key>().StartAnyKeyco();
-                //StartCoroutine(MentBox_Timmer(7, 2));
                 MainBtn.interactable = true;
                 break;
             default:
@@ -537,7 +515,7 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
 
 
-    private IEnumerator MentBox_Timmer(int ListCount, int Finger)  //안대면 이거임 ㅇㅇ///////////////////////////////////////////////////////////////
+    private IEnumerator MentBox_Timmer(int ListCount, int Finger)
     {
         UI_On = false;
         MentList[ListCount].SetActive(true);
@@ -558,19 +536,12 @@ public class TutorialSystem_JGD : MonoBehaviour
         UI_On = false;
         MentList[ListCount].SetActive(false);
         NextMent_Alarm.SetActive(false);
-        //MentList[ListCount].transform.GetChild(0).gameObject.SetActive(false);  //추후 변경
         if (Finger != 0)
         {
             FingerPress = Fingers[Finger].GetComponent<Press_Any_Key>();
-            //FingerPress.StopCoroutine(FingerPress.PressNext);
             Fingers[Finger].SetActive(false);
 
         }
-        //if (press_any_key.PressNext != null)
-        //{
-        //    press_any_key.StopCoroutine(press_any_key.PressNext);
-        //}
-
     }
 
 
@@ -621,6 +592,7 @@ public class TutorialSystem_JGD : MonoBehaviour
     }
     public void EndTuto()
     {
-        SceneManager.LoadScene("My_Planet_TG");
+        //SceneManager.LoadScene("My_Planet_TG");
+        TCP_Client_Manager.instance.go_myplanet();
     }
 }

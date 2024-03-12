@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,7 +16,8 @@ public class GameStage : MonoBehaviour
     public void ComeBakeHome()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("My_Planet_TG");
+        //SceneManager.LoadScene("My_Planet_TG");
+        TCP_Client_Manager.instance.go_myplanet();
     }
     public void StgageSelect_Btn()
     {
