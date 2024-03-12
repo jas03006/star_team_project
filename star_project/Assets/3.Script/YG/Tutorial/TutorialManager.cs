@@ -22,6 +22,7 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] public Tutorial_YG tutorial_YG;
     [SerializeField] private Tutorial_TG tutorial_TG;
+    [SerializeField] private Button catchingstar_go;
 
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject pannel;
@@ -94,6 +95,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("GoToStage");
         pannel.SetActive(true);
+        catchingstar_go.onClick.Invoke();
         SceneManager.LoadScene("Stage");
     }
 
