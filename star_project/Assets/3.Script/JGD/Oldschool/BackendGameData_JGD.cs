@@ -233,8 +233,10 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.memo_info = new Memo_info();
 
             //ÄªÈ£ Á¤º¸
-            userData.title_adjective = adjective.lovely;
-            userData.title_noun = noun.jjang;
+            userData.title_adjective = adjective.none;
+            userData.title_noun = noun.none;
+            userData.Adjective_ID_List.Add(adjective.none);
+            userData.Noun_ID_List.Add(noun.none);
             userData.planet_name = nickname;
             userData.nickname = nickname;
 

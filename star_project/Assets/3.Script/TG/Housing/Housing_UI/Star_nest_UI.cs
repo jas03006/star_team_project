@@ -10,17 +10,37 @@ using System.ComponentModel;
 using Unity.VisualScripting;
 
 public enum adjective { 
-    none=-1, 
-    lovely=0,
-    Powerful = 1,
-    Hidden_Power_Of = 2,
-    Sweet = 3
+    none=-1,
+    Cute = 0,
+    Happy = 1,
+    Excited = 2,
+    Lovely = 3,
+    Sad = 4,
+    Angry = 5
 }
 public enum noun { 
     none=-1,
-    jjang = 0,
-    Tiger = 1,
-    Fire_Punch = 2
+    Beginner = 0,
+    Doll = 1,
+    Ballon = 2,
+    Block = 3,
+    Camera = 4,
+    Airplane = 5,
+    Apple = 6,
+    Milk = 7,
+    Cup = 8,
+    Chair = 9,
+    Table = 10,
+    Bench = 11,
+    Ball = 12,
+    Seesaw = 13,
+    Swing = 14,
+    Slide = 15,
+    Pencil = 16,
+    Scissors = 17,
+    Desk = 18,
+    Computer = 19,
+    Schoolbus = 20
 }
 
 /*public class Profile_Info_TG {
@@ -441,7 +461,8 @@ public class Star_nest_UI : MonoBehaviour
     }
     public void update_profile_UI() {
         pop_text.text = user_data.popularity.ToString();
-        title_text.text = user_data.title_adjective.ToString() + " " + user_data.title_noun.ToString();
+
+        title_text.text = (user_data.title_adjective == adjective.none? "": user_data.title_adjective.ToString()) + " " + (user_data.title_noun == noun.none ? "" : user_data.title_noun.ToString());
 
         planet_name_text.text = user_data.planet_name;
 
