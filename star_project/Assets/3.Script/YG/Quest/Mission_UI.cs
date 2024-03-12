@@ -135,14 +135,6 @@ public class Mission_UI : MonoBehaviour
         QuestManager.instance.cur_missiontypes.Add(cur_mission.criterion_type);
     }
 
-    //public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
-    //{
-    //    cur_mission.userdata.criterion++;
-    //    reward_btn.enabled = cur_mission.Check_clear();
-    //    Reset_btn();
-    //    cur_mission.userdata.Data_update();
-    //}
-
     public void Reset_btn() // 리셋버튼 클릭 시 호출
     {
         UI_updateL();

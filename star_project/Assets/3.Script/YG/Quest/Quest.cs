@@ -9,5 +9,6 @@ public class Quest : MonoBehaviour
 
     //UI
     public string title;
+    public string sub_text;
     public string contents;
 }

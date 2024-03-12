@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum challenge_cate
 {
@@ -23,6 +24,8 @@ public class ChallengeManager : MonoBehaviour
     List<Challenge> challenge_common = new List<Challenge>();
     List<Challenge> challenge_play = new List<Challenge>();
     List<Challenge> challenge_community = new List<Challenge>();
+
+    List<Image> btn_image = new List<Image>();
 
     [SerializeField] List<Challenge_prefab> challengeprefab_script_list = new List<Challenge_prefab>();
     [SerializeField] List<GameObject> challengeprefab_list = new List<GameObject>();
@@ -143,6 +146,12 @@ public class ChallengeManager : MonoBehaviour
     public void Change_state(int index) //일반,플레이,커뮤니티에 달 버튼
     {
         cate = (challenge_cate)index;
+
+        for (int i = 0; i < btn_image.Count; i++)
+        {
+            btn_image[index].enabled = i == index;
+        }
+
         Setting_prefab();
         Update_UI();
     }
