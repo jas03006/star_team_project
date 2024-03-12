@@ -77,13 +77,14 @@ public class Tutorial_TG : MonoBehaviour
     public void end_tutorial() {
         is_progressing = false;
         now_index = 0;
-        BackendGameData_JGD.userData.Adjective_ID_List.Add(adjective.Sweet);
-        BackendGameData_JGD.userData.Noun_ID_List.Add(noun.Fire_Punch);
+        BackendGameData_JGD.userData.Adjective_ID_List.Add(adjective.Cute);
+        BackendGameData_JGD.userData.Noun_ID_List.Add(noun.Beginner);
         //TODO: 받은 칭호 DB에 저장 (상위 매니저가 처리해도됨)
         reward_UI.SetActive(true);
         container.SetActive(false);
 
         BackendGameData_JGD.userData.tutorial_Info.state = Tutorial_state.clear;
+        BackendGameData_JGD.Instance.GameDataUpdate();
     }
     public void step() {
         if (timer < time_delay) {
