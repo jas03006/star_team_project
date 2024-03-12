@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2647673471640016398}
   - component: {fileID: 1397090672818896737}
   m_Layer: 5
-  m_Name: count
+  m_Name: sub_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 4404443260259533029}
   - component: {fileID: 383872968715733701}
   m_Layer: 5
-  m_Name: count (1)
+  m_Name: count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,11 +337,16 @@ MonoBehaviour:
   challenge: {fileID: 0}
   name_text: {fileID: 8602470423181037300}
   contents_text: {fileID: 9147201837433501160}
-  count_text: {fileID: 1397090672818896737}
+  sub_text: {fileID: 1397090672818896737}
+  count_text: {fileID: 383872968715733701}
   CP_text: {fileID: 5084069080916211543}
-  state_text: {fileID: 0}
+  state_image: {fileID: 4253937334302779671}
   reward_btn: {fileID: 5458660137415197939}
-  detail: {fileID: 0}
+  incomplete: {fileID: 21300000, guid: ebbdf723be87d934498c3ab88b8bbb0a, type: 3}
+  can_reward: {fileID: 21300000, guid: 363a11ab62c89944fb1f9dcc2926df53, type: 3}
+  complete: {fileID: 21300000, guid: 6f6039b3e18a2a746b1eb98c09d2ec59, type: 3}
+  complete_color: {r: 0.2627451, g: 0.8784314, b: 0.96862745, a: 0}
+  notcomplete_color: {r: 1, g: 0.21960784, b: 0.16862746, a: 0}
 --- !u!114 &2220281668407018376
 MonoBehaviour:
   m_ObjectHideFlags: 0

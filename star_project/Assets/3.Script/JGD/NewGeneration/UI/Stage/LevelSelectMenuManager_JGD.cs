@@ -47,7 +47,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     {
         if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.clear)
         {
-            Debug.Log("ø®");
             tutorial_canvas.enabled = true;
 
             for (int i = 0; i < Canvas_list.Count; i++)
@@ -63,7 +62,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
             return;
         }
-        Debug.Log("¿∏ø®");
 
         stage_case[0].transform.GetChild(0).GetComponent<TMP_Text>().text = "¿Â≥≠∞® ¿∫«œ";
         for (int i = 1; i < stage_case.Count; i++)
@@ -82,7 +80,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     //{
     //    if (SceneManager.GetActiveScene().name == "Stage")
     //    {
-            
+
     //    }
     //}
 
@@ -113,16 +111,16 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         yield return null;
         yield return null;
         //!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear &&
-        if ( Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+        if (Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
         {
             unlock_object.SetActive(true);
             CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
             character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
             info.character_list[(int)galaxy + 1].level = 1;
-            info.Change_dic((int)galaxy+1,1);
+            info.Change_dic((int)galaxy + 1, 1);
             info.Characterinfo_update();
             BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
-            
+
         }
     }
 

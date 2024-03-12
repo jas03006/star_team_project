@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,19 +8,27 @@ public class Challenge_prefab : MonoBehaviour
     public Challenge challenge;
     [SerializeField] TMP_Text name_text;
     [SerializeField] TMP_Text contents_text;
+    [SerializeField] TMP_Text sub_text;
     [SerializeField] TMP_Text count_text;
     [SerializeField] TMP_Text CP_text;
-    [SerializeField] TMP_Text state_text;
+    [SerializeField] Image state_image;
     [SerializeField] Button reward_btn;
 
-    [SerializeField] GameObject detail;
+    [SerializeField] Sprite incomplete;
+    [SerializeField] Sprite can_reward;
+    [SerializeField] Sprite complete;
+
+    [SerializeField] Color complete_color;
+    [SerializeField] Color notcomplete_color;
 
     public void Update_UI()
     {
         name_text.text = challenge.title;
         contents_text.text = challenge.contents;
-        count_text.text = challenge.contents + $"{challenge.userdata.criterion} / {challenge.goal}";
-        CP_text.text = $"{challenge.CP}\nCP";
+        sub_text.text = challenge.sub_text;
+
+        count_text.text =  "(" +challenge.userdata.criterion+ "/"+ challenge.goal + ")";
+        CP_text.text = $"{challenge.CP}";
         Update_UI_state();
     }
 
@@ -28,26 +37,15 @@ public class Challenge_prefab : MonoBehaviour
         switch (challenge.userdata.state)
         {
             case challenge_state.incomplete:
-                state_text.text = "미완료";
+                state_image.sprite = incomplete;
                 break;
             case challenge_state.can_reward:
-                state_text.text = "보상수령";
+                state_image.sprite = can_reward;
                 break;
             case challenge_state.complete:
-                state_text.text = "완료";
+                state_image.sprite = complete;
                 break;
         }
-    }
-
-    private void OnEnable()
-    {
-        Active_Change();
-    }
-
-    public void Active_Change()
-    {
-        detail.SetActive(!detail.activeSelf);
-        Canvas.ForceUpdateCanvases();
     }
 
     public void Get_reward_btn() //보상받기 버튼에 넣어둘 메서드
