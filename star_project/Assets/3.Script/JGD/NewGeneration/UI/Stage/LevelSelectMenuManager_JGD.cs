@@ -47,6 +47,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     {
         if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.clear)
         {
+            Debug.Log("ø®");
             tutorial_canvas.enabled = true;
 
             for (int i = 0; i < Canvas_list.Count; i++)
@@ -62,6 +63,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
             return;
         }
+        Debug.Log("¿∏ø®");
 
         stage_case[0].transform.GetChild(0).GetComponent<TMP_Text>().text = "¿Â≥≠∞® ¿∫«œ";
         for (int i = 1; i < stage_case.Count; i++)
