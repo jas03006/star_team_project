@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using BackEnd;
 //using static UnityEngine.Rendering.DebugUI;
 using System.ComponentModel;
+using Unity.VisualScripting;
 
 public enum adjective { 
     none=-1, 
@@ -129,11 +130,21 @@ public class Star_nest_UI : MonoBehaviour
     [Header("LevelUP")]
     // public GameObject level_up_button; 
     public GameObject level_up_UI;
-    public TMP_Text before_nest_text;
-    public TMP_Text after_nest_text;
+    [SerializeField] private GameObject max_cong_ob;
+    [SerializeField] private Button level_up_btn;
     public Image before_nest_img;
+    public Image before_nest_BG;
+    public Image before_nest_LV;
     public Image arrow_img;
     public Image after_nest_img;
+    public Image after_nest_BG;
+    public Image after_nest_LV;
+
+    [SerializeField] private Image result_nest_img;
+    [SerializeField] private Image result_nest_BG;
+    [SerializeField] private Image result_nest_LV;
+    [SerializeField] private TMP_Text result_nest_cong;
+    [SerializeField] private TMP_Text result_nest_info;
 
     public TMP_Text level_up_info_text;
     public TMP_Text level_up_gold;
@@ -141,8 +152,14 @@ public class Star_nest_UI : MonoBehaviour
 
     string[] nest_name_arr = { "LV1 별둥지", "LV2 별둥지", "LV3 별둥지", "LV4 별둥지" };
     public Sprite[] nest_sprite_arr;
-    int[] required_ark_arr = { 10, 20, 30 };
-    int[] required_gold_arr = { 10, 20, 30 };
+    public Sprite[] LV_sprite_arr;
+    public Sprite[] LV_BG_sprite_arr;
+    int[] required_ark_arr = { 150, 300, 500 };
+    int[] required_gold_arr = { 200, 400, 600 };
+    [SerializeField] private Color[] nest_text_color;
+    [SerializeField] private Color upgrade_disable_color;
+    [SerializeField] private GameObject levelup_result_overlay; 
+
 
     private UserData user_data;
 
@@ -579,32 +596,61 @@ public class Star_nest_UI : MonoBehaviour
     public void update_level_UI() {
         int level_ = BackendGameData_JGD.userData.housing_Info.level;
 
-        before_nest_text.text = nest_name_arr[level_];
+        before_nest_LV.sprite = LV_sprite_arr[level_];
+        before_nest_BG.sprite = LV_BG_sprite_arr[level_];
         before_nest_img.sprite = nest_sprite_arr[level_];
 
         if (level_ == nest_name_arr.Length - 1)
         {
-            after_nest_text.gameObject.SetActive(false);
+            level_up_btn.gameObject.SetActive(false);
+            max_cong_ob.SetActive(true);
+            after_nest_LV.gameObject.SetActive(false);
             after_nest_img.transform.parent.gameObject.SetActive(false);
             arrow_img.gameObject.SetActive(false);
 
             level_up_info_text.text = $"최고 레벨입니다!";
-            level_up_gold.text = "";
-            level_up_ark.text = "";
 
+            level_up_gold.text = "MAX";
+            level_up_gold.color = upgrade_disable_color;
+            level_up_ark.text = "MAX";
+            level_up_ark.color = upgrade_disable_color;
         }
         else {
-            after_nest_text.gameObject.SetActive(true);
+            level_up_btn.gameObject.SetActive(true);
+            max_cong_ob.SetActive(false);
+            after_nest_LV.gameObject.SetActive(true);
             after_nest_img.transform.parent.gameObject.SetActive(true);
             arrow_img.gameObject.SetActive(true);
 
-            after_nest_text.text = nest_name_arr[level_ + 1];
+            after_nest_LV.sprite = LV_sprite_arr[level_ + 1];
+            after_nest_BG.sprite = LV_BG_sprite_arr[level_ + 1];
             after_nest_img.sprite = nest_sprite_arr[level_ + 1];
 
             int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
             level_up_info_text.text = $"플래닛 크기 확장\n{level_width_arr[level_]}X{level_width_arr[level_]} -> {level_width_arr[level_ + 1]}X{level_width_arr[level_ + 1]}";
+            
             level_up_gold.text = required_gold_arr[level_].ToString();
+            if (required_gold_arr[level_] > BackendGameData_JGD.userData.gold)
+            {
+                level_up_gold.color = upgrade_disable_color;
+                level_up_btn.interactable = false;
+            }
+            else { 
+                level_up_gold.color = Color.white;
+                level_up_btn.interactable = true;
+            }
+
             level_up_ark.text = required_ark_arr[level_].ToString();
+            if (required_ark_arr[level_] > BackendGameData_JGD.userData.ark)
+            {
+                level_up_ark.color = upgrade_disable_color;
+                level_up_btn.interactable = false;
+            }
+            else
+            {
+                level_up_ark.color = Color.white;
+                level_up_btn.interactable = true;
+            }
         }     
 
         
@@ -613,7 +659,21 @@ public class Star_nest_UI : MonoBehaviour
     {
         level_up_UI.SetActive(false);
     }
-    
+
+    public void show_levelup_result_UI() {
+        int level_ = BackendGameData_JGD.userData.housing_Info.level;
+
+        levelup_result_overlay?.SetActive(true);
+
+        result_nest_LV.sprite = LV_sprite_arr[level_];
+        result_nest_BG.sprite = LV_BG_sprite_arr[level_];
+        result_nest_img.sprite = nest_sprite_arr[level_];
+
+        result_nest_cong.text = "별님이 <color=#" + nest_text_color[level_].ToHexString().Substring(0,6) +">"+(int)(level_+1)+"레벨 행성</color>으로 성장했어요\r\n축하드립니다!";
+
+        int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
+        result_nest_info.text = $"플래닛 크기 확장\n{level_width_arr[level_-1]}X{level_width_arr[level_-1]} -> {level_width_arr[level_]}X{level_width_arr[level_ ]}"; ;
+    }
 
     public void level_up() {
         if (can_level_up()) {
@@ -621,6 +681,9 @@ public class Star_nest_UI : MonoBehaviour
             TCP_Client_Manager.instance.placement_system.level_up();
             MoneyManager.instance.Spend_Money(required_gold_arr[level_], required_ark_arr[level_]);
             update_level_UI();
+
+            show_levelup_result_UI();
+
             if (star_nest != null) {
                 star_nest.apply_level();
             }
