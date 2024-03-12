@@ -62,7 +62,10 @@ public class GameStage : MonoBehaviour
             Timestop = true;
         }
     }
-
+    public void Btn_Click_Sound()
+    {
+        AudioManager.instance.SFX_Click();
+    }
     //public void LevelComplete()  //게임결과
     //{
     //    int starsAquired = 0;
@@ -77,4 +80,5 @@ public class GameStage : MonoBehaviour
     //        PlayerPrefs.SetInt("stars" + LevelSelectMenuManager_JGD.currLevel.ToString(), starsAquired);
     //    }
     //}
+    
 }

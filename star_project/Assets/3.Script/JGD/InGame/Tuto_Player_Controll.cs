@@ -85,6 +85,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             isMove = false;
             currentHp -= num;
             Hpslider.value -= num;
+            AudioManager.instance.SFX_hit();
             rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
             rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
@@ -117,18 +118,21 @@ public class Tuto_Player_Controll : MonoBehaviour
         else if (collision.gameObject.CompareTag("star_nest_UI"))               //별 아이템
         {
             PlayerScore += 5;
+            AudioManager.instance.SFX_collect_star();
             Player_CatchingStar_Count.text = PlayerScore.ToString();
             collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.CompareTag("post_box_UI"))               //별 아이템
         {
             PlayerScore += 1;
+            AudioManager.instance.SFX_collect_star();
             Player_CatchingStar_Count.text = PlayerScore.ToString();
             collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
             currentHp = 100f;
+            AudioManager.instance.SFX_collect_heart();
             collision.gameObject.SetActive(false);
             Hpslider.value = (float)currentHp;
             if (Tuto.progress == 6)
@@ -153,6 +157,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             {
                 return;
             }
+            AudioManager.instance.SFX_collect_item();
             collision.gameObject.SetActive(false);
         }
         //else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
@@ -173,6 +178,7 @@ public class Tuto_Player_Controll : MonoBehaviour
                 Tuto.progress++;
             }
             Alphabet.Add("a");
+            AudioManager.instance.SFX_collect_item();
             switch (Alphabet.Count)
             {
                 case 1:
