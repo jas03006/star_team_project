@@ -137,9 +137,16 @@ public class Mission_UI : MonoBehaviour
 
         s_title.text = cur_mission.title;
         contents.text = cur_mission.contents;
-        sub_text.text = cur_mission.sub_text;
-        reward_gold.text = cur_mission.reward_gold.ToString();
+        if (QuestManager.instance.Mission2data(cur_mission).criterion >= cur_mission.goal)
+        {
+            sub_text.text = $"{cur_mission.sub_text} <color=#43E0F7>{cur_mission.goal}</color>/{cur_mission.goal}";
+        }
+        else
+        {
+            sub_text.text = $"{cur_mission.sub_text} <color=#FF382B>{QuestManager.instance.Mission2data(cur_mission).criterion}</color>/{cur_mission.goal}";
+        }
         reward_ark.text = cur_mission.reward_ark.ToString();
+        reward_gold.text = cur_mission.reward_gold.ToString();
 
         Mission_userdata data = QuestManager.instance.Mission2data(cur_mission);
 
