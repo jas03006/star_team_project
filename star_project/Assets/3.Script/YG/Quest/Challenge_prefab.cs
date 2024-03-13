@@ -24,13 +24,18 @@ public class Challenge_prefab : MonoBehaviour
         contents_text.text = challenge.contents;
         sub_text.text = challenge.sub_text;
 
-        if (challenge.userdata.criterion > challenge.goal)
+        if (challenge.userdata.criterion >= challenge.goal)
         {
-            count_text.text = "(" + challenge.goal + "/" + challenge.goal + ")";
+            if(challenge.userdata.state == challenge_state.incomplete)
+            {
+                challenge.userdata.state = challenge_state.can_reward;
+            }
+            count_text.text = "(<color=#43E0F7>" + challenge.goal + "</color>/" + challenge.goal + ")";
         }
+
         else
         {
-            count_text.text =  "(" +challenge.userdata.criterion+ "/"+ challenge.goal + ")";
+            count_text.text = "(<color=#FF382B>" + challenge.userdata.criterion+ "</color>/" + challenge.goal + ")";
         }
         CP_text.text = $"{challenge.CP}";
         Update_UI_state();
@@ -42,12 +47,15 @@ public class Challenge_prefab : MonoBehaviour
         {
             case challenge_state.incomplete:
                 state_image.sprite = incomplete;
+                reward_btn.interactable = false;
                 break;
             case challenge_state.can_reward:
                 state_image.sprite = can_reward;
+                reward_btn.interactable = true;
                 break;
             case challenge_state.complete:
                 state_image.sprite = complete;
+                reward_btn.interactable = false;
                 break;
         }
     }
@@ -57,11 +65,13 @@ public class Challenge_prefab : MonoBehaviour
         if (challenge.userdata.state != challenge_state.can_reward)
             return;
 
+        Debug.Log(challenge.userdata.state + "변경완료");
+
         Debug.Log("Get_reward_btn");
-        Update_UI_state();
 
         reward_btn.interactable = false;
         challenge.Get_reward();
+        Update_UI_state();
     }
 
     public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시

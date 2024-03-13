@@ -52,10 +52,11 @@ public class Challenge : Quest
 
         //보상 지급
         BackendGameData_JGD.userData.CP += CP;
+        userdata.state = challenge_state.complete;
+
+        //DB저장
         Data_update();
 
-        //상태변경
-        userdata.state = challenge_state.complete;
     }
 
     public void Data_update()
