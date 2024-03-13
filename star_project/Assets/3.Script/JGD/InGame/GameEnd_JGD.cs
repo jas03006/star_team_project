@@ -39,7 +39,6 @@ public class GameEnd_JGD : MonoBehaviour
 
     private void Awake()
     {
-        Stage = LevelSelectMenuManager_JGD.currLevel;
         ClearData.Clear();
         Debug.Log("아아");
     }
@@ -47,6 +46,7 @@ public class GameEnd_JGD : MonoBehaviour
     {
         Score = 0;
         data = BackendChart_JGD.chartData.StageClear_list[Stage];
+        Stage = data.Stage;/////
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(false);
         string[] Clearwords = data.StageWord.Split(',');
@@ -126,6 +126,7 @@ public class GameEnd_JGD : MonoBehaviour
                     BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
                     stage_data.get_housing = true;
                     Debug.Log("아이템 지급완료");
+                    Debug.Log(data.HousingItmeID);
                 }
             }
             MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
