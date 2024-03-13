@@ -39,6 +39,7 @@ public class GameEnd_JGD : MonoBehaviour
 
     private void Awake()
     {
+        Stage = LevelSelectMenuManager_JGD.currLevel + (LevelSelectMenuManager_JGD.GalaxyLevel * 5);
         ClearData.Clear();
         Debug.Log("아아");
     }
@@ -124,10 +125,21 @@ public class GameEnd_JGD : MonoBehaviour
                 if (stage_data.get_housing == false)
                 {
                     BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
+                    
+                    if (data.Theme < 5)
+                    {
+                        BackendGameData_JGD.userData.Noun_ID_List.Add((noun)data.NounTitle);
+                    }
+                    else
+                    {
+                        BackendGameData_JGD.userData.Adjective_ID_List.Add((adjective)data.AdjectiveTitle);
+                    }
+
                     stage_data.get_housing = true;
                     Debug.Log("아이템 지급완료");
                     Debug.Log(data.HousingItmeID);
                 }
+                
             }
             MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
             //TXT UI적용
