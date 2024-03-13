@@ -84,6 +84,7 @@ public class Character
 
         //레벨 업데이트
         curlevel++;
+        QuestManager.instance.Check_mission(Criterion_type.character_levelup);
         Characterinfo_Data_update();
         State_update();
     }
