@@ -1,5 +1,5 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,20 +25,33 @@ public class ChallengeManager : MonoBehaviour
     List<Challenge> challenge_play = new List<Challenge>();
     List<Challenge> challenge_community = new List<Challenge>();
 
-    List<Image> btn_image = new List<Image>();
+    [SerializeField] List<Image> btn_image = new List<Image>();
 
     [SerializeField] List<Challenge_prefab> challengeprefab_script_list = new List<Challenge_prefab>();
     [SerializeField] List<GameObject> challengeprefab_list = new List<GameObject>();
 
-
     [SerializeField] private GameObject prefab;
     [SerializeField] private GameObject content_zone;
+
+    [SerializeField] private TMP_Text CP;
+    [SerializeField] private Slider CP_slider;
+
+    [SerializeField] List<Button> borders_btn = new List<Button>();
+    [SerializeField] List<Image> borders_img = new List<Image>();
+
+    [SerializeField] private Sprite border_O;
+    [SerializeField] private Sprite border_X;
+
+    private housing_itemID[] cp_rewards = { housing_itemID.bench, housing_itemID.ball, housing_itemID.seesaw, housing_itemID.swing, housing_itemID.slider };
+
 
     private void Start()
     {
         Setting_data();
         Setting_prefab();
         Update_UI();
+
+        BackendGameData_JGD.userData.house_inventory.Add(housing_itemID.seesaw, 1);
     }
 
     private void Setting_data()
@@ -88,16 +101,16 @@ public class ChallengeManager : MonoBehaviour
 
         if (challengeprefab_script_list.Count == 0) //贸澜 积己
         {
-            Debug.Log("贸澜 积己");
+            //Debug.Log("贸澜 积己");
             for (int i = 0; i < get_list_count; i++)
             {
                 Make_prefab(Get_list()[i]);
             }
         }
 
-        else if (prefab_count > get_list_count) 
+        else if (prefab_count > get_list_count)
         {
-            Debug.Log($"{prefab_count - get_list_count}俺 昏力");
+            //Debug.Log($"{prefab_count - get_list_count}俺 昏力");
             for (int i = 0; i < prefab_count - get_list_count; i++)
             {
                 Destroy(challengeprefab_list[i]);
@@ -109,7 +122,7 @@ public class ChallengeManager : MonoBehaviour
 
         else if (prefab_count < get_list_count)
         {
-            Debug.Log($"{prefab_count - get_list_count}俺 积己");
+            //Debug.Log($"{prefab_count - get_list_count}俺 积己");
             for (int i = 0; i < get_list_count - prefab_count; i++)
             {
                 Make_prefab(Get_list()[i]);
@@ -126,15 +139,52 @@ public class ChallengeManager : MonoBehaviour
             challengeprefab_script_list[i].challenge = cur_list[i];
             challengeprefab_script_list[i].Update_UI();
         }
+
+        int cp = BackendGameData_JGD.userData.CP;
+        CP.text = cp.ToString();
+        CP_slider.value = cp;
+
+        for (int i = 0; i < borders_img.Count; i++)
+        {
+            if (cp <= (i + 1) * 1000)
+            {
+                borders_img[i].sprite = border_X;
+            }
+            else
+            {
+                borders_img[i].sprite = border_O;
+
+                if (BackendGameData_JGD.userData.quest_Info.challenge_states[i] == challenge_state.incomplete)
+                {
+                    BackendGameData_JGD.userData.quest_Info.challenge_states[i] = challenge_state.can_reward;
+                }
+            }
+
+            switch (BackendGameData_JGD.userData.quest_Info.challenge_states[i])
+            {
+                case challenge_state.incomplete:
+                    borders_btn[i].interactable = false;
+                    borders_btn[i].transform.GetChild(2).gameObject.SetActive(false);
+                    break;
+                case challenge_state.can_reward:
+                    borders_btn[i].interactable = true;
+                    borders_btn[i].transform.GetChild(2).gameObject.SetActive(false);
+                    break;
+                case challenge_state.complete:
+                    borders_btn[i].interactable = false;
+                    borders_btn[i].transform.GetChild(2).gameObject.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     public void Make_prefab(Challenge challenge)
     {
         GameObject obj = Instantiate(prefab, content_zone.transform);
         challengeprefab_list.Add(obj);
-
-        //obj.transform.SetParent(content_zone.transform, false);
-        //Canvas.ForceUpdateCanvases();
 
         Challenge_prefab challenge_prefab = obj.GetComponent<Challenge_prefab>();
         challenge_prefab.challenge = challenge;
@@ -149,10 +199,24 @@ public class ChallengeManager : MonoBehaviour
 
         for (int i = 0; i < btn_image.Count; i++)
         {
-            btn_image[index].enabled = i == index;
+            btn_image[i].enabled = i == index;
         }
 
         Setting_prefab();
+        Update_UI();
+    }
+
+    public void CP_reward(int index)
+    {
+
+        if (BackendGameData_JGD.userData.quest_Info.challenge_states[index] != challenge_state.can_reward)
+            return;
+
+        BackendGameData_JGD.userData.quest_Info.challenge_states[index] = challenge_state.complete;
+
+        BackendGameData_JGD.userData.house_inventory.Add(cp_rewards[index], 1);
+        BackendGameData_JGD.Instance.GameDataUpdate();
+
         Update_UI();
     }
 }

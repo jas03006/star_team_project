@@ -18,16 +18,20 @@ public class Challenge_prefab : MonoBehaviour
     [SerializeField] Sprite can_reward;
     [SerializeField] Sprite complete;
 
-    [SerializeField] Color complete_color;
-    [SerializeField] Color notcomplete_color;
-
     public void Update_UI()
     {
         name_text.text = challenge.title;
         contents_text.text = challenge.contents;
         sub_text.text = challenge.sub_text;
 
-        count_text.text =  "(" +challenge.userdata.criterion+ "/"+ challenge.goal + ")";
+        if (challenge.userdata.criterion > challenge.goal)
+        {
+            count_text.text = "(" + challenge.goal + "/" + challenge.goal + ")";
+        }
+        else
+        {
+            count_text.text =  "(" +challenge.userdata.criterion+ "/"+ challenge.goal + ")";
+        }
         CP_text.text = $"{challenge.CP}";
         Update_UI_state();
     }
