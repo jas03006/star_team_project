@@ -14,6 +14,7 @@ public class Post_Element : MonoBehaviour
     public PostType post_type;
     public Dictionary<Money, int> item_dic= new Dictionary<Money, int>();
     public string item_str;
+    public string date_str;
     public string content_str = string.Empty;
 
     public bool is_received = false;
@@ -21,6 +22,8 @@ public class Post_Element : MonoBehaviour
     [SerializeField] private Button btn;
     [SerializeField] private TMP_Text title;
     [SerializeField] private TMP_Text item_info;
+    [SerializeField] private GameObject item_info_image;
+    [SerializeField] private GameObject item_info_check_image;
     [SerializeField] private TMP_Text date;
 
     public void init(Post post, UnityAction btn_callback, PostType post_type_) { 
@@ -36,15 +39,27 @@ public class Post_Element : MonoBehaviour
         title.text = post.title;
         item_str = string.Empty;
         foreach (Money key in item_dic.Keys) {
-            item_str += item_dic[key]+" " +key+ "\n";
+            item_str += item_dic[key];
         }
         item_info.text = item_str;
+
+        if (item_dic.Keys.Count == 0)
+        {
+            item_info_image.SetActive(false);
+        }
+        else {
+            item_info_image.SetActive(true);
+        }
+
+        item_info_check_image.SetActive(is_received);
+
         if (is_received)
         {
             item_info.text += "È¹µæ¿Ï·á";
         }
         //item_info.text = post.postReward.;
-        date.text = post.inDate.Split(".")[0];
+        date_str = post.inDate.Split(".")[0].Replace("T"," ");
+        date.text = date_str;
     }
     public void parse_reward() {
         string[] arr = post.content.Split(separator);
@@ -67,5 +82,6 @@ public class Post_Element : MonoBehaviour
         }      
 
         is_received = true;
+        item_info_check_image.SetActive(true);
     }
 }

@@ -131,7 +131,7 @@ public class InputManager : MonoBehaviour
                 return true;
             }
         }
-        Debug.Log("not touched" );
+       // Debug.Log("not touched" );
 
         return EventSystem.current.IsPointerOverGameObject();     
     }

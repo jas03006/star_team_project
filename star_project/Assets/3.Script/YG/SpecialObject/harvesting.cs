@@ -36,7 +36,7 @@ public class Harvesting : Net_Housing_Object//, IObject
     private DateTime end_time = DateTime.MaxValue; //수확 가능 시간
 
     private int[] btn_min = { 1, 30, 120, 720, 1440 };
-    private int[] ark_reward = { 3, 10, 30, 100, 200 };
+    private int[] ark_reward = { 1, 10, 30, 100, 200 };
     public int selection = -1;
     private HousingObjectInfo info = null;
 
@@ -175,35 +175,38 @@ public class Harvesting : Net_Housing_Object//, IObject
                 postItem.Content = $"{TCP_Client_Manager.instance.my_player.object_id}님이 수확해주었습니다!" +
                 $"{separator}{(int)Money.ark}:{(int)(reward*1.2f)}";
                 postItem.TableName = "USER_DATA";
-                if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
-                {
-
-                    var bro_ = Backend.Social.GetUserInfoByNickName(Backend.UserNickName);
-
-                    string gamerIndate = bro_.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+               if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
+               {
+                    
+                   //var bro_ = Backend.Social.GetUserInfoByNickName(Backend.UserNickName);
+                   //
+                   //string gamerIndate = bro_.GetReturnValuetoJSON()["row"]["inDate"].ToString();
 
                     Where where = new Where();
-                    where.Equal("owner_inDate", gamerIndate);
+                    where.Equal("owner_inDate", Backend.UserInDate);// gamerIndate);
 
                     var bro__ = Backend.GameData.Get("USER_DATA", where);
                     Debug.Log(bro__.FlattenRows()[0]["inDate"].ToString());
                     BackendGameData_JGD.Instance.gameDataRowInDate = bro__.FlattenRows()[0]["inDate"].ToString(); //Backend.GameData.GetMyData("USER_DATA", new Where()).FlattenRows()[0]["inDate"].ToString();
                    
                     postItem.RowInDate = bro__.FlattenRows()[0]["inDate"].ToString();
-                }
-                else {
-                    postItem.RowInDate = BackendGameData_JGD.Instance.gameDataRowInDate;
-                }
+               }
+               else {
+                   postItem.RowInDate = BackendGameData_JGD.Instance.gameDataRowInDate;
+               }
                 
                 postItem.Column = "level";
 
-                Debug.Log(BackendGameData_JGD.Instance.gameDataRowInDate);
+                Debug.Log(gamer_indate);
+                Debug.Log(postItem.RowInDate);
 
                 var bro = Backend.UPost.SendUserPost(gamer_indate, postItem);
                 if (bro.IsSuccess())
                 {
                     Debug.Log("우편 발송에 성공했습니다." + bro);
-
+                    BackendGameData_JGD.userData.level = 1;
+                    string[] selection_ = { "level"};
+                    BackendGameData_JGD.Instance.GameDataUpdate(selection_);
                 }
                 else
                 {

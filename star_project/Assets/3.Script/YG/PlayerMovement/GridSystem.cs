@@ -53,8 +53,10 @@ public class GridSystem : MonoBehaviour
         x_point = Mathf.Clamp01(x_point);
         y_point = Mathf.Clamp01(y_point);
 
-        int x = Mathf.RoundToInt((gridSizeX - 1) * x_point);
-        int y = Mathf.RoundToInt((gridSizeY - 1) * y_point);
+        //int x = Mathf.RoundToInt((gridSizeX - 1) * x_point);
+        int x = Mathf.FloorToInt(gridSizeX  * x_point);
+        //int y = Mathf.RoundToInt((gridSizeY - 1) * y_point);
+        int y = Mathf.FloorToInt(gridSizeY  * y_point);
 
         return grid_node[x, y];
     }
@@ -173,6 +175,7 @@ public class GridSystem : MonoBehaviour
     }
 
     public Vector3 find_nearest_space(Vector3 dest_pos, Vector3 start_pos) {
+
         Vector3 dir = dest_pos- start_pos;
         int dx_ = Mathf.RoundToInt(dir.x);
         int dy_ = Mathf.RoundToInt(dir.z);
