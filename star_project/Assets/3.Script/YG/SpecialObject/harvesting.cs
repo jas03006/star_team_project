@@ -36,13 +36,13 @@ public class Harvesting : Net_Housing_Object//, IObject
     private DateTime end_time = DateTime.MaxValue; //수확 가능 시간
 
     private int[] btn_min = { 1, 30, 120, 720, 1440 };
-    private int[] ark_reward = { 3, 10, 30, 100, 200 };
+    private int[] ark_reward = { 1, 10, 30, 100, 200 };
     public int selection = -1;
     private HousingObjectInfo info = null;
 
     private void Update()
     {
-        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (45f + 450f/Camera.main.orthographicSize );
+        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (62.5f + 450f/Camera.main.orthographicSize );
         update_state();
     }
 
@@ -51,7 +51,13 @@ public class Harvesting : Net_Housing_Object//, IObject
         base.interact(player_id, interaction_id, param);
         if (state == harvest_state.ready && TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id)
         {
-            show_select_UI();
+            if (select_UI.activeSelf || select_UI_Right.activeSelf)
+            {
+                hide_select_UI();
+            }
+            else {
+                show_select_UI();
+            }
         }
         else if (state == harvest_state.complete)
         {
@@ -109,7 +115,14 @@ public class Harvesting : Net_Housing_Object//, IObject
                 break;
             case harvest_state.processing:
                 show_processing_UI();
-                processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
+                // processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
+                if (remain_time.TotalMinutes < 1)
+                {
+                    processing_timer.text = $"<color=#FF7C44>{remain_time.Seconds}초</color>";
+                }
+                else {
+                    processing_timer.text = $"{(remain_time.TotalHours < 10 ? "0" : "")}{(int)remain_time.TotalHours}:{(remain_time.Minutes < 10 ? "0" : "")}{remain_time.Minutes}";
+                }
                 break;
             case harvest_state.complete:
                 show_complete_UI();
@@ -147,6 +160,7 @@ public class Harvesting : Net_Housing_Object//, IObject
 
                 MoneyManager.instance.Get_Money(Money.ark,(int) (reward*0.3f));
                 QuestManager.instance.Check_mission(Criterion_type.proxy_harvesting);
+                QuestManager.instance.Check_challenge(Clear_type.proxy_harvesting);
 
                 string separator = "%^";
                 //TODO: 우편 보내기
@@ -162,35 +176,38 @@ public class Harvesting : Net_Housing_Object//, IObject
                 postItem.Content = $"{TCP_Client_Manager.instance.my_player.object_id}님이 수확해주었습니다!" +
                 $"{separator}{(int)Money.ark}:{(int)(reward*1.2f)}";
                 postItem.TableName = "USER_DATA";
-                if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
-                {
-
-                    var bro_ = Backend.Social.GetUserInfoByNickName(Backend.UserNickName);
-
-                    string gamerIndate = bro_.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+               if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
+               {
+                    
+                   //var bro_ = Backend.Social.GetUserInfoByNickName(Backend.UserNickName);
+                   //
+                   //string gamerIndate = bro_.GetReturnValuetoJSON()["row"]["inDate"].ToString();
 
                     Where where = new Where();
-                    where.Equal("owner_inDate", gamerIndate);
+                    where.Equal("owner_inDate", Backend.UserInDate);// gamerIndate);
 
                     var bro__ = Backend.GameData.Get("USER_DATA", where);
                     Debug.Log(bro__.FlattenRows()[0]["inDate"].ToString());
                     BackendGameData_JGD.Instance.gameDataRowInDate = bro__.FlattenRows()[0]["inDate"].ToString(); //Backend.GameData.GetMyData("USER_DATA", new Where()).FlattenRows()[0]["inDate"].ToString();
                    
                     postItem.RowInDate = bro__.FlattenRows()[0]["inDate"].ToString();
-                }
-                else {
-                    postItem.RowInDate = BackendGameData_JGD.Instance.gameDataRowInDate;
-                }
+               }
+               else {
+                   postItem.RowInDate = BackendGameData_JGD.Instance.gameDataRowInDate;
+               }
                 
                 postItem.Column = "level";
 
-                Debug.Log(BackendGameData_JGD.Instance.gameDataRowInDate);
+                Debug.Log(gamer_indate);
+                Debug.Log(postItem.RowInDate);
 
                 var bro = Backend.UPost.SendUserPost(gamer_indate, postItem);
                 if (bro.IsSuccess())
                 {
                     Debug.Log("우편 발송에 성공했습니다." + bro);
-
+                    BackendGameData_JGD.userData.level = 1;
+                    string[] selection_ = { "level"};
+                    BackendGameData_JGD.Instance.GameDataUpdate(selection_);
                 }
                 else
                 {

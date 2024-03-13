@@ -346,6 +346,10 @@ public class TCP_Client_Manager : MonoBehaviour
             hide_lobby_buttons();
             load_house();
             my_player.show_UI();
+
+            if (now_room_id != my_player.object_id) {
+                QuestManager.instance.Check_challenge(Clear_type.visit_friendplanet);
+            }
         }
     }
     public void go_myplanet()
