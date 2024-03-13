@@ -862,6 +862,9 @@ public class BackendGameData_JGD : MonoBehaviour
                                 user_data.popularity_history.Add(equip.ToString());
                             }
                             break;
+                        case "character":
+                            user_data.character =int.Parse( gameDataJson[0]["character"].ToString());
+                            break;
                         default:
                             break;
                     }

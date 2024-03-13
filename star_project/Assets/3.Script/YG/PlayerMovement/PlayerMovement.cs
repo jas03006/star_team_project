@@ -28,6 +28,9 @@ public class PlayerMovement : Player_Network_TG
     private Coroutine now_emozi_co=null;
     
     Tween now_tween = null;
+
+    public int character=-1;
+    [SerializeField] private MeshRenderer renderer;
     private void OnEnable()
     {
         find_grid();
@@ -44,15 +47,27 @@ public class PlayerMovement : Player_Network_TG
         {
             title_tag.text = (BackendGameData_JGD.userData.title_adjective == adjective.none ? "" : BackendGameData_JGD.userData.title_adjective.ToString())
             + " " + (BackendGameData_JGD.userData.title_noun == noun.none ? "" : BackendGameData_JGD.userData.title_noun.ToString());
-
+            character = BackendGameData_JGD.userData.character;
             //TODO: 선택 캐릭터 적용
+            
         }
         else {
-            string[] select = { "title_adjective", "title_noun" };
+            string[] select = { "title_adjective", "title_noun", "character" };
             UserData ud = BackendGameData_JGD.Instance.get_userdata_by_nickname(object_id, select);
-            title_tag.text = ud.title_adjective + " " + ud.title_noun;
+            title_tag.text = (ud.title_adjective == adjective.none ? "" : ud.title_adjective.ToString())
+            + " " + (ud.title_noun == noun.none ? "" : ud.title_noun.ToString());
+            character = ud.character;
         }
+        update_model();
+    }
 
+    public void update_model() {
+        renderer.material = SpriteManager.instance.Num2Material(character);
+    }
+    public void update_model(int char_id)
+    {
+        character = char_id;
+        renderer.material = SpriteManager.instance.Num2Material(character);
     }
 
     private void FixedUpdate()

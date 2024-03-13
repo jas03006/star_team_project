@@ -12,6 +12,7 @@ public class SpriteManager : MonoBehaviour
 
     private Dictionary<int, Sprite> emoziDictionary = new Dictionary<int, Sprite>();
     private Dictionary<int, Sprite> backgroundDictionary = new Dictionary<int, Sprite>();
+    private Dictionary<int, Material> character_material = new Dictionary<int, Material>();
     private void Awake()
     {
         if (instance == null)
@@ -44,6 +45,12 @@ public class SpriteManager : MonoBehaviour
         {
             backgroundDictionary.Add(imageData.id, imageData.sprite);
         }
+        int ind = 0;
+        foreach (var materialData in spriteDB.character_material_Data)
+        {
+            character_material.Add(ind, materialData);
+            ind++;
+        }
         Debug.Log("생성끝!");
     }
 
@@ -69,5 +76,10 @@ public class SpriteManager : MonoBehaviour
     public Sprite Num2BG(int sprite_num) //번호에 맞는 스프라이트 찾는 메서드
     {
         return backgroundDictionary[sprite_num];
+    }
+
+    public Material Num2Material(int num) { 
+        return character_material[num];
+
     }
 }
