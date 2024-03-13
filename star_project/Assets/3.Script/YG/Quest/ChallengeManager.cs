@@ -130,7 +130,7 @@ public class ChallengeManager : MonoBehaviour
         }
     }
 
-    private void Update_UI()
+    public void Update_UI()
     {
         List<Challenge> cur_list = Get_list();
 

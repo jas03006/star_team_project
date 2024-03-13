@@ -129,7 +129,7 @@ public class Quest_info_YG
     }
 }
 
-
+[Serializable]
 public class Mission : Quest
 {
     //차트
@@ -277,7 +277,7 @@ public enum Criterion_type
     character_levelup = 4, //캐릭터 레벨업 횟수
     alphabet = 5, //알파벳 완성횟수(= 하우징오브젝트 획득)
     starnest = 6,//별둥지 업그레이드 횟수
-    friend = 7 //친구 인원 수 //고쳐야함
+    friend = 7 //친구 신청 수
 }
 
 public class Mission_userdata

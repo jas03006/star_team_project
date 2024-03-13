@@ -46,7 +46,7 @@ public class Inventory_JGD : MonoBehaviour
             Debug.Log(BackendGameData_JGD.userData.house_inventory.item_list[0].count);
         }
 
-        BackendChart_JGD.Instance.ChartGet("107516");
+        //BackendChart_JGD.Instance.ChartGet("107516");
 
     }
 

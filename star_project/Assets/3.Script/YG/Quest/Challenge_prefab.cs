@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Challenge_prefab : MonoBehaviour
 {
     public Challenge challenge;
+
     [SerializeField] TMP_Text name_text;
     [SerializeField] TMP_Text contents_text;
     [SerializeField] TMP_Text sub_text;
@@ -72,6 +73,7 @@ public class Challenge_prefab : MonoBehaviour
         reward_btn.interactable = false;
         challenge.Get_reward();
         Update_UI_state();
+        QuestManager.instance.Challenge_update();
     }
 
     public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
