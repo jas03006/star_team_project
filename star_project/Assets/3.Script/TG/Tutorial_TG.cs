@@ -30,6 +30,7 @@ public class Tutorial_TG : MonoBehaviour
 
     [SerializeField] private GameObject reward_UI;
     [SerializeField] private GameObject container;
+    [SerializeField] private GameObject panel;
     
     [SerializeField] private Camera_My_Planet camera;
 
@@ -40,15 +41,16 @@ public class Tutorial_TG : MonoBehaviour
             instance = this;
         }
         else { 
-            Destroy(instance.gameObject);
+            //Destroy(instance.gameObject);
             instance = this;
             return;
         }
     }
     private void Start()
     {
+        Debug.Log("Tuto Check");
         if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.myplanet) {
-
+            
             start_tutorial();
         }
     }
@@ -82,7 +84,7 @@ public class Tutorial_TG : MonoBehaviour
         //TODO: 받은 칭호 DB에 저장 (상위 매니저가 처리해도됨)
         reward_UI.SetActive(true);
         container.SetActive(false);
-
+        panel.SetActive(false);
         BackendGameData_JGD.userData.tutorial_Info.state = Tutorial_state.clear;
         BackendGameData_JGD.Instance.GameDataUpdate();
     }
@@ -102,11 +104,13 @@ public class Tutorial_TG : MonoBehaviour
     }
 
     public void show() {
-        
 
+        
         if (now_index > 0) {
             tutorial_sequence[now_index - 1].StopAllCoroutines();
-            tutorial_sequence[now_index - 1].gameObject.SetActive(false);
+            panel.SetActive(true);
+            StartCoroutine(active_co(now_index - 1, false));
+            //tutorial_sequence[now_index - 1].gameObject.SetActive(false);
         }
         if (now_index >= tutorial_sequence.Count)
         {
@@ -114,9 +118,21 @@ public class Tutorial_TG : MonoBehaviour
             return;
         }else if (now_index >= 0)
         {
-            tutorial_sequence[now_index].gameObject.SetActive(true);
-            tutorial_sequence[now_index].start_process();
+            StartCoroutine(active_co(now_index, true));
+            //tutorial_sequence[now_index].gameObject.SetActive(true);
+            //tutorial_sequence[now_index].start_process();
         }            
+    }
+    public IEnumerator active_co(int index_, bool is_on) {
+        yield return null;
+        yield return null;
+        tutorial_sequence[index_].gameObject.SetActive(is_on);
+        if (is_on) {
+            tutorial_sequence[index_].start_process();
+            yield return null; 
+            yield return null;
+            panel.SetActive(false);
+        }
     }
 
     public tutorial_type_TG get_type() {

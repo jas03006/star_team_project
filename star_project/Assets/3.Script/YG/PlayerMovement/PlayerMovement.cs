@@ -42,8 +42,9 @@ public class PlayerMovement : Player_Network_TG
         name_tag.text = object_id;
         if (!is_guest)
         {
-            title_tag.text = BackendGameData_JGD.userData.title_adjective + " " + BackendGameData_JGD.userData.title_noun;
-            
+            title_tag.text = (BackendGameData_JGD.userData.title_adjective == adjective.none ? "" : BackendGameData_JGD.userData.title_adjective.ToString())
+            + " " + (BackendGameData_JGD.userData.title_noun == noun.none ? "" : BackendGameData_JGD.userData.title_noun.ToString());
+
             //TODO: 선택 캐릭터 적용
         }
         else {

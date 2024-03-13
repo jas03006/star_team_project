@@ -329,10 +329,14 @@ public class Housing_UI_Manager : MonoBehaviour
         is_move = false;
     }
 
-    public IEnumerator show_edit_UI_co() { 
-        while(now_focus_ob != null) {
+    public IEnumerator show_edit_UI_co() {
+        Vector3 temp;
+        while (now_focus_ob != null) {
             ui_distance =100f- 192f / Camera.main.orthographicSize;
-            edit_UI.position = Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) + Vector3.up* (192f / Camera.main.orthographicSize);
+            temp = Camera.main.WorldToScreenPoint(now_focus_ob.gameObject.transform.position) + Vector3.up * (192f / Camera.main.orthographicSize);
+            temp.z = -1;
+            edit_UI.position = temp;
+            
             yield return null;         
         }
     }
