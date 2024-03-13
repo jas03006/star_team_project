@@ -35,10 +35,6 @@ public class FriendList_JGD : MonoBehaviour
     private string select_indate = string.Empty;
 
     public static Dictionary<string,string> friend_dic = new Dictionary<string,string>();
-    private void Start()
-    {
-        
-    }
 
     public static bool is_friend(string nickname_) {
         return friend_dic.ContainsKey(nickname_);
