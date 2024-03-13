@@ -49,7 +49,7 @@ public class QuestManager : MonoBehaviour
                 cur_missiontypes.Add(mission.criterion_type);
             }
 
-            Debug_mission(mission);
+            //Debug_mission(mission);
         }
 
         if (is_change)

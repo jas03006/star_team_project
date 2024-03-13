@@ -20,7 +20,9 @@ public class Quest_info_YG
     public List<Mission_userdata> mission_userdata = new List<Mission_userdata>();//미션관련 데이터
 
     //challenge
-    public List<Challenge_userdata> challenge_userdata = new List<Challenge_userdata>();//퀘스트 관련 데이터
+    public List<challenge_state> challenge_states = new List<challenge_state>(); //cp 보상
+    public Dictionary<Clear_type,int> challenge_dic = new Dictionary<Clear_type,int>();
+    //public List<Challenge_userdata> challenge_userdata = new List<Challenge_userdata>();//퀘스트 관련 데이터
 
     public Quest_info_YG() { }
     public Quest_info_YG(JsonData json) //데이터 있을때
@@ -32,6 +34,18 @@ public class Quest_info_YG
                 Mission_userdata newdata = new Mission_userdata(data);
                 missions.Add(newdata.mission_id);
                 mission_userdata.Add(newdata);
+            }
+
+            foreach (JsonData data in json["challenge_states"])
+            {
+                challenge_states.Add((challenge_state)int.Parse(data.ToString()));
+            }
+
+            foreach (string key in json["challenge_dic"].Keys)
+            {
+                Clear_type clearType = (Clear_type)Enum.Parse(typeof(Clear_type), key);
+                int value = int.Parse(json["challenge_dic"][key].ToString());
+                challenge_dic.Add(clearType, value);
             }
         }
         else
@@ -55,6 +69,24 @@ public class Quest_info_YG
         for (int i = 0; i < 1; i++)
         {
             Random(MissionType.month);
+        }
+
+        //challenge
+        for (int i = 0; i < 5; i++)
+        {
+            challenge_states.Add(challenge_state.incomplete);
+        }
+
+        foreach (Clear_type clearType in Enum.GetValues(typeof(Clear_type)))
+        {
+            if (clearType == Clear_type.first_connection || clearType == Clear_type.clear_tutorial)
+            {
+                challenge_dic.Add(clearType, 1);
+            }
+            else
+            {
+                challenge_dic.Add(clearType, 0);
+            }
         }
     }
 

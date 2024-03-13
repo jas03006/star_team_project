@@ -14,7 +14,8 @@ public enum Clear_type
     make_word = 6,
     add_friend = 7,
     visit_friendplanet = 8,
-    proxy_harvesting = 9
+    proxy_harvesting = 9,
+    upgrade_starnest = 10
 }
 
 public class Challenge : Quest
@@ -30,11 +31,13 @@ public class Challenge : Quest
     public Challenge(JsonData jsonData, int index)
     {
         challenge_cate = (challenge_cate)int.Parse(jsonData["challenge_cate"].ToString());
+        clear_type = (Clear_type)int.Parse(jsonData["clear_type"].ToString());
         id = int.Parse(jsonData["challenge_id"].ToString());
         goal = int.Parse(jsonData["clear_val"].ToString());
         CP = int.Parse(jsonData["CP"].ToString());
 
         userdata = BackendGameData_JGD.userData.challenge_Userdatas[index];
+        userdata.clear_Type = clear_type;
 
         title = jsonData["title"].ToString();
         contents = jsonData["info"].ToString();
@@ -102,6 +105,7 @@ public class Challenge : Quest
 
 public class Challenge_userdata
 {
+    public Clear_type clear_Type;
     public bool is_clear;
     public int CP; //challenge point
     public bool get_rewarded;
@@ -109,12 +113,14 @@ public class Challenge_userdata
     {
         get
         {
-            return criterion_;
+            Debug.Log(clear_Type);
+            return BackendGameData_JGD.userData.quest_Info.challenge_dic[clear_Type];
         }
 
         set
         {
             criterion_ = value;
+
             if (is_clear)
             {
                 return;
