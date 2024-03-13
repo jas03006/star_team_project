@@ -25,6 +25,7 @@ public class Post_Element : MonoBehaviour
     [SerializeField] private GameObject item_info_image;
     [SerializeField] private GameObject item_info_check_image;
     [SerializeField] private TMP_Text date;
+    public GameObject highlight_box;
 
     public void init(Post post, UnityAction btn_callback, PostType post_type_) { 
         this.post = post;

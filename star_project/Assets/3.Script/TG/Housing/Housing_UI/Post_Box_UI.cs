@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using BackEnd;
+using System.Linq;
+using System;
+
 public class Post_Box_UI : MonoBehaviour
 {
     [SerializeField] private GameObject main_UI;
@@ -18,6 +21,7 @@ public class Post_Box_UI : MonoBehaviour
     [SerializeField] private Button get_reward_btn;
     [SerializeField] private GameObject check_image;
 
+    private GameObject now_elem_highlight = null; 
 
     List<Post> _postList = new List<Post>();
     public void hide_UI() {
@@ -45,6 +49,14 @@ public class Post_Box_UI : MonoBehaviour
          }
      }
 
+    public void update_highlight(GameObject go) {
+        if (now_elem_highlight != null) { 
+            now_elem_highlight.SetActive(false);
+        }
+        now_elem_highlight = go;
+        now_elem_highlight.SetActive(true);
+    }
+
      public void load_UI()
      {
         clear_UI();
@@ -54,6 +66,7 @@ public class Post_Box_UI : MonoBehaviour
             Debug.Log($"create post {i}");
             create_post(_postList[i], PostType.User);
          }
+        sort();
      }
 
      public void create_post(Post post, PostType post_type)
@@ -85,10 +98,13 @@ public class Post_Box_UI : MonoBehaviour
                     get_reward_btn.onClick.RemoveAllListeners();
                     get_reward_btn.interactable = false;
                     check_image.SetActive(true);
+                    sort();
                 }                  
             });
         }
         check_image.SetActive(post_e.is_received);
+
+        update_highlight(post_e.highlight_box);
     }
 
     public bool receive_post(Post_Element post_e) {
@@ -106,6 +122,7 @@ public class Post_Box_UI : MonoBehaviour
 
         post_e.receive();        
         Debug.Log($"{post_e.post_type.ToString()}의 {post_e.post.inDate} 우편수령에 성공했습니다. : " + bro);
+        
         return true;
 
     }
@@ -158,6 +175,39 @@ public class Post_Box_UI : MonoBehaviour
         {
             Debug.Log($"{i}번 째 우편\n" + _postList[i].ToString());
         }
+    }
+
+    #endregion
+
+    #region sort
+    public void sort()
+    {
+        Transform[] m_Children = new Transform[post_list_container.childCount];
+        for (int i = 0; i < post_list_container.childCount; i++)
+        {
+            m_Children[i] = post_list_container.GetChild(i);
+        }
+        m_Children = m_Children.OrderByDescending(go => get_score(go.GetComponentInChildren<Post_Element>())).ToArray();
+
+        for (int i = 0; i < m_Children.Length; i++)
+        {
+            m_Children[i].SetSiblingIndex(i);
+        }
+    }
+
+    public long get_score(Post_Element pe)
+    {
+        if (pe == null) {
+            return 0;
+        }
+        string target = pe.date_str;
+        long score = 0;
+        if (pe.is_received) {
+            score -= 100000000000000;
+        }
+        score += long.Parse( DateTime.Parse(target).ToString("yyyyMMddHHmmss")); ;
+
+        return score;
     }
 
     #endregion
