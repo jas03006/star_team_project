@@ -42,7 +42,7 @@ public class Harvesting : Net_Housing_Object//, IObject
 
     private void Update()
     {
-        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (45f + 450f/Camera.main.orthographicSize );
+        root.position = Camera.main.WorldToScreenPoint( transform.position) + Vector3.up * (62.5f + 450f/Camera.main.orthographicSize );
         update_state();
     }
 
@@ -51,7 +51,13 @@ public class Harvesting : Net_Housing_Object//, IObject
         base.interact(player_id, interaction_id, param);
         if (state == harvest_state.ready && TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id)
         {
-            show_select_UI();
+            if (select_UI.activeSelf || select_UI_Right.activeSelf)
+            {
+                hide_select_UI();
+            }
+            else {
+                show_select_UI();
+            }
         }
         else if (state == harvest_state.complete)
         {
@@ -109,7 +115,14 @@ public class Harvesting : Net_Housing_Object//, IObject
                 break;
             case harvest_state.processing:
                 show_processing_UI();
-                processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
+                // processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
+                if (remain_time.TotalMinutes < 1)
+                {
+                    processing_timer.text = $"<color=#FF7C44>{remain_time.Seconds}√ </color>";
+                }
+                else {
+                    processing_timer.text = $"{(remain_time.TotalHours < 10 ? "0" : "")}{(int)remain_time.TotalHours}:{(remain_time.Minutes < 10 ? "0" : "")}{remain_time.Minutes}";
+                }
                 break;
             case harvest_state.complete:
                 show_complete_UI();
