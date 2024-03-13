@@ -119,7 +119,7 @@ public class Player_Controll_JGD : MonoBehaviour
     }
 
     Coroutine now_damage_co = null;
-    private IEnumerator OnDamage(int num)
+    private IEnumerator OnDamage(int num, Collider2D collision)
     {
         if (!invincibility && !Shild)
         {
@@ -139,9 +139,22 @@ public class Player_Controll_JGD : MonoBehaviour
 
             }
             AudioManager.instance.SFX_hit();
-            rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
-            rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
+            if(this.transform.position.x > collision.transform.position.x)
+            {
+                rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
+                rigi.AddForce(Vector2.right * 2f, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
+                rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
+            }
+            //Vector2 dir = ((Vector2)transform.position - collision.ClosestPoint(transform.position)).normalized + Vector2.up/2f;
+            //rigi.AddForce(dir * 2f, ForceMode2D.Impulse);
+            // rigi.AddForce(Vector2.left * 2f, ForceMode2D.Impulse);
+            //rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
+            rigi.velocity = Vector2.up * rigi.velocity.y;
             isMove = true;
         }
         Shild = false;
@@ -290,7 +303,7 @@ public class Player_Controll_JGD : MonoBehaviour
                         {
                             StopCoroutine(now_damage_co);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0));
+                        now_damage_co = StartCoroutine(OnDamage(0, collision));
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -304,7 +317,7 @@ public class Player_Controll_JGD : MonoBehaviour
                         {
                             StopCoroutine(now_damage_co);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0));
+                        now_damage_co = StartCoroutine(OnDamage(0, collision));
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -319,7 +332,7 @@ public class Player_Controll_JGD : MonoBehaviour
                         {
                             StopCoroutine(now_damage_co);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0));
+                        now_damage_co = StartCoroutine(OnDamage(0, collision));
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -334,7 +347,7 @@ public class Player_Controll_JGD : MonoBehaviour
                         {
                             StopCoroutine(now_damage_co);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0));
+                        now_damage_co = StartCoroutine(OnDamage(0, collision));
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -349,7 +362,7 @@ public class Player_Controll_JGD : MonoBehaviour
                         {
                             StopCoroutine(now_damage_co);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0));
+                        now_damage_co = StartCoroutine(OnDamage(0, collision));
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -365,7 +378,7 @@ public class Player_Controll_JGD : MonoBehaviour
                     {
                         StopCoroutine(now_damage_co);
                     }
-                    now_damage_co = StartCoroutine(OnDamage(20));
+                    now_damage_co = StartCoroutine(OnDamage(20, collision));
                     return;
                 default:
                     break;
@@ -374,7 +387,7 @@ public class Player_Controll_JGD : MonoBehaviour
             {
                 StopCoroutine(now_damage_co);
             }
-            now_damage_co = StartCoroutine(OnDamage(20));
+            now_damage_co = StartCoroutine(OnDamage(20, collision));
             
             //Destroy(collision.gameObject);
             collision.gameObject.SetActive(false);
@@ -453,7 +466,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 {
                     StopCoroutine(now_damage_co);
                 }
-                now_damage_co = StartCoroutine(OnDamage(20));
+                now_damage_co = StartCoroutine(OnDamage(20, collision));
             }
         }
     }
