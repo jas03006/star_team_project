@@ -40,6 +40,10 @@ public class InputManager : MonoBehaviour
                         TCP_Client_Manager.instance.housing_ui_manager.show_edit_UI(hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>());
                     }
                     else {
+                        if (Tutorial_TG.instance.is_progressing)
+                        {
+                            return;
+                        }
                         TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
                     }
                 }
@@ -103,7 +107,7 @@ public class InputManager : MonoBehaviour
         for (int i =0; i<Input.touchCount;i++)
         {
            
-            var eventData = new PointerEventData(EventSystem.current) { position = Input.GetTouch(0).position };
+            var eventData = new PointerEventData(EventSystem.current) { position = Input.GetTouch(i).position };
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
             if (results.Count > 0)
@@ -123,10 +127,11 @@ public class InputManager : MonoBehaviour
             {
 
                 // ui touched
+                Debug.Log("ui touched" + i);
                 return true;
             }
         }
-
+        Debug.Log("not touched" );
 
         return EventSystem.current.IsPointerOverGameObject();     
     }

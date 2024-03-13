@@ -80,6 +80,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
         {
             case tutorial_type_TG.any_touch:
                 screen.GetComponent<Image>().alphaHitTestMinimumThreshold = 0f; // 모든 터치 다 막기
+               
                 yield return new WaitForSeconds(delay_time);
                 StartCoroutine(blink_press_UI());
                 screen.onClick.AddListener(step_action);
@@ -91,7 +92,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 break;
             case tutorial_type_TG.timeout:
                 yield return new WaitForSeconds(delay_time);
-                Tutorial_TG.instance.step();
+                Tutorial_TG.instance.force_step();
                 break;
             case tutorial_type_TG.housing:
                 break;
@@ -132,8 +133,10 @@ public class Tutorial_Screen_Object : MonoBehaviour
             default:
                 break;
         }
+        Vector3 temp = Camera.main.WorldToScreenPoint(target_go.transform.position) + Vector3.up * 10f;
+        temp.z = 0;
+        screen.transform.position = temp;
 
-        screen.transform.position = Camera.main.WorldToScreenPoint(target_go.transform.position) + Vector3.up * 10f;
     }
     public void find_target_go() {
         screen.transform.position = target_go.transform.position;
