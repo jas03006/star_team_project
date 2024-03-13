@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quest : MonoBehaviour
+public class Quest
 {
     //차트
     public int goal;//목표 수치

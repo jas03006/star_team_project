@@ -5,10 +5,11 @@ using UnityEngine;
 
 using BackEnd;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class BackendFriend_JDG : MonoBehaviour
 {
-    private static BackendFriend_JDG instance = null;
+    private static BackendFriend_JDG instance ;
     public static BackendFriend_JDG Instance
     {
         get
