@@ -314,14 +314,19 @@ public class FriendList_JGD : MonoBehaviour
     }
 
     public void show_check_join() {
-        check_join_go.SetActive(true);
-        check_join_text.text = "<color=white><"+select_nickname+"></color>님의 \r\n행성으로 이동할까요?";
+        if (select_nickname != string.Empty) {
+            check_join_go.SetActive(true);
+            check_join_text.text = "<color=white><" + select_nickname + "></color>님의 \r\n행성으로 이동할까요?";
+        }
     }
 
     public void show_check_invite()
     {
-        check_invite_go.SetActive(true);
-        check_invite_text.text = "<color=white><" + select_nickname + "></color>님을 \r\n내 행성으로 초대할까요?";
+        if (select_nickname != string.Empty)
+        {
+            check_invite_go.SetActive(true);
+            check_invite_text.text = "<color=white><" + select_nickname + "></color>님을 \r\n내 행성으로 초대할까요?";
+        }
     }
     public void show_invite_result()
     {
