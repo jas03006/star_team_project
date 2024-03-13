@@ -12,6 +12,8 @@ public class StageClear : MonoBehaviour
     public string Kword;
     public string Sentence;
     public string StageWord = string.Empty;  // 스테이지 단어
+    public int NounTitle;
+    public int AdjectiveTitle;
     public housing_itemID HousingItmeID = housing_itemID.none;
 
     public StageClear()
@@ -29,6 +31,14 @@ public class StageClear : MonoBehaviour
         Kword = gameData["Kword"]?.ToString();
         Sentence = gameData["Sentence"]?.ToString();
         HousingItmeID = (housing_itemID) int.Parse(gameData["HousingItmeID"]?.ToString());
+        if (Theme < 5)
+        {
+            NounTitle = int.Parse(gameData["NounTitle"]?.ToString());
+        }
+        else if (Theme >= 5)
+        {
+            AdjectiveTitle = int.Parse(gameData["AdjectiveTitle"]?.ToString());
+        }
     }
 
 }
