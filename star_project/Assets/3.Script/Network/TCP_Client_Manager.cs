@@ -115,6 +115,11 @@ public class TCP_Client_Manager : MonoBehaviour
 
             myplanet_text = GameObject.FindGameObjectWithTag("myplanet_UI")?.GetComponent<TMP_Text>();
         }
+        else {
+            if (my_player != null) {
+                my_player.transform.position = new Vector3(-1000f,-1000f,0);
+            }
+        }
     }
     private void Update()
     {
