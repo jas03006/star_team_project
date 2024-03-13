@@ -94,10 +94,12 @@ public class QuestManager : MonoBehaviour
             foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.mission_userdata)
             {
                 if (data.criterion_type == type)
-                {
+                { 
+
                     Debug.Log("해당 미션 번호 : "+ data.mission_id);
                     data.criterion++;
                     data.Data_update();
+                    return;
                 }
             }
         }
@@ -115,8 +117,21 @@ public class QuestManager : MonoBehaviour
             Challenge_userdata data = BackendGameData_JGD.userData.challenge_Userdatas[i];
             if (data.state == challenge_state.incomplete && list[i].clear_type == type)
             {
-                BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type]++;
+                if (type == Clear_type.add_friend)
+                {
+                    if (FriendList_JGD.friend_dic.Count > BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type])
+                    {
+                        BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type] = FriendList_JGD.friend_dic.Count;
+                    }
+                }
+
+                else
+                {
+                    BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type]++;
+                }
+
                 data.Data_update();
+                return;
             }
         }
     }
