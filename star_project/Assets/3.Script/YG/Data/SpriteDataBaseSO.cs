@@ -11,6 +11,7 @@ public class SpriteDataBaseSO : ScriptableObject
     public List<HousingImage_data> HousingImageData;
     public List<Image_data> emoziData;
     public List<Image_data> backgroundData;
+    public List<Material> character_material_Data;
 }
 
 [Serializable]
