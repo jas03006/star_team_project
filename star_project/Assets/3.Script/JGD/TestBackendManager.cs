@@ -35,7 +35,7 @@ public class TestBackendManager : MonoBehaviour
             //게임 정보 기능 구현 로직
             BackendGameData_JGD.Instance.GameDataInsert();
             //친구 기능 로직
-            BackendChart_JGD.Instance.ChartGet("107516");
+            //BackendChart_JGD.Instance.ChartGet("107516");
 
 
             Debug.Log("테스트를 종료합니다.");

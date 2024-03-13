@@ -21,7 +21,7 @@ public class Quest_info_YG
 
     //challenge
     public List<challenge_state> challenge_states = new List<challenge_state>(); //cp 보상
-    public Dictionary<Clear_type,int> challenge_dic = new Dictionary<Clear_type,int>();
+    public Dictionary<Clear_type, int> challenge_dic = new Dictionary<Clear_type, int>();
     //public List<Challenge_userdata> challenge_userdata = new List<Challenge_userdata>();//퀘스트 관련 데이터
 
     public Quest_info_YG() { }
@@ -58,17 +58,17 @@ public class Quest_info_YG
     {
         for (int i = 0; i < 3; i++)
         {
-            Random(MissionType.daily);
+            Random_mission(MissionType.daily);
         }
 
         for (int i = 0; i < 2; i++)
         {
-            Random(MissionType.week);
+            Random_mission(MissionType.week);
         }
 
         for (int i = 0; i < 1; i++)
         {
-            Random(MissionType.month);
+            Random_mission(MissionType.month);
         }
 
         //challenge
@@ -90,7 +90,7 @@ public class Quest_info_YG
         }
     }
 
-    private void Random(MissionType type)
+    public void Random_mission(MissionType type)
     {
         Mission_userdata data = new Mission_userdata(type);
 
@@ -129,7 +129,7 @@ public class Quest_info_YG
     }
 }
 
-
+[Serializable]
 public class Mission : Quest
 {
     //차트
@@ -184,6 +184,7 @@ public class Mission : Quest
             case MissionType.daily:
                 if (difference.Days >= 1 || (DateTime.Now.Hour == 0 && DateTime.Now.Minute == 0)) //현재 - 초기화일자가 1일 이상 || 자정 12시 
                 {
+                    BackendGameData_JGD.userData.quest_Info.Random_mission(mission_type);
                     Reset();
                 }
                 break;
@@ -191,12 +192,14 @@ public class Mission : Quest
             case MissionType.week:
                 if (difference.Days >= 7)
                 {
+                    BackendGameData_JGD.userData.quest_Info.Random_mission(mission_type);
                     Reset();
                 }
                 break;
             case MissionType.month:
                 if (true)//월간퀘 초기화 어케하냐 ㄹㅇ
                 {
+                    BackendGameData_JGD.userData.quest_Info.Random_mission(mission_type);
                     Reset();
                 }
                 break;
@@ -277,7 +280,7 @@ public enum Criterion_type
     character_levelup = 4, //캐릭터 레벨업 횟수
     alphabet = 5, //알파벳 완성횟수(= 하우징오브젝트 획득)
     starnest = 6,//별둥지 업그레이드 횟수
-    friend = 7 //친구 인원 수 //고쳐야함
+    friend = 7 //친구 신청 수 //고쳐야함
 }
 
 public class Mission_userdata
@@ -304,7 +307,7 @@ public class Mission_userdata
             if (is_clear)
             {
                 return;
-            }   
+            }
             if (!is_accept)
             {
                 criterion_ = 0;

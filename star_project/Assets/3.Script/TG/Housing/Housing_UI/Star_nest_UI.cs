@@ -710,6 +710,7 @@ public class Star_nest_UI : MonoBehaviour
             }
             //¼ºÀ¯°æ
             QuestManager.instance.Check_mission(Criterion_type.starnest);
+            QuestManager.instance.Check_challenge(Clear_type.upgrade_starnest);
         }
     }
 

@@ -1111,7 +1111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &194218007
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13354,6 +13354,7 @@ MonoBehaviour:
   missions: []
   cur_missiontypes: 
   friend_num: 0
+  manager: {fileID: 0}
 --- !u!4 &2006476824
 Transform:
   m_ObjectHideFlags: 0
@@ -17847,31 +17848,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3158717323983206690}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8514167199441979592}
-        m_TargetAssemblyTypeName: MissionManager, Assembly-CSharp
-        m_MethodName: Accept_btn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Test_YG, Assembly-CSharp
-        m_MethodName: Click
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!224 &1825156637070447511
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23409,7 +23386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &4704164739240220475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28116,7 +28093,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &7179734757468911901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29240,9 +29217,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2190306883085364740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 630, y: -322.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 360, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7822524387165640144
@@ -30209,17 +30186,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_title: {fileID: 5422753005448329416}
   contents: {fileID: 4686714646693903701}
-  reward: {fileID: 5370320886725760871}
+  sub_text: {fileID: 991363375}
+  reward_gold: {fileID: 5370320886725760871}
+  reward_ark: {fileID: 2113995883}
   accept_btn: {fileID: 1820103481463033347}
+  accept_img: {fileID: 3158717323983206690}
   reward_btn: {fileID: 4704164739240220475}
   mission_names:
   - {fileID: 4177459855835637591}
   - {fileID: 440241416459802838}
   - {fileID: 4312243268501378459}
-  images:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  missionlist:
+  - {fileID: 1946784464434863478}
+  - {fileID: 2620561055766338390}
+  - {fileID: 3312685952245945719}
+  can_accept: {fileID: 21300000, guid: c822ae5eefdf5384d918c17c50d8202a, type: 3}
+  complete_accept: {fileID: 21300000, guid: 6787edac897b18940a05803e7c04941c, type: 3}
+  can_reward: {fileID: 21300000, guid: f301a8127389fbf4aa94b42e1972eeec, type: 3}
+  is_completed: {fileID: 21300000, guid: bd2d6539bcc004747b75677efd727999, type: 3}
+  btn_image:
+  - {fileID: 2891937075810994381}
+  - {fileID: 3503726230022615706}
+  - {fileID: 3350448715121321066}
 --- !u!1 &8517874806387802038
 GameObject:
   m_ObjectHideFlags: 0
@@ -30385,9 +30373,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2190306883085364740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -322.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 360, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8581378304591097117

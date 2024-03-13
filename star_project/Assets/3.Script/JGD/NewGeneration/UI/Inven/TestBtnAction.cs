@@ -11,7 +11,7 @@ public class TestBtnAction : MonoBehaviour
     [SerializeField] private SceneNames nextScene;
     public void TestBTN()
     {
-        BackendChart_JGD.Instance.ChartGet("107516");
+       // BackendChart_JGD.Instance.ChartGet("107516");
         //Debug.Log("난 살아있어1");
         //BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
         //Debug.Log("난 살아있어2");
