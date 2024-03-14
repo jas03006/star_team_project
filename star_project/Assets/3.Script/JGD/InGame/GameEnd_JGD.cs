@@ -26,10 +26,12 @@ public class GameEnd_JGD : MonoBehaviour
     [Header("Reward")]
     [SerializeField] private TMP_Text Gold;
     [SerializeField] private GameObject Reward;
+    [SerializeField] private Image Reward_Image;
     [SerializeField] private TMP_Text RewardTxt;
 
     [Header("ResultUI_2")]
     [SerializeField] private GameObject NextClearUI;
+    [SerializeField] private Image Reward_Image2;
     [SerializeField] private TMP_Text E_word;
     [SerializeField] private TMP_Text K_word;
     [SerializeField] private TMP_Text Sentence;
@@ -39,6 +41,7 @@ public class GameEnd_JGD : MonoBehaviour
     private List<AudioClip> WordList = new List<AudioClip>();
     Star_info stage_data;
     bool getting_house_ob = false;
+    int GoldSave;
 
     [SerializeField] private ObjectsDatabaseSO databaseSO;
     private void Awake()
@@ -151,7 +154,6 @@ public class GameEnd_JGD : MonoBehaviour
                 }
 
             }
-            MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
             //TXT UI적용
             Debug.Log("와난");
             StageClearUI.SetActive(true);
@@ -159,7 +161,6 @@ public class GameEnd_JGD : MonoBehaviour
             MyStar.text = Player.PlayerScore.ToString();
             Star_2.text = $"X {data.Star_2.ToString()}";
             Star_3.text = $"X {data.Star_3.ToString()}";
-            Gold.text = $"+ {Player.PlayerScore * 10} ";
             for (int i = 0; i < Player.Alphabet.Count; i++)  //알파벳 추가
             {
                 Stageword[i].gameObject.GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(Player.Alphabet[i] + 4000);
@@ -190,7 +191,9 @@ public class GameEnd_JGD : MonoBehaviour
             {
                 stage_data.star = StarCount;
             }
-
+            GoldSave = (int)(((int)Player.currentHp + Player.PlayerScore) * StarCount * (1 + 0.2f * data.Theme));
+            Gold.text = $"+ {GoldSave} ";
+            MoneyManager.instance.Get_Money(gold_: GoldSave);
             QuestManager.instance.Check_mission(Criterion_type.redstar);
             Time.timeScale = 0;
 
@@ -220,11 +223,13 @@ public class GameEnd_JGD : MonoBehaviour
         if (getting_house_ob)
         {
             //추후 이미지가 온다면 추가하기
+            Reward_Image.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
             Reward.SetActive(true);
             RewardTxt.text = databaseSO.get_object(data.HousingItmeID).name;
         }
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(true);
+        Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
         string nono = string.Join("", ClearData);
         E_word.text = nono;
         K_word.text = data.Kword;
