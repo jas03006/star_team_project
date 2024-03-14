@@ -26,7 +26,9 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             Update_canvas();
         }
     }
+
     private galaxy galaxy_;
+    private galaxy pre_galaxy;
 
     [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
     [SerializeField] List<GameObject> stage_case = new List<GameObject>();
@@ -40,6 +42,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     private int[] unlock_conditions = { 12, 24, 36, 48 };
     [SerializeField] private GameObject unlock_object;
     [SerializeField] private Image character_image;
+    [SerializeField] private Unlock_UI unlock_ui;
 
     [SerializeField] private SceneNames nextScene;  //만약 기존 구조가 아닌 게임씬을 여러개 만든다면 수정
 
@@ -70,27 +73,24 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         }
 
         galaxy = galaxy.toy;
-        StartCoroutine(Galaxy_unlock());
-        //SceneManager.sceneLoaded += OnSceneLoaded;
+        pre_galaxy = galaxy.toy;
+        //StartCoroutine(Galaxy_unlock());
     }
-
     #region 성유경
-
-    //private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
-    //{
-    //    if (SceneManager.GetActiveScene().name == "Stage")
-    //    {
-
-    //    }
-    //}
-
     public void Select_galaxy_btn(int index)
     {
+        pre_galaxy = galaxy;
         galaxy = (galaxy)index;
+    }
+
+    public void Go_pregalaxy()
+    {
+        galaxy = pre_galaxy;
     }
 
     public void Update_canvas()
     {
+        Debug.Log((int)galaxy);
         for (int i = 0; i < Canvas_list.Count; i++)
         {
             if (i == (int)galaxy)
@@ -104,23 +104,62 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
                 Canvas_list[i].enabled = false;
             }
         }
+
+        //해금여부 체크
+        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear)
+        {
+            //해금 가능
+            if (Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+            {
+                unlock_ui.Can_unlock(Galaxy_UI_list[(int)galaxy].collect_point, unlock_conditions[(int)galaxy]);
+                QuestManager.instance.Check_mission(Criterion_type.galaxy_clear);
+
+                CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
+                character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
+
+                info.character_list[(int)galaxy + 1].level = 1;
+                info.Change_dic((int)galaxy + 1, 1);
+                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
+                BackendGameData_JGD.Instance.GameDataUpdate();
+            }
+
+            //해금 불가능
+            else
+            {
+                unlock_ui.Cannot_unlock(Galaxy_UI_list[(int)galaxy].collect_point, unlock_conditions[(int)galaxy]);
+            }
+            unlock_object.SetActive(true);
+            return;
+        }
+        unlock_object.SetActive(false);
     }
+
+
 
     public IEnumerator Galaxy_unlock()
     {
         yield return null;
         yield return null;
-        //!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear &&
-        if (Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+
+        Debug.Log($"{!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear} / {Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy]}");
+        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear && Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
         {
+            Debug.Log("해금!");
+            QuestManager.instance.Check_mission(Criterion_type.galaxy_clear);
             unlock_object.SetActive(true);
+
             CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
             character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
+            
             info.character_list[(int)galaxy + 1].level = 1;
             info.Change_dic((int)galaxy + 1, 1);
-            info.Characterinfo_update();
             BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
-
+            BackendGameData_JGD.Instance.GameDataUpdate();
+        }
+        else
+        {
+            unlock_object.SetActive(false);
+            Debug.Log("스테이지 해금X");
         }
     }
 

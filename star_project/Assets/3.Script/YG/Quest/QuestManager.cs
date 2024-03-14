@@ -39,6 +39,8 @@ public class QuestManager : MonoBehaviour
 
         foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.mission_userdata)
         {
+            data.criterion_type = BackendChart_JGD.chartData.mission_list[data.mission_id - 1].criterion_type;
+
             Mission mission = BackendChart_JGD.chartData.mission_list[data.mission_id - 1];
 
             if (data.criterion_type == Criterion_type.none)
@@ -86,7 +88,7 @@ public class QuestManager : MonoBehaviour
 
     //CriterionType에 맞는 수락한 미션이 있는지 확인
     //조건에서 해당 메서드 부르면 됨
-    public void Check_mission(Criterion_type type)
+    public void Check_mission(Criterion_type type, int num =1)
     {
         if (cur_missiontypes.Contains(type))
         {
@@ -94,21 +96,28 @@ public class QuestManager : MonoBehaviour
             foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.mission_userdata)
             {
                 if (data.criterion_type == type)
-                { 
+                {
 
-                    Debug.Log("해당 미션 번호 : "+ data.mission_id);
-                    data.criterion++;
+                    Debug.Log("해당 미션 번호 : " + data.mission_id);
+                    data.criterion+= num;
                     data.Data_update();
                     return;
                 }
             }
         }
         Debug.Log("미션 없음");
+
+        string str = null;
+        for (int i = 0; i < cur_missiontypes.Count; i++)
+        {
+            str += $"{cur_missiontypes[i]}/";
+        }
+        Debug.Log($"현재 미션{str}");
     }
 
     //Clear_type에 맞는 챌린지 업데이트
     //조건에서 해당 메서드 부르면 됨
-    public void Check_challenge(Clear_type type)
+    public void Check_challenge(Clear_type type, int num = 1)
     {
        List<Challenge> list = BackendChart_JGD.chartData.challenge_list;
         //FriendList_JGD.friend_dic.Count
@@ -127,7 +136,7 @@ public class QuestManager : MonoBehaviour
 
                 else
                 {
-                    BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type]++;
+                    BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type]+= num;
                 }
 
                 data.Data_update();

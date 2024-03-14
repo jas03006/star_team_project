@@ -140,6 +140,10 @@ public class Mission_UI : MonoBehaviour
         if (QuestManager.instance.Mission2data(cur_mission).criterion >= cur_mission.goal)
         {
             sub_text.text = $"{cur_mission.sub_text} <color=#43E0F7>{cur_mission.goal}</color>/{cur_mission.goal}";
+            if (!QuestManager.instance.Mission2data(cur_mission).is_clear)
+            {
+                QuestManager.instance.Mission2data(cur_mission).is_clear = true;
+            }
         }
         else
         {
@@ -237,7 +241,7 @@ public class Mission_UI : MonoBehaviour
 
         Mission_userdata userdata = QuestManager.instance.Mission2data(cur_mission);
 
-        if (userdata.is_clear || !userdata.is_accept)
+        if (!userdata.is_accept)
         {
             return;
         }
@@ -247,6 +251,7 @@ public class Mission_UI : MonoBehaviour
         QuestManager.instance.Mission2data(cur_mission).get_rewarded = true;
         reward_btn.enabled = false;
         QuestManager.instance.Mission2data(cur_mission).Data_update();
+        UI_updateL();
     }
 }
 #endregion

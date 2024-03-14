@@ -214,6 +214,7 @@ public class Character_UI : MonoBehaviour
         {
             index_character.Levelup(gold_req, ark_req);
             Update_UI();
+            Enable_levelup_pannel_btn();
         }
         else
         {
