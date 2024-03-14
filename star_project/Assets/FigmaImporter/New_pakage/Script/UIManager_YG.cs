@@ -39,6 +39,11 @@ public class UIManager_YG : MonoBehaviour
         update_profile();
     }
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= LoadedsceneEvent;
+    }
+
     public void update_profile() {
         nickname_text.text = Backend.UserNickName;
         title_text.text = (BackendGameData_JGD.userData.title_adjective == adjective.none ? "" : BackendGameData_JGD.userData.title_adjective.ToString()) 

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BackEnd;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SettingUI_TG : MonoBehaviour
 {
@@ -63,6 +65,24 @@ public class SettingUI_TG : MonoBehaviour
             sfx_toggle.isOn = AudioManager.instance.Switchmode_sfx();
         }
 
+    }
+
+    public void click_logout_btn() {
+        StartCoroutine(logout_co());
+    }
+
+    private IEnumerator logout_co() { 
+        yield return null;
+        Destroy(TCP_Client_Manager.instance.gameObject);
+        TCP_Client_Manager.instance = null;
+
+        Destroy(UIManager_YG.Instance.gameObject);
+        UIManager_YG.Instance = null;
+
+        Backend.BMember.Logout();
+
+        BackendGameData_JGD.userData = null;
+        SceneManager.LoadScene("Logo");
     }
 
 }
