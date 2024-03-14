@@ -195,6 +195,15 @@ public class TCP_Client_Manager : MonoBehaviour
             log.Enqueue(e.Message);
         }
     }
+
+    private void OnDestroy()
+    {
+        client_disconnet();
+    }
+    public void client_disconnet()
+    {
+        try { if (client != null) { client.Close(); } } catch(Exception e) { log.Enqueue(e.Message); }
+    }
     #endregion
 
     #region parsing
