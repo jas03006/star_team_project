@@ -6,6 +6,29 @@ using UnityEngine;
 public class ObjectsDatabaseSO : ScriptableObject
 {
     public List<ObjectData> objectData;
+
+    public Dictionary<housing_itemID, ObjectData> object_dic = null;
+
+    public ObjectData get_object(housing_itemID id) {
+        if (object_dic == null || object_dic.Count != objectData.Count) {
+            init_dic();
+        }
+        return object_dic[id];
+    }
+
+    public void init_dic() {
+        if (object_dic == null)
+        {
+            object_dic = new Dictionary<housing_itemID, ObjectData>();
+        }
+        else {
+            object_dic.Clear();
+        }
+        
+        for (int i =0; i < objectData.Count; i++) {
+            object_dic[objectData[i].id] = objectData[i];
+        }
+    }
 }
 
 [Serializable]

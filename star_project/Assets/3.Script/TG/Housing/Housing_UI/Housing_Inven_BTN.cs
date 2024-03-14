@@ -13,7 +13,7 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
     [SerializeField] private TMP_Text usable_text;
     [SerializeField] private TMP_Text max_text;
     [SerializeField] private TMP_Text name_text;
-
+    [SerializeField] private ObjectsDatabaseSO db;
     public housing_itemID id { private set; get; }
     public int usable_cnt { private set; get; }
     public int max_cnt { private set; get; }
@@ -29,7 +29,10 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
          "벤치","공", "시소", "그네", "미끄럼틀",
          "테이프","스테이플러","연필","공책","버스",
 
-         "괴기 행성","사막 행성","지구","얼음 행성","툰드라 행성"
+         "괴기 행성","사막 행성","지구","얼음 행성","툰드라 행성",
+
+         "벚나무","야자수","코스모스","강아지풀"
+
      };
 
     public void OnPointerDown(PointerEventData eventData)
@@ -50,7 +53,8 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
         img.sprite = SpriteManager.instance.Num2Sprite(id);
         usable_cnt = use_cnt_;
         max_cnt = max_cnt_;
-        name_text.text = name_arr[(int)id];
+        
+        name_text.text = db.get_object(id_).name;//name_arr[ind_];
         update_UI();
     }
 

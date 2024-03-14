@@ -152,8 +152,20 @@ public enum housing_itemID
     stapler = 24,
     pencil = 25,
     note = 26,
-    school_bus = 27
-    
+    school_bus = 27,
+
+    //업적 보상
+    ailen = 28,
+    dessert = 29,
+    earth = 30,
+    frozen = 31,
+    tundra = 32,
+
+    //상점
+    pink_tree = 33,
+    palm_tree = 34,
+    pink_cosmos = 35,
+    foxtail = 36
 }
 
 public class Memo_info
