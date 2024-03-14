@@ -53,6 +53,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     [SerializeField] private Color color_O;
     [SerializeField] private Color color_X;
 
+    [SerializeField] private List<Button> statebutton = new List<Button>();
+
     private void OnEnable()
     {
         if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.clear)
@@ -191,10 +193,11 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     {
         MoneyManager.instance.Get_Money((Money)money, 100);
     }
-    public void Statechange_btn(int index)
-    {
-        statebutton[index].interactable = false;
-        BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state[index] = Galaxy_state.complete;
-        Update_data_UI();
-    }
+
+    //public void Statechange_btn(int index)
+    //{
+    //    statebutton[index].interactable = false;
+    //    BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].mission_state[index] = Galaxy_state.complete;
+    //    Update_data_UI();
+    //}
 }
