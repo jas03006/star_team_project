@@ -189,8 +189,11 @@ public class BackendGameData_JGD : MonoBehaviour
 
             userData = new UserData();
 
-            if (nickname.Contains("888")) {
+            if (nickname.Contains("99")) {
                 userData.tutorial_Info.state = Tutorial_state.clear;
+            }
+
+            if (nickname.Contains("88")) {
                 foreach (housing_itemID hid in Enum.GetValues(typeof(housing_itemID))) {
                     if (hid == housing_itemID.star_nest || hid == housing_itemID.none || (hid >= housing_itemID.chair_old && hid <= housing_itemID.airship)) {
                         continue;
