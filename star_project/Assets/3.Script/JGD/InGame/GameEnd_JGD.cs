@@ -25,7 +25,9 @@ public class GameEnd_JGD : MonoBehaviour
     [SerializeField] private TMP_Text MyStar;
     [Header("Reward")]
     [SerializeField] private TMP_Text Gold;
-    [Header("")]
+    [SerializeField] private GameObject Reward;
+    [SerializeField] private TMP_Text RewardTxt;
+
     [Header("ResultUI_2")]
     [SerializeField] private GameObject NextClearUI;
     [SerializeField] private TMP_Text E_word;
@@ -35,8 +37,10 @@ public class GameEnd_JGD : MonoBehaviour
     public int StarCount = 0;
     private List<AudioClip> StageEnd = new List<AudioClip>();
     private List<AudioClip> WordList = new List<AudioClip>();
+    Star_info stage_data;
+    bool getting_house_ob = false;
 
-
+    [SerializeField] private ObjectsDatabaseSO databaseSO;
     private void Awake()
     {
         Stage = LevelSelectMenuManager_JGD.currLevel + (LevelSelectMenuManager_JGD.GalaxyLevel * 5);
@@ -108,6 +112,7 @@ public class GameEnd_JGD : MonoBehaviour
                 break;
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -115,18 +120,19 @@ public class GameEnd_JGD : MonoBehaviour
         {
             QuestManager.instance.Check_mission(Criterion_type.stage_clear);
             AudioManager.instance.SFX_stage_clear();
-            Star_info stage_data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[LevelSelectMenuManager_JGD.GalaxyLevel].star_Info_list[LevelSelectMenuManager_JGD.currLevel];
+            stage_data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[LevelSelectMenuManager_JGD.GalaxyLevel].star_Info_list[LevelSelectMenuManager_JGD.currLevel];
             //클리어 데이터 전송
             stage_data.is_clear = true;
 
             var Player = collision.GetComponent<Player_Controll_JGD>();
-
+            getting_house_ob = false;
             if (ClearData.Count == Player.Alphabet.Count)
             {
                 QuestManager.instance.Check_challenge(Clear_type.make_word);
 
                 if (stage_data.get_housing == false)
                 {
+                    getting_house_ob = true;
                     //추후 바뀌면 수정
                     //BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
                     if (data.Theme < 5)
@@ -205,20 +211,24 @@ public class GameEnd_JGD : MonoBehaviour
 
 
     //빠튼
+    public void RewardBtn()
+    {
+        Reward.SetActive(false);
+    }
     public void NextClearScene()
     {
+        if (getting_house_ob)
+        {
+            //추후 이미지가 온다면 추가하기
+            Reward.SetActive(true);
+            RewardTxt.text = databaseSO.get_object(data.HousingItmeID).name;
+        }
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(true);
         string nono = string.Join("", ClearData);
         E_word.text = nono;
         K_word.text = data.Kword;
         Sentence.text = data.Sentence;
-        //for (int i = 0; i < ClearData.Count; i++)
-        //{
-        //    int Sprite = (int)Enum.Parse(typeof(item_ID), ClearData[i]);
-        //    Debug.Log(Sprite);
-        //    Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000 + Sprite);
-        //}
 
 
     }
