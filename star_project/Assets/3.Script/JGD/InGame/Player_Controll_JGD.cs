@@ -139,7 +139,8 @@ public class Player_Controll_JGD : MonoBehaviour
 
             }
             AudioManager.instance.SFX_hit();
-            if(this.transform.position.x > collision.transform.position.x)
+            Vector2 point = collision.ClosestPoint(transform.position);
+            if (this.transform.position.x > point.x)
             {
                 rigi.AddForce(Vector2.up * 1f, ForceMode2D.Impulse);
                 rigi.AddForce(Vector2.right * 2f, ForceMode2D.Impulse);
@@ -165,7 +166,7 @@ public class Player_Controll_JGD : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
             AudioManager.instance.SFX_collect_item();
-            Alphabet.Add(int.Parse(collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID.ToString()));
+            Alphabet.Add((int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
             Player_Alphabet_progress[Player_Alphabet_Count].sprite = SpriteManager.instance.Num2Sprite(4000+(int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
             Player_Alphabet_BackGround[Player_Alphabet_Count].sprite = Alphabet_BackGround;
             Player_Alphabet_Count++;
@@ -374,20 +375,31 @@ public class Player_Controll_JGD : MonoBehaviour
                     break;
                 case Obstacle_ID.Unbreakable_Wall:
                 case Obstacle_ID.Unbreakable_MoveWall:
-                    if (now_damage_co != null)
+                    if (isMove)
                     {
-                        StopCoroutine(now_damage_co);
+                        if (now_damage_co != null)
+                        {
+                            StopCoroutine(now_damage_co);
+                        }
+                        now_damage_co = StartCoroutine(OnDamage(20, collision));
                     }
-                    now_damage_co = StartCoroutine(OnDamage(20, collision));
                     return;
                 default:
                     break;
             }
-            if (now_damage_co != null)    //内风凭 静绰 规过
+            if (isMove)
             {
-                StopCoroutine(now_damage_co);
+                if (now_damage_co != null)
+                {
+                    StopCoroutine(now_damage_co);
+                }
+                now_damage_co = StartCoroutine(OnDamage(20, collision));
             }
-            now_damage_co = StartCoroutine(OnDamage(20, collision));
+            //if (now_damage_co != null)    //内风凭 静绰 规过
+            //{
+            //    StopCoroutine(now_damage_co);
+            //}
+            //now_damage_co = StartCoroutine(OnDamage(20, collision));
             
             //Destroy(collision.gameObject);
             collision.gameObject.SetActive(false);
@@ -456,18 +468,18 @@ public class Player_Controll_JGD : MonoBehaviour
                 break;
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
-        {
-            if (isMove)
-            {
-                if (now_damage_co != null)
-                {
-                    StopCoroutine(now_damage_co);
-                }
-                now_damage_co = StartCoroutine(OnDamage(20, collision));
-            }
-        }
-    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+    //    {
+    //        if (isMove)
+    //        {
+    //            if (now_damage_co != null)
+    //            {
+    //                StopCoroutine(now_damage_co);
+    //            }
+    //            now_damage_co = StartCoroutine(OnDamage(20, collision));
+    //        }
+    //    }
+    //}
 }

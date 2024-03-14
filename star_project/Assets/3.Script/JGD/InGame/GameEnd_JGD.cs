@@ -154,6 +154,11 @@ public class GameEnd_JGD : MonoBehaviour
             Star_2.text = $"X {data.Star_2.ToString()}";
             Star_3.text = $"X {data.Star_3.ToString()}";
             Gold.text = $"+ {Player.PlayerScore * 10} ";
+            for (int i = 0; i < Player.Alphabet.Count; i++)  //알파벳 추가
+            {
+                Stageword[i].gameObject.GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(Player.Alphabet[i] + 4000);
+            }
+
             QuestManager.instance.Check_challenge(Clear_type.get_star, Player.PlayerScore);
 
             //별 생성 
@@ -208,12 +213,12 @@ public class GameEnd_JGD : MonoBehaviour
         E_word.text = nono;
         K_word.text = data.Kword;
         Sentence.text = data.Sentence;
-        for (int i = 0; i < ClearData.Count; i++)
-        {
-            int Sprite = (int)Enum.Parse(typeof(item_ID), ClearData[i]);
-            Debug.Log(Sprite);
-            Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000 + Sprite);
-        }
+        //for (int i = 0; i < ClearData.Count; i++)
+        //{
+        //    int Sprite = (int)Enum.Parse(typeof(item_ID), ClearData[i]);
+        //    Debug.Log(Sprite);
+        //    Stageword[i].GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(4000 + Sprite);
+        //}
 
 
     }
