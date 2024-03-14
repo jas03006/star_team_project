@@ -274,8 +274,6 @@ public class BackendGameData_JGD : MonoBehaviour
             //상점 정보
             userData.shop_info.Insert_data();
 
-            //튜토리얼 정보
-            userData.tutorial_Info = new Tutorial_info();
         }
 
         Debug.Log("데이터를 초기화 합니다.");
