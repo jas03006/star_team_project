@@ -186,4 +186,15 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     {
         TCP_Client_Manager.instance.go_myplanet();
     }
+
+    public void Get_reward(int money) //미션 보상버튼
+    {
+        MoneyManager.instance.Get_Money((Money)money, 100);
+    }
+    public void Statechange_btn(int index)
+    {
+        statebutton[index].interactable = false;
+        BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state[index] = Galaxy_state.complete;
+        Update_data_UI();
+    }
 }
