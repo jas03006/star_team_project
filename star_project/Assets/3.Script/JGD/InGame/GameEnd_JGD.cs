@@ -77,7 +77,7 @@ public class GameEnd_JGD : MonoBehaviour
             default:
                 break;
         }
-        switch (data.Stage)
+        switch (data.Stage - ((data.Theme - 1)*5))
         {
             case 1:
                 WordList.Add(StageEnd[0]);
