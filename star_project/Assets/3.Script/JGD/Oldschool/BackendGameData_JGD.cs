@@ -547,6 +547,7 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("emozi_List", userData.emozi_List);                               //이모지 리스트
         param.Add("background_List", userData.background_List);                               //배경 사진 리스트
         param.Add("tutorial_Info", userData.tutorial_Info);                               //배경 사진 리스트
+        
 
         param.Add("house_inventory", userData.house_inventory);
         //param.Add("House_Item_ID_List", userData.House_Item_ID_List);
@@ -556,6 +557,8 @@ public class BackendGameData_JGD : MonoBehaviour
         param.Add("Housing_Info", userData.housing_Info);
         param.Add("shop_info", userData.shop_info);
         param.Add("QuestInfo_List", userData.QuestInfo_List);
+        param.Add("character_info", userData.character_info);
+        param.Add("catchingstar_info", userData.catchingstar_info);
         param.Add("Achievements_List", userData.Achievements_List);
 
         param.Add("profile_background", userData.profile_background);

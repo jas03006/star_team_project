@@ -528,8 +528,8 @@ MonoBehaviour:
   - {fileID: 1281350170}
   - {fileID: 1711732214}
   - {fileID: 435508422}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 52650456}
 --- !u!114 &28080878
 MonoBehaviour:
@@ -2537,8 +2537,8 @@ MonoBehaviour:
   - {fileID: 763906662}
   - {fileID: 2120373842}
   - {fileID: 1446616858}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 389250835}
 --- !u!114 &135647435
 MonoBehaviour:
@@ -3668,7 +3668,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194218006}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -4296,8 +4296,8 @@ MonoBehaviour:
   - {fileID: 524227412}
   - {fileID: 1891707738}
   - {fileID: 611355349}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1540655457}
 --- !u!114 &234152166
 MonoBehaviour:
@@ -6308,7 +6308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a83cb7bd4565d46b53bdd08047cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  galaxy_index: 0
+  galaxy_index: 4
   state_X: {fileID: 21300000, guid: 4e03da7a32a376143941831dffea184d, type: 3}
   state_X_bar: {fileID: 21300000, guid: 46668d87dc6a9d544870c78a7bff9026, type: 3}
   state_O: {fileID: 21300000, guid: f175911ca13ecd64a9c50c33cacb5513, type: 3}
@@ -6384,7 +6384,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329598219}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -6544,8 +6544,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 267.5, y: -70}
-  m_SizeDelta: {x: 230, y: 80}
+  m_AnchoredPosition: {x: 260, y: -70}
+  m_SizeDelta: {x: 280, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352959543
 MonoBehaviour:
@@ -6567,7 +6567,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (0/12)
+  m_text: (00/12)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
   m_sharedMaterial: {fileID: -8843314284280815068, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
@@ -9988,8 +9988,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -125}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: -149}
+  m_SizeDelta: {x: 340, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &504066548
 MonoBehaviour:
@@ -10020,8 +10020,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278247167
-  m_fontColor: {r: 1, g: 0.87176263, b: 0, a: 1}
+    rgba: 4278940915
+  m_fontColor: {r: 0.9529412, g: 0.45490196, b: 0.043137256, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10038,8 +10038,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10609,8 +10609,8 @@ MonoBehaviour:
   - {fileID: 1021057544}
   - {fileID: 777345096}
   - {fileID: 1464369888}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 127298889}
 --- !u!114 &528474512
 MonoBehaviour:
@@ -11853,8 +11853,8 @@ MonoBehaviour:
   - {fileID: 2063757973}
   - {fileID: 2126518870}
   - {fileID: 2002992995}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1021469559}
 --- !u!114 &601876427
 MonoBehaviour:
@@ -14679,8 +14679,8 @@ MonoBehaviour:
   - {fileID: 893265181}
   - {fileID: 1326693801}
   - {fileID: 1881149534}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 444895820}
 --- !u!114 &745532124
 MonoBehaviour:
@@ -15241,8 +15241,8 @@ MonoBehaviour:
   - {fileID: 1264225288}
   - {fileID: 1969789027}
   - {fileID: 1650310096}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1895144017}
 --- !u!114 &773197031
 MonoBehaviour:
@@ -17505,8 +17505,8 @@ MonoBehaviour:
   - {fileID: 1106235817}
   - {fileID: 1598845720}
   - {fileID: 1818786042}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 2056728310}
 --- !u!114 &895492573
 MonoBehaviour:
@@ -18811,8 +18811,8 @@ MonoBehaviour:
   - {fileID: 1926977892}
   - {fileID: 252800106}
   - {fileID: 131923777}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1991343515}
 --- !u!114 &953981573
 MonoBehaviour:
@@ -20537,7 +20537,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1003614826}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -22836,7 +22836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -625}
+  m_AnchoredPosition: {x: 800, y: -635}
   m_SizeDelta: {x: 1500, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1149066416
@@ -22886,8 +22886,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75
-  m_fontSizeBase: 75
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -23410,8 +23410,8 @@ MonoBehaviour:
   - {fileID: 38911084}
   - {fileID: 473889330}
   - {fileID: 338511786}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1939571255}
 --- !u!114 &1167815904
 MonoBehaviour:
@@ -23914,8 +23914,8 @@ MonoBehaviour:
   - {fileID: 896395348}
   - {fileID: 1773760362}
   - {fileID: 1805369699}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 887894082}
 --- !u!114 &1189578266
 MonoBehaviour:
@@ -24201,8 +24201,8 @@ MonoBehaviour:
   - {fileID: 1410534277}
   - {fileID: 1995655414}
   - {fileID: 1298053832}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 885452497}
 --- !u!114 &1204909512
 MonoBehaviour:
@@ -24439,7 +24439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 87.5, y: -70}
+  m_AnchoredPosition: {x: 70, y: -70}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1210837234
@@ -25481,7 +25481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a83cb7bd4565d46b53bdd08047cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  galaxy_index: 0
+  galaxy_index: 3
   state_X: {fileID: 21300000, guid: 4e03da7a32a376143941831dffea184d, type: 3}
   state_X_bar: {fileID: 21300000, guid: 46668d87dc6a9d544870c78a7bff9026, type: 3}
   state_O: {fileID: 21300000, guid: f175911ca13ecd64a9c50c33cacb5513, type: 3}
@@ -25557,7 +25557,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260787721}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -26867,9 +26867,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1972431701}
+      - m_Target: {fileID: 1164747941}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+        m_MethodName: set_isStatic
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -28114,7 +28114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -687.5}
+  m_AnchoredPosition: {x: 800, y: -712.5}
   m_SizeDelta: {x: 1500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1428986500
@@ -28138,7 +28138,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uD654\uBA74 \uD130\uCE58 \uC2DC \uCE90\uB9AD\uD130\uAC00 \uCE90\uB9AD\uD130
-    \uCC3D\uC73C\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4."
+    \uCC3D\uC73C\uB85C \uC774\uB3D9\uD574\uC694."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
   m_sharedMaterial: {fileID: -8843314284280815068, guid: 59d063575ac771b46a04a96d6fe6b983, type: 2}
@@ -28165,8 +28165,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -28592,7 +28592,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 15
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -29380,8 +29380,8 @@ MonoBehaviour:
   - {fileID: 13149050}
   - {fileID: 1624989046}
   - {fileID: 1888598266}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1679625112}
 --- !u!114 &1514082210
 MonoBehaviour:
@@ -29992,8 +29992,8 @@ MonoBehaviour:
   - {fileID: 1812554048}
   - {fileID: 968131637}
   - {fileID: 1884996520}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 810372896}
 --- !u!114 &1543259326
 MonoBehaviour:
@@ -30363,7 +30363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a83cb7bd4565d46b53bdd08047cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  galaxy_index: 0
+  galaxy_index: 1
   state_X: {fileID: 21300000, guid: 4e03da7a32a376143941831dffea184d, type: 3}
   state_X_bar: {fileID: 21300000, guid: 46668d87dc6a9d544870c78a7bff9026, type: 3}
   state_O: {fileID: 21300000, guid: f175911ca13ecd64a9c50c33cacb5513, type: 3}
@@ -30618,8 +30618,8 @@ MonoBehaviour:
   - {fileID: 114748296}
   - {fileID: 993163423}
   - {fileID: 1552614275}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 2102675496}
 --- !u!114 &1564574537
 MonoBehaviour:
@@ -32647,7 +32647,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 15
+  m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -33458,7 +33458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a83cb7bd4565d46b53bdd08047cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  galaxy_index: 0
+  galaxy_index: 2
   state_X: {fileID: 21300000, guid: 4e03da7a32a376143941831dffea184d, type: 3}
   state_X_bar: {fileID: 21300000, guid: 46668d87dc6a9d544870c78a7bff9026, type: 3}
   state_O: {fileID: 21300000, guid: f175911ca13ecd64a9c50c33cacb5513, type: 3}
@@ -33534,7 +33534,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1708018249}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -34652,8 +34652,8 @@ MonoBehaviour:
   - {fileID: 387366310}
   - {fileID: 480362767}
   - {fileID: 1605394746}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1307533005}
 --- !u!114 &1765467872
 MonoBehaviour:
@@ -35822,8 +35822,8 @@ MonoBehaviour:
   - {fileID: 1105532077}
   - {fileID: 1880157159}
   - {fileID: 663641902}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 236622235}
 --- !u!114 &1812804328
 MonoBehaviour:
@@ -40017,8 +40017,8 @@ MonoBehaviour:
   - {fileID: 1251394571}
   - {fileID: 680505586}
   - {fileID: 78344858}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1359685832}
 --- !u!114 &2011812773
 MonoBehaviour:
@@ -40185,8 +40185,8 @@ MonoBehaviour:
   - {fileID: 775238439}
   - {fileID: 1644565994}
   - {fileID: 994996359}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 934196027}
 --- !u!114 &2013939009
 MonoBehaviour:
@@ -40499,8 +40499,8 @@ MonoBehaviour:
   - {fileID: 607600186}
   - {fileID: 502960867}
   - {fileID: 264849046}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 178185573}
 --- !u!114 &2029330176
 MonoBehaviour:
@@ -40857,8 +40857,8 @@ MonoBehaviour:
   - {fileID: 282265202}
   - {fileID: 382735220}
   - {fileID: 1615975953}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 875101418}
 --- !u!114 &2047577344
 MonoBehaviour:
@@ -42597,8 +42597,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -387.5}
-  m_SizeDelta: {x: 300, y: 400}
+  m_AnchoredPosition: {x: 800, y: -372.5}
+  m_SizeDelta: {x: 300, y: 420}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2123698634
 GameObject:
@@ -42844,8 +42844,8 @@ MonoBehaviour:
   - {fileID: 1365761636}
   - {fileID: 1330192993}
   - {fileID: 709169754}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1898148500}
 --- !u!114 &2127708894
 MonoBehaviour:
@@ -46818,6 +46818,22 @@ MonoBehaviour:
   character_image: {fileID: 1329005470}
   unlock_ui: {fileID: 1972431703}
   nextScene: 4
+  case_sprite:
+  - {fileID: 7768214209370107034}
+  - {fileID: 398105939445653452}
+  - {fileID: 2616477527713794197}
+  - {fileID: 9081296832629974049}
+  - {fileID: 3805824734507507518}
+  case_text:
+  - {fileID: 208474190642462722}
+  - {fileID: 5159330454494820426}
+  - {fileID: 1389656369858213692}
+  - {fileID: 4262335634989246793}
+  - {fileID: 5723264707429026599}
+  curindexO_sprite: {fileID: 21300000, guid: dd82edfb3a40cc34eae678e115a069cd, type: 3}
+  curindexX_sprite: {fileID: 21300000, guid: 275cbf4e8a786d54aabf6861594915fd, type: 3}
+  color_O: {r: 0.28627452, g: 0.15294118, b: 0, a: 1}
+  color_X: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1959091517172648755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49859,8 +49875,8 @@ MonoBehaviour:
   - {fileID: 7942765470846709109}
   - {fileID: 4128242925853709827}
   - {fileID: 2120275325602054316}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1109136558256230729}
 --- !u!224 &3467695156603738898
 RectTransform:
@@ -50915,8 +50931,8 @@ MonoBehaviour:
   - {fileID: 8761624571238180789}
   - {fileID: 3379849459871882435}
   - {fileID: 775022727264946796}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 1786141170556017545}
 --- !u!1 &4072715516587720618
 GameObject:
@@ -58404,8 +58420,8 @@ MonoBehaviour:
   - {fileID: 3577269161938298479}
   - {fileID: 7409876401974893849}
   - {fileID: 4824454065340386230}
-  star_O: {fileID: 21300000, guid: 5781457f10424ee44832b41d990c5bb4, type: 3}
-  star_X: {fileID: 21300000, guid: 06e85f2dd735cca49adf6be1b323ff3e, type: 3}
+  star_O: {fileID: 21300000, guid: 26b361cd534e1ea4893f006d9303cae9, type: 3}
+  star_X: {fileID: 21300000, guid: 89ab0bf00588188428173d233db515b5, type: 3}
   get_housing: {fileID: 5835307869910063699}
 --- !u!224 &8107925650221872906
 RectTransform:
