@@ -9,6 +9,8 @@ public class StageClear : MonoBehaviour
     public int Star_2 = 0; // 스코어에 따른 별갯수
     public int Star_3 = 0;
     public int Allstar = 0;
+    public int Emoticon = 0;
+
     public string Kword;
     public string Sentence;
     public string StageWord = string.Empty;  // 스테이지 단어
@@ -38,6 +40,7 @@ public class StageClear : MonoBehaviour
         else if (Theme >= 5)
         {
             AdjectiveTitle = int.Parse(gameData["AdjectiveTitle"]?.ToString());
+            Emoticon = int.Parse(gameData["Emoticon"]?.ToString());
         }
     }
 

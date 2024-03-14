@@ -124,24 +124,26 @@ public class GameEnd_JGD : MonoBehaviour
             {
                 if (stage_data.get_housing == false)
                 {
-                    BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
-                    
+                    //추후 바뀌면 수정
+                    //BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
                     if (data.Theme < 5)
                     {
+                        BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
                         BackendGameData_JGD.userData.Noun_ID_List.Add((noun)data.NounTitle);
                     }
                     else
                     {
                         BackendGameData_JGD.userData.Adjective_ID_List.Add((adjective)data.AdjectiveTitle);
+                        BackendGameData_JGD.userData.emozi_List.Add(data.Emoticon);
                     }
 
                     stage_data.get_housing = true;
                     Debug.Log("아이템 지급완료");
-                    Debug.Log(data.HousingItmeID);
                 }
                 
             }
             MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
+            QuestManager.instance.Check_challenge(Clear_type.get_star);
             //TXT UI적용
             Debug.Log("와난");
             StageClearUI.SetActive(true);
@@ -150,6 +152,7 @@ public class GameEnd_JGD : MonoBehaviour
             Star_2.text = $"X {data.Star_2.ToString()}";
             Star_3.text = $"X {data.Star_3.ToString()}";
             Gold.text = $"+ {Player.PlayerScore * 10} ";
+            //성유경 주석 playerscore : starcount
 
             //별 생성 
             PlayerStar[0].sprite = ClearStar;
@@ -171,6 +174,7 @@ public class GameEnd_JGD : MonoBehaviour
             {
                 stage_data.star = StarCount;
             }
+            //성유경 미션 - starcount : redstar
             Time.timeScale = 0;
         }
         Data_update();
