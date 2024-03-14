@@ -32,11 +32,11 @@ public class Galaxy_UI : MonoBehaviour
         //Test();
     }
 
-    private void Test()
-    {
-        int[]result = BackendGameData_JGD.userData.catchingstar_info.Check_stage_progress();
-        Debug.Log($"현재 저장된 스테이지 : {result[0]}번째 은하 {result[1]}번째 스테이지");
-    }
+    //private void Test()
+    //{
+    //    int[]result = BackendGameData_JGD.userData.catchingstar_info.Check_stage_progress();
+    //    Debug.Log($"현재 저장된 스테이지 : {result[0]}번째 은하 {result[1]}번째 스테이지");
+    //}
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
@@ -147,37 +147,6 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    //public void Data_update()
-    //{
-    //    //데이터에 넣기
-    //    Param param = new Param();
-    //    param.Add("catchingstar_info", BackendGameData_JGD.userData.catchingstar_info);
-
-    //    BackendReturnObject bro = null;
-
-    //    if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
-    //    {
-    //        Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
-
-    //        bro = Backend.GameData.Update("USER_DATA", new Where(), param);
-    //    }
-
-    //    else
-    //    {
-    //        Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
-
-    //        bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
-    //    }
-
-    //    if (bro.IsSuccess())
-    //    {
-    //        Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
-    //    }
-    //}
     public void Send_Galaxylevel() //스테이지 선택 버튼
     {
         LevelSelectMenuManager_JGD.GalaxyLevel = galaxy_index;
