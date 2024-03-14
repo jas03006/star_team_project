@@ -29,7 +29,10 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
          "벤치","공", "시소", "그네", "미끄럼틀",
          "테이프","스테이플러","연필","공책","버스",
 
-         "괴기 행성","사막 행성","지구","얼음 행성","툰드라 행성"
+         "괴기 행성","사막 행성","지구","얼음 행성","툰드라 행성",
+
+         "벚나무","야자수","코스모스","강아지풀"
+
      };
 
     public void OnPointerDown(PointerEventData eventData)
@@ -50,7 +53,11 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
         img.sprite = SpriteManager.instance.Num2Sprite(id);
         usable_cnt = use_cnt_;
         max_cnt = max_cnt_;
-        name_text.text = name_arr[(int)id];
+        int ind_ = (int)id;
+        if (ind_ < 0 || ind_ >= name_arr.Length) {
+            ind_ = 0;
+        }
+        name_text.text = name_arr[ind_];
         update_UI();
     }
 

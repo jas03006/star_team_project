@@ -5,6 +5,7 @@ using UnityEngine;
 using LitJson;
 using System.Data.SqlTypes;
 using System.Linq;
+using System;
 
 
 //Friend_UUID_List
@@ -187,6 +188,16 @@ public class BackendGameData_JGD : MonoBehaviour
             Backend.BMember.UpdateNickname(nickname);
 
             userData = new UserData();
+
+            if (nickname.Contains("888")) {
+                userData.tutorial_Info.state = Tutorial_state.clear;
+                foreach (housing_itemID hid in Enum.GetValues(typeof(housing_itemID))) {
+                    if (hid == housing_itemID.star_nest || hid == housing_itemID.none || (hid >= housing_itemID.chair_old && hid <= housing_itemID.airship)) {
+                        continue;
+                    }
+                    userData.house_inventory.Add(new House_Item_Info_JGD(hid, 1));
+                }
+            }
 
             //·¹º§
             userData.level = 1;
