@@ -35,7 +35,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     [SerializeField] Canvas tutorial_canvas;//오브젝트
     [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
     public static int currLevel; //현재 진행중인 스테이지 레벨
-    public static int GalaxyLevel; //현재 진행중인 은하 레벨
+    public static int GalaxyLevel = 0; //현재 진행중인 은하 레벨
     public Sprite Clearscore;
 
     [Header("unlock")]
@@ -45,6 +45,13 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     [SerializeField] private Unlock_UI unlock_ui;
 
     [SerializeField] private SceneNames nextScene;  //만약 기존 구조가 아닌 게임씬을 여러개 만든다면 수정
+
+    [SerializeField] private List<Image> case_sprite = new List<Image>();
+    [SerializeField] private List<TMP_Text> case_text = new List<TMP_Text>();
+    [SerializeField] private Sprite curindexO_sprite;
+    [SerializeField] private Sprite curindexX_sprite;
+    [SerializeField] private Color color_O;
+    [SerializeField] private Color color_X;
 
     private void OnEnable()
     {
@@ -72,20 +79,35 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             stage_case[i].SetActive(true);
         }
 
-        galaxy = galaxy.toy;
+        galaxy = (galaxy)GalaxyLevel;
         pre_galaxy = galaxy.toy;
-        //StartCoroutine(Galaxy_unlock());
     }
     #region 성유경
     public void Select_galaxy_btn(int index)
     {
         pre_galaxy = galaxy;
         galaxy = (galaxy)index;
+
+        for (int i = 0; i < case_sprite.Count; i++)
+        {
+            if (i == index)
+            {
+                case_sprite[i].sprite = curindexO_sprite;
+                case_text[i].color = color_O;
+            }
+
+            else
+            {
+                case_sprite[i].sprite = curindexX_sprite;
+                case_text[i].color = color_X;
+            }
+        }
     }
 
     public void Go_pregalaxy()
     {
         galaxy = pre_galaxy;
+        unlock_object.SetActive(false);
     }
 
     public void Update_canvas()
@@ -125,7 +147,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
                 CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
                 character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy].sprite);
-
+                
+                Debug.Log(info.character_list[(int)galaxy].pet_id) ;
                 info.character_list[(int)galaxy].level = 1;
                 info.Change_dic((int)galaxy, 1);
 
@@ -145,36 +168,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         Debug.Log("이미 해금돼서 넘김");
         unlock_object.SetActive(false);
     }
-
-
-
-    public IEnumerator Galaxy_unlock()
-    {
-        yield return null;
-        yield return null;
-
-        Debug.Log($"{!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear} / {Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy]}");
-        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear && Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
-        {
-            Debug.Log("해금!");
-            QuestManager.instance.Check_mission(Criterion_type.galaxy_clear);
-            unlock_object.SetActive(true);
-
-            CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
-            character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
-            
-            info.character_list[(int)galaxy + 1].level = 1;
-            info.Change_dic((int)galaxy + 1, 1);
-            BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
-            BackendGameData_JGD.Instance.GameDataUpdate();
-        }
-        else
-        {
-            unlock_object.SetActive(false);
-            Debug.Log("스테이지 해금X");
-        }
-    }
-
 
     #endregion
 

@@ -93,6 +93,7 @@ public class Galaxy_UI : MonoBehaviour
 
     private void Check_collect(int collect, int interval)
     {
+        Debug.Log("Check_collect");
         List<Galaxy_state> mission_state = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state;
 
         for (int i = 0; i < check.Count; i++)
@@ -112,10 +113,12 @@ public class Galaxy_UI : MonoBehaviour
                     mission_state[i] = Galaxy_state.can_reward;
                     BackendGameData_JGD.userData.catchingstar_info.Data_update();
                     statebutton[i].interactable = true;
+                    Debug.Log("interactable" + i);
                 }
                 else if (mission_state[i] == Galaxy_state.complete)
                 {
                     check[i].enabled = true;
+                    Debug.Log("check[i].enabled" + i);
                 }
             }
             else
