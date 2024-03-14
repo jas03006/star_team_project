@@ -78,6 +78,8 @@ public class TCP_Client_Manager : MonoBehaviour
 
     public PlacementSystem placement_system;
     public Camera_My_Planet camera_my_planet;
+
+    private Thread current_thread;
     private void Awake()
     {
         if (instance == null)
@@ -151,9 +153,9 @@ public class TCP_Client_Manager : MonoBehaviour
             return;
         }
         log.Enqueue("client_connect");
-        Thread thread = new Thread(client_connect);
-        thread.IsBackground = true;
-        thread.Start();
+        current_thread = new Thread(client_connect);
+        current_thread.IsBackground = true;
+        current_thread.Start();
         while (client ==null || !client.Connected || writer == null) {
             Debug.Log("wait connection...");
         }
@@ -178,9 +180,9 @@ public class TCP_Client_Manager : MonoBehaviour
             writer = new StreamWriter(client.GetStream());
             writer.AutoFlush = true;
 
-            
 
-            while (client.Connected)
+
+            while (client != null && client.Connected)
             {
                 string readerData = reader.ReadLine();
                 if (readerData != null && !readerData.Equals(string.Empty)) {
@@ -198,11 +200,22 @@ public class TCP_Client_Manager : MonoBehaviour
 
     private void OnDestroy()
     {
+        Debug.Log("Destory TCP Client");
         client_disconnet();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     public void client_disconnet()
     {
-        try { if (client != null) { client.Close(); } } catch(Exception e) { log.Enqueue(e.Message); }
+        try { 
+            if (client != null) { 
+                client.GetStream().Close(); 
+                client.Close(); reader = null; 
+                writer = null; client = null; 
+                current_thread.Abort(); 
+            } 
+        } catch(Exception e) { 
+            log.Enqueue(e.Message); 
+        }
     }
     #endregion
 
@@ -462,7 +475,7 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Writer Null");
+            Debug.Log($"Writer Null: {me}");
             return false;
         }
     }

@@ -65037,7 +65037,43 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1998476497}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 504061597}
+        m_TargetAssemblyTypeName: Test_YG, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1428324810}
+        m_TargetAssemblyTypeName: Star_nest_UI, Assembly-CSharp
+        m_MethodName: hide_UI_ob
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 927590732}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1571544275}
+        m_TargetAssemblyTypeName: SettingUI_TG, Assembly-CSharp
+        m_MethodName: click_logout_btn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1998476497
 MonoBehaviour:
   m_ObjectHideFlags: 0
