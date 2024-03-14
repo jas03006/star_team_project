@@ -174,8 +174,8 @@ public class Star_nest_UI : MonoBehaviour
     public Sprite[] nest_sprite_arr;
     public Sprite[] LV_sprite_arr;
     public Sprite[] LV_BG_sprite_arr;
-    int[] required_ark_arr = { 150, 300, 500 };
-    int[] required_gold_arr = { 200, 400, 600 };
+    int[] required_ark_arr = { 200, 300, 500 };
+    int[] required_gold_arr = { 3000, 6000, 10000 };
     [SerializeField] private Color[] nest_text_color;
     [SerializeField] private Color upgrade_disable_color;
     [SerializeField] private GameObject levelup_result_overlay; 
