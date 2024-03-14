@@ -121,8 +121,7 @@ public class Galaxy_info
         }
 
         //collect
-        is_clear = false;
-        //is_clear = bool.Parse(jsonData["is_clear"][0].ToString());
+        is_clear = bool.Parse(jsonData["is_clear"].ToString());
     }
 }
 

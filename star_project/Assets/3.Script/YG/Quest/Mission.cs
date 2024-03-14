@@ -147,7 +147,7 @@ public class Mission : Quest
     {
         mission_id = int.Parse(jsonData["mission_id"].ToString());
         mission_type = (MissionType)int.Parse(jsonData["type"].ToString());
-        criterion_type = (Criterion_type)int.Parse(jsonData["type"].ToString());
+        criterion_type = (Criterion_type)int.Parse(jsonData["criterion_type"].ToString());
 
         goal = int.Parse(jsonData["goal"].ToString());
         reward_ark = int.Parse(jsonData["reward_ark"].ToString());
@@ -320,7 +320,8 @@ public class Mission_userdata
     {
         mission_id = int.Parse(jsonData["mission_id"].ToString());
         mission_type = (MissionType)int.Parse(jsonData["mission_type"].ToString());
-        criterion_type = (Criterion_type)int.Parse(jsonData["criterion_type"].ToString());
+
+        //criterion_type = (Criterion_type)int.Parse(BackendChart_JGD.chartData.mission_list[mission_id-1].ToString());
 
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         is_accept = bool.Parse(jsonData["is_accept"].ToString());

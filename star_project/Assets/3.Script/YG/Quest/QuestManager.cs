@@ -39,6 +39,8 @@ public class QuestManager : MonoBehaviour
 
         foreach (Mission_userdata data in BackendGameData_JGD.userData.quest_Info.mission_userdata)
         {
+            data.criterion_type = BackendChart_JGD.chartData.mission_list[data.mission_id - 1].criterion_type;
+
             Mission mission = BackendChart_JGD.chartData.mission_list[data.mission_id - 1];
 
             if (data.criterion_type == Criterion_type.none)

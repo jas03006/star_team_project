@@ -86,10 +86,12 @@ public class BackendChart_JGD : MonoBehaviour
     {
         JsonData data = Get_data(chartid).FlattenRows();
         //차트 내용 저장
-        for (int i = 0; i < data.Count; i++)
+
+        foreach (JsonData gameData in data)
         {
-            chartData.mission_list.Add(new Mission(data[i]));
+            chartData.mission_list.Add(new Mission(gameData));
         }
+        Debug.Log("debug");
     }
 
     public void Challenge(string chartid)

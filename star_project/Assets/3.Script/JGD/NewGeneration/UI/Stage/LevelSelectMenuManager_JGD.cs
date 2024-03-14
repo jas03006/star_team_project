@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -112,23 +110,26 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     {
         yield return null;
         yield return null;
-        UnityEngine.Debug.Log("스테이지 해금 체크");
-        //!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear &&
-        if (Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+
+        Debug.Log($"{!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear} / {Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy]}");
+        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear && Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
         {
-            UnityEngine.Debug.Log("해금!");
+            Debug.Log("해금!");
             QuestManager.instance.Check_mission(Criterion_type.galaxy_clear);
             unlock_object.SetActive(true);
+
             CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
             character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
+            
             info.character_list[(int)galaxy + 1].level = 1;
             info.Change_dic((int)galaxy + 1, 1);
-            info.Characterinfo_update();
             BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
+            BackendGameData_JGD.Instance.GameDataUpdate();
         }
         else
         {
-            UnityEngine.Debug.Log("스테이지 해금 체크");
+            unlock_object.SetActive(false);
+            Debug.Log("스테이지 해금X");
         }
     }
 
