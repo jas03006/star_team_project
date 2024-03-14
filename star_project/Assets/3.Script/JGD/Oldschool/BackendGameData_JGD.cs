@@ -255,9 +255,9 @@ public class BackendGameData_JGD : MonoBehaviour
             userData.nickname = nickname;
 
             //돈 정보
-            userData.gold = 1000;
+            userData.gold = 0;
             userData.ruby = 1000;
-            userData.ark = 1000;
+            userData.ark = 0;
 
             //미션 정보(전)
             for (int i = 0; i < 9; i++)
