@@ -113,6 +113,7 @@ public class GameEnd_JGD : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            QuestManager.instance.Check_mission(Criterion_type.stage_clear);
             AudioManager.instance.SFX_stage_clear();
             Star_info stage_data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[LevelSelectMenuManager_JGD.GalaxyLevel].star_Info_list[LevelSelectMenuManager_JGD.currLevel];
             //클리어 데이터 전송
@@ -122,6 +123,8 @@ public class GameEnd_JGD : MonoBehaviour
 
             if (ClearData.Count == Player.Alphabet.Count)
             {
+                QuestManager.instance.Check_challenge(Clear_type.make_word);
+
                 if (stage_data.get_housing == false)
                 {
                     //추후 바뀌면 수정
@@ -140,10 +143,9 @@ public class GameEnd_JGD : MonoBehaviour
                     stage_data.get_housing = true;
                     Debug.Log("아이템 지급완료");
                 }
-                
+
             }
             MoneyManager.instance.Get_Money(gold_: Player.PlayerScore * 10);
-            QuestManager.instance.Check_challenge(Clear_type.get_star);
             //TXT UI적용
             Debug.Log("와난");
             StageClearUI.SetActive(true);
@@ -152,30 +154,35 @@ public class GameEnd_JGD : MonoBehaviour
             Star_2.text = $"X {data.Star_2.ToString()}";
             Star_3.text = $"X {data.Star_3.ToString()}";
             Gold.text = $"+ {Player.PlayerScore * 10} ";
-            //성유경 주석 playerscore : starcount
+            QuestManager.instance.Check_challenge(Clear_type.get_star, Player.PlayerScore);
 
             //별 생성 
             PlayerStar[0].sprite = ClearStar;
             MissionClearStar[0].sprite = ClearStar;
             StarCount = 1;
+
             if (data.Star_2 <= Player.PlayerScore)
             {
                 PlayerStar[1].sprite = ClearStar;
                 MissionClearStar[1].sprite = ClearStar;
                 StarCount = 2;
             }
+
             if (data.Star_3 <= Player.PlayerScore)
             {
                 PlayerStar[2].sprite = ClearStar;
                 MissionClearStar[2].sprite = ClearStar;
                 StarCount = 3;
             }
+
             if (stage_data.star <= StarCount)
             {
                 stage_data.star = StarCount;
             }
-            //성유경 미션 - starcount : redstar
+
+            QuestManager.instance.Check_mission(Criterion_type.redstar);
             Time.timeScale = 0;
+
         }
         Data_update();
     }
@@ -185,7 +192,7 @@ public class GameEnd_JGD : MonoBehaviour
     {
         if (StarCount == 1)
         {
-            
+
         }
     }
 
