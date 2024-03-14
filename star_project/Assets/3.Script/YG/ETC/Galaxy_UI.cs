@@ -64,13 +64,6 @@ public class Galaxy_UI : MonoBehaviour
         }
 
         collect_text.text = collect_point.ToString();
-
-        //if (data.collect_point != collect)
-        //{
-        //    data.collect_point = collect;
-
-        //    Data_update();
-        //}
     }
 
     private void Update_MissionState(int collect, List<Galaxy_state> state)
@@ -113,12 +106,10 @@ public class Galaxy_UI : MonoBehaviour
                     mission_state[i] = Galaxy_state.can_reward;
                     BackendGameData_JGD.userData.catchingstar_info.Data_update();
                     statebutton[i].interactable = true;
-                    Debug.Log("interactable" + i);
                 }
                 else if (mission_state[i] == Galaxy_state.complete)
                 {
                     check[i].enabled = true;
-                    Debug.Log("check[i].enabled" + i);
                 }
             }
             else
