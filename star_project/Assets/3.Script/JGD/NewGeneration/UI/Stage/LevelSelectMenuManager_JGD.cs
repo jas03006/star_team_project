@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -83,12 +82,16 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
         galaxy = (galaxy)GalaxyLevel;
         pre_galaxy = galaxy.toy;
+        Select_galaxy_btn();
     }
     #region 성유경
-    public void Select_galaxy_btn(int index)
+    public void Select_galaxy_btn(int index = -1)
     {
-        pre_galaxy = galaxy;
-        galaxy = (galaxy)index;
+        if (index != -1)
+        {
+            pre_galaxy = galaxy;
+            galaxy = (galaxy)index;
+        }
 
         for (int i = 0; i < case_sprite.Count; i++)
         {
@@ -139,22 +142,22 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         if (galaxy == galaxy.toy)
             return;
 
-        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy-1].is_clear)
+        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy - 1].is_clear)
         {
             //해금 가능
-            if (all_collect >= unlock_conditions[(int)galaxy-1])
+            if (all_collect >= unlock_conditions[(int)galaxy - 1])
             {
-                unlock_ui.Can_unlock(all_collect, unlock_conditions[(int)galaxy-1]);
+                unlock_ui.Can_unlock(all_collect, unlock_conditions[(int)galaxy - 1]);
                 QuestManager.instance.Check_mission(Criterion_type.galaxy_clear);
 
                 CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
                 character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy].sprite);
-                
-                Debug.Log(info.character_list[(int)galaxy].pet_id) ;
+
+                Debug.Log(info.character_list[(int)galaxy].pet_id);
                 info.character_list[(int)galaxy].level = 1;
                 info.Change_dic((int)galaxy, 1);
 
-                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy-1].is_clear = true;
+                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy - 1].is_clear = true;
                 BackendGameData_JGD.Instance.GameDataUpdate();
             }
 
@@ -194,10 +197,8 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         MoneyManager.instance.Get_Money((Money)money, 100);
     }
 
-    //public void Statechange_btn(int index)
-    //{
-    //    statebutton[index].interactable = false;
-    //    BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].mission_state[index] = Galaxy_state.complete;
-    //    Update_data_UI();
-    //}
+    public void Statechange_btn(int index)
+    {
+        Galaxy_UI_list[(int)galaxy].Statechange_btn(index);
+    }
 }
