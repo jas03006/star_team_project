@@ -41,6 +41,7 @@ public class PlacementSystem : MonoBehaviour
     }
 
     public void init_house(string room_id_) {
+        Debug.Log($"init house {room_id_}");
         housing_info = BackendGameData_JGD.Instance.get_data_by_nickname(room_id_);
         if (housing_info == null) {
             Debug.Log("no housing information!");
