@@ -105,32 +105,44 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             }
         }
 
+        int all_collect = 0;
+        for (int i = 0; i < Galaxy_UI_list.Count; i++)
+        {
+            all_collect += Galaxy_UI_list[i].collect_point;
+        }
+
         //해금여부 체크
-        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear)
+        if (galaxy == galaxy.toy)
+            return;
+
+        if (!BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy-1].is_clear)
         {
             //해금 가능
-            if (Galaxy_UI_list[(int)galaxy].collect_point >= unlock_conditions[(int)galaxy])
+            if (all_collect >= unlock_conditions[(int)galaxy-1])
             {
-                unlock_ui.Can_unlock(Galaxy_UI_list[(int)galaxy].collect_point, unlock_conditions[(int)galaxy]);
+                unlock_ui.Can_unlock(all_collect, unlock_conditions[(int)galaxy-1]);
                 QuestManager.instance.Check_mission(Criterion_type.galaxy_clear);
 
                 CharacterInfo_YG info = BackendGameData_JGD.userData.character_info;
-                character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy + 1].sprite);
+                character_image.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.character_list[(int)galaxy].sprite);
 
-                info.character_list[(int)galaxy + 1].level = 1;
-                info.Change_dic((int)galaxy + 1, 1);
-                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy].is_clear = true;
+                info.character_list[(int)galaxy].level = 1;
+                info.Change_dic((int)galaxy, 1);
+
+                BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[(int)galaxy-1].is_clear = true;
                 BackendGameData_JGD.Instance.GameDataUpdate();
             }
 
             //해금 불가능
             else
             {
-                unlock_ui.Cannot_unlock(Galaxy_UI_list[(int)galaxy].collect_point, unlock_conditions[(int)galaxy]);
+                unlock_ui.Cannot_unlock(all_collect, unlock_conditions[(int)galaxy - 1]);
             }
             unlock_object.SetActive(true);
             return;
         }
+
+        Debug.Log("이미 해금돼서 넘김");
         unlock_object.SetActive(false);
     }
 
