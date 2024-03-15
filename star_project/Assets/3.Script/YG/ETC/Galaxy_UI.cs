@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,10 +15,10 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private Sprite state_X_bar;
     [SerializeField] private Sprite state_O;
     [SerializeField] private Sprite state_O_bar;
+
     public int collect_point;
 
     [SerializeField] private TMP_Text collect_text;
-
     [SerializeField] private List<Image> mission_image = new List<Image>();
     [SerializeField] private List<Image> mission_btn = new List<Image>();
     [SerializeField] private List<Image> check = new List<Image>();
@@ -28,7 +29,7 @@ public class Galaxy_UI : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
         //Test();
     }
 
@@ -38,18 +39,14 @@ public class Galaxy_UI : MonoBehaviour
     //    Debug.Log($"현재 저장된 스테이지 : {result[0]}번째 은하 {result[1]}번째 스테이지");
     //}
 
-    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void Awake()
     {
         data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
-        Collect_update();
     }
+    
 
     public void Update_data_UI()
     {
-        //data
-        Collect_update();
-
-        //UI
         Update_MissionState(collect_point, data.mission_state);
         Update_Starinfo(data.star_Info_list);
     }
@@ -80,6 +77,17 @@ public class Galaxy_UI : MonoBehaviour
         {
             Star_UI_list[i].pre_clear = pre;
             Star_UI_list[i].data = star_info[i];
+
+            if (galaxy_index != 4)
+            {
+                Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.StageClear_list[galaxy_index*5 + i].HousingItmeID);
+            }
+
+            else
+            {
+                Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2emozi(BackendChart_JGD.chartData.StageClear_list[i].Emoticon);
+            }
+
             pre = Star_UI_list[i].data.is_clear;
         }
     }

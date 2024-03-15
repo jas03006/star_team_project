@@ -13,6 +13,7 @@ public class Tutorial_YG : MonoBehaviour
     [SerializeField] Button btn_50;
 
     [SerializeField] GameObject image_100;//터치입력 안받음
+    [SerializeField] GameObject image_100_btn;//터치입력 안받음
     [SerializeField] GameObject touch; //깜빡거릴 게임오브젝트
 
     [SerializeField] Button select_character;
@@ -52,9 +53,9 @@ public class Tutorial_YG : MonoBehaviour
     int count_;
     bool is_blinking = false;
 
-    [SerializeField] int[] finger_timings = { 6, 13, 18 };
+    [SerializeField] int[] finger_timings = { 5,6 ,10, 11, 12, 17, 18 };//6,10,12,17
     [SerializeField] int[] solo_timings = { 7 }; //터치입력 안받는 오브젝트만 등장 시 카운트 타이밍
-    [SerializeField] int[] together_timings = { 4, 5, 9, 10, 11, 12, 16, 17 }; //둘다 등장 시 카운트 타이밍
+    [SerializeField] int[] together_timings = { 4, 5, 9,11 ,12, 16 }; //둘다 등장 시 카운트 타이밍 //6,+11
 
 
     private void Start()
@@ -106,7 +107,6 @@ public class Tutorial_YG : MonoBehaviour
         {
             btn_50.interactable = true;
         }
-
     }
 
     private IEnumerator Timecheck_nottouch_co(bool together) //btn_100
@@ -153,6 +153,7 @@ public class Tutorial_YG : MonoBehaviour
 
     private void Progress()
     {
+        Debug.Log(count);
         if (!is_tutorial)
         {
             return;
@@ -165,22 +166,23 @@ public class Tutorial_YG : MonoBehaviour
 
         Stop_blink_btn();
         //Debug.Log("카운트" + count);
+        image_100_btn.SetActive(false);
 
         if (solo_timings.Contains(count))
         {
             image_100.SetActive(true);
             gameobject_50.SetActive(false);
-            //Debug.Log("안터치");
+            Debug.Log("안터치");
             StartCoroutine(Timecheck_nottouch_co(false));
         }
 
         else if (together_timings.Contains(count))
         {
-            image_100.SetActive(true);
+            image_100_btn.SetActive(true);
             gameobject_50.SetActive(true);
 
-            //Debug.Log("둘다");
-            StartCoroutine(Timecheck_nottouch_co(true));
+            Debug.Log("둘다");
+            //StartCoroutine(Timecheck_nottouch_co(true));
             StartCoroutine(Timecheck_touch_co(true));
         }
 
@@ -188,7 +190,7 @@ public class Tutorial_YG : MonoBehaviour
         {
             image_100.SetActive(false);
             gameobject_50.SetActive(true);
-            //Debug.Log("터치");
+            Debug.Log("터치");
             StartCoroutine(Timecheck_touch_co(false));
 
         }

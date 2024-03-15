@@ -47,15 +47,19 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     [SerializeField] private List<Image> case_sprite = new List<Image>();
     [SerializeField] private List<TMP_Text> case_text = new List<TMP_Text>();
+
     [SerializeField] private Sprite curindexO_sprite;
     [SerializeField] private Sprite curindexX_sprite;
+
     [SerializeField] private Color color_O;
     [SerializeField] private Color color_X;
+    [SerializeField] private int all_collect;
 
     [SerializeField] private List<Button> statebutton = new List<Button>();
 
     private void OnEnable()
     {
+
         if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.clear)
         {
             tutorial_canvas.enabled = true;
@@ -70,7 +74,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             {
                 stage_case[i].SetActive(false);
             }
-
             return;
         }
 
@@ -92,10 +95,15 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             pre_galaxy = galaxy;
             galaxy = (galaxy)index;
         }
+        curindex_sprite();
+    }
 
+
+    public void curindex_sprite()
+    {
         for (int i = 0; i < case_sprite.Count; i++)
         {
-            if (i == index)
+            if (i == (int)galaxy)
             {
                 case_sprite[i].sprite = curindexO_sprite;
                 case_text[i].color = color_O;
@@ -112,12 +120,22 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     public void Go_pregalaxy()
     {
         galaxy = pre_galaxy;
+        curindex_sprite();
         unlock_object.SetActive(false);
     }
 
     public void Update_canvas()
     {
         Debug.Log((int)galaxy);
+
+        all_collect = 0;
+
+        for (int i = 0; i < Galaxy_UI_list.Count; i++)
+        {
+            Galaxy_UI_list[i].Collect_update();
+            all_collect += Galaxy_UI_list[i].collect_point;
+        }
+
         for (int i = 0; i < Canvas_list.Count; i++)
         {
             if (i == (int)galaxy)
@@ -130,12 +148,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
             {
                 Canvas_list[i].enabled = false;
             }
-        }
-
-        int all_collect = 0;
-        for (int i = 0; i < Galaxy_UI_list.Count; i++)
-        {
-            all_collect += Galaxy_UI_list[i].collect_point;
         }
 
         //해금여부 체크

@@ -41,11 +41,17 @@ public class SearchEngine_TG : MonoBehaviour
 
         for (int i = 0; i < m_Children.Length; i++)
         {
-            m_Children[i].SetSiblingIndex(i);
-            if (is_random && i >= 10)
+            if (is_random )
             {
-                m_Children[i].gameObject.SetActive(false);
+                if (i >= 10)
+                {
+                    m_Children[i].gameObject.SetActive(false);
+                }
+                else {
+                    m_Children[i].gameObject.SetActive(true);
+                }
             }
+            m_Children[i].SetSiblingIndex(i);
         }
     }
 
