@@ -44,6 +44,10 @@ public class Player_Controll_JGD : MonoBehaviour
     private bool isHitOn = true;
     [SerializeField] private float DamageTime;
     private int Player_Alphabet_Count = 0;
+
+    [SerializeField] public GameObject shield;
+    [SerializeField] public GameObject DamageEffect;
+    Coroutine damageeffect = null;
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -123,6 +127,12 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         if (!invincibility && !Shild)
         {
+            if (damageeffect != null)
+            {
+                StopCoroutine(damageeffect);
+                DamageEffect.SetActive(false);
+            }
+            damageeffect = StartCoroutine(OnDamageEffect_co());  // 데미지 이펙트 구간
             isMove = false;
             isHitOn = false;
             currentHp -= num;
@@ -132,7 +142,7 @@ public class Player_Controll_JGD : MonoBehaviour
                 Time.timeScale = 0;
                 AudioManager.instance.SFX_game_over();
                 PlayerDieUI.SetActive(true);
-                if (now_damage_co != null)    //코루틴 쓰는 방법
+                if (now_damage_co != null)
                 {
                     StopCoroutine(now_damage_co);
                 }
@@ -158,8 +168,19 @@ public class Player_Controll_JGD : MonoBehaviour
             rigi.velocity = Vector2.up * rigi.velocity.y;
             isMove = true;
         }
-        Shild = false;
+        if (Shild)
+        {
+            Shild = false;
+            shield.SetActive(false);
+        }
         now_damage_co = null;
+    }
+    private IEnumerator OnDamageEffect_co()
+    {
+        DamageEffect.transform.position = this.transform.position;
+        DamageEffect.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        DamageEffect.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -450,7 +471,7 @@ public class Player_Controll_JGD : MonoBehaviour
         switch (num)
         {
             case 30:
-                itemManager.UsingShild();
+                itemManager.UsingShield();
                 break;
             case 31:
                 itemManager.UsingMegnet();
