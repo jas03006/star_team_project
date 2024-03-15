@@ -14,10 +14,10 @@ public class Galaxy_UI : MonoBehaviour
     [SerializeField] private Sprite state_X_bar;
     [SerializeField] private Sprite state_O;
     [SerializeField] private Sprite state_O_bar;
+
     public int collect_point;
 
     [SerializeField] private TMP_Text collect_text;
-
     [SerializeField] private List<Image> mission_image = new List<Image>();
     [SerializeField] private List<Image> mission_btn = new List<Image>();
     [SerializeField] private List<Image> check = new List<Image>();
@@ -28,7 +28,7 @@ public class Galaxy_UI : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
         //Test();
     }
 
@@ -38,16 +38,20 @@ public class Galaxy_UI : MonoBehaviour
     //    Debug.Log($"현재 저장된 스테이지 : {result[0]}번째 은하 {result[1]}번째 스테이지");
     //}
 
-    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void Awake()
     {
         data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
-        Collect_update();
     }
+    
+    //private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    //{
+    //    data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
+    //}
 
     public void Update_data_UI()
     {
-        //data
-        Collect_update();
+        ////data
+        //Collect_update();
 
         //UI
         Update_MissionState(collect_point, data.mission_state);
