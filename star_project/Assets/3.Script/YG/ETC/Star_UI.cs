@@ -35,7 +35,7 @@ public class Star_UI : MonoBehaviour
     [SerializeField] private Sprite star_X;
 
     //get_housing
-    [SerializeField] Image get_housing;
+    public Image get_housing;
 
     public void Update_star()
     {
