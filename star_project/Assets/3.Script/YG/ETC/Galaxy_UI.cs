@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -43,17 +44,9 @@ public class Galaxy_UI : MonoBehaviour
         data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
     }
     
-    //private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
-    //{
-    //    data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
-    //}
 
     public void Update_data_UI()
     {
-        ////data
-        //Collect_update();
-
-        //UI
         Update_MissionState(collect_point, data.mission_state);
         Update_Starinfo(data.star_Info_list);
     }
@@ -84,6 +77,17 @@ public class Galaxy_UI : MonoBehaviour
         {
             Star_UI_list[i].pre_clear = pre;
             Star_UI_list[i].data = star_info[i];
+
+            if (galaxy_index != 4)
+            {
+                Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.StageClear_list[galaxy_index*5 + i].HousingItmeID);
+            }
+
+            else
+            {
+                Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2emozi(BackendChart_JGD.chartData.StageClear_list[i].Emoticon);
+            }
+
             pre = Star_UI_list[i].data.is_clear;
         }
     }
