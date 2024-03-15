@@ -21,6 +21,9 @@ public class Login_JGD : LoginBase_JGD
     [SerializeField] GameObject Login;
     [SerializeField] GameObject Signup;
 
+    [SerializeField] GameObject Done;
+    [SerializeField] GameObject DoneX;
+
     [SerializeField] private SceneNames nextScene;
     public void OnclickLoin()
     {
@@ -46,7 +49,7 @@ public class Login_JGD : LoginBase_JGD
             {
                 //SetMessage($"{inputFieldID.text}님 환영합니다");//로그인 성공
                 Debug.Log("로그인 성공");
-
+                show_result(true);
                 BackendGameData_JGD.Instance.GameDataGet();
                 BackendChart_JGD.Instance.ChartDataGet();
 
@@ -64,7 +67,6 @@ public class Login_JGD : LoginBase_JGD
             {
                 //로그인 실패(실패시 다시로그인하기 위해 로그인 버튼 상호작용 활성화
                 btnLogin.interactable = true;
-
                 string message = string.Empty;
 
                 switch (int.Parse(callback.GetStatusCode()))
@@ -82,6 +84,8 @@ public class Login_JGD : LoginBase_JGD
                         message = callback.GetMessage();
                         break;
                 }
+
+                show_result(false, message);
 
                 if (message.Contains("비밀번호"))
                 {
@@ -127,11 +131,35 @@ public class Login_JGD : LoginBase_JGD
             inputFieldPW.contentType = TMP_InputField.ContentType.Standard;
             PWbtn_img.sprite = standard;
         }
+
         else
         {
             inputFieldPW.contentType = TMP_InputField.ContentType.Password;
             PWbtn_img.sprite = passward;
         }
+
         inputFieldPW.textComponent.SetAllDirty();
+    }
+
+    public void show_result(bool success, string message = null)
+    {
+        GameObject obj = success ? Done : DoneX;
+
+        Done.SetActive(success);
+        DoneX.SetActive(!success);
+
+        if (success)
+        {
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 완료";
+            obj.transform.GetChild(1).gameObject.SetActive(false);
+            obj.transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        else
+        {
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 실패";
+            obj.transform.GetChild(1).gameObject.SetActive(true);
+            obj.transform.GetChild(1).GetComponent<TMP_Text>().text = message;
+        }
     }
 }

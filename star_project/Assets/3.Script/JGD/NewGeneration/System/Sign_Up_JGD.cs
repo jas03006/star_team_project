@@ -22,7 +22,9 @@ public class Sign_Up_JGD : LoginBase_JGD
     [SerializeField] private Button btnRegisterAccount;
 
     [SerializeField] private Login_JGD login;
+
     [SerializeField] private GameObject Done;
+    [SerializeField] private GameObject DoneX;
     //private Coroutine now_result_co = null;
 
     public void OnclickSignUp()
@@ -71,23 +73,42 @@ public class Sign_Up_JGD : LoginBase_JGD
             show_result(false);
         }
     }
-
     public void show_result(bool success)
     {
+        GameObject obj = success ? Done : DoneX;
 
-        Done.SetActive(true);
+        Done.SetActive(success);
+        DoneX.SetActive(!success);
 
         if (success)
         {
-            Title_text.text = "회원가입 완료";
-            reason_text.enabled = false;
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 완료";
+            obj.transform.GetChild(1).gameObject.SetActive(false);
         }
+
         else
         {
-            Title_text.text = "회원가입 실패";
-            reason_text.enabled = true;
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 실패";
+            obj.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
+
+    //public void show_result(bool success)
+    //{
+
+    //    Done.SetActive(true);
+
+    //    if (success)
+    //    {
+    //        Title_text.text = "회원가입 완료";
+    //        reason_text.enabled = false;
+    //    }
+    //    else
+    //    {
+    //        Title_text.text = "회원가입 실패";
+    //        reason_text.enabled = true;
+    //    }
+    //}
 
     public void Change_PWtype()
     {
