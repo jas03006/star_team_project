@@ -27,10 +27,14 @@ public class Tutorial_Screen_Object : MonoBehaviour
 
     public Button target_button;
     private UnityAction step_action;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         step_action = () => { AudioManager.instance.SFX_Click(); Tutorial_TG.instance.step(); };
+    }
+    // Start is called before the first frame update
+    void Start()
+    {        
         press_screen_UI.SetActive(false);
 
         screen.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;

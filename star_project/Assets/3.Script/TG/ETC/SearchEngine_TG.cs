@@ -9,20 +9,54 @@ public class SearchEngine_TG : MonoBehaviour
     [SerializeField] private TMP_InputField input;
     [SerializeField] private Transform conatainer;
 
-
+    private string input_text = string.Empty;
+    [SerializeField] UIManager_JGD uimanager;
+    private void OnEnable()
+    {
+        input.text = string.Empty;
+        sort();
+    }
     public void sort()
     {
+        input_text = input.text;
+        bool is_random =false;
+        if (input.text == string.Empty && uimanager !=null &&uimanager.now_selection==1) {
+            is_random = true;
+        }
+
         Transform[] m_Children = new Transform[conatainer.childCount];
         for (int i = 0; i < conatainer.childCount; i++)
         {
             m_Children[i] = conatainer.GetChild(i);
         }
-        m_Children = m_Children.OrderByDescending(go => get_score(go)).ToArray();
+
+        if (is_random)
+        {
+            m_Children = m_Children.OrderByDescending(go => get_random_score(go)).ToArray();
+        }
+        else {
+            m_Children = m_Children.OrderByDescending(go => get_score(go)).ToArray();
+        }
+        
 
         for (int i = 0; i < m_Children.Length; i++)
         {
             m_Children[i].SetSiblingIndex(i);
+            if (is_random && i >= 10)
+            {
+                m_Children[i].gameObject.SetActive(false);
+            }
         }
+    }
+
+    public int get_random_score(Transform go) {
+        string target = go.GetComponentInChildren<TMP_Text>()?.text;
+        if (target == null)
+        {
+            go.gameObject.SetActive(false);
+            return 0;
+        }
+        return Random.Range(0,101);
     }
 
     public int get_score(Transform go) {
@@ -31,7 +65,7 @@ public class SearchEngine_TG : MonoBehaviour
             go.gameObject.SetActive(false);
             return 0;
         }
-        string input_text = input.text;
+        
         if (input_text.Equals(target)) {
             go.gameObject.SetActive(true);
             return 100;
