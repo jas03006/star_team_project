@@ -150,9 +150,9 @@ public class Harvesting : Net_Housing_Object//, IObject
         process_state(remain_time);
     }
     private IEnumerator show_particle_co() {
-        complete_particle.gameObject.SetActive(true);
+        complete_particle.Play();
         yield return new WaitForSeconds(1f);
-        complete_particle.gameObject.SetActive(false);
+        complete_particle.Stop();
 
     }
     public void get_result() {

@@ -69,7 +69,6 @@ public class ChatBoxManager : MonoBehaviour
 
     public IEnumerator scroll_to_bottom(Scrollbar sb) {
         yield return null;
-        Canvas.ForceUpdateCanvases();
         yield return new WaitForEndOfFrame();
         Canvas.ForceUpdateCanvases();
         sb.value = 0f;

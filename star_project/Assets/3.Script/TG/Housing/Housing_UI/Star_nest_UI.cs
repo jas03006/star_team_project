@@ -400,10 +400,10 @@ public class Star_nest_UI : MonoBehaviour
     {
         adjective ad_ = (adjective)Enum.Parse(typeof(adjective), edit_title_adjective?.captionText?.text);
         noun noun_ = (noun)Enum.Parse(typeof(noun), edit_title_noun?.captionText?.text);
-         if (ad_ == adjective.none || noun_ == noun.none)
-         {
-             return;
-         }
+        //if (ad_ == adjective.none || noun_ == noun.none)
+        //{
+        //    return;
+        //}
         user_data.title_adjective = ad_;
         user_data.title_noun = noun_;
         is_editing = true;
