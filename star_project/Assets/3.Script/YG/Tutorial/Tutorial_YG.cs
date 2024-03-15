@@ -53,9 +53,9 @@ public class Tutorial_YG : MonoBehaviour
     int count_;
     bool is_blinking = false;
 
-    [SerializeField] int[] finger_timings = { 5, 10, 11, 12, 17, 18 };//6,10,12,17
+    [SerializeField] int[] finger_timings = { 5,6 ,10, 11, 12, 17, 18 };//6,10,12,17
     [SerializeField] int[] solo_timings = { 7 }; //터치입력 안받는 오브젝트만 등장 시 카운트 타이밍
-    [SerializeField] int[] together_timings = { 4, 5, 9, 10, 12, 16 }; //둘다 등장 시 카운트 타이밍-11-17
+    [SerializeField] int[] together_timings = { 4, 5, 9,11 ,12, 16 }; //둘다 등장 시 카운트 타이밍 //6,+11
 
 
     private void Start()
