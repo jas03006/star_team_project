@@ -29,6 +29,7 @@ public class Harvesting : Net_Housing_Object//, IObject
     [SerializeField] private TMP_Text result_text;
     [SerializeField] private GameObject select_UI;
     [SerializeField] private GameObject select_UI_Right;
+    [SerializeField] private ParticleSystem complete_particle;
 
     private harvest_state state = harvest_state.None;
 
@@ -148,8 +149,15 @@ public class Harvesting : Net_Housing_Object//, IObject
         }
         process_state(remain_time);
     }
+    private IEnumerator show_particle_co() {
+        complete_particle.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        complete_particle.gameObject.SetActive(false);
+
+    }
     public void get_result() {
         if (state == harvest_state.complete) {
+            StartCoroutine(show_particle_co());
             int reward = ark_reward[selection];
             if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
             {

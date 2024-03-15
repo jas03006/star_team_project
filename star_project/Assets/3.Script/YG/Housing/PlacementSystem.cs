@@ -24,6 +24,8 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField] List<GameObject> hidden_area_cover_list;
     public HousingInfo_JGD housing_info;
+    private string now_room;
+    [SerializeField] private ParticleSystem level_up_particle;
     private void Awake()
     {
         StopPlacement();
@@ -42,12 +44,30 @@ public class PlacementSystem : MonoBehaviour
 
     public void init_house(string room_id_) {
         Debug.Log($"init house {room_id_}");
+
+        int temp_level = 0;
+        if (housing_info != null) { 
+            temp_level = housing_info.level;
+        }
+
         housing_info = BackendGameData_JGD.Instance.get_data_by_nickname(room_id_);
         if (housing_info == null) {
             Debug.Log("no housing information!");
             return;
         }
         update_placement();
+
+        if (now_room == room_id_)
+        {
+            if (temp_level < housing_info.level) {
+                show_level_up_particle();
+            }
+        }
+        now_room = room_id_;
+    }
+
+    public void show_level_up_particle() {
+        level_up_particle.Play();
     }
 
     public void level_up(int delta = 1) {

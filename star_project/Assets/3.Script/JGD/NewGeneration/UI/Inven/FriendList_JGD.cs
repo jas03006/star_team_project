@@ -235,6 +235,8 @@ public class FriendList_JGD : MonoBehaviour
        
     }
 
+    
+
     private void off_friend_request(Button btn) {
         try {
             btn.interactable = false;
