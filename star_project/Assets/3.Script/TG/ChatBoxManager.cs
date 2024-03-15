@@ -50,16 +50,17 @@ public class ChatBoxManager : MonoBehaviour
         string[] msg_arr = msg.Split(":");
         if (is_global)
         {
-            GameObject go = Instantiate((msg_arr[0].Equals(TCP_Client_Manager.instance.my_player.object_id)? chat_line_prefab_mine : chat_line_prefab), global_chat_box);
-            go.GetComponentInChildren<TMP_Text>().text = msg_arr[1];
+            GameObject go = Instantiate((msg_arr[0].Equals(TCP_Client_Manager.instance.my_player.object_id) ? chat_line_prefab_mine : chat_line_prefab), global_chat_box);
+            go.transform.GetComponentInChildren<TMP_Text>().text = msg_arr[1];
             go.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = msg_arr[1];
             go.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = msg_arr[0];
             global_chat_line_list.Add(go);
             StartCoroutine(scroll_to_bottom(global_scroll_bar));
         }
-        else {
+        else
+        {
             GameObject go = Instantiate((msg_arr[0].Equals(TCP_Client_Manager.instance.my_player.object_id) ? chat_line_prefab_mine : chat_line_prefab), local_chat_box);
-            go.GetComponentInChildren<TMP_Text>().text = msg_arr[1];
+            go.transform.GetComponentInChildren<TMP_Text>().text = msg_arr[1];
             go.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = msg_arr[1];
             go.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = msg_arr[0];
             local_chat_line_list.Add(go);

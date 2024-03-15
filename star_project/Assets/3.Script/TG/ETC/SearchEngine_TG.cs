@@ -11,16 +11,23 @@ public class SearchEngine_TG : MonoBehaviour
 
     private string input_text = string.Empty;
     [SerializeField] UIManager_JGD uimanager;
+    
     private void OnEnable()
     {
         input.text = string.Empty;
-        sort();
+       // sort();
+    }
+    private void Awake()
+    {
+        if (uimanager == null) { 
+            uimanager = FindFirstObjectByType<UIManager_JGD>();
+        }
     }
     public void sort()
     {
         input_text = input.text;
         bool is_random =false;
-        if (input.text == string.Empty && uimanager !=null &&uimanager.now_selection==1) {
+        if (input_text == string.Empty && uimanager !=null &&uimanager.now_selection==1) {
             is_random = true;
         }
 
