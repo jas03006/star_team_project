@@ -174,12 +174,12 @@ public class Star_nest_UI : MonoBehaviour
     public Sprite[] nest_sprite_arr;
     public Sprite[] LV_sprite_arr;
     public Sprite[] LV_BG_sprite_arr;
-    int[] required_ark_arr = { 200, 300, 500 };
-    int[] required_gold_arr = { 3000, 6000, 10000 };
+    int[] required_ark_arr = { 2, 3, 5 };
+    int[] required_gold_arr = { 3, 6, 10 };
     [SerializeField] private Color[] nest_text_color;
     [SerializeField] private Color upgrade_disable_color;
-    [SerializeField] private GameObject levelup_result_overlay; 
-
+    [SerializeField] private GameObject levelup_result_overlay;
+    [SerializeField] private Button levelup_X_btn;
 
     private UserData user_data;
 
@@ -679,6 +679,8 @@ public class Star_nest_UI : MonoBehaviour
     public void hide_level_UI()
     {
         level_up_UI.SetActive(false);
+        levelup_X_btn.onClick.RemoveListener(show_level_up_particle);
+
     }
 
     public void show_levelup_result_UI() {
@@ -694,10 +696,14 @@ public class Star_nest_UI : MonoBehaviour
 
         int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
         result_nest_info.text = $"플래닛 크기 확장\n{level_width_arr[level_-1]}X{level_width_arr[level_-1]} -> {level_width_arr[level_]}X{level_width_arr[level_ ]}"; ;
+
+        levelup_X_btn.onClick.AddListener(show_level_up_particle);
     }
 
+    
     public void level_up() {
         if (can_level_up()) {
+            //level_up_particle.Play();
             int level_ = BackendGameData_JGD.userData.housing_Info.level;
             TCP_Client_Manager.instance.placement_system.level_up();
             MoneyManager.instance.Spend_Money(required_gold_arr[level_], required_ark_arr[level_]);
@@ -728,6 +734,10 @@ public class Star_nest_UI : MonoBehaviour
 
         }
         return false;
+    }
+
+    public void show_level_up_particle() {
+        TCP_Client_Manager.instance.placement_system.show_level_up_particle();
     }
 
     #endregion
