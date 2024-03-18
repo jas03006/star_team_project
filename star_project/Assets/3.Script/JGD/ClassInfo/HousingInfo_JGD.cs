@@ -177,6 +177,16 @@ public class Memo_info
         memo_list = new List<Memo>();
     }
 
+    public Memo_info(Memo_info info)
+    {
+        memo_list = new List<Memo>();
+        for (int i =0; i < info.memo_list.Count; i++) {
+            Memo memo_ = new Memo();
+            memo_.Change(info.memo_list[i].UUID, info.memo_list[i].content);
+            memo_list.Add(memo_);
+        }
+    }
+
     public Memo_info(JsonData json)
     {
         if (json.IsObject)
@@ -200,7 +210,9 @@ public class Memo_info
 
     public void Remove_object(Memo memo)
     {
-        memo_list.Remove(memo);
+        if (!memo_list.Remove(memo)) {
+            Debug.Log("해당하는 메모가 없습니다.");
+        }
     }
 }
 
