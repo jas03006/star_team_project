@@ -197,6 +197,11 @@ public class Memo_info
     {
         memo_list.Add(memo);
     }
+
+    public void Remove_object(Memo memo)
+    {
+        memo_list.Remove(memo);
+    }
 }
 
 public class Memo

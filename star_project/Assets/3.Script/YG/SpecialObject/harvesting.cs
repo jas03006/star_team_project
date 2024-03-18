@@ -67,6 +67,10 @@ public class Harvesting : Net_Housing_Object//, IObject
         }
         AudioManager.instance.SFX_hearvest_start_and_get();        
     }
+
+    public void click_text_bubble() {
+       interact(TCP_Client_Manager.instance.my_player.object_id, 0, 0);
+    }
     public void init(DateTime starttime_, int selection_)
     {
         start_time = starttime_;
@@ -265,6 +269,11 @@ public class Harvesting : Net_Housing_Object//, IObject
     }
     public void hide_select_UI()
     {
+        StartCoroutine(hide_select_UI_co());
+    }
+
+    public IEnumerator hide_select_UI_co() {
+        yield return null;
         select_UI.SetActive(false);
         select_UI_Right.SetActive(false);
     }

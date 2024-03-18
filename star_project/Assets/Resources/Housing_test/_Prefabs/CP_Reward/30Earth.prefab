@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3769611135811455403}
   - component: {fileID: 1296153585747457008}
   - component: {fileID: 8817799132675653952}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 30Earth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,13 +199,40 @@ PrefabInstance:
       propertyPath: m_Name
       value: Earth-Like_Design1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 9b91237d15a06a9448c67ce98440b8b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -927199367670048503, guid: 9b91237d15a06a9448c67ce98440b8b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4756203315716221770}
   m_SourcePrefab: {fileID: 100100000, guid: 9b91237d15a06a9448c67ce98440b8b7, type: 3}
 --- !u!4 &902381182783175520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 9b91237d15a06a9448c67ce98440b8b7, type: 3}
   m_PrefabInstance: {fileID: 5332070820318548090}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4242038178285832563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 9b91237d15a06a9448c67ce98440b8b7, type: 3}
+  m_PrefabInstance: {fileID: 5332070820318548090}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4756203315716221770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4242038178285832563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f0fcf3964337240a17108378fb0122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotate_speed: 9
+  rotate_direction: 1
+  rotate_axis: {x: 0, y: 1, z: 0.4}
