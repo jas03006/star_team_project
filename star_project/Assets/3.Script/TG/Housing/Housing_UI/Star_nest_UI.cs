@@ -764,7 +764,7 @@ public class Star_nest_UI : MonoBehaviour
         }
         clear_memos_UI();
         for (int i =0; i < user_data.memo_info.memo_list.Count; i++) {
-            create_memo(user_data.memo_info.memo_list[i].UUID, user_data.memo_info.memo_list[i].content);           
+            create_memo(user_data.memo_info.memo_list[i]);           
         }
         
     }
@@ -784,7 +784,7 @@ public class Star_nest_UI : MonoBehaviour
         memo_input.text = "";
         memo_input.Select();
 
-        create_memo(memo.UUID, memo.content);
+        create_memo(memo);
 
         string[] select = {  "memo_info" };
         BackendGameData_JGD.Instance.update_userdata_by_nickname(now_nickname,  select,  user_data);
@@ -793,8 +793,10 @@ public class Star_nest_UI : MonoBehaviour
             BackendGameData_JGD.userData.memo_info = user_data.memo_info;
         }
     }
-    public void create_memo(string uuid_, string content_)
+    public void create_memo(Memo memo)
     {
+        string uuid_ = memo.UUID;
+        string content_ = memo.content;
         if (content_.Equals(string.Empty)) {
             return;
         }
@@ -804,7 +806,29 @@ public class Star_nest_UI : MonoBehaviour
         TMP_Text[] text_arr = memo_go.GetComponentsInChildren<TMP_Text>();
         text_arr[0].text = "<color=#FF9900>" + uuid_+ ":</color>" + content_;
         text_arr[1].text = text_arr[0].text;
+        Button[] btn_arr = memo_go.GetComponentsInChildren<Button>();
+
+        if (now_nickname == TCP_Client_Manager.instance.my_player.object_id) {
+            btn_arr[0].onClick.AddListener(() => {
+                if (btn_arr[1].gameObject.activeSelf)
+                {
+                    btn_arr[1].gameObject.SetActive(false);
+                }
+                else
+                {
+                    btn_arr[1].gameObject.SetActive(true);
+                }
+            });
+            btn_arr[1].onClick.AddListener(() => {
+                BackendGameData_JGD.userData.memo_info.Remove_object(memo);
+                BackendGameData_JGD.Instance.GameDataUpdate(new string[] { "memo_info" });
+                Destroy(memo_go);
+            });
+        }
+        btn_arr[1].gameObject.SetActive(false);
     }
+
+
 
     #endregion
 

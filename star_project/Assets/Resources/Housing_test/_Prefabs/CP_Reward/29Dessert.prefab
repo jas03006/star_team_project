@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7574264659414689534}
   - component: {fileID: 3691856623077563927}
   - component: {fileID: 8453625729034827142}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 29Dessert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,16 +133,43 @@ PrefabInstance:
       propertyPath: m_Name
       value: Desert_Design1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: bcb933e80cc4f15438bed030ee60b283, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -927199367670048503, guid: bcb933e80cc4f15438bed030ee60b283, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3106179261428975344}
   m_SourcePrefab: {fileID: 100100000, guid: bcb933e80cc4f15438bed030ee60b283, type: 3}
 --- !u!4 &131011883947123023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: bcb933e80cc4f15438bed030ee60b283, type: 3}
   m_PrefabInstance: {fileID: 4948266678696561237}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4002058797103387484 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: bcb933e80cc4f15438bed030ee60b283, type: 3}
+  m_PrefabInstance: {fileID: 4948266678696561237}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3106179261428975344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4002058797103387484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f0fcf3964337240a17108378fb0122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotate_speed: 7
+  rotate_direction: -1
+  rotate_axis: {x: 0, y: 1, z: 0}
 --- !u!1001 &5599380314013081598
 PrefabInstance:
   m_ObjectHideFlags: 0

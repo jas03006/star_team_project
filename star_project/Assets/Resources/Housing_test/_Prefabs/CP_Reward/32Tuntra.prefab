@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8215782055277843946}
   - component: {fileID: 6757367870193945268}
   - component: {fileID: 8820593728336209760}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 32Tuntra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,16 +133,43 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tundra_Design1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 8d5d8712ea1988b429c04c09601b95ba, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -927199367670048503, guid: 8d5d8712ea1988b429c04c09601b95ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1385238431884003240}
   m_SourcePrefab: {fileID: 100100000, guid: 8d5d8712ea1988b429c04c09601b95ba, type: 3}
 --- !u!4 &6227900656189936757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 8d5d8712ea1988b429c04c09601b95ba, type: 3}
   m_PrefabInstance: {fileID: 1375645627517910895}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6932917236370335334 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 8d5d8712ea1988b429c04c09601b95ba, type: 3}
+  m_PrefabInstance: {fileID: 1375645627517910895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1385238431884003240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6932917236370335334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f0fcf3964337240a17108378fb0122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotate_speed: 13
+  rotate_direction: 1
+  rotate_axis: {x: 0, y: 1, z: 0}
 --- !u!1001 &3352197264931467974
 PrefabInstance:
   m_ObjectHideFlags: 0
