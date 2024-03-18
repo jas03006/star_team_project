@@ -28,16 +28,6 @@ public enum Goods_id
     good5
 }
 
-[Serializable]
-public class Goods
-{
-    [field: SerializeField] public Goods_id id { get; private set; }
-    [field: SerializeField] public Shop_cate cate_type { get; private set; }
-    [field: SerializeField] public string name { get; private set; }
-    [field: SerializeField] public Money money{ get; private set; }
-    [field: SerializeField] public int price{ get; private set; }
-    [field: SerializeField] public Sprite sprite_num{ get; private set; }
-}
 public class Shop_info //userdata
 {
     public List<Goods_info> goods_list = new List<Goods_info>();
@@ -59,12 +49,7 @@ public class Shop_info //userdata
 
     public void Insert_data()//회원 가입
     {
-        Goods_id[] goodsArray = (Goods_id[])Enum.GetValues(typeof(Goods_id));
-        foreach (Goods_id goods in goodsArray)
-        {
-            Goods_id goodsId = goods;
-            goods_list.Add(new Goods_info(goodsId, false));
-        }
+       
     }
 }
 
