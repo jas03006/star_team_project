@@ -44,7 +44,8 @@ public class Tuto_Player_Controll : MonoBehaviour
     [SerializeField] TutorialSystem_JGD Tuto;
     [SerializeField] GameObject Magnet;
 
-
+    [SerializeField] public GameObject DamageEffect;
+    Coroutine damageeffect = null;
 
 
     private void Awake()
@@ -82,6 +83,12 @@ public class Tuto_Player_Controll : MonoBehaviour
     {
         if (!invincibility)
         {
+            if (damageeffect != null)
+            {
+                StopCoroutine(damageeffect);
+                DamageEffect.SetActive(false);
+            }
+            damageeffect = StartCoroutine(OnDamageEffect_co());
             isMove = false;
             currentHp -= num;
             Hpslider.value -= num;
@@ -92,6 +99,13 @@ public class Tuto_Player_Controll : MonoBehaviour
             isMove = true;
         }
         now_damage_co = null;
+    }
+    private IEnumerator OnDamageEffect_co()
+    {
+        DamageEffect.transform.position = this.transform.position;
+        DamageEffect.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        DamageEffect.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
