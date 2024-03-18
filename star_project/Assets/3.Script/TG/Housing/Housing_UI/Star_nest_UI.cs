@@ -800,9 +800,9 @@ public class Star_nest_UI : MonoBehaviour
         if (content_.Equals(string.Empty)) {
             return;
         }
-        GameObject memo_go = Instantiate(memo_prefab);
-        memo_go.transform.SetParent(memo_container);
-        memo_go.transform.localScale = Vector3.one;
+        GameObject memo_go = Instantiate(memo_prefab, memo_container);
+        //memo_go.transform.SetParent(memo_container);
+        //memo_go.transform.localScale = Vector3.one;
         TMP_Text[] text_arr = memo_go.GetComponentsInChildren<TMP_Text>();
         text_arr[0].text = "<color=#FF9900>" + uuid_+ ":</color>" + content_;
         text_arr[1].text = text_arr[0].text;
@@ -810,24 +810,44 @@ public class Star_nest_UI : MonoBehaviour
 
         if (now_nickname == TCP_Client_Manager.instance.my_player.object_id) {
             btn_arr[0].onClick.AddListener(() => {
+                AudioManager.instance.SFX_Click();
                 if (btn_arr[1].gameObject.activeSelf)
                 {
                     btn_arr[1].gameObject.SetActive(false);
+                    text_arr[0].margin = new Vector4(text_arr[0].margin.x, text_arr[0].margin.y, 10, text_arr[0].margin.w);
+                    text_arr[0].GetComponentInChildren<Image>().GetComponent<RectTransform>().offsetMax = Vector2.zero;
+                    text_arr[0].SetAllDirty();
                 }
                 else
                 {
                     btn_arr[1].gameObject.SetActive(true);
+                    text_arr[0].margin = new Vector4(text_arr[0].margin.x, text_arr[0].margin.y, 100, text_arr[0].margin.w);
+                    text_arr[0].GetComponentInChildren<Image>().GetComponent<RectTransform>().offsetMax = Vector2.right * -90f;
+                    text_arr[0].SetAllDirty();
                 }
+                StartCoroutine(update_memo_UI_co());                
+                //LayoutRebuilder.ForceRebuildLayoutImmediate(memo_container.GetComponent<RectTransform>());
             });
+            string[] param_arr = { "memo_info" };
             btn_arr[1].onClick.AddListener(() => {
-                BackendGameData_JGD.userData.memo_info.Remove_object(memo);
-                BackendGameData_JGD.Instance.GameDataUpdate(new string[] { "memo_info" });
+                AudioManager.instance.SFX_Click();
+                user_data.memo_info.Remove_object(memo);
+                BackendGameData_JGD.userData.memo_info = new Memo_info(user_data.memo_info);
+                BackendGameData_JGD.Instance.GameDataUpdate(param_arr);
                 Destroy(memo_go);
+                StartCoroutine(update_memo_UI_co());                
             });
         }
         btn_arr[1].gameObject.SetActive(false);
-    }
 
+        
+    }
+    public IEnumerator update_memo_UI_co()
+    {
+        yield return null;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(memo_container.GetComponent<RectTransform>());
+        Canvas.ForceUpdateCanvases();
+    }
 
 
     #endregion
