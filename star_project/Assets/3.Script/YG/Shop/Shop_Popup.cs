@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,7 +59,7 @@ public class Shop_Popup : MonoBehaviour
         {
             go.SetActive(goods.have_num);
         }
-        num_text.text = "1";
+        num_text.text = select_num.ToString();
         mymoney_text.text = MoneyManager.instance.Check_Money(goods.money).ToString();
         UpdateUI_num();
         name_text.text = goods.goods_name;
@@ -78,6 +77,7 @@ public class Shop_Popup : MonoBehaviour
     private void UpdateUI_num()
     {
         value_text.text = (goods.value * select_num).ToString();
+        num_text.text = select_num.ToString();
     }
 
 
@@ -92,6 +92,7 @@ public class Shop_Popup : MonoBehaviour
     {
         int tmp = is_plus ? 1 : -1;
         select_num += tmp;
+
         UpdateUI_num();
     }
 
