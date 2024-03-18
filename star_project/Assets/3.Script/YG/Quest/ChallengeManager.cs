@@ -50,8 +50,6 @@ public class ChallengeManager : MonoBehaviour
         Setting_data();
         Setting_prefab();
         Update_UI();
-
-        BackendGameData_JGD.userData.house_inventory.Add(housing_itemID.seesaw, 1);
     }
 
     private void Setting_data()

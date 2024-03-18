@@ -172,9 +172,9 @@ MonoBehaviour:
   m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 40
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -714,6 +714,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb414da2db549d94584b1f39e48133b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goods_img: {fileID: 835827349776242539}
+  nolimit: {fileID: 2446793632245183306}
+  name_text: {fileID: 811792898945038453}
+  value_text: {fileID: 5588236008795736305}
+  money: {fileID: 9049041968076612343}
+  btn: {fileID: 1658968255010144601}
+  btn_img: {fileID: 6342186534175841781}
+  can_pur: {fileID: 21300000, guid: b85fea1638401f34cb38ac4f91cfc1c4, type: 3}
+  cant_pur: {fileID: 21300000, guid: 119ac9fbfcfc8ee489d3f4aebd408dc9, type: 3}
+  popup: {fileID: 0}
 --- !u!1 &7474281783253817876
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +846,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6342186534175841781}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5127490279321040762}
+        m_TargetAssemblyTypeName: Goods_UI, Assembly-CSharp
+        m_MethodName: Spend_goods
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2424105282502503427
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,17 +6,20 @@ using UnityEngine;
 public enum goods_cate
 {
     none = -1,
+    recommand,
     housing,
     imozi,
+    ruby,
     etc
 }
 
-public class Goods : MonoBehaviour
+public class Goods
 {
     public int index;
     public goods_cate cate;
     public string goods_name;
     public int value;
+    public Money money;
     public bool have_num;//갯수 정해서 살수있는지
     public bool can_repurchase;//재구매 가능한지
     public housing_itemID housing_id;
@@ -26,6 +29,7 @@ public class Goods : MonoBehaviour
     {
         index = int.Parse(gameData["index"].ToString());
         cate = (goods_cate)int.Parse(gameData["cate"].ToString());
+        money = (Money)int.Parse(gameData["money"].ToString());
         goods_name = gameData["name"].ToString();
         value = int.Parse(gameData["value"].ToString());
         have_num = bool.Parse(gameData["have_num"].ToString());

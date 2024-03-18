@@ -9,14 +9,6 @@ public class GoodsDataBaseSO : ScriptableObject
 {
     public List<Goods> GoodsData;
 }
-public enum Shop_cate
-{
-    none = -1,
-    housing,
-    emoji,
-    ruby,
-    etc
-}
 
 public enum Goods_id
 {
@@ -30,7 +22,7 @@ public enum Goods_id
 
 public class Shop_info //userdata
 {
-    public List<Goods_info> goods_list = new List<Goods_info>();
+    public List<int> index_list = new List<int>();
     public Shop_info()
     {
 
@@ -40,16 +32,11 @@ public class Shop_info //userdata
     {
         if (json.IsObject)
         {
-            foreach (JsonData data in json["goods_list"])
+            foreach (JsonData data in json["index_list"])
             {
-                goods_list.Add(new Goods_info(data));
+                index_list.Add(int.Parse(data.ToString()));
             }
         }
-    }
-
-    public void Insert_data()//회원 가입
-    {
-       
     }
 }
 
