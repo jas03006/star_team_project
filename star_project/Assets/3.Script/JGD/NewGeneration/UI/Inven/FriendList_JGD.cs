@@ -26,7 +26,7 @@ public class FriendList_JGD : MonoBehaviour
     [SerializeField] private GameObject invite_result_go;
     [SerializeField] private TMP_Text invite_result_text;
 
-
+    [SerializeField] private SearchEngine_TG search_engine;
 
     TMP_Text name;
 
@@ -92,6 +92,7 @@ public class FriendList_JGD : MonoBehaviour
 
             //index++;
         }
+
         
         QuestManager.instance.Check_challenge(Clear_type.add_friend);
 
@@ -232,10 +233,16 @@ public class FriendList_JGD : MonoBehaviour
 
             }
         }
-       
+
+        if (search_engine != null)
+        {
+            search_engine.sort();
+        }
+
+
     }
 
-    
+
 
     private void off_friend_request(Button btn) {
         try {

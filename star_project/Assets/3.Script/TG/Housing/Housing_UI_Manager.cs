@@ -315,9 +315,13 @@ public class Housing_UI_Manager : MonoBehaviour
         if (is_move) {
             return;
         }
-        is_move = true;
-        TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
-        TCP_Client_Manager.instance.placement_system.StartPlacement((int)now_focus_ob.object_enum);
+        
+        if (now_focus_ob != null) {
+            is_move = true;
+            TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
+            TCP_Client_Manager.instance.placement_system.StartPlacement((int)now_focus_ob.object_enum);
+        }        
+        
     }
 
     public void click_up_move_btn()

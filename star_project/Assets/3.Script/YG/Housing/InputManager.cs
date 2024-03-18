@@ -27,26 +27,38 @@ public class InputManager : MonoBehaviour
         bool now_btn_up = Input.GetMouseButtonUp(0);
 
         if (TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode) {
-            if (now_btn_up && !IsPointerOverUI())
+            if (now_btn_up )
             {
-                if (Onclicked != null)
+                if (!IsPointerOverUI())
                 {
-                    Onclicked?.Invoke();
-                    OnExit?.Invoke();
+                    if (Onclicked != null)
+                    {
+                        Onclicked?.Invoke();
+                        OnExit?.Invoke();
+                    }
+                    else
+                    {
+                        if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
+                        {
+                            TCP_Client_Manager.instance.housing_ui_manager.show_edit_UI(hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>());
+                        }
+                        else
+                        {
+                            if (Tutorial_TG.instance.is_progressing)
+                            {
+                                return;
+                            }
+                            TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
+                        }
+                    }
                 }
                 else {
-                    if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
+                    if (!TCP_Client_Manager.instance.housing_ui_manager.is_move && Onclicked != null)
                     {
-                        TCP_Client_Manager.instance.housing_ui_manager.show_edit_UI(hit.collider.gameObject.GetComponentInParent<Net_Housing_Object>());
-                    }
-                    else {
-                        if (Tutorial_TG.instance.is_progressing)
-                        {
-                            return;
-                        }
-                        TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
-                    }
+                        TCP_Client_Manager.instance.placement_system.cancel_placement();
+                    }                        
                 }
+                
             }    
 
             /*if (Input.GetMouseButton(0) && TCP_Client_Manager.instance.housing_ui_manager.now_focus_ob != null && !IsPointerOverUI())

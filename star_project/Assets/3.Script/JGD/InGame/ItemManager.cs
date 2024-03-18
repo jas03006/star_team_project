@@ -10,6 +10,11 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private GameObject Player_obj;
 
     [SerializeField] GameObject Magnet;
+    [SerializeField] GameObject speedUp_Effect;
+    [SerializeField] GameObject speedUp_Boost;
+    [SerializeField] GameObject size_up;
+    [SerializeField] GameObject size_Down;
+    [SerializeField] GameObject Damage;
 
     public float Megnetnum = 0;
     public float SpeedUP = 0;
@@ -38,38 +43,65 @@ public class ItemManager : MonoBehaviour
     }
     public void UsingSize(int ID)
     {
-        StopCoroutine(Sizecon(ID));
-        StartCoroutine(Sizecon(ID));
+
+        if (SizeControll != null)
+        {
+            StopCoroutine(SizeControll);
+            size_Down.SetActive(false);
+            size_up.SetActive(false);
+        }
+        SizeControll = StartCoroutine(Sizecon(ID));
 
     }
-    public void UsingShild()
+    public void UsingShield()
     {
         Player.Shild = true;
+        Player.shield.SetActive(true);
     }
     public void UsingSpeedUP(int ID)
     {
-        StopCoroutine(SpeedUp(ID));
-        StartCoroutine(SpeedUp(ID));
+        if (Speed_Up != null)
+        {
+            StopCoroutine(Speed_Up);
+        }
+        Speed_Up = StartCoroutine(SpeedUp(ID));
 
     }
     public void UsingMegnet()
     {
         StartCoroutine(Magnetcon());
     }
-    
 
+    Coroutine Speed_Up = null;
+    Coroutine Speed_Up_effect = null;
     private IEnumerator SpeedUp(int ID)
     {
+        if (Speed_Up_effect != null)
+        {
+            StopCoroutine(Speed_Up_effect);
+        }
+        Speed_Up_effect = StartCoroutine(Speed_Up_effect_co());
         data = BackendChart_JGD.chartData.item_list[ID];
         float Speed = Player.Speed; 
         Player.Speed = Player.Speed * (float)data.num;
         yield return new WaitForSecondsRealtime(data.duration + SpeedUP);
         Player.Speed = Speed;
     }
+    private IEnumerator Speed_Up_effect_co()
+    {
+        speedUp_Effect.SetActive(true);
+        speedUp_Boost.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        speedUp_Effect.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        speedUp_Boost.SetActive(false);
+    }
+    Coroutine SizeControll = null;
     private IEnumerator Sizecon(int ID)              //나중에 Lerp사용
     {
         Player.invincibility = false;
         data = BackendChart_JGD.chartData.item_list[ID];
+        StartCoroutine(Sizecon_Effect_co(ID));  //사이즈 이펙트
         var scale = new Vector3(0.25f, 0.25f,0.25f);
         if (ID == 33)
         {
@@ -83,6 +115,24 @@ public class ItemManager : MonoBehaviour
         Player_obj.transform.localScale = scale;
         Player.invincibility = false;
 
+    }
+    private IEnumerator Sizecon_Effect_co(int num)
+    {
+        switch (num)
+        {
+            case 33:
+                size_up.SetActive(true);
+                yield return new WaitForSeconds(1f);
+                size_up.SetActive(false);
+                break;
+            case 34:
+                size_Down.SetActive(true);
+                yield return new WaitForSeconds(1f);
+                size_Down.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
     private IEnumerator Magnetcon()
     {
