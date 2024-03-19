@@ -87,6 +87,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
                
                 yield return new WaitForSeconds(delay_time);
                 StartCoroutine(blink_press_UI());
+                step_action = () => { AudioManager.instance.SFX_Click(); Tutorial_TG.instance.step(); screen?.onClick.RemoveListener(step_action); };
                 screen.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.particular_touch:
