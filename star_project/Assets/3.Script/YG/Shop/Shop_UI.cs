@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -7,118 +6,162 @@ using UnityEngine.UI;
 
 public class Shop_UI : MonoBehaviour
 {
-    [SerializeField] private int btn_per_line = 6;
-    [SerializeField] private int page_num = 0;
-    [SerializeField] private int total_page_num = 2;
+    #region 주석
+    //[SerializeField] private int btn_per_line = 6;
+    //[SerializeField] private int page_num = 0;
+    //[SerializeField] private int total_page_num = 2;
 
+    //[SerializeField] private Sprite un_select_tab_sprite;
+    //[SerializeField] private Sprite select_tab_sprite;
+
+    //[SerializeField] private TMP_Text[] cate_text_arr;
+
+    //[SerializeField] private Scrollbar scrollbar;
+    //[SerializeField] private Button[] cate_btn_arr;
+
+    //[SerializeField] private TMP_Text page_text;
+    //[SerializeField] private TMP_Text total_page_text;
+
+    //[SerializeField] private Color un_select_tab_text_color;
+    //[SerializeField] private Color select_tab_text_color;
+
+    #endregion
+
+    [SerializeField] private goods_cate cur_cate;
+
+    private List<Goods> recommand_list = new List<Goods>();
+    private List<Goods> housing_list = new List<Goods>();
+    private List<Goods> imozi_list = new List<Goods>();
+    private List<Goods> ruby_list = new List<Goods>();
+    private List<Goods> etc_list = new List<Goods>();
+
+    [SerializeField] private List<Image> white_border = new List<Image>();
+    [SerializeField] private int[] recomands_index = { 0, 1, 4, 5, 6 };
+    [SerializeField] private Transform goods_container;
     [SerializeField] private GameObject goods_prefab;
 
-    [SerializeField] private Sprite un_select_tab_sprite;
-    [SerializeField] private Sprite select_tab_sprite;
+    [SerializeField] private int init_num = 6;//프리팹 생성 갯수
+    [SerializeField] private List<GameObject> goods_prefabs = new List<GameObject>();
+    [SerializeField] private List<Goods_UI> goods_ui_list = new List<Goods_UI>();
 
-    [SerializeField] private TMP_Text[] cate_text_arr;
+    [SerializeField] private Shop_Popup popup;
+    [SerializeField] TMP_Text gold;
+    [SerializeField] TMP_Text ark;
+    [SerializeField] TMP_Text ruby;
 
-    [SerializeField] private Scrollbar scrollbar;
-    [SerializeField] private Button[] cate_btn_arr;
+    [SerializeField] Color select_color;
+    [SerializeField] Color nonselect_color;
 
-    [SerializeField] private TMP_Text page_text;
-    [SerializeField] private TMP_Text total_page_text;
-
-    [SerializeField] private Color un_select_tab_text_color;
-    [SerializeField] private Color select_tab_text_color;
-
-    [SerializeField] private Transform goods_container;
-
-    float child_cnt = 0f;
-
-    public void init_goods()
+    private void Start()
     {
-        Instantiate(goods_prefab, goods_container);
-
-        //count check
-        child_cnt = goods_container.childCount;
-        total_page_num = (int)(child_cnt-1) / btn_per_line +1;
-        total_page_text.text = total_page_num.ToString();
+        Setting();
+        Money_UpdateUI();
+        change_cate(0);
     }
 
-    public void click_scroll_btn(bool is_right)
+    public void Setting()
     {
-        if (child_cnt <= btn_per_line)
+        Debug.Log("세팅 시작");
+        Debug.Log(BackendChart_JGD.chartData.Goods_list.Count);
+        foreach (var goods in BackendChart_JGD.chartData.Goods_list)
         {
-            return;
-        }
-
-        if (is_right)
-        {
-            scrollbar.value -= 1f / (float)(total_page_num - 1);
-            scrollbar.value = Mathf.Max(scrollbar.value, 0f);
-            page_num = Mathf.Min(page_num + 1, total_page_num);
-        }
-
-        else
-        {
-            scrollbar.value += 1f / (float)(total_page_num - 1);
-            scrollbar.value = Mathf.Min(scrollbar.value, 1f);
-            page_num = Mathf.Max(page_num - 1, 1);
-        }
-        page_text.text = page_num.ToString();
-    }
-
-    public void click_category_btn(int cate)
-    {
-        for (int i = 0; i < cate_btn_arr.Length; i++)
-        {
-            cate_btn_arr[i].image.sprite = un_select_tab_sprite;
-            cate_text_arr[i].color = un_select_tab_text_color;
-        }
-        cate_btn_arr[cate].image.sprite = select_tab_sprite;
-        cate_text_arr[cate].color = select_tab_text_color;
-
-        child_cnt = 0;
-        for (int i = 0; i < goods_container.childCount; i++)
-        {
-            if (cate == 0)
+            switch (goods.cate)
             {
-                goods_container.GetChild(i).gameObject.SetActive(true);
-                child_cnt++;
-                continue;
+                case goods_cate.housing:
+                    housing_list.Add(goods);
+                    break;
+                case goods_cate.imozi:
+                    imozi_list.Add(goods);
+                    break;
+                case goods_cate.ruby:
+                    ruby_list.Add(goods);
+                    break;
+                case goods_cate.etc:
+                    etc_list.Add(goods);
+                    break;
             }
-            if (cate == get_category(goods_container.GetChild(i).GetComponent<Housing_Inven_BTN>().id))
+
+            if (recomands_index.Contains(goods.index))
             {
-                goods_container.GetChild(i).gameObject.SetActive(true);
-                child_cnt++;
-            }
-            else
-            {
-                goods_container.GetChild(i).gameObject.SetActive(false);
+                recommand_list.Add(goods);
             }
         }
-        total_page_num = (int)(child_cnt - 1) / btn_per_line + 1;
-        total_page_text.text = total_page_num.ToString();
-        page_num = 1;
-        page_text.text = "1";
-        // scrollbar.value = 1f;
-        StartCoroutine(init_scroll_co());
-    }
+        Debug.Log($"세팅완료. 현재카운트 housing{housing_list.Count}/imozi{imozi_list.Count} ");
 
-    public int get_category(housing_itemID id_)
-    {
-        housing_itemID[] special_arr = { housing_itemID.ark_cylinder, housing_itemID.star_nest, housing_itemID.airship, housing_itemID.post_box };
-        if (special_arr.Contains(id_))
+        for (int i = 0; i < init_num; i++)
         {
-            return 1;
-        }
-        else
-        {
-            return 2;
+            GameObject newobj = Instantiate(goods_prefab, goods_container);
+            goods_prefabs.Add(newobj);
+            goods_ui_list.Add(newobj.GetComponent<Goods_UI>());
         }
     }
 
-    public IEnumerator init_scroll_co()
+    public void change_cate(int num) //index 변경
     {
-        yield return null;
-        scrollbar.value = 1f;
-        Canvas.ForceUpdateCanvases();
+        cur_cate = (goods_cate)num;
 
+        for (int i = 0; i < white_border.Count; i++)
+        {
+            white_border[i].color = num == i? select_color: nonselect_color;
+        }
+
+        prefab_OnOff();
+    }
+
+    public void prefab_OnOff()
+    {
+        List<Goods> cur_list = Get_list();
+        for (int i = 0; i < init_num; i++)
+        {
+            goods_prefabs[i].SetActive(i < cur_list.Count);
+
+            if (i < cur_list.Count)
+            {
+                goods_prefabs[i].TryGetComponent(out Goods_UI ui);
+                ui.goods = cur_list[i];
+            }
+        }
+    }
+
+    public List<Goods> Get_list()
+    {
+        switch (cur_cate)
+        {
+            case goods_cate.recommand:
+                return recommand_list;
+            case goods_cate.housing:
+                return housing_list;
+            case goods_cate.imozi:
+                return imozi_list;
+            case goods_cate.ruby:
+                return ruby_list;
+            case goods_cate.etc:
+                return etc_list;
+            default:
+                Debug.Log("찾는 리스트없음");
+                return null;
+        }
+    }
+
+    public void Money_UpdateUI()
+    {
+        gold.text = MoneyManager.instance.gold.ToString();
+        ark.text = MoneyManager.instance.ark.ToString();
+        ruby.text = MoneyManager.instance.ruby.ToString();
+    }
+
+    public void All_updateUI()
+    {
+        foreach (var goods_UI in goods_ui_list) 
+        {
+            goods_UI.UpdateUI();
+        }
+    }
+
+    public void Purchase()
+    {
+        popup.purchase();
+        Money_UpdateUI();
+        All_updateUI();
     }
 }

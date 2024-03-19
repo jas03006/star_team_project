@@ -27,7 +27,8 @@ public class MoneyManager : MonoBehaviour
             {
                 ark_ = 0;
             }
-            if (ark_text != null) {
+            if (ark_text != null)
+            {
                 ark_text.text = ark_.ToString();
             }
         }
@@ -98,8 +99,9 @@ public class MoneyManager : MonoBehaviour
         ruby = BackendGameData_JGD.userData.ruby;
     }
 
-    public void update_UI() {
-        
+    public void update_UI()
+    {
+
         gold_text.text = gold.ToString();
         ruby_text.text = ruby.ToString();
     }
@@ -153,9 +155,10 @@ public class MoneyManager : MonoBehaviour
         }
         Data_update();
     }
-    public void Spend_Money(int gold_ = 0, int ark_ = 0, int ruby_=0)
+    public void Spend_Money(int gold_ = 0, int ark_ = 0, int ruby_ = 0)
     {
-        if (gold_ == 0 && ark_ ==0 && ruby_ == 0) {
+        if (gold_ == 0 && ark_ == 0 && ruby_ == 0)
+        {
             return;
         }
         ark -= ark_;
@@ -164,12 +167,27 @@ public class MoneyManager : MonoBehaviour
 
         Data_update();
     }
+
+    public int Check_Money(Money money)
+    {
+        switch (money)
+        {
+            case Money.ark:
+                return ark;
+            case Money.gold:
+                return gold;
+            case Money.ruby:
+                return ruby;
+            default:
+                return 0;
+        }
+    }
     public void Data_update()
     {
         //데이터에 넣기
-        BackendGameData_JGD.userData.ark= ark;
-        BackendGameData_JGD.userData.gold = gold; 
-        BackendGameData_JGD.userData.ruby= ruby;
+        BackendGameData_JGD.userData.ark = ark;
+        BackendGameData_JGD.userData.gold = gold;
+        BackendGameData_JGD.userData.ruby = ruby;
 
         Param param = new Param();
         param.Add("ark", BackendGameData_JGD.userData.ark);
