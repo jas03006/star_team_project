@@ -35,6 +35,7 @@ public class SettingUI_TG : MonoBehaviour
         {
             sfx_toggle.isOn = false;
         }
+        haptic_toggle.isOn= false;
     }
 
     public void Click_btn(int index)
