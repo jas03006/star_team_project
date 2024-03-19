@@ -50,10 +50,13 @@ public class Character_UI : MonoBehaviour
 
     private void OnEnable()
     {
+        Click_inven();
+    }
+
+    public void Click_inven()
+    {
         List<Character> list = BackendChart_JGD.chartData.character_list;
         //content_zone.transform.childCount != list.Count일 경우 오브젝트 삭제 후 재생성
-
-
 
         for (int i = 0; i < list.Count; i++)
         {

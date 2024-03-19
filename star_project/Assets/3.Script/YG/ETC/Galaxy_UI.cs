@@ -49,6 +49,7 @@ public class Galaxy_UI : MonoBehaviour
     {
         Update_MissionState(collect_point, data.mission_state);
         Update_Starinfo(data.star_Info_list);
+        collect_text.text = collect_point.ToString();
     }
 
     public void Collect_update() //collect ¼³Á¤
