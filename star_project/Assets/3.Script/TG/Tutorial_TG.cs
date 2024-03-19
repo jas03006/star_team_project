@@ -39,19 +39,25 @@ public class Tutorial_TG : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this);
         }
         else { 
-            //Destroy(instance.gameObject);
+            Destroy(instance.gameObject);
             instance = this;
+            DontDestroyOnLoad(this);
             return;
         }
     }
     private void Start()
     {
         Debug.Log("Tuto Check");
-        if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.myplanet) {
-            
+        if (BackendGameData_JGD.userData.tutorial_Info.state == Tutorial_state.myplanet)
+        {
+
             start_tutorial();
+        }
+        else {
+            panel.SetActive(false);
         }
     }
     private void Update()
@@ -60,6 +66,7 @@ public class Tutorial_TG : MonoBehaviour
     }
     public void start_tutorial() {
         container.SetActive(true);
+        panel.SetActive(true);
         is_progressing = true;
         now_index = 0;
         show();
@@ -126,10 +133,12 @@ public class Tutorial_TG : MonoBehaviour
     public IEnumerator active_co(int index_, bool is_on) {
         yield return null;
         yield return null;
+        yield return null;
         tutorial_sequence[index_].gameObject.SetActive(is_on);
         if (is_on) {
             tutorial_sequence[index_].start_process();
             yield return null; 
+            yield return null;
             yield return null;
             panel.SetActive(false);
         }
