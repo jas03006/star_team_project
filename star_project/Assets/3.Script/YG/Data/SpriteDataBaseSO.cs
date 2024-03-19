@@ -12,6 +12,7 @@ public class SpriteDataBaseSO : ScriptableObject
     public List<Image_data> emoziData;
     public List<Image_data> backgroundData;
     public List<Material> character_material_Data;
+    public List<MoneyImage_data> moneyData;
 }
 
 [Serializable]
@@ -28,6 +29,16 @@ public class HousingImage_data
 {
     [field: SerializeField]
     public housing_itemID id { get; private set; }
+
+    [field: SerializeField]
+    public Sprite sprite { get; private set; }
+}
+
+[Serializable]
+public class MoneyImage_data
+{
+    [field: SerializeField]
+    public Money id { get; private set; }
 
     [field: SerializeField]
     public Sprite sprite { get; private set; }

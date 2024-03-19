@@ -47,9 +47,10 @@ public class EmoziBoxManager : MonoBehaviour
     }
     public void show_box()
     {
-        
+  
         emozi_panel.SetActive(true);
         hide_btn.SetActive(true);
+        init();
         show_btn.SetActive(false);
 
     }

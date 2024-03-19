@@ -274,9 +274,6 @@ public class BackendGameData_JGD : MonoBehaviour
             //퀘스트 정보(후)
             userData.quest_Info.Init_info_data();
 
-            //상점 정보
-            userData.shop_info.Insert_data();
-
         }
 
         Debug.Log("데이터를 초기화 합니다.");
