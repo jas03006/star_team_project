@@ -43,11 +43,17 @@ public class Player_Controll_JGD : MonoBehaviour
     [Header("PlayerHitByCar")]
     private bool isHitOn = true;
     [SerializeField] private float DamageTime;
-    private int Player_Alphabet_Count = 0;
+    public int Player_Alphabet_Count = 0;
 
     [SerializeField] public GameObject shield;
     [SerializeField] public GameObject DamageEffect;
     Coroutine damageeffect = null;
+
+
+
+    [SerializeField] GameEnd_JGD endgame;
+
+
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -57,6 +63,10 @@ public class Player_Controll_JGD : MonoBehaviour
     private void Start()
     {
         Init();
+        for (int i = 0; i < endgame.ClearData.Count; i++)
+        {
+            Alphabet.Add(-1);
+        }
         PlayerDieUI.SetActive(false);
         MaxHp += (PlayerLevel - 1) * 10;  
         currentHp = MaxHp;
@@ -187,10 +197,17 @@ public class Player_Controll_JGD : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
         {
             AudioManager.instance.SFX_collect_item();
-            Alphabet.Add((int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
-            Player_Alphabet_progress[Player_Alphabet_Count].sprite = SpriteManager.instance.Num2Sprite(4000+(int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
-            Player_Alphabet_BackGround[Player_Alphabet_Count].sprite = Alphabet_BackGround;
-            Player_Alphabet_Count++;
+            for (int i = 0; i < endgame.ClearData.Count; i++)
+            {
+                if (endgame.ClearData[i] == collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID.ToString() && Alphabet[i] == -1)
+                {
+                    Alphabet[i] = (int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID;
+                    Player_Alphabet_progress[i].sprite = SpriteManager.instance.Num2Sprite(4000 + (int)collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID);
+                    Player_Alphabet_BackGround[i].sprite = Alphabet_BackGround;
+                    Player_Alphabet_Count++;
+                    break;
+                }
+            }
             Destroy(collision.gameObject);
             return;
         }
