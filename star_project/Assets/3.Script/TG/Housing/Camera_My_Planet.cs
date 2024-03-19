@@ -36,8 +36,10 @@ public class Camera_My_Planet : MonoBehaviour
     }
     private Vector2 nowPos, prePos;
     private Vector3 movePos;
+    private bool isoverUI=false;
     private void FixedUpdate()
     {
+        isoverUI = InputManager.IsPointerOverUI();
         if (Tutorial_TG.instance.is_progressing) {
             transform.position = center_pos;
             return;
@@ -61,7 +63,7 @@ public class Camera_My_Planet : MonoBehaviour
            // transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward*30f; // *distance;
        // }
 
-        if (Input.touchCount == 2) //손가락 2개가 눌렸을 때
+        if (Input.touchCount == 2 && isoverUI) //손가락 2개가 눌렸을 때
         {
             Touch touchZero = Input.GetTouch(0); //첫번째 손가락 터치를 저장
             Touch touchOne = Input.GetTouch(1); //두번째 손가락 터치를 저장
@@ -105,7 +107,7 @@ public class Camera_My_Planet : MonoBehaviour
         //TODO: 화면 드래그 시 화면 옮기기
         if (Input.touchCount == 1)
         {
-            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null && !InputManager.IsPointerOverUI())
+            if (!TCP_Client_Manager.instance.placement_system.inputManager.is_moving && TCP_Client_Manager.instance.placement_system.buildingState == null && !isoverUI)
             {
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
