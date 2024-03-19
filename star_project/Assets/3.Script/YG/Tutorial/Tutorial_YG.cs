@@ -11,9 +11,11 @@ public class Tutorial_YG : MonoBehaviour
     [SerializeField] GameObject gameobject_50;//터치입력 받음
     [SerializeField] Image image_50;
     [SerializeField] Button btn_50;
+    [SerializeField] GameObject not_click;
 
     [SerializeField] GameObject image_100;//터치입력 안받음
     [SerializeField] GameObject image_100_btn;//터치입력 안받음
+    [SerializeField] Button btn_100;//터치입력 안받음
     [SerializeField] GameObject touch; //깜빡거릴 게임오브젝트
 
     [SerializeField] Button select_character;
@@ -40,7 +42,6 @@ public class Tutorial_YG : MonoBehaviour
             if (is_tutorial)
             {
                 count_ = value;
-                Progress();
             }
 
             else
@@ -53,9 +54,9 @@ public class Tutorial_YG : MonoBehaviour
     int count_;
     bool is_blinking = false;
 
-    [SerializeField] int[] finger_timings = { 5,6 ,10, 11, 12, 17, 18 };//6,10,12,17
+    [SerializeField] int[] click = {6, 13, 18 };
     [SerializeField] int[] solo_timings = { 7 }; //터치입력 안받는 오브젝트만 등장 시 카운트 타이밍
-    [SerializeField] int[] together_timings = { 4, 5, 9,11 ,12, 16 }; //둘다 등장 시 카운트 타이밍 //6,+11
+    [SerializeField] int[] together_timings = { 4, 5, 9, 10, 11, 12, 16 }; //둘다 등장 시 카운트 타이밍 //10
 
 
     private void Start()
@@ -83,8 +84,8 @@ public class Tutorial_YG : MonoBehaviour
         select_character.onClick.AddListener(Progress);
         select_character.onClick.AddListener(Stop_blink_btn);
 
-        x_btn.onClick.AddListener(Progress);
         x_btn.onClick.AddListener(Count_up);
+        x_btn.onClick.AddListener(Progress);
         x_btn.onClick.AddListener(Stop_blink_btn);
 
         is_blinking = false;
@@ -103,10 +104,8 @@ public class Tutorial_YG : MonoBehaviour
         //Debug.Log("3초끝");
         StartCoroutine(Blink_co());
 
-        if (!finger_timings.Contains(count))
-        {
-            btn_50.interactable = true;
-        }
+        btn_50.interactable = true;
+        btn_100.interactable = true;
     }
 
     private IEnumerator Timecheck_nottouch_co(bool together) //btn_100
@@ -116,6 +115,7 @@ public class Tutorial_YG : MonoBehaviour
         if (!together)
         {
             Count_up();
+            Progress();
         }
     }
 
@@ -145,19 +145,26 @@ public class Tutorial_YG : MonoBehaviour
 
     public void Count_up()
     {
+        Debug.Log("++");
         if (!is_tutorial)
         { return; }
 
         count++;
     }
 
-    private void Progress()
+    public void Progress()
     {
+        btn_100.interactable = false;
+        btn_50.interactable = false;
+        
         Debug.Log(count);
+
         if (!is_tutorial)
         {
             return;
         }
+
+        not_click.SetActive(!click.Contains(count));
 
         if (count >= sprites.Count)
         {
