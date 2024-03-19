@@ -321,11 +321,17 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_BlueWall:
                     if (PlayerNumber == 2)
                     {
-                        if (now_damage_co != null)
+                        //if (now_damage_co != null)
+                        //{
+                        //    StopCoroutine(now_damage_co);
+                        //}
+                        //now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        if (damageeffect != null)
                         {
-                            StopCoroutine(now_damage_co);
+                            StopCoroutine(damageeffect);
+                            DamageEffect.SetActive(false);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        damageeffect = StartCoroutine(OnDamageEffect_co());
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -335,11 +341,17 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_GreenWall:
                     if (PlayerNumber == 4)
                     {
-                        if (now_damage_co != null)
+                        //if (now_damage_co != null)
+                        //{
+                        //    StopCoroutine(now_damage_co);
+                        //}
+                        //now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        if (damageeffect != null)
                         {
-                            StopCoroutine(now_damage_co);
+                            StopCoroutine(damageeffect);
+                            DamageEffect.SetActive(false);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        damageeffect = StartCoroutine(OnDamageEffect_co());
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -350,11 +362,17 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_PurpleWall:
                     if (PlayerNumber == 3)
                     {
-                        if (now_damage_co != null)
+                        //if (now_damage_co != null)
+                        //{
+                        //    StopCoroutine(now_damage_co);
+                        //}
+                        //now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        if (damageeffect != null)
                         {
-                            StopCoroutine(now_damage_co);
+                            StopCoroutine(damageeffect);
+                            DamageEffect.SetActive(false);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        damageeffect = StartCoroutine(OnDamageEffect_co());
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -365,11 +383,17 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_RedWall:
                     if (PlayerNumber == 1)
                     {
-                        if (now_damage_co != null)
+                        //if (now_damage_co != null)
+                        //{
+                        //    StopCoroutine(now_damage_co);
+                        //}
+                        //now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        if (damageeffect != null)
                         {
-                            StopCoroutine(now_damage_co);
+                            StopCoroutine(damageeffect);
+                            DamageEffect.SetActive(false);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        damageeffect = StartCoroutine(OnDamageEffect_co());
                         collision.gameObject.SetActive(false);
                         return;
                     }
@@ -380,11 +404,17 @@ public class Player_Controll_JGD : MonoBehaviour
                 case Obstacle_ID.Move_YellowWall:
                     if (PlayerNumber == 0)
                     {
-                        if (now_damage_co != null)
+                        //if (now_damage_co != null)
+                        //{
+                        //    StopCoroutine(now_damage_co);
+                        //}
+                        //now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        if (damageeffect != null)
                         {
-                            StopCoroutine(now_damage_co);
+                            StopCoroutine(damageeffect);
+                            DamageEffect.SetActive(false);
                         }
-                        now_damage_co = StartCoroutine(OnDamage(0, collision));
+                        damageeffect = StartCoroutine(OnDamageEffect_co());
                         collision.gameObject.SetActive(false);
                         return;
                     }

@@ -8,9 +8,16 @@ public class GameStage : MonoBehaviour
     [SerializeField]private GameEnd_JGD Player;
     [SerializeField] private SceneNames nextScene;
     [SerializeField] GameObject Pause;
+    private void Awake()
+    {
+        for (int i = 0; i < levels.Length; i++)
+        {
+            levels[i].SetActive(false);
+        }
+    }
     private void Start()
     {
-        levels[LevelSelectMenuManager_JGD.currLevel].SetActive(true);
+        levels[LevelSelectMenuManager_JGD.GalaxyLevel].SetActive(true);
 
     }
     public void ComeBakeHome()

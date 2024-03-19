@@ -5,6 +5,7 @@ using UnityEngine;
 public class Magnet : MonoBehaviour
 {
     [SerializeField] float Speed;
+    [SerializeField] Player_Controll_JGD Player;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item") || collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
@@ -20,11 +21,16 @@ public class Magnet : MonoBehaviour
     }
     private IEnumerator Magnettic(Collider2D collision)
     {
+        float speed = Speed;
         while (collision && this.gameObject)
         {
             Vector3 Dis = this.gameObject.transform.position - collision.transform.position;
             Vector3 pos = Dis.normalized;
-            collision.transform.position += pos * Speed * Time.deltaTime;
+            collision.transform.position += pos * (Player.Speed + speed) * Time.deltaTime;
+            if (collision.transform.position.x < Player.transform.position.x)
+            {
+                speed = 3f;
+            }
             yield return null;
         }
     }
