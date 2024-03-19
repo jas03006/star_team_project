@@ -82,13 +82,13 @@ public class Sign_Up_JGD : LoginBase_JGD
 
         if (success)
         {
-            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 완료";
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "회원가입 완료";
             obj.transform.GetChild(1).gameObject.SetActive(false);
         }
 
         else
         {
-            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 실패";
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "회원가입 실패";
             obj.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
