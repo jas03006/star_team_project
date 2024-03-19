@@ -3614,6 +3614,7 @@ RectTransform:
   m_Children:
   - {fileID: 3022503246303896402}
   - {fileID: 1741545952}
+  - {fileID: 1694666735}
   m_Father: {fileID: 1047866518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8134,7 +8135,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1613619441}
   m_HandleRect: {fileID: 0}
@@ -11241,7 +11242,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 339599943}
-  - {fileID: 1694666735}
   - {fileID: 398400180}
   - {fileID: 82544912}
   - {fileID: 1875167347}
@@ -12087,10 +12087,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 339599942}
-  - {fileID: 1694666734}
-  - {fileID: 398400179}
-  - {fileID: 82544911}
-  - {fileID: 1875167346}
+  - {fileID: 339599942}
+  - {fileID: 339599942}
+  - {fileID: 339599942}
+  - {fileID: 339599942}
   Player: {fileID: 0}
   nextScene: 3
   Pause: {fileID: 0}
@@ -13460,6 +13460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
+  Player: {fileID: 0}
 --- !u!50 &1271142740
 Rigidbody2D:
   serializedVersion: 4
@@ -18350,7 +18351,7 @@ RectTransform:
   m_Children:
   - {fileID: 1262654078}
   - {fileID: 189018153}
-  m_Father: {fileID: 1047866518}
+  m_Father: {fileID: 339599943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
