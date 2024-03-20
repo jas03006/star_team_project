@@ -54,6 +54,7 @@ public class Galaxy_UI : MonoBehaviour
 
     public void Collect_update() //collect 설정
     {
+        Debug.Log("Collect_update()");
         collect_point = 0;
 
         for (int i = 0; i < data.star_Info_list.Count; i++)
@@ -68,6 +69,7 @@ public class Galaxy_UI : MonoBehaviour
     {
         //스프라이트 바꾸고 버튼클릭 바꾸기
         Check_collect(collect, 5);
+
     }
 
     private void Update_Starinfo(List<Star_info> star_info)
@@ -125,6 +127,11 @@ public class Galaxy_UI : MonoBehaviour
             {
                 mission_btn[i].sprite = state_X;
                 statebutton[i].interactable = false;
+            }
+
+            if (mission_state[i] == Galaxy_state.can_reward)
+            {
+                statebutton[i].interactable = true;
             }
             tmp -= interval;
         }
