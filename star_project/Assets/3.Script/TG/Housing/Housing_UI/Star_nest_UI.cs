@@ -648,7 +648,7 @@ public class Star_nest_UI : MonoBehaviour
             after_nest_img.sprite = nest_sprite_arr[level_ + 1];
 
             int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
-            level_up_info_text.text = $"플래닛 크기 확장\n{level_width_arr[level_]}X{level_width_arr[level_]} -> {level_width_arr[level_ + 1]}X{level_width_arr[level_ + 1]}";
+            level_up_info_text.text = $"플래닛 크기 확장\n{level_width_arr[level_]*2}X{level_width_arr[level_]*2} -> {level_width_arr[level_ + 1]*2}X{level_width_arr[level_ + 1]*2}";
             
             level_up_gold.text = required_gold_arr[level_].ToString();
             if (required_gold_arr[level_] > BackendGameData_JGD.userData.gold)
@@ -695,7 +695,7 @@ public class Star_nest_UI : MonoBehaviour
         result_nest_cong.text = "별님이 <color=#" + nest_text_color[level_].ToHexString().Substring(0,6) +">"+(int)(level_+1)+"레벨 행성</color>으로 성장했어요\r\n축하드립니다!";
 
         int[] level_width_arr = TCP_Client_Manager.instance.placement_system.furnitureData.level_boudary;
-        result_nest_info.text = $"플래닛 크기 확장\n{level_width_arr[level_-1]}X{level_width_arr[level_-1]} -> {level_width_arr[level_]}X{level_width_arr[level_ ]}"; ;
+        result_nest_info.text = $"플래닛 크기 확장\n{level_width_arr[level_-1]*2}X{level_width_arr[level_-1]*2} -> {level_width_arr[level_]*2}X{level_width_arr[level_ ]*2}"; ;
 
         levelup_X_btn.onClick.AddListener(show_level_up_particle);
     }
@@ -840,7 +840,7 @@ public class Star_nest_UI : MonoBehaviour
         }
         btn_arr[1].gameObject.SetActive(false);
 
-        
+        StartCoroutine(update_memo_UI_co());
     }
     public IEnumerator update_memo_UI_co()
     {
