@@ -10,8 +10,8 @@ public class GameEnd_JGD : MonoBehaviour
     int Stage;
     string Word;
     private int Score;
-    private StageClear data;
-    [SerializeField] private List<string> ClearData = new List<string>();
+    public StageClear data;
+    [SerializeField] public List<string> ClearData = new List<string>();
     [Header("ClearUI")]
     [SerializeField] private GameObject StageClearUI;
     [SerializeField] private List<Image> PlayerStar;
@@ -47,21 +47,21 @@ public class GameEnd_JGD : MonoBehaviour
     private void Awake()
     {
         Stage = LevelSelectMenuManager_JGD.currLevel + (LevelSelectMenuManager_JGD.GalaxyLevel * 5);
-        ClearData.Clear();
-        Debug.Log("아아");
-    }
-    private void Start()
-    {
-        Score = 0;
         data = BackendChart_JGD.chartData.StageClear_list[Stage];
-        Stage = data.Stage;/////
-        StageClearUI.SetActive(false);
-        NextClearUI.SetActive(false);
+        ClearData.Clear();
         string[] Clearwords = data.StageWord.Split(',');
         for (int i = 0; i < Clearwords.Length; i++)
         {
             ClearData.Add(Clearwords[i]);
         }
+        Debug.Log("아아");
+    }
+    private void Start()
+    {
+        Score = 0;
+        Stage = data.Stage;/////
+        StageClearUI.SetActive(false);
+        NextClearUI.SetActive(false);
         //Time.timeScale = 1.0f;
         //
         switch (data.Theme) //나중에 Theme로 바꾸기
@@ -129,7 +129,7 @@ public class GameEnd_JGD : MonoBehaviour
 
             var Player = collision.GetComponent<Player_Controll_JGD>();
             getting_house_ob = false;
-            if (ClearData.Count == Player.Alphabet.Count)
+            if (ClearData.Count == Player.Player_Alphabet_Count)
             {
                 QuestManager.instance.Check_challenge(Clear_type.make_word);
 
@@ -163,7 +163,10 @@ public class GameEnd_JGD : MonoBehaviour
             Star_3.text = $"X {data.Star_3.ToString()}";
             for (int i = 0; i < Player.Alphabet.Count; i++)  //알파벳 추가
             {
-                Stageword[i].gameObject.GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(Player.Alphabet[i] + 4000);
+                if (Player.Alphabet[i] != -1)
+                {
+                    Stageword[i].gameObject.GetComponent<Image>().sprite = SpriteManager.instance.Num2Sprite(Player.Alphabet[i] + 4000);
+                }
             }
 
             QuestManager.instance.Check_challenge(Clear_type.get_star, Player.PlayerScore);
