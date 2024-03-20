@@ -157,9 +157,9 @@ public enum housing_itemID
     //업적 보상
     ailen = 28,
     dessert = 29,
-    earth = 30,
-    frozen = 31,
-    tundra = 32,
+    tundra = 30,
+    frozen = 31,    
+    earth = 32,
 
     //상점
     pink_tree = 33,
