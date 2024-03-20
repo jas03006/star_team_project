@@ -8,8 +8,10 @@ public class Character
     public string character_name;
 
     public int maxlevel;
-    public int curlevel;//차트아니고 게임데이터에서 불러옴
-
+    public int curlevel
+    {
+        get { return BackendGameData_JGD.userData.character_info.character_dic[character_ID]; }
+    }//차트아니고 게임데이터에서 불러옴
     public float duration; //지속 시간
     public double percent;
 
@@ -29,7 +31,6 @@ public class Character
         character_name = gameData["character_name"].ToString();
 
         maxlevel = int.Parse(gameData["maxlevel"].ToString());
-        curlevel = BackendGameData_JGD.userData.character_info.character_dic[character_ID];
 
         if (character_ID == Character_ID.Green)
         {
@@ -83,7 +84,7 @@ public class Character
         MoneyManager.instance.Spend_Money(Money.ark, arkRequired);
 
         //레벨 업데이트
-        curlevel++;
+        BackendGameData_JGD.userData.character_info.character_dic[character_ID]++;
         Debug.Log("레벨업");
         QuestManager.instance.Check_mission(Criterion_type.character_levelup);
         Characterinfo_Data_update();
