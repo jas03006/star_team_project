@@ -63,7 +63,7 @@ public class Camera_My_Planet : MonoBehaviour
            // transform.position = TCP_Client_Manager.instance.my_player.transform.position - transform.forward*30f; // *distance;
        // }
 
-        if (Input.touchCount == 2 && isoverUI) //손가락 2개가 눌렸을 때
+        if (Input.touchCount == 2 && !isoverUI) //손가락 2개가 눌렸을 때
         {
             Touch touchZero = Input.GetTouch(0); //첫번째 손가락 터치를 저장
             Touch touchOne = Input.GetTouch(1); //두번째 손가락 터치를 저장
