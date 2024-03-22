@@ -80,6 +80,9 @@ public class SettingUI_TG : MonoBehaviour
         Destroy(UIManager_YG.Instance.gameObject);
         UIManager_YG.Instance = null;
 
+        Destroy(MoneyManager.instance.gameObject);
+        MoneyManager.instance = null;
+
         Backend.BMember.Logout();
 
         BackendGameData_JGD.userData = null;
