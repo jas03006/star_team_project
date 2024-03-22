@@ -51,6 +51,7 @@ public class Character_UI : MonoBehaviour
     private void OnEnable()
     {
         Click_inven();
+        Update_UI();
     }
 
     public void Click_inven()
@@ -205,8 +206,8 @@ public class Character_UI : MonoBehaviour
     {
         cur_character = BackendChart_JGD.chartData.character_list[index_UI];
         cur_character.character_Data_update(index_UI);
-        Update_is_equip();
         TCP_Client_Manager.instance.my_player.update_model((int)cur_character.character_ID);
+        btn_update();
     }
 
     public void Inhance_btn() //캐릭터 강화 버튼

@@ -235,7 +235,7 @@ public class PlayerMovement : Player_Network_TG
         Tween t = player_container.DOLookAt( transform.position-Camera.main.transform.forward,1f, axisConstraint: AxisConstraint.Y,up: Vector3.up);
     }
     public void stop_DOTween() {
-        DOTween.KillAll();
+        DOTween.Kill(this);
     }
     private Vector3[] Path2MovePath() {
         List<Vector3> smooth_path = new List<Vector3>();
