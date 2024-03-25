@@ -121,7 +121,10 @@ public class Harvesting : Net_Housing_Object//, IObject
             case harvest_state.processing:
                 show_processing_UI();
                 // processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
-                if (remain_time.TotalMinutes < 1)
+                if (start_time == DateTime.MaxValue || start_time == DateTime.MinValue) {
+                    processing_timer.text = "";
+                }
+                else if (remain_time.TotalMinutes < 1)
                 {
                     processing_timer.text = $"<color=#FF7C44>{remain_time.Seconds}√ </color>";
                 }
