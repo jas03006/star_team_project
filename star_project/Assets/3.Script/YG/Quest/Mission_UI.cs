@@ -54,6 +54,7 @@ public class Mission_UI : MonoBehaviour
     [SerializeField] private List<Image> btn_image = new List<Image>();
 
     private int index;
+    [SerializeField] private Quest_Icon icon;
 
     private void Start()
     {
@@ -238,7 +239,6 @@ public class Mission_UI : MonoBehaviour
 
     public void Get_reward_btn() //º¸»óÈ¹µæ ¹öÆ°
     {
-
         Mission_userdata userdata = QuestManager.instance.Mission2data(cur_mission);
 
         if (!userdata.is_accept)
@@ -252,6 +252,7 @@ public class Mission_UI : MonoBehaviour
         reward_btn.enabled = false;
         QuestManager.instance.Mission2data(cur_mission).Data_update();
         UI_updateL();
+        icon.Remove(userdata);
     }
 }
 #endregion

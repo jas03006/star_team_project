@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.6739509, g: 0.4657923, b: 0.817404, a: 1}
+  m_IndirectSpecularColor: {r: 0.6739622, g: 0.46582264, b: 0.81740475, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -23867,6 +23867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640909818}
   - component: {fileID: 640909819}
+  - component: {fileID: 640909820}
   m_Layer: 0
   m_Name: Quest
   m_TagString: Untagged
@@ -23962,6 +23963,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &640909820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640909817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03116ad80230e0d41b7f3aa90a79c63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 1765828694}
+  O: {fileID: 21300000, guid: b1bd17c8776f99742b50f700eb3e83f9, type: 3}
+  X: {fileID: 21300000, guid: 5ce3c1239b27cef4d9a2bf529cbf461d, type: 3}
 --- !u!1001 &643304579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81763,6 +81779,7 @@ MonoBehaviour:
   - {fileID: 1879844824033571244}
   - {fileID: 5649805466507029054}
   - {fileID: 5413198343207162098}
+  icon: {fileID: 640909820}
 --- !u!224 &2568328348589677050
 RectTransform:
   m_ObjectHideFlags: 0

@@ -23,6 +23,7 @@ public class Login_JGD : LoginBase_JGD
 
     [SerializeField] GameObject Done;
     [SerializeField] GameObject DoneX;
+    [SerializeField] TMP_Text DoneX_text;
 
     [SerializeField] private SceneNames nextScene;
     public void OnclickLoin()
@@ -72,7 +73,7 @@ public class Login_JGD : LoginBase_JGD
                 switch (int.Parse(callback.GetStatusCode()))
                 {
                     case 401:
-                        message = callback.GetMessage().Contains("customId") ? "존재하지 않는 아이디 입니다." : "잘못된 비밀번호 입니다.";
+                        message = callback.GetMessage().Contains("customId") ? "잘못된 아이디입니다." : "잘못된 비밀번호 입니다.";
                         break;
                     case 403:
                         message = callback.GetMessage().Contains("user") ? "차단당한 유저입니다." : "차단당한 디바이스입니다.";
@@ -160,6 +161,7 @@ public class Login_JGD : LoginBase_JGD
             obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "로그인 실패";
             obj.transform.GetChild(1).gameObject.SetActive(true);
             obj.transform.GetChild(1).GetComponent<TMP_Text>().text = message;
+            DoneX_text.text = "다시 시도하기";
         }
     }
 }

@@ -41,6 +41,7 @@ public class ChallengeManager : MonoBehaviour
 
     [SerializeField] private Sprite border_O;
     [SerializeField] private Sprite border_X;
+    private bool is_change; 
 
     private housing_itemID[] cp_rewards = { housing_itemID.ailen, housing_itemID.dessert, housing_itemID.tundra, housing_itemID.frozen, housing_itemID.earth };
 
@@ -155,6 +156,7 @@ public class ChallengeManager : MonoBehaviour
                 if (BackendGameData_JGD.userData.quest_Info.challenge_states[i] == challenge_state.incomplete)
                 {
                     BackendGameData_JGD.userData.quest_Info.challenge_states[i] = challenge_state.can_reward;
+                    is_change = true;
                 }
             }
 
@@ -175,6 +177,11 @@ public class ChallengeManager : MonoBehaviour
                 default:
                     break;
             }
+        }
+        if (is_change)
+        {
+            BackendGameData_JGD.Instance.GameDataUpdate();
+            is_change=false;
         }
 
     }
