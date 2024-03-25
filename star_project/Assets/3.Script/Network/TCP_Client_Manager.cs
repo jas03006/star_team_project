@@ -302,6 +302,17 @@ public class TCP_Client_Manager : MonoBehaviour
                     break;
                 case command_flag.interact:
                     //TODO: 오브젝트 인터액션 (오브젝트를 모두 담고있는 class를 하나 구현한 뒤, object id에 맞는 오브젝트의 상호작용 실행)
+                    uuid_ = cmd_arr[2];
+                    if (uuid_ != my_player.object_id) {
+                        string[] arr_ = cmd_arr[3].Split(":");
+                        try
+                        {
+                            placement_system.objectPlacer.placedGameObject[placement_system.furnitureData.placedObjects[new Vector3Int(int.Parse(arr_[0]), 0, int.Parse(arr_[1]))].PlacedObjectIndex].GetComponent<SpecialObj>()?.interact(uuid_, 0, 1);
+                        }
+                        catch { 
+                        
+                        }
+                     }
                     break;
                 case command_flag.invite:
                     //TODO: 초대 알림 띄우기
@@ -504,7 +515,7 @@ public class TCP_Client_Manager : MonoBehaviour
     }
     public bool send_interact_request(string object_id, int interaction_id, int param)
     {
-        return sending_Message($"{(int)command_flag.interact} {now_room_id} {object_id} {interaction_id} {param}");
+        return sending_Message($"{(int)command_flag.interact} {now_room_id} {my_player.object_id} {object_id} {interaction_id} {param}");
     }
     public bool send_invite_request(string object_id)
     {

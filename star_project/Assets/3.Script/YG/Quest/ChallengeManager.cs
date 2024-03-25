@@ -42,7 +42,7 @@ public class ChallengeManager : MonoBehaviour
     [SerializeField] private Sprite border_O;
     [SerializeField] private Sprite border_X;
 
-    private housing_itemID[] cp_rewards = { housing_itemID.bench, housing_itemID.ball, housing_itemID.seesaw, housing_itemID.swing, housing_itemID.slider };
+    private housing_itemID[] cp_rewards = { housing_itemID.ailen, housing_itemID.dessert, housing_itemID.tundra, housing_itemID.frozen, housing_itemID.earth };
 
 
     private void Start()
