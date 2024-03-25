@@ -20,7 +20,7 @@ public class TestBackend_Login_JGD : MonoBehaviour
         }
     }
 
-    public bool CustomSignUp(string id, string pw)
+    public bool CustomSignUp(string id, string pw, out string reason)
     {
         // 회원가입 구현로직
         Debug.Log("회원가입을 요청합니다.");
@@ -34,11 +34,33 @@ public class TestBackend_Login_JGD : MonoBehaviour
             
             }*/
             BackendGameData_JGD.Instance.GameDataInsert(nickname: id);
+            reason = null;
             return true;
         }
         else
         {
-            Debug.LogError("회원가입에 실패했습니다. : " + bro);
+            //Debug.LogError("회원가입에 실패했습니다. : " + bro);
+            switch (int.Parse(bro.GetStatusCode()))
+            {
+                case 400:
+                    reason = "아이디를 확인할 수 없습니다.";
+                    break;
+                case 401:
+                    reason = bro.GetMessage().Contains("customId") ? "잘못된 아이디입니다." : "잘못된 비밀번호 입니다.";
+                    break;
+                case 403:
+                    reason = bro.GetMessage().Contains("user") ? "차단당한 유저입니다." : "차단당한 디바이스입니다.";
+                    break;
+                case 409:
+                    reason = "중복된 아이디가 존재합니다.";
+                    break;
+                case 410:
+                    reason = "탈퇴가 진행중인 유저입니다.";
+                    break;
+                default:
+                    reason = bro.GetMessage();
+                    break;
+            }
             return false;
         }
 

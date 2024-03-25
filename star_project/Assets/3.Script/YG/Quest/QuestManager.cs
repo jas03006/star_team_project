@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    public static QuestManager instance ;
+    public static QuestManager instance;
 
     //mission
     public List<Mission> missions = new List<Mission>(); //전체미션
@@ -13,7 +12,6 @@ public class QuestManager : MonoBehaviour
 
     //challenge
     public ChallengeManager manager = null;
-
 
     private void Awake()
     {
@@ -81,14 +79,14 @@ public class QuestManager : MonoBehaviour
 
     public void Test_btn(int index)
     {
-        Debug.Log(index + "/"+ (Criterion_type)index);
+        Debug.Log(index + "/" + (Criterion_type)index);
         Debug.Log(cur_missiontypes.Count);
         Check_mission((Criterion_type)index);
     }
 
     //CriterionType에 맞는 수락한 미션이 있는지 확인
     //조건에서 해당 메서드 부르면 됨
-    public void Check_mission(Criterion_type type, int num =1)
+    public void Check_mission(Criterion_type type, int num = 1)
     {
         if (cur_missiontypes.Contains(type))
         {
@@ -99,7 +97,7 @@ public class QuestManager : MonoBehaviour
                 {
 
                     Debug.Log("해당 미션 번호 : " + data.mission_id);
-                    data.criterion+= num;
+                    data.criterion += num;
                     data.Data_update();
                     return;
                 }
@@ -119,7 +117,7 @@ public class QuestManager : MonoBehaviour
     //조건에서 해당 메서드 부르면 됨
     public void Check_challenge(Clear_type type, int num = 1)
     {
-       List<Challenge> list = BackendChart_JGD.chartData.challenge_list;
+        List<Challenge> list = BackendChart_JGD.chartData.challenge_list;
         //FriendList_JGD.friend_dic.Count
         for (int i = 0; i < BackendGameData_JGD.userData.challenge_Userdatas.Count; i++)
         {
@@ -136,10 +134,10 @@ public class QuestManager : MonoBehaviour
 
                 else
                 {
-                    BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type]+= num;
+                    BackendGameData_JGD.userData.quest_Info.challenge_dic[data.clear_Type] += num;
                 }
 
-                data.Data_update();
+                BackendGameData_JGD.Instance.GameDataUpdate();
                 return;
             }
         }
@@ -169,7 +167,7 @@ public class QuestManager : MonoBehaviour
 
     public void Accept_mission(int index)
     {
-        Mission_userdata mission =BackendGameData_JGD.userData.quest_Info.mission_userdata[index];
+        Mission_userdata mission = BackendGameData_JGD.userData.quest_Info.mission_userdata[index];
         mission.is_accept = true;
         cur_missiontypes.Add(mission.criterion_type);
         Debug.Log("수락완료");

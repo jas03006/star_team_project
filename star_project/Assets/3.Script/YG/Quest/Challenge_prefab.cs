@@ -19,6 +19,8 @@ public class Challenge_prefab : MonoBehaviour
     [SerializeField] Sprite can_reward;
     [SerializeField] Sprite complete;
 
+    Quest_Icon icon;
+
     public void Update_UI()
     {
         name_text.text = challenge.title;
@@ -74,6 +76,12 @@ public class Challenge_prefab : MonoBehaviour
         challenge.Get_reward();
         Update_UI_state();
         QuestManager.instance.Challenge_update();
+
+        if (icon == null)
+        {
+            icon = FindObjectOfType<Quest_Icon>();
+        }
+        icon.Remove(null,challenge.userdata);
     }
 
     public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
@@ -88,5 +96,6 @@ public class Challenge_prefab : MonoBehaviour
         {
             Update_UI_state();//state UI 업데이트
         }
+        
     }
 }
