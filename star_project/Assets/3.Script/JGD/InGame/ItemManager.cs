@@ -8,7 +8,6 @@ public class ItemManager : MonoBehaviour
     private Item data;
     [SerializeField] private Player_Controll_JGD Player;
     [SerializeField] private GameObject Player_obj;
-
     [SerializeField] GameObject Magnet;
     [SerializeField] GameObject speedUp_Effect;
     [SerializeField] GameObject speedUp_Boost;
@@ -23,7 +22,6 @@ public class ItemManager : MonoBehaviour
 
     private void Start()
     {
-
     }
 
     public void UsingHeart(int ID)
@@ -56,6 +54,7 @@ public class ItemManager : MonoBehaviour
     public void UsingShield()
     {
         Player.Shild = true;
+        AudioManager.instance.SFX_Using_Shield();
         Player.shield.SetActive(true);
     }
     public void UsingSpeedUP(int ID)
@@ -91,6 +90,7 @@ public class ItemManager : MonoBehaviour
     {
         speedUp_Effect.SetActive(true);
         speedUp_Boost.SetActive(true);
+        AudioManager.instance.SFX_Using_SpeedUp();
         yield return new WaitForSeconds(1f);
         speedUp_Effect.SetActive(false);
         yield return new WaitForSeconds(2f);
@@ -122,11 +122,13 @@ public class ItemManager : MonoBehaviour
         {
             case 33:
                 size_up.SetActive(true);
+                AudioManager.instance.SFX_Using_SizeUp();
                 yield return new WaitForSeconds(1f);
                 size_up.SetActive(false);
                 break;
             case 34:
                 size_Down.SetActive(true);
+                AudioManager.instance.SFX_Using_SizeDown();
                 yield return new WaitForSeconds(1f);
                 size_Down.SetActive(false);
                 break;
@@ -138,7 +140,7 @@ public class ItemManager : MonoBehaviour
     {
         data = BackendChart_JGD.chartData.item_list[(int)item_ID.Megnet];
         Magnet.SetActive(true);
-
+        AudioManager.instance.SFX_Using_Magnet();
         yield return new WaitForSecondsRealtime(data.duration+ Megnetnum);
 
         Magnet.SetActive(false);

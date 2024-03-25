@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] public AudioSource BGM_AudioSource;
     [SerializeField] public AudioSource SFX_AudioSource;
+    [SerializeField] public AudioSource SFX_Item_AudioSource;
 
     [Header("Audioclip")]
     [SerializeField] private AudioClip catchingstar_BGM;
@@ -33,6 +34,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip hit;
     [SerializeField] private AudioClip stage_clear;
     [SerializeField] private AudioClip stage_click;
+    [Header("StageSound_JGD")]
+    [SerializeField] private AudioClip Using_Shield;
+    [SerializeField] private AudioClip Using_Magnet;
+    [SerializeField] private AudioClip Using_SizeUp;
+    [SerializeField] private AudioClip Using_SizeDown;
+    [SerializeField] private AudioClip Using_SpeedUp;
     [Header("StageSound_JGD")]
     [SerializeField] public List<AudioClip> Theme01 = new List<AudioClip>();
     [SerializeField] public List<AudioClip> Theme02 = new List<AudioClip>();
@@ -192,7 +199,46 @@ public class AudioManager : MonoBehaviour
             SFX_AudioSource.Play();
         }
     }
-
+    public void SFX_Using_Shield()
+    {
+        if (isPlaying(false))
+        {
+            SFX_Item_AudioSource.clip = Using_Shield;
+            SFX_Item_AudioSource.Play();
+        }
+    }
+    public void SFX_Using_Magnet()
+    {
+        if (isPlaying(false))
+        {
+            SFX_Item_AudioSource.clip = Using_Magnet;
+            SFX_Item_AudioSource.Play();
+        }
+    }
+    public void SFX_Using_SizeUp()
+    {
+        if (isPlaying(false))
+        {
+            SFX_Item_AudioSource.clip = Using_SizeUp;
+            SFX_Item_AudioSource.Play();
+        }
+    }
+    public void SFX_Using_SizeDown()
+    {
+        if (isPlaying(false))
+        {
+            SFX_Item_AudioSource.clip = Using_SizeDown;
+            SFX_Item_AudioSource.Play();
+        }
+    }
+    public void SFX_Using_SpeedUp()
+    {
+        if (isPlaying(false))
+        {
+            SFX_Item_AudioSource.clip = Using_SpeedUp;
+            SFX_Item_AudioSource.Play();
+        }
+    }
 
     #endregion
     #region ETC
