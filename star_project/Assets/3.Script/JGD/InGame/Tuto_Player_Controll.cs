@@ -235,6 +235,7 @@ public class Tuto_Player_Controll : MonoBehaviour
         }
         if (Tuto.Itembtn.interactable && Tuto.progress == 14)
         {
+            AudioManager.instance.SFX_Using_Magnet();
             Tuto.progress++;
             Tuto.GameStart();
         }
