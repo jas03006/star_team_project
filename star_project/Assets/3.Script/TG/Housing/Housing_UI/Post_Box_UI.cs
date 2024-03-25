@@ -47,6 +47,7 @@ public class Post_Box_UI : MonoBehaviour
          {
              Destroy(post_list_container.GetChild(i).gameObject);
          }
+        clear_post_UI();
      }
 
     public void update_highlight(GameObject go) {
@@ -79,7 +80,14 @@ public class Post_Box_UI : MonoBehaviour
          pe.init(post, delegate () { show_post(pe); }, post_type);        
 
      }
-
+    public void clear_post_UI() {
+        title.text = string.Empty;
+        date.text = string.Empty;
+        content.text = string.Empty;
+        item_info.text = string.Empty;
+        get_reward_btn.interactable = false;
+        check_image.SetActive(false);
+    }
     public void show_post(Post_Element post_e) {
         title.text = post_e.post.title;
         date.text = post_e.date_str;
