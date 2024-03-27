@@ -64,7 +64,7 @@ public class Tuto_Player_Controll : MonoBehaviour
         Magnet.transform.position = this.transform.position;  //Magnet
         if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 191.3f)
         {
-            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
+            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -1);
         }
         Player_Progress.value = this.transform.position.x;
     }
