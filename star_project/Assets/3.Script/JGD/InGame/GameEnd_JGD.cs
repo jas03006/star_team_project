@@ -223,18 +223,19 @@ public class GameEnd_JGD : MonoBehaviour
     }
     public void NextClearScene()
     {
-        if ((int)data.RewardType == 0)    //차트에 감정인지 아이템인지 체크 like 0과 1로 1은 감정 0은 사물
-        {
-            Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
-
-        }
-        else if (data.RewardType == 1)
-        {
-            Reward_Image2.sprite = SpriteManager.instance.Num2emozi(data.Emoticon);
-
-        }
+        //if ((int)data.RewardType == 0)    //차트에 감정인지 아이템인지 체크 like 0과 1로 1은 감정 0은 사물
+        //{
+        //    Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
+        //
+        //}
+        //else if (data.RewardType == 1)
+        //{
+        //    Reward_Image2.sprite = SpriteManager.instance.Num2emozi(data.Emoticon);
+        //
+        //}
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(true);
+        Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID); //테스트 끝나면 삭제ㅐ
         string nono = string.Join("", ClearData);
         E_word.text = nono;
         K_word.text = data.Kword;
