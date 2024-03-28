@@ -76,7 +76,7 @@ public class Player_Controll_JGD : MonoBehaviour
         //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
 
     }
-    private void Update()
+    private void FixedUpdate()
     {
         Itemmanager.transform.position = this.transform.position;
         if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
@@ -84,9 +84,6 @@ public class Player_Controll_JGD : MonoBehaviour
             cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -3);
         }
         Player_Progress.value = this.transform.position.x;
-    }
-    private void FixedUpdate()
-    {
         if (isMove)
         {
             this.transform.Translate(Vector2.right * Speed * Time.deltaTime);

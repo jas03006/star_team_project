@@ -223,23 +223,31 @@ public class GameEnd_JGD : MonoBehaviour
     }
     public void NextClearScene()
     {
-        if (getting_house_ob)
+        if ((int)data.RewardType == 0)    //차트에 감정인지 아이템인지 체크 like 0과 1로 1은 감정 0은 사물
         {
-            //추후 이미지가 온다면 추가하기
-            Reward_Image.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
-            Reward.SetActive(true);
-            RewardTxt.text = databaseSO.get_object(data.HousingItmeID).name;
+            Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
+
+        }
+        else if (data.RewardType == 1)
+        {
+            Reward_Image2.sprite = SpriteManager.instance.Num2emozi(data.Emoticon);
+
         }
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(true);
-        Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
         string nono = string.Join("", ClearData);
         E_word.text = nono;
         K_word.text = data.Kword;
         Sentence.text = data.Sentence;
+        if (getting_house_ob)
+        {
+            Reward_Image.sprite = Reward_Image2.sprite;
+            Reward.SetActive(true);
+            RewardTxt.text = nono;
+        }
 
 
-    }
+}
 
     public void Data_update()
     {
