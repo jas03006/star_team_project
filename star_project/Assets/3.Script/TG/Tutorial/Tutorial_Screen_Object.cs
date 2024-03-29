@@ -12,6 +12,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
     public bool is_finger_move = false;
     public bool is_giving_objects = false;
     private float delay_time = 0.7f;
+    public float timeout_time = 0.7f;
     public housing_itemID target = housing_itemID.none;
     public GameObject target_go = null;
 
@@ -96,7 +97,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 target_button?.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.timeout:
-                yield return new WaitForSeconds(delay_time);
+                yield return new WaitForSeconds(timeout_time);
                 Tutorial_TG.instance.force_step();
                 break;
             case tutorial_type_TG.housing:

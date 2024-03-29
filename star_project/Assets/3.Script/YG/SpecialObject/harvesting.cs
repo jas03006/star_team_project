@@ -69,6 +69,9 @@ public class Harvesting : Net_Housing_Object//, IObject
     }
 
     public void click_text_bubble() {
+        if (TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode) {
+            return;
+        }
        interact(TCP_Client_Manager.instance.my_player.object_id, 0, 0);
     }
     public void init(DateTime starttime_, int selection_)
@@ -110,6 +113,10 @@ public class Harvesting : Net_Housing_Object//, IObject
         state = harvest_state.ready;
     }
     public void process_state(TimeSpan remain_time) {
+        if (TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode) {
+            hide_all_UI();
+            return;
+        }
         switch (state)
         {
             case harvest_state.None:
