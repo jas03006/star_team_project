@@ -50,7 +50,7 @@ public class Player_Controll_JGD : MonoBehaviour
     Coroutine damageeffect = null;
 
 
-
+    SettingUI_TG settingUI;
     [SerializeField] GameEnd_JGD endgame;
 
 
@@ -58,7 +58,7 @@ public class Player_Controll_JGD : MonoBehaviour
     {
         rigi = GetComponent<Rigidbody2D>();
         character = GetComponent<SpriteRenderer>();
-        
+        settingUI = GetComponent<SettingUI_TG>();
     }
     private void Start()
     {
@@ -146,6 +146,10 @@ public class Player_Controll_JGD : MonoBehaviour
             isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
+            if (true)///////////////////////////////////////
+            {
+                Handheld.Vibrate();
+            }
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;
