@@ -21,11 +21,15 @@ public class Shop_Popup : MonoBehaviour
         get { return select_num_; }
         set
         {
-            if (select_num_ < 1)
+            // 입력된 값이 1보다 작은 경우에만 값을 1로 설정
+            if (value < 1)
             {
                 select_num_ = 1;
             }
-            select_num_ = value;
+            else
+            {
+                select_num_ = value;
+            }
             UpdateUI_num();
         }
     }
