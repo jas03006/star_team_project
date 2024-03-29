@@ -10,7 +10,6 @@ public class SettingUI_TG : MonoBehaviour
     [SerializeField] private Toggle bgm_toggle;
     [SerializeField] private Toggle sfx_toggle;
     [SerializeField] private Toggle haptic_toggle;
-    public bool haptic = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,15 +35,7 @@ public class SettingUI_TG : MonoBehaviour
         {
             sfx_toggle.isOn = false;
         }
-        if (AudioManager.instance.playing_vibration)
-        {
-            haptic_toggle.isOn = true;
-
-        }
-        else
-        {
-            haptic_toggle.isOn = false;
-        }
+        haptic_toggle.isOn = false;
     }
 
     public void Click_btn(int index)

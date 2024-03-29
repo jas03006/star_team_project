@@ -53,12 +53,11 @@ public class Player_Controll_JGD : MonoBehaviour
     SettingUI_TG settingUI;
     [SerializeField] GameEnd_JGD endgame;
 
-
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
         character = GetComponent<SpriteRenderer>();
-        settingUI = GetComponent<SettingUI_TG>();
+        settingUI = GetComponent<SettingUI_TG>();//////////////
     }
     private void Start()
     {
@@ -74,7 +73,6 @@ public class Player_Controll_JGD : MonoBehaviour
         Hpslider.value = float.MaxValue;
         //¼ºÀ¯°æ
         //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
-
 
     }
     private void FixedUpdate()
@@ -146,10 +144,10 @@ public class Player_Controll_JGD : MonoBehaviour
             isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
-            if (true)///////////////////////////////////////
-            {
-                Handheld.Vibrate();
-            }
+            //if (vibe)
+            //{
+            //    Handheld.Vibrate();
+            //}
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;
