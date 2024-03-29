@@ -214,6 +214,7 @@ public class PlacementSystem : MonoBehaviour
 
     public bool cancel_placement() {
         TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
+        TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
         if (buildingState == null)
             return false;
         buildingState.EndState();

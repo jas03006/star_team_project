@@ -77,7 +77,6 @@ public class Star_nest_UI : MonoBehaviour
             "title_noun",
             "planet_name",
             "info",
-            "memo_info",
             "Achievements_List"};
     private bool is_editing = false;
 
