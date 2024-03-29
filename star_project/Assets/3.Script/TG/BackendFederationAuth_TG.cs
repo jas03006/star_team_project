@@ -65,7 +65,7 @@ public class BackendFederationAuth_TG : MonoBehaviour
                     name_ = name_.Split(",")[0].Split(":")[1].Replace("\"", "");
                     name_ = convert_from_unicode(name_).Replace(" ", "_");
                     //name_ = Encoding.GetEncoding("EUC-KR").GetString(Encoding.GetEncoding("ISO-8859-1").GetBytes(name_)).Replace(" ", "_");
-                    BackendGameData_JGD.Instance.GameDataInsert(name_) ;
+                    BackendGameData_JGD.Instance.GameDataInsert(name_);
                 }
 
                 Debug.Log("페이스북 로그인 성공");
