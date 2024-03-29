@@ -75,6 +75,7 @@ public class Player_Controll_JGD : MonoBehaviour
         //¼ºÀ¯°æ
         //cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
 
+
     }
     private void FixedUpdate()
     {
@@ -128,6 +129,7 @@ public class Player_Controll_JGD : MonoBehaviour
         //Purple,
         //Green
     }
+
 
     Coroutine now_damage_co = null;
     private IEnumerator OnDamage(int num, Collider2D collision)
