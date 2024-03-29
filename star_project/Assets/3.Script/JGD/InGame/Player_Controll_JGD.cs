@@ -81,7 +81,7 @@ public class Player_Controll_JGD : MonoBehaviour
         Itemmanager.transform.position = this.transform.position;
         if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
         {
-            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -1);
+            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, cameraCon.transform.position.z);
         }
         Player_Progress.value = this.transform.position.x;
         if (isMove)
