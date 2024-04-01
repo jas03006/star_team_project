@@ -53,6 +53,8 @@ public class Player_Controll_JGD : MonoBehaviour
     SettingUI_TG settingUI;
     [SerializeField] GameEnd_JGD endgame;
 
+
+
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -144,10 +146,11 @@ public class Player_Controll_JGD : MonoBehaviour
             isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
-            //if (vibe)
-            //{
-            //    Handheld.Vibrate();
-            //}
+            if (AudioManager.instance.playing_vibration)
+            {
+                Handheld.Vibrate();
+                Debug.Log("Áøµ¿¿Ô½´");
+            }
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;

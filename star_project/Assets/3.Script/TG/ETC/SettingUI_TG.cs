@@ -57,7 +57,7 @@ public class SettingUI_TG : MonoBehaviour
                 break;
             case 2:
                 Debug.Log("진동 기능 준비중");
-                haptic_toggle.isOn = AudioManager.instance.Switchmode_vibration();
+                AudioManager.instance.Switchmode_vibration();
                 break;
         }
     }

@@ -24,6 +24,9 @@ public class Ingame_setting : MonoBehaviour
 
         sprite = AudioManager.instance.playing_sfx ? on_sprite : off_sprite;
         btn_img[1].sprite = sprite;
+
+        sprite = AudioManager.instance.playing_vibration ? on_sprite : off_sprite;
+        btn_img[2].sprite = sprite;
     }
 
     public void Click_btn(int index)
@@ -38,6 +41,7 @@ public class Ingame_setting : MonoBehaviour
                 break;
             case 2:
                 Debug.Log("진동 기능 준비중");
+                AudioManager.instance.Switchmode_vibration();
                 break;
         }
     }
