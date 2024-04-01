@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +10,7 @@ public class GameStage : MonoBehaviour
     [SerializeField]private GameEnd_JGD Player;
     [SerializeField] private SceneNames nextScene;
     [SerializeField] GameObject Pause;
+    [SerializeField] TMP_Text Timmer;
     private void Awake()
     {
         for (int i = 0; i < levels.Length; i++)
@@ -18,7 +21,21 @@ public class GameStage : MonoBehaviour
     private void Start()
     {
         levels[LevelSelectMenuManager_JGD.GalaxyLevel].SetActive(true);
-
+        StartCoroutine(StageStart_controller());
+    }
+    private IEnumerator StageStart_controller()
+    {
+        Time.timeScale = 0;
+        float Timer = 0;
+        float MaxTimer = 3f;
+        while (Timer <= MaxTimer)
+        {
+            Timer += Time.unscaledDeltaTime;
+            Timmer.text = (MaxTimer - Timer).ToString("F1");
+            yield return null;
+        }
+        Timmer.text = "";
+        Time.timeScale = 1;
     }
     public void ComeBakeHome()
     {

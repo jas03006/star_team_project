@@ -29,7 +29,6 @@ public class Tuto_Player_Controll : MonoBehaviour
     [SerializeField] private Image PlayerItem2;
     [SerializeField] Sprite PlayerItemInven;
     [SerializeField] public List<string> Alphabet = new List<string>();
-    SpriteRenderer character;
     [Header("PlayerUI")]
     [SerializeField] private Slider Hpslider;
     [SerializeField] private Slider Player_Progress;
@@ -39,7 +38,6 @@ public class Tuto_Player_Controll : MonoBehaviour
     [SerializeField] private Sprite Alphabet_BackGround;
     [Header("PlayerHitByCar")]
     Coroutine now_damage_co = null;
-    private int Player_Alphabet_Count = 0;
     [Header("Tuto")]
     [SerializeField] TutorialSystem_JGD Tuto;
     [SerializeField] GameObject Magnet;
@@ -59,17 +57,14 @@ public class Tuto_Player_Controll : MonoBehaviour
         Hpslider.value = float.MaxValue;
         PlayerItem.sprite = PlayerItemInven;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         Magnet.transform.position = this.transform.position;  //Magnet
         if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 191.3f)
         {
-            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -1);
+            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, cameraCon.transform.position.z);
         }
         Player_Progress.value = this.transform.position.x;
-    }
-    private void FixedUpdate()
-    {
         if (isMove)
         {
             this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
@@ -83,11 +78,6 @@ public class Tuto_Player_Controll : MonoBehaviour
     {
         if (!invincibility)
         {
-            if (damageeffect != null)
-            {
-                StopCoroutine(damageeffect);
-                DamageEffect.SetActive(false);
-            }
             damageeffect = StartCoroutine(OnDamageEffect_co());
             isMove = false;
             currentHp -= num;

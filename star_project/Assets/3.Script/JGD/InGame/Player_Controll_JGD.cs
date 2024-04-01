@@ -50,15 +50,14 @@ public class Player_Controll_JGD : MonoBehaviour
     Coroutine damageeffect = null;
 
 
-
+    SettingUI_TG settingUI;
     [SerializeField] GameEnd_JGD endgame;
-
 
     private void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
         character = GetComponent<SpriteRenderer>();
-        
+        settingUI = GetComponent<SettingUI_TG>();//////////////
     }
     private void Start()
     {
@@ -81,7 +80,7 @@ public class Player_Controll_JGD : MonoBehaviour
         Itemmanager.transform.position = this.transform.position;
         if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
         {
-            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, -1);
+            cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, cameraCon.transform.position.z);
         }
         Player_Progress.value = this.transform.position.x;
         if (isMove)
@@ -129,6 +128,7 @@ public class Player_Controll_JGD : MonoBehaviour
         //Green
     }
 
+
     Coroutine now_damage_co = null;
     private IEnumerator OnDamage(int num, Collider2D collision)
     {
@@ -144,6 +144,10 @@ public class Player_Controll_JGD : MonoBehaviour
             isHitOn = false;
             currentHp -= num;
             Hpslider.value -= num;
+            //if (vibe)
+            //{
+            //    Handheld.Vibrate();
+            //}
             if (currentHp <= 0)
             {
                 Time.timeScale = 0;

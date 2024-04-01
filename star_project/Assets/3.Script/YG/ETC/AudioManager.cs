@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;  
     public bool playing_bgm = true;
     public bool playing_sfx = true;
+    public bool playing_vibration = true;
 
     [SerializeField] public AudioSource BGM_AudioSource;
     [SerializeField] public AudioSource SFX_AudioSource;
@@ -60,6 +61,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
     #region BGM
     public void BGM_play()
@@ -253,6 +255,12 @@ public class AudioManager : MonoBehaviour
         playing_sfx = !playing_sfx;
         return playing_sfx;
     }
+    public bool Switchmode_vibration()
+    {
+        playing_vibration = !playing_vibration;
+        return playing_vibration;
+    }
+
     public bool isPlaying(bool isBGM)
     {
         if (isBGM)
