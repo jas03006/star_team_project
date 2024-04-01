@@ -21,7 +21,7 @@ public class TutorialSystem_JGD : MonoBehaviour
     public int progress = 0;
 
     //다음으로 넘어가는 시간
-    private float NextMentTimmer = 3f;
+    private float NextMentTimmer = 0.7f;
     //================================
 
     [SerializeField] Tuto_Player_Controll Player;
