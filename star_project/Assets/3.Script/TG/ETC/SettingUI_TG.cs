@@ -35,7 +35,14 @@ public class SettingUI_TG : MonoBehaviour
         {
             sfx_toggle.isOn = false;
         }
-        haptic_toggle.isOn = false;
+        if (AudioManager.instance.playing_vibration)
+        {
+            haptic_toggle.isOn = true;
+        }
+        else
+        {
+            haptic_toggle.isOn = false;
+        }
     }
 
     public void Click_btn(int index)
@@ -50,7 +57,7 @@ public class SettingUI_TG : MonoBehaviour
                 break;
             case 2:
                 Debug.Log("진동 기능 준비중");
-
+                haptic_toggle.isOn = AudioManager.instance.Switchmode_vibration();
                 break;
         }
     }

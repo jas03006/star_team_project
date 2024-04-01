@@ -61,12 +61,6 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    //private void Start()
-    //{
-    //    playing_bgm = true;
-    //    playing_sfx = true;
-    //    playing_vibration = true;
-    //}
 
 
     #region BGM
@@ -260,6 +254,11 @@ public class AudioManager : MonoBehaviour
     {
         playing_sfx = !playing_sfx;
         return playing_sfx;
+    }
+    public bool Switchmode_vibration()
+    {
+        playing_vibration = !playing_vibration;
+        return playing_vibration;
     }
 
     public bool isPlaying(bool isBGM)
