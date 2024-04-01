@@ -55,6 +55,7 @@ public class Sign_Up_JGD : LoginBase_JGD
         string reason = "읭";
         if (inputFieldPW.text != inputFieldPW_check.text)
         {
+            Debug.Log("비밀번호가 일치하지 않습니다.");
             reason = "비밀번호가 일치하지 않습니다.";
             show_result(false, reason) ;
             return;
