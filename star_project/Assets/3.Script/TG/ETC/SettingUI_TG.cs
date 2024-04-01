@@ -66,12 +66,14 @@ public class SettingUI_TG : MonoBehaviour
     {
         if (isBGM)
         {
-            bgm_toggle.isOn =  AudioManager.instance.Switchmode_bgm();
+            //bgm_toggle.isOn =
+            AudioManager.instance.Switchmode_bgm();
             AudioManager.instance.BGM_play();
         }
         else
         {
-            sfx_toggle.isOn = AudioManager.instance.Switchmode_sfx();
+            //sfx_toggle.isOn =
+            AudioManager.instance.Switchmode_sfx();
         }
 
     }
