@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;  
     public bool playing_bgm = true;
     public bool playing_sfx = true;
-    public bool playing_vibration = true;
+    public bool playing_vibration = false;
 
     [SerializeField] public AudioSource BGM_AudioSource;
     [SerializeField] public AudioSource SFX_AudioSource;
