@@ -236,7 +236,8 @@ public class FriendList_JGD : MonoBehaviour
 
         if (search_engine != null)
         {
-            search_engine.sort();
+            StartCoroutine(search_engine.sort_co());
+            
         }
 
 
