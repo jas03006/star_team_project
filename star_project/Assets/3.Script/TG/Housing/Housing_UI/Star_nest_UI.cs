@@ -22,7 +22,7 @@ public enum noun {
     none=-1,
     Beginner = 0,
     Doll = 1,
-    Ballon = 2,
+    Balloon = 2,
     Block = 3,
     Camera = 4,
     Airplane = 5,
