@@ -35,11 +35,11 @@ public class StageClear : MonoBehaviour
         Kword = gameData["Kword"]?.ToString();
         Sentence = gameData["Sentence"]?.ToString();
         HousingItmeID = (housing_itemID) int.Parse(gameData["HousingItmeID"]?.ToString());
-        if (Theme < 5)
+        if (RewardType == 0)
         {
             NounTitle = int.Parse(gameData["NounTitle"]?.ToString());
         }
-        else if (Theme >= 5)
+        else if (RewardType == 1)
         {
             AdjectiveTitle = int.Parse(gameData["AdjectiveTitle"]?.ToString());
             Emoticon = int.Parse(gameData["Emoticon"]?.ToString());

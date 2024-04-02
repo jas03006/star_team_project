@@ -81,14 +81,14 @@ public class Galaxy_UI : MonoBehaviour
             Star_UI_list[i].pre_clear = pre;
             Star_UI_list[i].data = star_info[i];
 
-            if (galaxy_index != 4)
+            if (BackendChart_JGD.chartData.StageClear_list[galaxy_index * 5 + i].RewardType == 0)
             {
                 Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2Sprite(BackendChart_JGD.chartData.StageClear_list[galaxy_index*5 + i].HousingItmeID);
             }
 
             else
             {
-                Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2emozi(BackendChart_JGD.chartData.StageClear_list[i].Emoticon);
+                Star_UI_list[i].get_housing.sprite = SpriteManager.instance.Num2emozi(BackendChart_JGD.chartData.StageClear_list[galaxy_index * 5 + i].Emoticon);
             }
 
             pre = Star_UI_list[i].data.is_clear;
