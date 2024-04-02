@@ -33,11 +33,11 @@ public class GameStage : MonoBehaviour
     {
         Time.timeScale = 0;
         float Timer = 0;
-        float MaxTimer = 3f;
+        float MaxTimer = 4f;
         while (Timer <= MaxTimer)
         {
             Timer += Time.unscaledDeltaTime;
-            Timmer.text = (MaxTimer - Timer).ToString("F1");
+            Timmer.text = ((MaxTimer - Timer)+1).ToString("F0");
             yield return null;
         }
         Timmer.text = "";
