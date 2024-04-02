@@ -23,6 +23,10 @@ public class SearchEngine_TG : MonoBehaviour
             uimanager = FindFirstObjectByType<UIManager_JGD>();
         }
     }
+    public IEnumerator sort_co() { 
+        yield return null;
+        sort();
+    }
     public void sort()
     {
         input_text = input.text;
@@ -35,8 +39,9 @@ public class SearchEngine_TG : MonoBehaviour
         for (int i = 0; i < conatainer.childCount; i++)
         {
             m_Children[i] = conatainer.GetChild(i);
+            
         }
-
+        
         if (is_random)
         {
             m_Children = m_Children.OrderByDescending(go => get_random_score(go)).ToArray();
@@ -44,22 +49,20 @@ public class SearchEngine_TG : MonoBehaviour
         else {
             m_Children = m_Children.OrderByDescending(go => get_score(go)).ToArray();
         }
-        
 
+        Debug.Log(m_Children.Length);
         for (int i = 0; i < m_Children.Length; i++)
         {
-            if (is_random )
-            {
-                if (i >= 10)
-                {
-                    m_Children[i].gameObject.SetActive(false);
-                }
-                else {
-                    m_Children[i].gameObject.SetActive(true);
-                }
-            }
             m_Children[i].SetSiblingIndex(i);
         }
+
+        if (is_random) {
+            for (int i = 0; i < m_Children.Length; i++)
+            {
+                m_Children[i].gameObject.SetActive(i < 10);
+            }
+        }
+
     }
 
     public int get_random_score(Transform go) {
@@ -67,6 +70,7 @@ public class SearchEngine_TG : MonoBehaviour
         if (target == null)
         {
             go.gameObject.SetActive(false);
+            Debug.Log("no target element");
             return 0;
         }
         return Random.Range(0,101);

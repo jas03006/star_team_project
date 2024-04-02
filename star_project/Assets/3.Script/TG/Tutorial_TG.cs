@@ -131,13 +131,14 @@ public class Tutorial_TG : MonoBehaviour
         }            
     }
     public IEnumerator active_co(int index_, bool is_on) {
-        yield return null;
-        yield return null;
-        yield return null;
+       // if (!is_on) {
+            yield return null;
+       // }
         tutorial_sequence[index_].gameObject.SetActive(is_on);
         if (is_on) {
             tutorial_sequence[index_].start_process();
-            yield return null; 
+            yield return null;
+            yield return new WaitForSeconds(0.1f);
             yield return null;
             yield return null;
             panel.SetActive(false);
