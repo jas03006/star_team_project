@@ -118,7 +118,27 @@ public class PlacementSystem : MonoBehaviour
         lastDetectedPostition = Vector3Int.zero;
         buildingState = null;
     }
-   
+    public void return_all()
+    {
+        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer, is_init: false);
+        List<Vector3Int> position_list = new List<Vector3Int>();
+        foreach (Vector3Int position_ in furnitureData.placedObjects.Keys)
+        {
+            position_list.Add(position_);
+        }
+        for (int i = 0; i < position_list.Count; i++)
+        {
+            if (furnitureData.placedObjects.ContainsKey(position_list[i])
+                && furnitureData.placedObjects[position_list[i]].ID != housing_itemID.star_nest
+                && furnitureData.placedObjects[position_list[i]].ID != housing_itemID.post_box) {
+                buildingState.OnAction(position_list[i]);
+            }
+        }
+        buildingState.EndState();
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
+    }
+
     //button click
     public void save_edit(bool is_mine = true) {
         
