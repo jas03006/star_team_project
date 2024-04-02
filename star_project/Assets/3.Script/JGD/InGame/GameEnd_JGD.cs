@@ -254,6 +254,9 @@ public class GameEnd_JGD : MonoBehaviour
         Param param = new Param();
         param.Add("catchingstar_info", BackendGameData_JGD.userData.catchingstar_info);
         param.Add("house_inventory", BackendGameData_JGD.userData.house_inventory);
+        param.Add("Noun_ID_List", BackendGameData_JGD.userData.Noun_ID_List);
+        param.Add("Adjective_ID_List", BackendGameData_JGD.userData.Adjective_ID_List);
+        param.Add("emozi_List", BackendGameData_JGD.userData.emozi_List);
         param.Add("mission_Userdatas", BackendGameData_JGD.userData.mission_Userdatas);
         param.Add("challenge_Userdatas", BackendGameData_JGD.userData.challenge_Userdatas);
 
