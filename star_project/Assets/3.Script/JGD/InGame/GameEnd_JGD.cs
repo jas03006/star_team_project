@@ -62,9 +62,8 @@ public class GameEnd_JGD : MonoBehaviour
         Stage = data.Stage;/////
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(false);
-        //Time.timeScale = 1.0f;
-        //
-        switch (data.Theme) //나중에 Theme로 바꾸기
+
+        switch (data.Theme)//테마체크
         {
             case 1:
                 StageEnd = AudioManager.instance.Theme01;
@@ -138,12 +137,12 @@ public class GameEnd_JGD : MonoBehaviour
                     getting_house_ob = true;
                     //추후 바뀌면 수정
                     //BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
-                    if (data.Theme < 5)
+                    if (data.RewardType == 0)
                     {
                         BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
                         BackendGameData_JGD.userData.Noun_ID_List.Add((noun)data.NounTitle);
                     }
-                    else
+                    else if(data.RewardType == 1)
                     {
                         BackendGameData_JGD.userData.Adjective_ID_List.Add((adjective)data.AdjectiveTitle);
                         BackendGameData_JGD.userData.emozi_List.Add(data.Emoticon);
@@ -223,19 +222,18 @@ public class GameEnd_JGD : MonoBehaviour
     }
     public void NextClearScene()
     {
-        //if ((int)data.RewardType == 0)    //차트에 감정인지 아이템인지 체크 like 0과 1로 1은 감정 0은 사물
-        //{
-        //    Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
-        //
-        //}
-        //else if (data.RewardType == 1)
-        //{
-        //    Reward_Image2.sprite = SpriteManager.instance.Num2emozi(data.Emoticon);
-        //
-        //}
+        if (data.RewardType == 0)    //차트에 감정인지 아이템인지 체크 like 0과 1로 1은 감정 0은 사물
+        {
+            Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
+        
+        }
+        else if (data.RewardType == 1)
+        {
+            Reward_Image2.sprite = SpriteManager.instance.Num2emozi(data.Emoticon);
+        
+        }
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(true);
-        Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID); //테스트 끝나면 삭제ㅐ
         string nono = string.Join("", ClearData);
         E_word.text = nono;
         K_word.text = data.Kword;
