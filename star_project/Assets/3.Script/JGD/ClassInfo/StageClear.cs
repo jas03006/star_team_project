@@ -30,7 +30,7 @@ public class StageClear : MonoBehaviour
         Star_2 = int.Parse(gameData["Star_2"]?.ToString());
         Star_3 = int.Parse(gameData["Star_3"]?.ToString());
         Allstar = int.Parse(gameData["Allstar"]?.ToString());
-        //RewardType = int.Parse(gameData["RewardType"]?.ToString());
+        RewardType = int.Parse(gameData["RewardType"]?.ToString());
         StageWord = gameData["StageWord"]?.ToString();
         Kword = gameData["Kword"]?.ToString();
         Sentence = gameData["Sentence"]?.ToString();
