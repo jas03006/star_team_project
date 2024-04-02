@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.6739622, g: 0.46582264, b: 0.81740475, a: 1}
+  m_IndirectSpecularColor: {r: 0.6739509, g: 0.4657923, b: 0.817404, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -981,9 +981,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 625515285}
-        m_TargetAssemblyTypeName: FriendList_JGD, Assembly-CSharp
-        m_MethodName: show_recommend_friends
+      - m_Target: {fileID: 494108255}
+        m_TargetAssemblyTypeName: SearchEngine_TG, Assembly-CSharp
+        m_MethodName: sort
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -46258,6 +46258,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 625515285}
+        m_TargetAssemblyTypeName: FriendList_JGD, Assembly-CSharp
+        m_MethodName: show_recommend_friends
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 504061597}
         m_TargetAssemblyTypeName: Test_YG, Assembly-CSharp
         m_MethodName: Click
@@ -62973,18 +62985,6 @@ MonoBehaviour:
       - m_Target: {fileID: 625515284}
         m_TargetAssemblyTypeName: UIManager_JGD, Assembly-CSharp
         m_MethodName: RecommendminiscreenOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 625515285}
-        m_TargetAssemblyTypeName: FriendList_JGD, Assembly-CSharp
-        m_MethodName: show_recommend_friends
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -11,11 +11,19 @@ public class SearchEngine_TG : MonoBehaviour
 
     private string input_text = string.Empty;
     [SerializeField] UIManager_JGD uimanager;
-    
+    Transform[] m_Children;
     private void OnEnable()
     {
         input.text = string.Empty;
-       // sort();
+
+        if (m_Children !=null) {
+            for (int i = 0; i < m_Children.Length; i++)
+            {
+                m_Children[i].gameObject.SetActive(i < 10);
+            }
+        }
+        
+        // sort();
     }
     private void Awake()
     {
@@ -35,7 +43,7 @@ public class SearchEngine_TG : MonoBehaviour
             is_random = true;
         }
 
-        Transform[] m_Children = new Transform[conatainer.childCount];
+        m_Children = new Transform[conatainer.childCount];
         for (int i = 0; i < conatainer.childCount; i++)
         {
             m_Children[i] = conatainer.GetChild(i);
