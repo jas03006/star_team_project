@@ -295,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   is_finger_move: 0
+  is_giving_objects: 0
+  timeout_time: 0.7
   target: -1
   target_go: {fileID: 0}
   screen: {fileID: 3596053519352705143}
@@ -338,7 +340,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 474, y: 320}
-  m_SizeDelta: {x: 305, y: 41}
+  m_SizeDelta: {x: 336, y: 43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3325559130486370742
 CanvasRenderer:
@@ -368,7 +370,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3267e75a8218dca45b5f88419bd3c21e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e06b054c5a368c0489ab267ba5be663d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

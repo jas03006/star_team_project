@@ -111,8 +111,6 @@ public class Tutorial_TG : MonoBehaviour
     }
 
     public void show() {
-
-        
         if (now_index > 0) {
             tutorial_sequence[now_index - 1].StopAllCoroutines();
             panel.SetActive(true);
@@ -131,17 +129,14 @@ public class Tutorial_TG : MonoBehaviour
         }            
     }
     public IEnumerator active_co(int index_, bool is_on) {
-       // if (!is_on) {
-            yield return null;
-       // }
+        yield return null;
         tutorial_sequence[index_].gameObject.SetActive(is_on);
         if (is_on) {
             tutorial_sequence[index_].start_process();
             yield return null;
-            yield return new WaitForSeconds(0.1f);
-            yield return null;
-            yield return null;
-            panel.SetActive(false);
+            if (now_index == index_) {
+                panel.SetActive(false);
+            }            
         }
     }
 
