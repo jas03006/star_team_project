@@ -114,7 +114,6 @@ public class Challenge_userdata
     {
         get
         {
-            Debug.Log(clear_Type);
             return BackendGameData_JGD.userData.quest_Info.challenge_dic[clear_Type];
         }
 

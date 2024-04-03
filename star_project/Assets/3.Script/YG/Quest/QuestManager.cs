@@ -54,7 +54,7 @@ public class QuestManager : MonoBehaviour
                 cur_missiontypes.Add(mission.criterion_type);
             }
 
-            Debug_mission(mission);
+            //Debug_mission(mission);
         }
 
         if (is_change)
@@ -155,22 +155,22 @@ public class QuestManager : MonoBehaviour
         Debug.Log("대응하는 Mission_userdata 없음");
         return null;
     }
+    #region 디버그
+    //public void ALL_Accept_btn() //수락버튼 클릭 시 호출
+    //{
+    //    for (int i = 0; i < BackendGameData_JGD.userData.quest_Info.mission_userdata.Count; i++)
+    //    {
+    //        Accept_mission(i);
+    //    }
+    //    Debug.Log("모두 수락완료");
+    //}
 
-    public void ALL_Accept_btn() //수락버튼 클릭 시 호출
-    {
-        for (int i = 0; i < BackendGameData_JGD.userData.quest_Info.mission_userdata.Count; i++)
-        {
-            Accept_mission(i);
-        }
-        Debug.Log("모두 수락완료");
-    }
-
-    public void Accept_mission(int index)
-    {
-        Mission_userdata mission = BackendGameData_JGD.userData.quest_Info.mission_userdata[index];
-        mission.is_accept = true;
-        cur_missiontypes.Add(mission.criterion_type);
-        Debug.Log("수락완료");
-    }
-
+    //public void Accept_mission(int index)
+    //{
+    //    Mission_userdata mission = BackendGameData_JGD.userData.quest_Info.mission_userdata[index];
+    //    mission.is_accept = true;
+    //    cur_missiontypes.Add(mission.criterion_type);
+    //    Debug.Log("수락완료");
+    //}
+    #endregion
 }

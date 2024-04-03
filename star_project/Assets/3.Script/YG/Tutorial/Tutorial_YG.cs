@@ -54,9 +54,9 @@ public class Tutorial_YG : MonoBehaviour
     int count_;
     bool is_blinking = false;
 
-    [SerializeField] int[] click = {6, 13, 18 };
+    [SerializeField] int[] click = { 6, 18 };
     [SerializeField] int[] solo_timings = { 7 }; //터치입력 안받는 오브젝트만 등장 시 카운트 타이밍
-    [SerializeField] int[] together_timings = { 4, 5, 9, 10, 11, 12, 16 }; //둘다 등장 시 카운트 타이밍 //10
+    [SerializeField] int[] together_timings = { 4, 5, 8, 9, 10, 11, 12, 16, 17 }; //둘다 등장 시 카운트 타이밍
 
 
     private void Start()
@@ -95,13 +95,10 @@ public class Tutorial_YG : MonoBehaviour
     private IEnumerator Timecheck_touch_co(bool together) //btn_50
     {
         image_50.sprite = sprites[count];
-
         btn_50.interactable = false;
 
-        //Debug.Log("3초시작");
         yield return new WaitForSeconds(click_time);
 
-        //Debug.Log("3초끝");
         StartCoroutine(Blink_co());
 
         btn_50.interactable = true;
@@ -129,8 +126,6 @@ public class Tutorial_YG : MonoBehaviour
 
     private IEnumerator Blink_co()
     {
-        // Debug.Log("Blink_co");
-
         is_blinking = true;
 
         while (is_blinking)
@@ -145,7 +140,7 @@ public class Tutorial_YG : MonoBehaviour
 
     public void Count_up()
     {
-        Debug.Log("++");
+        //Debug.Log("++");
         if (!is_tutorial)
         { return; }
 
@@ -156,7 +151,7 @@ public class Tutorial_YG : MonoBehaviour
     {
         btn_100.interactable = false;
         btn_50.interactable = false;
-        
+
         Debug.Log(count);
 
         if (!is_tutorial)
@@ -177,29 +172,29 @@ public class Tutorial_YG : MonoBehaviour
 
         if (solo_timings.Contains(count))
         {
+            Debug.Log("solo_timings");
+
             image_100.SetActive(true);
             gameobject_50.SetActive(false);
-            Debug.Log("안터치");
+
             StartCoroutine(Timecheck_nottouch_co(false));
         }
 
         else if (together_timings.Contains(count))
         {
+            Debug.Log("together_timings");
             image_100_btn.SetActive(true);
             gameobject_50.SetActive(true);
 
-            Debug.Log("둘다");
-            //StartCoroutine(Timecheck_nottouch_co(true));
             StartCoroutine(Timecheck_touch_co(true));
         }
 
         else
         {
+            Debug.Log("해당X");
             image_100.SetActive(false);
             gameobject_50.SetActive(true);
-            Debug.Log("터치");
             StartCoroutine(Timecheck_touch_co(false));
-
         }
     }
 
