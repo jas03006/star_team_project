@@ -52,14 +52,20 @@ public class Sign_Up_JGD : LoginBase_JGD
 
     public void testSignUp()
     {
-        string reason = "읭";
-        if (inputFieldPW.text != inputFieldPW_check.text)
-        {
-            Debug.Log("비밀번호가 일치하지 않습니다.");
-            reason = "비밀번호가 일치하지 않습니다.";
-            show_result(false, reason) ;
+        string reason = string.Empty;
+        if (inputFieldPW.text == string.Empty || inputFieldID.text == string.Empty || inputFieldPW_check.text == string.Empty)
+        { 
+            reason = "아이디/비밀번호를 입력해주세요.";
+            show_result(false, reason);
             return;
         }
+        else if (inputFieldPW.text != inputFieldPW_check.text)
+        {
+            reason = "비밀번호/비밀번호확인이 일치하지 않습니다.";
+            show_result(false, reason);
+            return;
+        }
+
         if (TestBackend_Login_JGD.Instance.CustomSignUp(inputFieldID.text, inputFieldPW.text, out reason))
         {
             login.Login_Scene();
@@ -86,9 +92,8 @@ public class Sign_Up_JGD : LoginBase_JGD
         else
         {
             obj.transform.GetChild(0).GetComponent<TMP_Text>().text = "회원가입 실패";
-            reason_text.text = "이미 존재하는 아이디입니다";
+            reason_text.text = reason;
             obj.transform.GetChild(1).gameObject.SetActive(true);
-            //DoneX_text.text = "다시 시도하기";
         }
     }
 
