@@ -31,6 +31,13 @@ public class ObjectsDatabaseSO : ScriptableObject
     }
 }
 
+
+public enum housing_object_category { 
+    none = -1,
+    common = 0,
+    special = 1
+}
+
 [Serializable]
 public class ObjectData
 {
@@ -42,6 +49,9 @@ public class ObjectData
     public Vector2Int size { get; private set; } = Vector2Int.one;
     [field: SerializeField]
     public GameObject prefab { get; private set; }
+
+    [field: SerializeField]
+    public housing_object_category category { get; private set; }
     //[field: SerializeField]
     //public housing_itemID special_object { get; private set; } = housing_itemID.none;
 
