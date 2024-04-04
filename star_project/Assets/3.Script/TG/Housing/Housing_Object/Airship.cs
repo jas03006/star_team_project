@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//비행선 (하우징 오브젝트)
+//[현재는 사용하지 않음]
 public class Airship : Net_Housing_Object
 {
     private FriendList_JGD airship_UI;

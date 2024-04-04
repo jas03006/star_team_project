@@ -9,6 +9,7 @@ using BackEnd;
 using System.ComponentModel;
 using Unity.VisualScripting;
 
+//형용사 칭호 enum
 public enum adjective { 
     none=-1,
     Cute = 0,
@@ -18,6 +19,8 @@ public enum adjective {
     Sad = 4,
     Angry = 5
 }
+
+//명사 칭호 enum
 public enum noun { 
     none=-1,
     Beginner = 0,
@@ -43,18 +46,13 @@ public enum noun {
     Schoolbus = 20
 }
 
-/*public class Profile_Info_TG {
-    public int profile_picture = 0;
-    public string planet_name = string.Empty;
-    public adjective title_adjective = adjective.none;
-    public noun title_noun = noun.none;
-    public string info = string.Empty;
-}*/
-
+//별둥지, 프로필 버튼 클릭 시 표시 되는 UI
+//마이플래닛 방문 상황에 따라 다른 출력
 public class Star_nest_UI : MonoBehaviour
 {
     //private Profile_Info_TG profile_info = new Profile_Info_TG();
-    string[] load_select = { "profile_background",
+
+    string[] load_select = { "profile_background", //프로필 확인 시 뒤끝에서 로드해야하는 column name
             "profile_picture",
             "popularity",
             "title_adjective",
@@ -71,14 +69,14 @@ public class Star_nest_UI : MonoBehaviour
             "Noun_ID_List",
             "Adjective_ID_List",
             "popularity_history"};
-    string[] save_select = { "profile_background",
+    string[] save_select = { "profile_background", //프로필 편집 시 뒤끝에 저장해야하는 column name
             "profile_picture",
             "title_adjective",
             "title_noun",
             "planet_name",
             "info",
             "Achievements_List"};
-    private bool is_editing = false;
+    private bool is_editing = false; //프로필이 편집된 상태인지 체크 (편집 중이라면 저장하고 나갈 것인지 알림)
 
     public GameObject UI_Container;
 
@@ -169,12 +167,12 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text level_up_gold;
     public TMP_Text level_up_ark;
 
-    string[] nest_name_arr = { "LV1 별둥지", "LV2 별둥지", "LV3 별둥지", "LV4 별둥지" };
+    string[] nest_name_arr = { "LV1 별둥지", "LV2 별둥지", "LV3 별둥지", "LV4 별둥지" }; //마이플래닛 확장 레벨 별 표기 형식
     public Sprite[] nest_sprite_arr;
     public Sprite[] LV_sprite_arr;
     public Sprite[] LV_BG_sprite_arr;
-    int[] required_ark_arr = { 2, 3, 5 };
-    int[] required_gold_arr = { 3, 6, 10 };
+    int[] required_ark_arr = { 2, 3, 5 }; //레벨업 시 필요한 아크
+    int[] required_gold_arr = { 3, 6, 10 }; //레벨업 시 필요한 골드
     [SerializeField] private Color[] nest_text_color;
     [SerializeField] private Color upgrade_disable_color;
     [SerializeField] private GameObject levelup_result_overlay;
@@ -191,6 +189,7 @@ public class Star_nest_UI : MonoBehaviour
     }
 
     #region init
+    //칭호 편집 UI 초기화
     public void init_title_edit_UI() {
         edit_title_adjective.ClearOptions();
         List<TMP_Dropdown.OptionData> option_list = new List<TMP_Dropdown.OptionData>();
@@ -218,10 +217,11 @@ public class Star_nest_UI : MonoBehaviour
     public void show_UI(bool is_profile = false, string nick_name_ = null) {
 
         if (!is_profile && (TCP_Client_Manager.instance.my_player.object_id == TCP_Client_Manager.instance.now_room_id))
-        {
+        {   //본인 별둥지 클릭 시 레벨업 UI 출력
             show_level_UI();
         }
         else {
+            //프로필 보기 버튼 or 타인의 별둥지 클릭 시 프로필 UI 출력
             UI_Container.SetActive(true);
             load_info(is_profile, nick_name_);
         }
@@ -249,6 +249,8 @@ public class Star_nest_UI : MonoBehaviour
             hide_UI();
         }
     }
+
+    //이모지 편집 UI 초기화
     public void init_emozi_list()
     {
         for (int i =0; i < emozi_list_container.childCount; i++ ) {
@@ -262,6 +264,8 @@ public class Star_nest_UI : MonoBehaviour
             btn.onClick.AddListener(() => { apply_edit_picture(emozi: i); AudioManager.instance.SFX_Click(); });            
         }
     }
+
+    //프로필 배경화면 편집 UI 초기화
     public void init_bg_list()
     {
         for (int i = 0; i < bg_list_container.childCount; i++)
@@ -277,6 +281,8 @@ public class Star_nest_UI : MonoBehaviour
             btn.onClick.AddListener(() => { apply_edit_picture(bg: i); AudioManager.instance.SFX_Click(); });
         }
     }
+
+    //프로필 정보 로드
     public void load_info(bool is_profile_click = false, string nick_name_ = null) {
 
 
@@ -304,7 +310,7 @@ public class Star_nest_UI : MonoBehaviour
             init_bg_list();
             achiv_select_manager.init(user_data.Achievements_List, user_data.challenge_Userdatas);
         }
-        else {
+        else { //타인의 프로필인 경우
             now_nickname = (nick_name_ == null ? TCP_Client_Manager.instance.now_room_id : nick_name_);
             user_data = BackendGameData_JGD.Instance.get_userdata_by_nickname(now_nickname, load_select);
             nickname_text.text = now_nickname;
@@ -349,7 +355,10 @@ public class Star_nest_UI : MonoBehaviour
     #endregion
 
     #region edit
-    
+    /// <summary>
+    /// apply_edit_* 의 경우, 임시 프로필 데이터에 편집 사항 적용
+    /// 저장을 위해서는 이후 추가적으로 뒤끝에 저장해야함.
+    /// </summary>
     public void click_emozi_list_btn() {
         emozi_btn.interactable = false;
         emozi_list_view.SetActive(true);
@@ -391,18 +400,12 @@ public class Star_nest_UI : MonoBehaviour
     {
         edit_title_adjective.value = edit_title_adjective.options.FindIndex(option => option.text == user_data.title_adjective.ToString());
         edit_title_noun.value = edit_title_noun.options.FindIndex(option => option.text == user_data.title_noun.ToString());
-        //edit_title_adjective.captionText.text = user_data.title_adjective.ToString();
-        //edit_title_noun.captionText.text = user_data.title_noun.ToString();
         edit_title_UI.SetActive(true);
     }
     public void apply_edit_title()
     {
         adjective ad_ = (adjective)Enum.Parse(typeof(adjective), edit_title_adjective?.captionText?.text);
         noun noun_ = (noun)Enum.Parse(typeof(noun), edit_title_noun?.captionText?.text);
-        //if (ad_ == adjective.none || noun_ == noun.none)
-        //{
-        //    return;
-        //}
         user_data.title_adjective = ad_;
         user_data.title_noun = noun_;
         is_editing = true;
@@ -440,7 +443,6 @@ public class Star_nest_UI : MonoBehaviour
     public void show_edit_achiv_UI()
     {
         //TODO: 편집 창에 현재 선택된 업적 표기
-       // edit_planet_name_input.text = planet_name_text.text;
         edit_achiv_UI.SetActive(true);
         
         achiv_select_manager.refresh(user_data.Achievements_List);
@@ -458,6 +460,7 @@ public class Star_nest_UI : MonoBehaviour
         is_editing = true;
         update_profile_UI();
     }
+    //프로필 UI 전체 업데이트
     public void update_profile_UI() {
         pop_text.text = user_data.popularity.ToString();
 
@@ -474,9 +477,7 @@ public class Star_nest_UI : MonoBehaviour
         //TODO: 선택 배경 사진 업데이트 기능
         character_image.sprite = SpriteManager.instance.Num2emozi(user_data.profile_picture);
         background_image.sprite = SpriteManager.instance.Num2BG(user_data.profile_background);
-
-        //character_image = Image_Manager.instance.gt_image(user_data.select_image_id);
-
+         
         for (int i=0; i < achiv_select_text_arr.Length; i++) {
             achiv_select_text_arr[i].text = (user_data.Achievements_List.Count > i ? BackendChart_JGD.chartData.challenge_list[user_data.Achievements_List[i]].title:"");
         }
@@ -503,6 +504,8 @@ public class Star_nest_UI : MonoBehaviour
 
         UIManager_YG.Instance.update_profile();
     }
+
+    //프로필 편집 취소
     public void cancel_edit_profile() {
         if (is_editing)
         {
@@ -516,6 +519,8 @@ public class Star_nest_UI : MonoBehaviour
             save_btn.interactable = false;
         }
     }
+
+    //프로필 편집 뒤끝에 저장
     public void save_edit_profile() {
         if (is_editing) {
             BackendGameData_JGD.userData.profile_background = user_data.profile_background;
@@ -551,8 +556,10 @@ public class Star_nest_UI : MonoBehaviour
     #endregion
 
     #region pop up
+    //인기도 상승 후 db 저장
     public void pop_up()
     {
+        //인기도 상승은 1인 당 1회만 가능
         if (user_data.popularity_history.Contains(TCP_Client_Manager.instance.my_player.object_id))
         {
             user_data.popularity -= 1;
@@ -586,6 +593,7 @@ public class Star_nest_UI : MonoBehaviour
 
     #endregion
 
+    //친구 추가
     public void add_friend_btn() {
         if (now_nickname !=null && now_nickname != TCP_Client_Manager.instance.my_player.object_id)
         {
@@ -594,6 +602,8 @@ public class Star_nest_UI : MonoBehaviour
             request_complete_btn_ob.SetActive(true);
         }
     }
+
+    //친구 삭제
     public void delete_friend_btn()
     {
         if (now_nickname != null && now_nickname != TCP_Client_Manager.instance.my_player.object_id)
@@ -612,7 +622,7 @@ public class Star_nest_UI : MonoBehaviour
         update_level_UI();
     // TCP_Client_Manager.instance.placement_system.housing_info.level.ToString();
     }
-
+    //최초 열람 or 레벨 업 후 UI 업데이트
     public void update_level_UI() {
         int level_ = BackendGameData_JGD.userData.housing_Info.level;
 
@@ -620,7 +630,7 @@ public class Star_nest_UI : MonoBehaviour
         before_nest_BG.sprite = LV_BG_sprite_arr[level_];
         before_nest_img.sprite = nest_sprite_arr[level_];
 
-        if (level_ == nest_name_arr.Length - 1)
+        if (level_ == nest_name_arr.Length - 1) //최고 레벨인 경우
         {
             level_up_btn.gameObject.SetActive(false);
             max_cong_ob.SetActive(true);
@@ -682,6 +692,7 @@ public class Star_nest_UI : MonoBehaviour
 
     }
 
+    //레벨 업 후 결과 창 표시
     public void show_levelup_result_UI() {
         int level_ = BackendGameData_JGD.userData.housing_Info.level;
 
@@ -699,7 +710,7 @@ public class Star_nest_UI : MonoBehaviour
         levelup_X_btn.onClick.AddListener(show_level_up_particle);
     }
 
-    
+    //레벨 업
     public void level_up() {
         if (can_level_up()) {
             //level_up_particle.Play();
@@ -719,6 +730,7 @@ public class Star_nest_UI : MonoBehaviour
         }
     }
 
+    //레벨 업 가능 여부 체크
     public bool can_level_up() {
         if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
         {
@@ -738,11 +750,6 @@ public class Star_nest_UI : MonoBehaviour
     public void show_level_up_particle() {
         TCP_Client_Manager.instance.placement_system.show_level_up_particle();
     }
-
-    #endregion
-
-    #region profile edit
-
 
     #endregion
 
@@ -768,6 +775,7 @@ public class Star_nest_UI : MonoBehaviour
         
     }
 
+    //방명록 1개 추가 (뒤끝에 저장)
     public void add_memo( ) {
         if (user_data == null || user_data.memo_info == null)
         {
@@ -792,6 +800,7 @@ public class Star_nest_UI : MonoBehaviour
             BackendGameData_JGD.userData.memo_info = user_data.memo_info;
         }
     }
+    //방명록 생성
     public void create_memo(Memo memo)
     {
         string uuid_ = memo.UUID;
@@ -808,7 +817,7 @@ public class Star_nest_UI : MonoBehaviour
         Button[] btn_arr = memo_go.GetComponentsInChildren<Button>();
 
         if (now_nickname == TCP_Client_Manager.instance.my_player.object_id) {
-            btn_arr[0].onClick.AddListener(() => {
+            btn_arr[0].onClick.AddListener(() => { //방명록 클릭 시 삭제 버튼 on/off
                 AudioManager.instance.SFX_Click();
                 if (btn_arr[1].gameObject.activeSelf)
                 {
@@ -825,10 +834,9 @@ public class Star_nest_UI : MonoBehaviour
                     text_arr[0].SetAllDirty();
                 }
                 StartCoroutine(update_memo_UI_co());                
-                //LayoutRebuilder.ForceRebuildLayoutImmediate(memo_container.GetComponent<RectTransform>());
             });
             string[] param_arr = { "memo_info" };
-            btn_arr[1].onClick.AddListener(() => {
+            btn_arr[1].onClick.AddListener(() => { //방명록 삭제 버튼
                 AudioManager.instance.SFX_Click();
                 user_data.memo_info.Remove_object(memo);
                 BackendGameData_JGD.userData.memo_info = new Memo_info(user_data.memo_info);

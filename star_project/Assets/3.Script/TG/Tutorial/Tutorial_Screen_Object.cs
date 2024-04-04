@@ -5,29 +5,29 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+//각 튜토리얼 단계 하나의 정보를 담고 있는 클래스
 public class Tutorial_Screen_Object : MonoBehaviour
 {
-
     public tutorial_type_TG type;
-    public bool is_finger_move = false;
-    public bool is_giving_objects = false;
-    private float delay_time = 0.7f;
-    public float timeout_time = 0.7f;
-    public housing_itemID target = housing_itemID.none;
-    public GameObject target_go = null;
+    public bool is_finger_move = false; //손가락 표시 움직임 여부
+    public bool is_giving_objects = false; //오브젝트 지급 여부
+    private float delay_time = 0.7f; //터치 입력 제한 시간
+    public float timeout_time = 0.7f; //타임아웃 후 다음단계로 넘어가는 시간
+    public housing_itemID target = housing_itemID.none; //하우징 오브젝트 터치 튜토리얼에서 타켓이 되는 오브젝트id
+    public GameObject target_go = null; // 포커스 해야하는 타켓 게임 오브젝트
 
 
-    public Button screen;
-    public GameObject press_screen_UI;
-    public GameObject finger_UI;
+    public Button screen; // any touch에서 사용할 투명 스크린 (터치 시 다음 단계로)
+    public GameObject press_screen_UI; // 화면을 클릭하세요
+    public GameObject finger_UI; //손가락 그림
+   
+    public Transform start_pos; //손가락 시작 위치
+    public Transform end_pos; //손가락 이동 끝 위치
+    private Vector3 dir; //손가락 이동 방향 (start pos 와 end pos로 계산)
 
-    public Transform start_pos;
-    public Transform end_pos;
-    private Vector3 dir;
 
-
-    public Button target_button;
-    private UnityAction step_action;
+    public Button target_button; // 타겟이 되는 버튼 (클릭시 다음 단계로)
+    private UnityAction step_action; // 타겟 클릭 시 액션 (add listener로 동적으로 할당)
 
     private void Awake()
     {
@@ -77,7 +77,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
         StartCoroutine(process());
     }
 
-
+    //튜토리얼 타입에 따른 처리
     public IEnumerator process() {
 
 
@@ -122,7 +122,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
         }
     }
 
-
+    // 타겟을 포커싱 (타겟의 위치가 가변적인 특정 단계에서만 사용)
     public void find_target() {
         GameObject target_go = gameObject;
         switch (target)

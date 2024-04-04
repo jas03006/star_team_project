@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//우체통 (하우징 오브젝트)
 public class Post_Box : Net_Housing_Object
 {
     private Post_Box_UI post_box_UI;

@@ -16,6 +16,8 @@ using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using BackEnd;
+
+// 네트워크 요청 종류 enum
 public enum command_flag
 {
     join = 0, // 하우스 참가
@@ -30,26 +32,30 @@ public enum command_flag
     emo = 9 //이모티콘 사용
 }
 
-// 현재
-// 로비 Scene(글로벌 채팅) -> 하우징 Scene(하우스 채팅)
-// my_player, TCP_Client_Manager를 DonDestory해서 계속 쓰도록 함
+//서버와 TCP 연결을 관리하는 클래스
+//네트워크 요청을 전송, 처리
+//채팅,이모티콘 전송도 담당
 public class TCP_Client_Manager : MonoBehaviour
 {
     public static TCP_Client_Manager instance = null;
 
     private string IPAdress = "13.125.169.138";
     private string Port = "7777";
+
     private Queue<string> log = new Queue<string>();
-    StreamReader reader;//데이터를 읽는 놈
-    StreamWriter writer;//데이터를 쓰는 놈
+
+    StreamReader reader;//데이터 읽기
+    StreamWriter writer;//데이터 쓰기
+
     private TMP_Text myplanet_text = null;
-    private string now_room_id_ ="-";
-    public string now_room_id { 
+    private string now_room_id_ ="-"; //현재 마이플래닛 아이디
+    public string now_room_id { //마이플래닛 아이디 변경 시 마다 표기UI 업데이트
         private set { now_room_id_ = value; if (myplanet_text != null && myplanet_text.text != null) { myplanet_text.text = now_room_id_; } } 
         get { return now_room_id_; } 
     }
-    public string target_room_id { private set; get; } = "-";
+    public string target_room_id { private set; get; } = "-"; //이동하고 싶은 목표 마이플래닛 아이디
 
+    //씬 이동 시 마다 필요한 UI의 리스트
     [SerializeField] private List<Button> set_button_list;
     [SerializeField] private List<Button> lobby_button_list;
     [SerializeField] private List<GameObject> planet_button_list;
@@ -57,29 +63,31 @@ public class TCP_Client_Manager : MonoBehaviour
     [SerializeField] private string planet_scene_name;
     [SerializeField] private string lobby_scene_name;
     [SerializeField] private string stage_scene_name;
-    public Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
-    private Queue<string> msg_queue;
 
-    [SerializeField] public PlayerMovement my_player;
-    [SerializeField] private GameObject guest_prefab;
+    //현재 마이플래닛 내의 움직일 수 있는 오브젝트를 담은 딕셔너리
+    public Dictionary<string, Net_Move_Object_TG> net_mov_obj_dict; //object_id, object
+    
+    private Queue<string> msg_queue; //받은 네트워크 요청을 담는 큐
+
+    [SerializeField] public PlayerMovement my_player; // 마이플래닛 내 본인의 캐릭터
+    [SerializeField] private GameObject guest_prefab; //마이플래닛 내 타인의 캐릭터를 생성하기 위한 프리팹
     
     TcpClient client;
-    private int respawn_flag = 7777;
+    private int respawn_flag = 7777; //최초 리스폰 위치를 구분하는 값
 
     public Housing_UI_Manager housing_ui_manager;
     [SerializeField] private ChatBoxManager chat_box_manager;
     [SerializeField] private EmoziBoxManager emozi_box_manager;
 
+    //초대 요청 받았을 시 출력되는 UI
     [SerializeField] private GameObject invite_UI;
     [SerializeField] private TMP_Text invite_text;
     [SerializeField] private Button invite_agree_button;
 
-    
-
     public PlacementSystem placement_system;
     public Camera_My_Planet camera_my_planet;
 
-    private Thread current_thread;
+    private Thread current_thread; //현재 TCP 연결을 위해 사용하고 있는 쓰레드 (로그아웃 시에 교체)
     private void Awake()
     {
         if (instance == null)
@@ -105,6 +113,7 @@ public class TCP_Client_Manager : MonoBehaviour
         //Client_Connect();
     }
 
+    //마이플래닛 씬 로드 시 처리
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.name == planet_scene_name)
         {
@@ -137,6 +146,7 @@ public class TCP_Client_Manager : MonoBehaviour
         join_global();
     }
 
+    //마이플래닛 접속 시 맵 로드
     public void load_house()
     {
         hide_lobby_buttons();
@@ -162,7 +172,7 @@ public class TCP_Client_Manager : MonoBehaviour
         Debug.Log("Connected!");
         return;
     }
-    private void client_connect()//서버에 접근하는 쪽 
+    private void client_connect()
     {
         try
         {
@@ -220,6 +230,7 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region parsing
+    //받은 네트워크 요청을 처리
     private void parse_msg(string msg) {
         if (msg == BitConverter.GetBytes((int)0).ToString()) { // connection check byte 
             return;
@@ -345,6 +356,7 @@ public class TCP_Client_Manager : MonoBehaviour
         send_invite_request(uuid_);
 
     }
+    // room_id의 마이플래닛으로 방문
     public void join(string room_id_)
     {
         if (now_room_id == room_id_) {
@@ -361,6 +373,7 @@ public class TCP_Client_Manager : MonoBehaviour
             send_join_and_load(target_room_id);
         }
     }
+    //마이플래닛 씬으로 이동 시 타겟마이플래닛으로 방문 요청
     public void join_OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == planet_scene_name)
@@ -368,12 +381,14 @@ public class TCP_Client_Manager : MonoBehaviour
             send_join_and_load_target();
         }
     }
+    //목표 마이플래닛으로 방문 요청
     public void send_join_and_load_target()
     {
         send_join_and_load(target_room_id);
     }
+    //방문 요청
     public void send_join_and_load(string room_id_) {
-        if (send_join_request(room_id_, my_player.object_id))
+        if (send_join_request(room_id_, my_player.object_id)) //방문 성공 시 처리
         {
             now_room_id = room_id_;
             hide_lobby_buttons();
@@ -385,6 +400,7 @@ public class TCP_Client_Manager : MonoBehaviour
             }
         }
     }
+    //본인의 마이플래닛으로 이동
     public void go_myplanet()
     {        
         target_room_id = my_player.object_id;
@@ -393,11 +409,13 @@ public class TCP_Client_Manager : MonoBehaviour
         SceneManager.LoadScene(planet_scene_name);
        // send_join_and_load(my_player.object_id);
     }
+    //게임 종료
     public void exit_game()
     {
         Application.Quit();
         //client = null;
     }
+    //마이플래닛에서 나가기
     public void exit_room() {
         my_player.hide_UI();
         now_room_id = "-";
@@ -407,7 +425,7 @@ public class TCP_Client_Manager : MonoBehaviour
         my_player.transform.position = -Vector3.right * 1000f;        
         //SceneManager.LoadScene(lobby_scene_name);
     }
-
+    //마이플래닛 방문 시 리스폰 위치 리턴
     public Vector3 get_respawn_point(string uuid_) {
         return placement_system.get_spawn_point(uuid_ == now_room_id);
     }
@@ -418,6 +436,7 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region guest management
+    //타인의 캐릭터 생성
     private void create_guest(string uuid_, Vector3 position) {
         if (position.x == respawn_flag) {
             position = get_respawn_point(uuid_);
@@ -456,7 +475,7 @@ public class TCP_Client_Manager : MonoBehaviour
             }
         }
     }
-
+    //타인의 캐릭터 제거
     private void remove_guest(string uuid_) {
         Debug.Log($"remove: {uuid_}");
         Net_Move_Object_TG guest = net_mov_obj_dict[uuid_.ToString()];
@@ -477,6 +496,7 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region request
+    //서버에 데이터 전송
     private bool sending_Message(string me)
     {
         if (writer != null)
@@ -490,22 +510,27 @@ public class TCP_Client_Manager : MonoBehaviour
             return false;
         }
     }
+    //이동 요청
     public bool send_move_request(string object_id, Vector3 start_pos, Vector3 dest_pos)
     {
         return sending_Message($"{(int)command_flag.move} {now_room_id} {object_id} {start_pos.x} {start_pos.z} {dest_pos.x} {dest_pos.z}");
     }
+    //방문 요청
     public bool send_join_request(string room_id, string object_id)
     {
         return sending_Message($"{(int)command_flag.join} {room_id} {object_id}");
     }
+    //나가기 요청
     public bool send_exit_request(string room_id, string object_id)
     {
         return sending_Message($"{(int)command_flag.exit} {room_id} {object_id}");
     }
+    //마이플래닛 업데이트 요청 (다시 로드)
     public bool send_update_request()
     {
         return sending_Message($"{(int)command_flag.update} {now_room_id} {my_player.object_id}");
     }
+    //채팅 전송 요청
     public bool send_chat_request(string chat_msg, bool is_global=false)
     {
         if (is_global) {
@@ -513,10 +538,12 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         return sending_Message($"{(int)command_flag.chat} {now_room_id} {my_player.object_id} {chat_msg}");
     }
+    //오브젝트 상호작용 요청
     public bool send_interact_request(string object_id, int interaction_id, int param)
     {
         return sending_Message($"{(int)command_flag.interact} {now_room_id} {my_player.object_id} {object_id} {interaction_id} {param}");
     }
+    //초대 요청
     public bool send_invite_request(string object_id)
     {
         if (now_room_id  != "-" && now_room_id == my_player.object_id) {
@@ -524,6 +551,7 @@ public class TCP_Client_Manager : MonoBehaviour
         }
         return false;
     }
+    //이모티콘 전송 요청
     public bool send_emo_request(int emozi_id)
     {
         if (now_room_id == "-") {
@@ -602,27 +630,6 @@ public class TCP_Client_Manager : MonoBehaviour
         chat_box_manager.clear_input();
         chat_box_manager.chat_input_field.Select();
     }
-    public void invite_btn1()
-    {
-        
-        send_invite_request("11");
-        
-    }
-
-    public void set_id_btn() {
-        my_player.init("11");
-        join_global();
-    }
-    public void set_id_btn2()
-    {
-        my_player.init("22");
-        join_global();
-    }
-    public void set_id_btn3()
-    {
-        my_player.init("33");
-        join_global();
-    }
     public void join_global()
     {
         Client_Connect();
@@ -643,10 +650,5 @@ public class TCP_Client_Manager : MonoBehaviour
             //hide_buttons();
         }
     }
-    
-  
-    
-
-    
     #endregion
 }
