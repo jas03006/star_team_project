@@ -59,7 +59,7 @@ public class GameEnd_JGD : MonoBehaviour
     private void Start()
     {
         Score = 0;
-        Stage = data.Stage;/////
+        Stage = data.Stage;
         StageClearUI.SetActive(false);
         NextClearUI.SetActive(false);
 
@@ -83,7 +83,7 @@ public class GameEnd_JGD : MonoBehaviour
             default:
                 break;
         }
-        switch (data.Stage - ((data.Theme - 1)*5))
+        switch (data.Stage - ((data.Theme - 1)*5)) //Stage 음성파일 적용
         {
             case 1:
                 WordList.Add(StageEnd[0]);
@@ -115,7 +115,7 @@ public class GameEnd_JGD : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)   //Game_end 확인
     {
 
         if (collision.gameObject.CompareTag("Player"))
@@ -132,35 +132,31 @@ public class GameEnd_JGD : MonoBehaviour
             {
                 QuestManager.instance.Check_challenge(Clear_type.make_word);
 
-                if (stage_data.get_housing == false)
+                if (stage_data.get_housing == false)//최초 클리어인지 체크
                 {
                     getting_house_ob = true;
-                    //추후 바뀌면 수정
-                    //BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
-                    if (data.RewardType == 0)
+                    if (data.RewardType == 0)  //사물이 보상일경우
                     {
                         BackendGameData_JGD.userData.house_inventory.Add(data.HousingItmeID, 1);
                         BackendGameData_JGD.userData.Noun_ID_List.Add((noun)data.NounTitle);
                     }
-                    else if(data.RewardType == 1)
+                    else if(data.RewardType == 1)  //이모티콘이 보상인 경우
                     {
                         BackendGameData_JGD.userData.Adjective_ID_List.Add((adjective)data.AdjectiveTitle);
                         BackendGameData_JGD.userData.emozi_List.Add(data.Emoticon);
                     }
 
                     stage_data.get_housing = true;
-                    Debug.Log("아이템 지급완료");
                 }
 
             }
             //TXT UI적용
-            Debug.Log("와난");
             StageClearUI.SetActive(true);
             StageStar.text = data.Allstar.ToString();
             MyStar.text = Player.PlayerScore.ToString();
             Star_2.text = $"X {data.Star_2.ToString()}";
             Star_3.text = $"X {data.Star_3.ToString()}";
-            for (int i = 0; i < Player.Alphabet.Count; i++)  //알파벳 추가
+            for (int i = 0; i < Player.Alphabet.Count; i++)  //내가 먹은 알파벳 출력
             {
                 if (Player.Alphabet[i] != -1)
                 {
@@ -193,6 +189,7 @@ public class GameEnd_JGD : MonoBehaviour
             {
                 stage_data.star = StarCount;
             }
+            //골드보상
             GoldSave = (int)(((int)Player.currentHp + Player.PlayerScore) * StarCount * (1 + 0.2f * data.Theme));
             Gold.text = $"+ {GoldSave} ";
             MoneyManager.instance.Get_Money(gold_: GoldSave);
@@ -203,26 +200,14 @@ public class GameEnd_JGD : MonoBehaviour
         Data_update();
     }
 
-    //새로운 별 생성 애니메이션
-    public void OneStar()
-    {
-        if (StarCount == 1)
-        {
-
-        }
-    }
-
-
-
-
-    //빠튼
+    //버튼
     public void RewardBtn()
     {
         Reward.SetActive(false);
     }
-    public void NextClearScene()
+    public void NextClearScene()//2번째 보상 화면
     {
-        if (data.RewardType == 0)    //차트에 감정인지 아이템인지 체크 like 0과 1로 1은 감정 0은 사물
+        if (data.RewardType == 0)    //차트에 이모티콘인지 아이템인지 체크 1은 이모티콘, 0은 사물
         {
             Reward_Image2.sprite = SpriteManager.instance.Num2Sprite(data.HousingItmeID);
         
@@ -285,6 +270,7 @@ public class GameEnd_JGD : MonoBehaviour
             Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
         }
     }
+    //보상화면 오디오 재생
     public void Speak_EnglishWord()
     {
         if (AudioManager.instance.isPlaying(false))
