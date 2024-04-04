@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class Housing_UI_Manager : MonoBehaviour
 {
+    [SerializeField] private ObjectsDatabaseSO object_db;
+
     [SerializeField] private GameObject edit_button;
     [SerializeField] private List<GameObject> hide_UI_list;
     [SerializeField] private GameObject housing_UI;
@@ -229,7 +231,7 @@ public class Housing_UI_Manager : MonoBehaviour
                 child_cnt++;
                 continue;
             }
-            if (cate == get_category( button_container.GetChild(i).GetComponent<Housing_Inven_BTN>().id)) {
+            if (cate ==  get_category( button_container.GetChild(i).GetComponent<Housing_Inven_BTN>().id)) {
                 button_container.GetChild(i).gameObject.SetActive(true);
                 child_cnt++;
             }
@@ -252,13 +254,14 @@ public class Housing_UI_Manager : MonoBehaviour
       
     }
     public int get_category(housing_itemID id_) {
-        housing_itemID[] special_arr = { housing_itemID.ark_cylinder, housing_itemID.star_nest, housing_itemID.airship, housing_itemID .post_box};
+        return 2 - (int)object_db.get_object(id_).category;
+        /*housing_itemID[] special_arr = { housing_itemID.ark_cylinder, housing_itemID.star_nest, housing_itemID.airship, housing_itemID .post_box};
         if (special_arr.Contains(id_)) {
             return 1;
         }
         else {
             return 2;
-        }
+        }*/
     }
 
     #region object edit mode
