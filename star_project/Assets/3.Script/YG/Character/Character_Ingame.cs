@@ -1,24 +1,20 @@
 using UnityEngine;
-/// <summary>
-/// 캐릭터 정보를 게임에서 사용할 수 있도록 만든 스크립트.
-/// 뒤끝DB에서 차트 데이터를 불러와 저장함.
-/// 캐릭터 레벨업 및 플레이어 정보 업데이트도 이 클래스에서 진행함.
-/// </summary>
+
 public class Character_Ingame : MonoBehaviour //인게임에서 사용할 스크립트
 {
-    //private int level;//차트아니고 게임데이터에서 불러옴
+    private int level;//차트아니고 게임데이터에서 불러옴
     private float duration; //지속 시간
     private double percent; //지속 시간
     //private int give_time; //아이템 지급 주기
 
-    //private item_ID special_item;//지급 아이템 ex)게임 시작 시 자석 아이템 한 개를 지급한다.
+    private item_ID special_item;//지급 아이템 ex)게임 시작 시 자석 아이템 한 개를 지급한다.
     private item_ID unique_item;//고유 능력 아이템 ex)자석 아이템 지속 시간 0.5초 증가
     private item_ID unique_item2;//고유 능력 아이템 ex)자석 아이템 지속 시간 0.5초 증가
 
     public void Setting(int index) //캐릭터 정보 옮겨오기
     {
         Character character = BackendChart_JGD.chartData.character_list[index];
-        //level = character.curlevel;
+        level = character.curlevel;
 
         if (index == (int)Character_ID.Green)
         {
@@ -31,7 +27,7 @@ public class Character_Ingame : MonoBehaviour //인게임에서 사용할 스크립트
             unique_item2 = character.unique_item;
         }
 
-        //special_item = character.special_item;
+        special_item = character.special_item;
         unique_item = character.unique_item;
 
         //인벤토리 생기면 아이템 지급 구현예정

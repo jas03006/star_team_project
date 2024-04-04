@@ -233,6 +233,7 @@ public class Mission_UI : MonoBehaviour
             btn_image[i].enabled = i == index_;
         }
 
+        Debug.Log(state);
         Reset_btn();
     }
 
