@@ -4,14 +4,15 @@ using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
+//프로필 편집 시 업적 선택을 담당하는 클래스
 public class Achiv_Select_Manager : MonoBehaviour
 {
     [SerializeField] private Transform container;
     [SerializeField] private GameObject achiv_elem_prefab;
 
-    public List<int> select_list = new List<int>();
-    List<Challenge_userdata> achiv_list;
-    List<Toggle_Elem> toggle_list = new List<Toggle_Elem>();
+    public List<int> select_list = new List<int>(); //선택 중인 업적
+    List<Challenge_userdata> achiv_list; //보유 중인 업적 리스트
+    List<Toggle_Elem> toggle_list = new List<Toggle_Elem>(); 
 
     public int max_selection_cnt = 3;
     public TMP_Text selection_cnt_text;
@@ -88,6 +89,7 @@ public class Achiv_Select_Manager : MonoBehaviour
         selection_cnt_text.text = $"선택된 업적: {select_list.Count}개";
     }
 
+    //업적 선택
     public void on_toggle_select(int value)
     {
         if (select_list.Count >= max_selection_cnt) {
@@ -98,6 +100,7 @@ public class Achiv_Select_Manager : MonoBehaviour
         }
         update_UI();
     }
+    //업적 선택 취소
     public void on_toggle_deselect(int value)
     {
         select_list.Remove(value);

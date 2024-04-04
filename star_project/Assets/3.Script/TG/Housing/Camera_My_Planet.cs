@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 
+//마이플래닛 카메라 컨트롤을 위한 스크립트
 public class Camera_My_Planet : MonoBehaviour
 {
     public Vector3 angle = new Vector3(70f, 45f, 0f);
     
     public float dragSpeed = 1f;
     
-    public float zoom_speed = 0.03f;
-    public float distance = 10f;
-    public float min_distance = 3f;
+    public float zoom_speed = 0.03f; //확대,축소 속도
+    public float distance = 10f; 
+    public float min_distance = 3f; 
     public float max_distance = 20f;
 
-    public Vector3 center_pos;
-    public float max_distance_x = 18f;
-    public float max_distance_y = 15f;
+    public Vector3 center_pos; //카메라 이동 가능 공간의 중심이 되는 기준점
+    public float max_distance_x = 18f; //카메라 이동 가능 공간 최대 좌우 거리
+    public float max_distance_y = 15f; //카메라 이동 가능 공간 최대 상하 거리
 
     Camera camera;
     // Start is called before the first frame update
@@ -127,6 +128,8 @@ public class Camera_My_Planet : MonoBehaviour
         }
     }
 
+    //카메라 위치 조정
+    //기준점을 기준으로 평행이동 
     private void adjust_cam_pos(Vector3 transition) {
         Vector3 delta_pos = (camera.transform.position + transition.x* camera.transform.right  + transition.y * camera.transform.up - center_pos);
         float delta_x =Vector3.Dot(delta_pos, camera.transform.right);

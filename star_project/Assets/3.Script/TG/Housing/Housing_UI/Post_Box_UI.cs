@@ -7,6 +7,7 @@ using BackEnd;
 using System.Linq;
 using System;
 
+//우체통 UI
 public class Post_Box_UI : MonoBehaviour
 {
     [SerializeField] private GameObject main_UI;
@@ -50,6 +51,7 @@ public class Post_Box_UI : MonoBehaviour
         clear_post_UI();
      }
 
+    //우편 선택 시 하이라이팅
     public void update_highlight(GameObject go) {
         if (now_elem_highlight != null) { 
             now_elem_highlight.SetActive(false);
@@ -70,6 +72,7 @@ public class Post_Box_UI : MonoBehaviour
         sort();
      }
 
+    //좌측 우편 리스트의 요소 오브젝트 생성
      public void create_post(Post post, PostType post_type)
      {
          GameObject post_go = Instantiate(post_element_prefab, post_list_container);
@@ -80,6 +83,8 @@ public class Post_Box_UI : MonoBehaviour
          pe.init(post, delegate () { show_post(pe); }, post_type);        
 
      }
+
+    //우편 우편 출력 UI 클리어
     public void clear_post_UI() {
         title.text = string.Empty;
         date.text = string.Empty;
@@ -88,6 +93,8 @@ public class Post_Box_UI : MonoBehaviour
         get_reward_btn.interactable = false;
         check_image.SetActive(false);
     }
+
+    //선택한 우편 정보 출력
     public void show_post(Post_Element post_e) {
         title.text = post_e.post.title;
         date.text = post_e.date_str;
@@ -115,6 +122,8 @@ public class Post_Box_UI : MonoBehaviour
         update_highlight(post_e.highlight_box);
     }
 
+    //우편 아이템 수령
+    //뒤끝으로 저장
     public bool receive_post(Post_Element post_e) {
         if (post_e.is_received == true) {
             return true;
@@ -135,6 +144,7 @@ public class Post_Box_UI : MonoBehaviour
 
     }
 
+    //뒤끝을 통해 우편 정보 로드
     public void PostListGet(PostType postType)
     {
         //우편 불러오기
@@ -203,6 +213,8 @@ public class Post_Box_UI : MonoBehaviour
         }
     }
 
+    //1. 아이템 수령 여부 기준 정렬
+    //2. 날짜 기준 정렬
     public long get_score(Post_Element pe)
     {
         if (pe == null) {

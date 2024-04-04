@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//테스트용 실린더 하우징 오브젝트
 public class Housing_Cylinder : Net_Housing_Object
 {
     
