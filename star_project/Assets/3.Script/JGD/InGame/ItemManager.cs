@@ -5,7 +5,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class ItemManager : MonoBehaviour
 {
-    private Item data;
+    private Item data;// 아이템 데이터 저장
     [SerializeField] private Player_Controll_JGD Player;
     [SerializeField] private GameObject Player_obj;
     [SerializeField] GameObject Magnet;
@@ -14,17 +14,13 @@ public class ItemManager : MonoBehaviour
     [SerializeField] GameObject size_up;
     [SerializeField] GameObject size_Down;
     [SerializeField] GameObject Damage;
-
+    //아이템 적용수치값
     public float Megnetnum = 0;
     public float SpeedUP = 0;
     public float Size = 0;
     public float Heal = 0;
 
-    private void Start()
-    {
-    }
-
-    public void UsingHeart(int ID)
+    public void UsingHeart(int ID)// 하트를 먹었을 경우
     {
         data = BackendChart_JGD.chartData.item_list[ID];
         Player.currentHp += Player.MaxHp * data.percent + ((Player.MaxHp * data.percent) * Heal);
@@ -33,13 +29,13 @@ public class ItemManager : MonoBehaviour
             Player.currentHp = Player.MaxHp;
         }
     }
-    public void UsingStar(int ID)
+    public void UsingStar(int ID)// 별을 먹었을경우
     {
         data = BackendChart_JGD.chartData.item_list[ID];
 
         Player.PlayerScore += (int)data.num;
     }
-    public void UsingSize(int ID)
+    public void UsingSize(int ID) //사이즈 관련 아이템 사용
     {
 
         if (SizeControll != null)
@@ -51,13 +47,13 @@ public class ItemManager : MonoBehaviour
         SizeControll = StartCoroutine(Sizecon(ID));
 
     }
-    public void UsingShield()
+    public void UsingShield()  //쉴드 사용
     {
         Player.Shild = true;
         AudioManager.instance.SFX_Using_Shield();
         Player.shield.SetActive(true);
     }
-    public void UsingSpeedUP(int ID)
+    public void UsingSpeedUP(int ID)  //speedup아이템 사용
     {
         if (Speed_Up != null)
         {
@@ -66,14 +62,14 @@ public class ItemManager : MonoBehaviour
         Speed_Up = StartCoroutine(SpeedUp(ID));
 
     }
-    public void UsingMegnet()
+    public void UsingMegnet()  //자석아이템 사용
     {
         StartCoroutine(Magnetcon());
     }
 
     Coroutine Speed_Up = null;
     Coroutine Speed_Up_effect = null;
-    private IEnumerator SpeedUp(int ID)
+    private IEnumerator SpeedUp(int ID) //SpeedUp아이템 효과
     {
         if (Speed_Up_effect != null)
         {
@@ -86,7 +82,7 @@ public class ItemManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(data.duration + SpeedUP);
         Player.Speed = Speed;
     }
-    private IEnumerator Speed_Up_effect_co()
+    private IEnumerator Speed_Up_effect_co()  //SpeedUp아이템 이펙트
     {
         speedUp_Effect.SetActive(true);
         speedUp_Boost.SetActive(true);
@@ -97,7 +93,7 @@ public class ItemManager : MonoBehaviour
         speedUp_Boost.SetActive(false);
     }
     Coroutine SizeControll = null;
-    private IEnumerator Sizecon(int ID)              //나중에 Lerp사용
+    private IEnumerator Sizecon(int ID)  //사이즈 관련 아이템 효과 적용
     {
         Player.invincibility = false;
         data = BackendChart_JGD.chartData.item_list[ID];
@@ -108,7 +104,6 @@ public class ItemManager : MonoBehaviour
             Player.invincibility = true;
         }
         Player_obj.transform.localScale = new Vector3(0.25f, 0.25f,0.25f) * (float)data.num;
-        //Player.transform.localScale = Vector2.Ler p(scale, scale * data.Num, Time.deltaTime);
 
         yield return new WaitForSecondsRealtime(data.duration+ Size);
 
@@ -116,9 +111,9 @@ public class ItemManager : MonoBehaviour
         Player.invincibility = false;
 
     }
-    private IEnumerator Sizecon_Effect_co(int num)
+    private IEnumerator Sizecon_Effect_co(int num)//사이즈 관련 아이템 이펙트 적용
     {
-        switch (num)
+        switch (num)//커지는지 작아지는지 체크
         {
             case 33:
                 size_up.SetActive(true);
@@ -136,7 +131,7 @@ public class ItemManager : MonoBehaviour
                 break;
         }
     }
-    private IEnumerator Magnetcon()
+    private IEnumerator Magnetcon()  // 자석 아이템 사용시
     {
         data = BackendChart_JGD.chartData.item_list[(int)item_ID.Megnet];
         Magnet.SetActive(true);

@@ -36,11 +36,10 @@ public class ItemID_JGD : MonoBehaviour
                 obstacles[i].GetComponentInParent<ItemID_JGD>().animator.SetTrigger("MoveWall");
             }
             this.gameObject.SetActive(false);
-            //Destroy(this.gameObject);
         }
     }
 
-    private void Scanner()
+    private void Scanner()//움직이는 장애물이면 가져오기
     {
         obstacles.Clear();
         if (distance == 0)
@@ -52,7 +51,7 @@ public class ItemID_JGD : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++)
         {
             GameObject Obj = colliders[i].gameObject;
-            if (Obj.GetComponentInParent<ItemID_JGD>().discrimination == this.discrimination)
+            if (Obj.GetComponentInParent<ItemID_JGD>().discrimination == this.discrimination)// 장애물의 discrimination 값이 현재 오브젝트의 discrimination 값과 일치하면 리스트에 추가
             {
                 obstacles.Add(Obj);
             }   
