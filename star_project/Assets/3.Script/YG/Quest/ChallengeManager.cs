@@ -55,7 +55,7 @@ public class ChallengeManager : MonoBehaviour
 
     private void Setting_data()
     {
-        foreach (var challenge in BackendChart_JGD.chartData.challenge_list)
+        foreach (Challenge challenge in BackendChart_JGD.chartData.challenge_list)
         {
             switch (challenge.challenge_cate)
             {

@@ -1,31 +1,35 @@
 ﻿using BackEnd;
 using LitJson;
 using UnityEngine;
-
+/// <summary>
+/// 캐릭터 정보를 저장하는 클래스.
+/// 뒤끝DB에서 차트 데이터를 불러와 저장함.
+/// 캐릭터 레벨업 및 플레이어 정보 업데이트도 이 클래스에서 진행함.
+/// </summary>
 public class Character
 {
     public Character_ID character_ID;
     public string character_name;
 
-    public int maxlevel;
-    public int curlevel
+    public int maxlevel;//최대 레벨
+    public int curlevel//현재 레벨
     {
         get { return BackendGameData_JGD.userData.character_info.character_dic[character_ID]; }
     }//차트아니고 게임데이터에서 불러옴
-    public float duration; //지속 시간
-    public double percent;
+    public float duration; //지속 시간(그린벨라 제외 사용)
+    public double percent; //회복 퍼센트(그린벨라 전용)
 
     public item_ID special_item;//지급 아이템 ex)게임 시작 시 자석 아이템 한 개를 지급한다.
     public item_ID unique_item;//고유 능력 아이템 ex)자석 아이템 지속 시간 0.5초 증가
     public item_ID unique_item2;//고유 능력 아이템2 (그린벨라 전용)
 
-    public string basic;
-    public string special;
-    public string unique;
+    public string basic; //기본 스킬
+    public string special; //스페셜 스킬
+    public string unique; // 유니크 스킬
 
-    public int sprite;
+    public int sprite; //spritemanager에서 sprite가져올때 사용
 
-    public Character(JsonData gameData)
+    public Character(JsonData gameData)//차트데이터에서 정보 받아옴
     {
         character_ID = (Character_ID)int.Parse(gameData["character_ID"].ToString());
         character_name = gameData["character_name"].ToString();
@@ -50,7 +54,7 @@ public class Character
         sprite = int.Parse(gameData["sprite"].ToString());
     }
 
-    public void State_update()
+    public void State_update()//레벨업 시 효과 업데이트
     {
         if (character_ID == Character_ID.Green)
         {
@@ -91,7 +95,7 @@ public class Character
         State_update();
     }
 
-    public void Characterinfo_Data_update()
+    public void Characterinfo_Data_update() //Characterinfo 데이터 업데이트
     {
         BackendGameData_JGD.userData.character_info.character_dic[character_ID] = curlevel;
         BackendGameData_JGD.userData.character_info.character_list[(int)character_ID].level = curlevel;
@@ -126,7 +130,7 @@ public class Character
         }
     }
 
-    public void character_Data_update(int num)
+    public void character_Data_update(int num)//Character 데이터 업데이트
     {
         BackendGameData_JGD.userData.character = num;
         //데이터에 넣기
