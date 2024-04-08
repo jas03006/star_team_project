@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-
+//하우징 편집 모드 하단 인벤토리의 요소 버튼
+//버튼 드래그를 통해 설치 시작
 public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Button btn;
@@ -18,23 +19,7 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
     public int usable_cnt { private set; get; }
     public int max_cnt { private set; get; }
 
-    private string[] name_arr = {
-        "none",
-        "별둥지", "우체통", "아크실린더",
-        "의자","침대","탁자",
-        "비행선",
-
-        "인형", "풍선", "블럭","카메라","비행기",
-        "사과", "우유", "컵", "의자", "식탁",
-         "벤치","공", "시소", "그네", "미끄럼틀",
-         "테이프","스테이플러","연필","공책","버스",
-
-         "괴기 행성","사막 행성","지구","얼음 행성","툰드라 행성",
-
-         "벚나무","야자수","코스모스","강아지풀"
-
-     };
-
+    //드래그를 통한 설치 시작
     public void OnPointerDown(PointerEventData eventData)
     {
         if (can_use()) {
@@ -54,22 +39,27 @@ public class Housing_Inven_BTN : MonoBehaviour, IPointerDownHandler
         usable_cnt = use_cnt_;
         max_cnt = max_cnt_;
         
-        name_text.text = db.get_object(id_).name;//name_arr[ind_];
+        name_text.text = db.get_object(id_).name;
         update_UI();
     }
 
+    //정렬을 위한 점수 산출
+    //설치 가능 여부로 정렬
+    //설치 가능 여부가 같다면 id 순으로 정렬
     public int get_sort_score() {
-        return usable_cnt * 10000 + (1000 - (int)id);
+        return (usable_cnt > 0? 10000: 0) + (1000 - (int)id);
     }
+
+    //설치 시 횟수 차감
     public void use()
     {
         if (can_use()) {
             usable_cnt--;
             update_UI();
-            
         }
     }
 
+    //회수
     public void back()
     {
         if (usable_cnt < max_cnt) {

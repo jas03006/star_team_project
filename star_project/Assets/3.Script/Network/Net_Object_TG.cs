@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//네트워크로 동기화 할 수 있는 오브젝트
 public class Net_Object_TG : MonoBehaviour
 {
     [SerializeField] public string object_id { get; protected set; } // 오브젝트의 인스턴스를 나타낼 고유의 id (플레이어 캐릭터의 경우 uuid로 하면 될 듯 하다)

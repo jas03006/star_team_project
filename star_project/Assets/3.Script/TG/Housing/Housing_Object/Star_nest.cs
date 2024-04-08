@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//별둥지 (하우징 오브젝트)
 public class Star_nest : Net_Housing_Object
 {
     private Star_nest_UI star_nest_UI;

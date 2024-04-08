@@ -5,6 +5,8 @@ using BackEnd;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//마이플래닛 설정 버튼 UI
+//bgm, sfx 소리 조절, 진동 on/off, 로그아웃 기능
 public class SettingUI_TG : MonoBehaviour
 {
     [SerializeField] private Toggle bgm_toggle;
@@ -82,6 +84,7 @@ public class SettingUI_TG : MonoBehaviour
         StartCoroutine(logout_co());
     }
 
+    //로그 아웃
     private IEnumerator logout_co() { 
         yield return null;
         Destroy(TCP_Client_Manager.instance.gameObject);

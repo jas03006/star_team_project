@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+//리스트 요소에 토글 기능을 편하게 만들 수 있도록 하는 클래스
 public class Toggle_Elem : MonoBehaviour
 {
     public int value;

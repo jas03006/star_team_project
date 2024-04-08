@@ -4,22 +4,25 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
+
 [Serializable]
-public enum tutorial_type_TG { 
+public enum tutorial_type_TG {  //튜토리얼 타입 enum
     none=-1,
-    any_touch=0,
-    particular_touch,
-    timeout,
-    housing,
-    move,
-    housing_object_touch,
-    housing_inven_touch
+    any_touch=0, //어떤 곳을 터치해도 다음 단계로
+    particular_touch, //특정 버튼을 터치해야 다음 단계로
+    timeout, //일정 시간이 지나면 다음 단계로
+    housing, //특정 하우징 오브젝트를 배치하는 단계 
+    move, //이동 명령을 내리는 단계
+    housing_object_touch, //특정 하우징 오브젝트를 터치하는 단계
+    housing_inven_touch // 하우징 인벤토리 요소 버튼을 터치하는 단계
 }
+
+//마이플래닛 튜토리얼을 관리하는 클래스
 public class Tutorial_TG : MonoBehaviour
 {
     public static Tutorial_TG instance = null;
-    private int now_index =0;
-    public List<Tutorial_Screen_Object> tutorial_sequence;
+    private int now_index =0; //현재 튜토리얼 진행 중인 인덱스
+    public List<Tutorial_Screen_Object> tutorial_sequence; //순서에 따른 튜토리얼 화면 오브젝트를 담고 있는 리스트
     //public bool is_housing_tutorial = false;
     public float blink_delay = 0.5f;
     public bool is_progressing = false;
@@ -28,7 +31,7 @@ public class Tutorial_TG : MonoBehaviour
     private float timer = 0f;
     public float time_delay = 0.1f;
 
-    [SerializeField] private GameObject reward_UI;
+    [SerializeField] private GameObject reward_UI; //튜토리얼 완료시 보상 지급 UI
     [SerializeField] private GameObject container;
     [SerializeField] private GameObject panel;
     
@@ -42,6 +45,7 @@ public class Tutorial_TG : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else { 
+            //마이플래닛 씬으로 다시 돌아오면 기존 인스턴스를 파괴하고 새로 생성하여 초기화
             Destroy(instance.gameObject);
             instance = this;
             DontDestroyOnLoad(this);
@@ -95,6 +99,8 @@ public class Tutorial_TG : MonoBehaviour
         BackendGameData_JGD.userData.tutorial_Info.state = Tutorial_state.clear;
         BackendGameData_JGD.Instance.GameDataUpdate();
     }
+
+    //다음 단계로 진행
     public void step() {
         if (timer < time_delay) {
             return;
@@ -105,11 +111,13 @@ public class Tutorial_TG : MonoBehaviour
         show();
     }
 
+    //다음 단계로 강제로 진행 (시간 딜레이 적용하지않음)
     public void force_step() {
         now_index++;
         show();
     }
 
+    //이전 단계의 튜토리얼을 숨기고 현재 단계의 튜토리얼 출력
     public void show() {
         if (now_index > 0) {
             tutorial_sequence[now_index - 1].StopAllCoroutines();
@@ -128,6 +136,8 @@ public class Tutorial_TG : MonoBehaviour
             //tutorial_sequence[now_index].start_process();
         }            
     }
+
+    //후면에 투명 패널을 적절히 on/off 하여 튜토리얼 단계 전환 과정에서 터치 입력을 막기위한 코루틴
     public IEnumerator active_co(int index_, bool is_on) {
         yield return null;
         tutorial_sequence[index_].gameObject.SetActive(is_on);
@@ -140,6 +150,7 @@ public class Tutorial_TG : MonoBehaviour
         }
     }
 
+    //현재 단계 튜토리얼 타입 확인
     public tutorial_type_TG get_type() {
         if (!is_progressing || now_index < 0 || now_index >= tutorial_sequence.Count) {
             return tutorial_type_TG.none;
@@ -147,6 +158,7 @@ public class Tutorial_TG : MonoBehaviour
         return tutorial_sequence[now_index].type;
     }
 
+    //하우징 튜토리얼의 경우 완료 조건 체크
     public void check_housing_condition() {
 
         bool has_star_nest = false;
@@ -184,11 +196,15 @@ public class Tutorial_TG : MonoBehaviour
             step();
         }
     }
+
+    //하우징 오브젝트 터치 튜토리얼의 경우 완료 조건 체크
     public void check_housing_object_touch(housing_itemID id_) {
         if (id_ == tutorial_sequence[now_index].target) {
             step();
         }
     }
+
+    //하우징 인벤토리 드래그 튜토리얼의 경우 완료 조건 체크
     public void check_housing_inven_touch(housing_itemID id_)
     {
         if (id_ == tutorial_sequence[now_index].target)
