@@ -2,30 +2,33 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// Myplanet씬 및 Stage씬에서 캐릭터를 관리하는 스크립트.
+/// 이 스크립트는 UI를 통해 캐릭터 정보를 표시하고, 캐릭터 선택 및 업그레이드 등의 기능을 관리함.
+/// </summary>
 public class Character_UI : MonoBehaviour
 {
-    List<GameObject> prefab_btn_list = new List<GameObject>();
+    List<GameObject> prefab_btn_list = new List<GameObject>();// 생성한 버튼을 저장하는 리스트
 
     [Header("btn_prefab")]
-    [SerializeField] GameObject btn_prefab;
-    [SerializeField] GameObject content_zone;
+    [SerializeField] GameObject btn_prefab;// 버튼 프리팹
+    [SerializeField] GameObject content_zone;// 버튼을 생성할 부모 위치
 
     private int index_UI;//현재 띄우고 있는 캐릭터 인덱스
     private Character index_character; //현재 띄우고 있는 캐릭터 정보
     private Character cur_character; //데이터에 넣을 캐릭터 정보
 
-    [Header("cur_character")]
+    [Header("cur_character")]// 현재 선택됨 캐릭터에 대한 UI 컴포넌트
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text character_name;
     [SerializeField] private TMP_Text level;
-    [SerializeField] private Button is_equip_btn;
-    [SerializeField] private Button leveluppannel_btn;
+    [SerializeField] private Button is_equip_btn;// 장착 여부 버튼
+    [SerializeField] private Button leveluppannel_btn;// 레벨업 패널 버튼
     [SerializeField] private TMP_Text HP;
     [SerializeField] private TMP_Text special; //특수 능력
     [SerializeField] private TMP_Text unique; //고유 능력
 
-    [Header("sprite")]
+    [Header("sprite")]// 버튼 상태에 따라 변경될 스프라이트 이미지들
     [SerializeField] private Sprite equip_btn_O;
     [SerializeField] private Sprite equip_btn_X;
     [SerializeField] private Sprite levelup_O;
@@ -33,10 +36,7 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private Sprite select_border;
     [SerializeField] private Sprite notselect_border;
 
-    [Header("done pannel")]
-    [SerializeField] private GameObject donepannel;
-
-    [Header("Levelup")]
+    [Header("Levelup")]// 레벨업 패널 UI 컴포넌트
     [SerializeField] private TMP_Text next_hp;
     [SerializeField] private TMP_Text cur_hp;
     [SerializeField] private TMP_Text next_level;
@@ -51,13 +51,12 @@ public class Character_UI : MonoBehaviour
     private void OnEnable()
     {
         Click_inven();
-        Update_UI();
     }
 
-    public void Click_inven()
+    public void Click_inven()//인벤토리 클릭 시 실행됨
     {
+        // 캐릭터 리스트 가져오기
         List<Character> list = BackendChart_JGD.chartData.character_list;
-        //content_zone.transform.childCount != list.Count일 경우 오브젝트 삭제 후 재생성
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -72,6 +71,7 @@ public class Character_UI : MonoBehaviour
 
     private void OnDisable()
     {
+        // 비활성화될 때 생성된 버튼들을 삭제하고 리스트를 비움
         for (int i = 0; i < content_zone.transform.childCount; i++)
         {
             Destroy(content_zone.transform.GetChild(i).gameObject);
@@ -82,14 +82,17 @@ public class Character_UI : MonoBehaviour
 
     private void Setting()
     {
+        // 첫 번째 캐릭터를 현재 표시 중인 캐릭터로 설정
         index_character = BackendChart_JGD.chartData.character_list[0];
+        // 현재 캐릭터를 사용자가 선택한 캐릭터로 설정
         cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
+        // UI 업데이트
         Update_UI();
-
+        // 인덱스 초기화
         index_UI = 0;
     }
 
-    private void Update_UI()
+    private void Update_UI()// UI 요소들을 현재 캐릭터의 정보로 업데이트
     {
         image.sprite = SpriteManager.instance.Num2Sprite(index_character.sprite);
 
@@ -121,7 +124,7 @@ public class Character_UI : MonoBehaviour
         btn_update();
     }
 
-    private void btn_update()
+    private void btn_update()// 버튼 상태를 업데이트
     {
         for (int i = 0; i < prefab_btn_list.Count; i++)
         {
@@ -147,7 +150,7 @@ public class Character_UI : MonoBehaviour
         }
     }
 
-    private void Update_is_equip()
+    private void Update_is_equip()// 장착 상태를 업데이트
     {
         if (index_character == cur_character)
         {
@@ -161,7 +164,7 @@ public class Character_UI : MonoBehaviour
         btn_update();
     }
 
-    private void Update_btn(bool bool_, Button btn, Sprite O, Sprite X)
+    private void Update_btn(bool bool_, Button btn, Sprite O, Sprite X) // 버튼의 활성/비활성 상태 및 스프라이트 업데이트
     {
         if (bool_)
         {
@@ -176,11 +179,10 @@ public class Character_UI : MonoBehaviour
         }
     }
 
-    private void Make_prefab(int sprite, int index)
+    private void Make_prefab(int sprite, int index)// 버튼 프리팹을 생성하고 리스트에 추가
     {
         GameObject newobj = Instantiate(btn_prefab, content_zone.transform);
         prefab_btn_list.Add(newobj);
-        //newobj.transform.SetParent(content_zone.transform, false);
 
         Button button = newobj.GetComponent<Button>();
 
@@ -194,7 +196,7 @@ public class Character_UI : MonoBehaviour
 
     #region btn
 
-    public void Set_cur_character_btn(int num)
+    public void Set_cur_character_btn(int num)// 현재 표시 중인 캐릭터를 변경
     {
         index_UI = num;
         index_character = BackendChart_JGD.chartData.character_list[num];
@@ -228,7 +230,7 @@ public class Character_UI : MonoBehaviour
 
     #endregion
     #region levelup
-    public void Enable_levelup_pannel_btn()
+    public void Enable_levelup_pannel_btn()// 레벨업 패널을 업데이트하고 표시
     {
         Character_amount cur_chartdata = BackendChart_JGD.chartData.Characteramount_list[index_character.curlevel - 1];
         Character_amount next_chartdata = null;
@@ -287,7 +289,7 @@ public class Character_UI : MonoBehaviour
 
     }
 
-    private void Colored_text(bool bool_, object obj, TMP_Text text)
+    private void Colored_text(bool bool_, object obj, TMP_Text text)// 텍스트 색상을 변경하여 업데이트
     {
         if (bool_)
         {

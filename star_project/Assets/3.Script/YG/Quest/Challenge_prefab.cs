@@ -29,6 +29,10 @@ public class Challenge_prefab : MonoBehaviour
 
         if (challenge.userdata.criterion >= challenge.goal)
         {
+            if (challenge.userdata.state == challenge_state.complete)
+            {
+                gameObject.SetActive(false);
+            }
             if(challenge.userdata.state == challenge_state.incomplete)
             {
                 challenge.userdata.state = challenge_state.can_reward;
