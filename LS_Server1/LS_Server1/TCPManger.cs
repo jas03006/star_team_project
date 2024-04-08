@@ -34,12 +34,9 @@ public class TCPManger
 
    
     private bool is_server;
-    //기본적인 소켓통신
-    //.net -> 패킷 -> Stream 
-    // 데이터를 읽는 부분 -> thread 
 
-    StreamReader reader;//데이터를 읽는 놈
-    StreamWriter writer;//데이터를 쓰는 놈
+    StreamReader reader;
+    StreamWriter writer;
 
     private List<Client_Handler> client_handler_list;
     private Queue<Net_Request> request_queue;
