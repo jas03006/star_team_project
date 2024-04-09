@@ -263,6 +263,8 @@ public class Housing_UI_Manager : MonoBehaviour
     [SerializeField] private Button delete_edit_BTN;
     public Action delete_action; //오브젝트 회수 액션
     private Coroutine edit_show_co=null; //오브젝트 이동 시 UI가 따라가게 하는 코루틴
+    private Vector3Int origin_pos;
+    private int origin_id;
     
     public void show_edit_UI(Net_Housing_Object ob) {
         edit_UI.gameObject.SetActive(true);
@@ -314,19 +316,23 @@ public class Housing_UI_Manager : MonoBehaviour
         
         if (now_focus_ob != null) {
             is_move = true;
-            TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
-            TCP_Client_Manager.instance.placement_system.StartPlacement((int)now_focus_ob.object_enum);
+            origin_id = (int)now_focus_ob.object_enum;
+            origin_pos = TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
+            TCP_Client_Manager.instance.placement_system.StartPlacement(origin_id);
         }        
         
     }
 
-    public void click_up_move_btn()
+    public void click_up_move_btn(bool placement_success)
     {
         if (!is_move)
         {
             return;
         }
         is_move = false;
+        if (!placement_success) {
+            TCP_Client_Manager.instance.placement_system.place_structure_immediatly(origin_id, origin_pos);
+        }        
     }
 
     //오브젝트 이동 시 UI가 따라가게 하는 코루틴

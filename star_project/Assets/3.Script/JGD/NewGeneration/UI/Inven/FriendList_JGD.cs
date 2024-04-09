@@ -78,7 +78,7 @@ public class FriendList_JGD : MonoBehaviour
                     buttons[0].onClick.AddListener(() => UIManager_YG.Instance.star_nest_UI.show_UI(true, nickName));
                     buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
 
-                    buttons[1].onClick.AddListener(() => KillMyFriend(inDate, list));
+                    buttons[1].onClick.AddListener(() => KillMyFriend(nickName, list));
                     buttons[1].onClick.AddListener(() => AudioManager.instance.SFX_Click());
                 }else
                 {
@@ -105,11 +105,19 @@ public class FriendList_JGD : MonoBehaviour
         }
         friend_dic.Clear();
     }
-    public void KillMyFriend(string Friend, GameObject list)
+    public void KillMyFriend(string nickname, GameObject list)
     {
-        Backend.Friend.BreakFriend(Friend);
-        Debug.Log($"{Friend} 컷!!!!!!!!!!!!!!!!");
+        KillMyFriend(nickname);
         Destroy(list);
+    }
+
+    public static void KillMyFriend(string nickname) {
+        if (friend_dic.ContainsKey(nickname))
+        {
+            Backend.Friend.BreakFriend(friend_dic[nickname]);
+            TCP_Client_Manager.instance.killfriend_reaction(nickname);                   
+            friend_dic.Remove(nickname);
+        }
     }
 
     public void go_myplanet_btn() {
@@ -184,13 +192,14 @@ public class FriendList_JGD : MonoBehaviour
                             continue;
                         }
 
-                        var n_bro = Backend.Social.GetUserInfoByNickName(nickName);
+                        //추가 정보를 출력해야할 경우 사용
+                        /*var n_bro = Backend.Social.GetUserInfoByNickName(nickName);
                         if (!n_bro.IsSuccess() || !n_bro.HasReturnValue())
                         {
                             continue;
-                        }
+                        }*/
                         //example
-                        string inDate = n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+                        string inDate = string.Empty;//= n_bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
 
                         GameObject list = Instantiate(Recommend_Friend_prefab, recommend_location.transform);
 
@@ -199,7 +208,9 @@ public class FriendList_JGD : MonoBehaviour
 
                         int ind = numcount;
                         Button[] buttons = list.GetComponentsInChildren<Button>();
-                        if (buttons.Length >= 2)
+
+                        //요소 내에 버튼이 있는 경우 사용
+                        if (buttons.Length >= 2) 
                         {
                             buttons[0].onClick.AddListener(() => AudioManager.instance.SFX_Click());
                             buttons[0].onClick.AddListener(() => UIManager_YG.Instance.star_nest_UI.show_UI(true, nickName));
@@ -272,7 +283,7 @@ public class FriendList_JGD : MonoBehaviour
     }
 
     public void show_profile() {
-        if (select_indate != string.Empty)
+        if (select_nickname != string.Empty)
         {
             UIManager_YG.Instance.star_nest_UI.show_UI(true, select_nickname);
             init_selections();

@@ -29,7 +29,8 @@ public enum command_flag
     chat = 6, //채팅 전송
     interact = 7, //채팅 전송
     invite = 8, //초대
-    emo = 9 //이모티콘 사용
+    emo = 9, //이모티콘 사용
+    kick = 10 //강퇴
 }
 
 //서버와 TCP 연결을 관리하는 클래스
@@ -235,7 +236,7 @@ public class TCP_Client_Manager : MonoBehaviour
         if (msg == BitConverter.GetBytes((int)0).ToString()) { // connection check byte 
             return;
         }
-        //Debug.Log(msg);
+        Debug.Log(msg);
         string[] cmd_arr = msg.Split(" ");
         // try
         //{
@@ -244,13 +245,13 @@ public class TCP_Client_Manager : MonoBehaviour
             switch ((command_flag)int.Parse(cmd_arr[0]))
             {
                 case command_flag.join: // join rood_id host_id position_data
-
-                uuid_ = cmd_arr[2];
+                    host_id = cmd_arr[1];
+                    uuid_ = cmd_arr[2];
                     if (my_player.object_id != uuid_)
                     {
                         create_guest(uuid_, get_respawn_point(uuid_)); //첫 리스폰 좌표를 넣기
                     }
-                    else {                        
+                    else {
                         if (cmd_arr.Length > 3) {
                             chat_box_manager.clear();
                             remove_all_guest(except_self: true);
@@ -264,7 +265,7 @@ public class TCP_Client_Manager : MonoBehaviour
 
                             net_mov_obj_dict[cmd_arr[2]] = my_player;                            
                             creat_all_guest(cmd_arr[3]);
-                        }                        
+                        }
                     }   
                     break;
                 case command_flag.exit: // exit room_id host_id //게임 나가기 (방 나가기와 다른것으로 함)
@@ -339,6 +340,21 @@ public class TCP_Client_Manager : MonoBehaviour
                         (net_mov_obj_dict[uuid_] as PlayerMovement).show_emozi(int.Parse(cmd_arr[3]));
                     }
                     break;
+                case command_flag.kick:
+                    host_id = cmd_arr[1];
+                    uuid_ = cmd_arr[2];
+                    if (uuid_ == my_player.object_id ) { //내가 강퇴 당할 때
+                        if (my_player.object_id != now_room_id) {
+                            go_myplanet();
+                        }                        
+                    }/*
+                    else{
+                        if (host_id  == now_room_id) //내가 있는 플래닛의 주인이 강퇴 당할 때
+                        {
+                            create_guest(uuid_, get_respawn_point(uuid_)); //첫 리스폰 좌표를 넣기
+                        }                    
+                    }*/
+                    break;
             default:
                     break;
             }
@@ -350,6 +366,21 @@ public class TCP_Client_Manager : MonoBehaviour
     #endregion
 
     #region function
+    public void killfriend_reaction(string nickname) {
+        if (now_room_id.Equals(nickname))
+        {
+            go_myplanet();
+        }
+        else
+        {
+            kick(nickname);
+        }
+    }
+    
+    public void kick(string uuid_) {
+          send_kick_request(my_player.object_id, uuid_);
+    }
+    
     public void invite(string uuid_)
     {
 
@@ -390,14 +421,19 @@ public class TCP_Client_Manager : MonoBehaviour
     public void send_join_and_load(string room_id_) {
         if (send_join_request(room_id_, my_player.object_id)) //방문 성공 시 처리
         {
-            now_room_id = room_id_;
-            hide_lobby_buttons();
-            load_house();
-            my_player.show_UI();
+            move_planet(room_id_);
+        }
+    }
 
-            if (now_room_id != "-" && now_room_id != my_player.object_id) {
-                QuestManager.instance.Check_challenge(Clear_type.visit_friendplanet);
-            }
+    public void move_planet(string room_id_) {
+        now_room_id = room_id_;
+        hide_lobby_buttons();
+        load_house();
+        my_player.show_UI();
+
+        if (now_room_id != "-" && now_room_id != my_player.object_id)
+        {
+            QuestManager.instance.Check_challenge(Clear_type.visit_friendplanet);
         }
     }
     //본인의 마이플래닛으로 이동
@@ -488,7 +524,9 @@ public class TCP_Client_Manager : MonoBehaviour
             if (except_self && my_player.object_id == key) {
                 continue;
             }
-            Destroy(net_mov_obj_dict[key].gameObject);
+            if (net_mov_obj_dict[key] != null) { 
+                Destroy(net_mov_obj_dict[key].gameObject);  
+            }
         }
         net_mov_obj_dict.Clear();
     }
@@ -558,6 +596,11 @@ public class TCP_Client_Manager : MonoBehaviour
             return false;
         }
         return sending_Message($"{(int)command_flag.emo} {now_room_id} {my_player.object_id} {emozi_id}");
+    }
+    //강퇴 요청
+    public bool send_kick_request(string room_id, string object_id)
+    {
+        return sending_Message($"{(int)command_flag.kick} {room_id} {object_id}");
     }
     #endregion
 

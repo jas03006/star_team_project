@@ -28,7 +28,7 @@ public class RemovingState : IBuildingState
         previewSystem.StopShowingPreview();
     }
 
-    public void OnAction(Vector3Int gridPosition)
+    public bool OnAction(Vector3Int gridPosition)
     {
         GridData selectedData = null;
         if (furnitureData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
@@ -49,13 +49,14 @@ public class RemovingState : IBuildingState
         {
             gameObjectIndex = selectedData.GetRepresentationIndex(gridPosition);
             if (gameObjectIndex == -1)
-                return;
+                return false;
 
             selectedData.RemoveObjectAt(gridPosition);
             objectPlacer.RemoveObjectAt(gameObjectIndex, is_init);
         }
         Vector3 cellPosition = grid.CellToWorld(gridPosition) + new Vector3( grid.cellSize.x / 2f,0, grid.cellSize.z / 2f);
         previewSystem.UpdatePostition(cellPosition, CheckIfSelectionIsValid(gridPosition));
+        return true;
     }
 
     private bool CheckIfSelectionIsValid(Vector3Int gridPosition)

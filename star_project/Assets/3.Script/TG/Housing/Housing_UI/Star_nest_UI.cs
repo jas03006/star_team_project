@@ -90,6 +90,7 @@ public class Star_nest_UI : MonoBehaviour
     public TMP_Text title_text;
     public TMP_Text nickname_text;
     public TMP_Text planet_name_text;
+    public TMP_Text intro_tag;
     public TMP_Text intro_text;
     public TMP_Text level_profile_text;
     public Image level_profile_image;
@@ -304,7 +305,7 @@ public class Star_nest_UI : MonoBehaviour
 
 
             show_edit_btn();
-
+            intro_tag.text = "나의 한마디";
             init_title_edit_UI();
             init_emozi_list();
             init_bg_list();
@@ -317,6 +318,7 @@ public class Star_nest_UI : MonoBehaviour
 
 
             hide_edit_btn();
+            intro_tag.text = "친구의 한마디";
 
             if (FriendList_JGD.is_friend(now_nickname))
             {
@@ -536,6 +538,7 @@ public class Star_nest_UI : MonoBehaviour
             save_btn.interactable = false;
 
             UIManager_YG.Instance.update_profile();
+            TCP_Client_Manager.instance.my_player.update_title();
         }
     }
     
@@ -608,7 +611,8 @@ public class Star_nest_UI : MonoBehaviour
     {
         if (now_nickname != null && now_nickname != TCP_Client_Manager.instance.my_player.object_id)
         {
-            Backend.Friend.BreakFriend(FriendList_JGD.friend_dic[now_nickname]);
+            // Backend.Friend.BreakFriend(FriendList_JGD.friend_dic[now_nickname]);
+            FriendList_JGD.KillMyFriend(now_nickname);
             add_friend_btn_ob.SetActive(true);
             request_complete_btn_ob.SetActive(false);
             delete_friend_btn_ob.SetActive(false);
