@@ -43,22 +43,26 @@ public class PlayerMovement : Player_Network_TG
     {
         base.load();
         name_tag.text = object_id;
+        update_title();
+        update_model();
+    }
+    public void update_title() {
         if (!is_guest)
         {
             title_tag.text = (BackendGameData_JGD.userData.title_adjective == adjective.none ? "" : BackendGameData_JGD.userData.title_adjective.ToString())
             + " " + (BackendGameData_JGD.userData.title_noun == noun.none ? "" : BackendGameData_JGD.userData.title_noun.ToString());
             character = BackendGameData_JGD.userData.character;
             //TODO: 선택 캐릭터 적용
-            
+
         }
-        else {
+        else
+        {
             string[] select = { "title_adjective", "title_noun", "character" };
             UserData ud = BackendGameData_JGD.Instance.get_userdata_by_nickname(object_id, select);
             title_tag.text = (ud.title_adjective == adjective.none ? "" : ud.title_adjective.ToString())
             + " " + (ud.title_noun == noun.none ? "" : ud.title_noun.ToString());
             character = ud.character;
         }
-        update_model();
     }
 
     public void update_model() {
