@@ -47,6 +47,7 @@ public class Character_UI : MonoBehaviour
     [SerializeField] private Button levelup_btn;
     [SerializeField] private GameObject max_level;
     [SerializeField] private GameObject max_hp;
+    [SerializeField] private GameObject levelup_done;
 
     private void OnEnable()
     {
@@ -111,7 +112,7 @@ public class Character_UI : MonoBehaviour
         }
 
 
-        if (cur_character.curlevel >= cur_character.maxlevel)
+        if (index_character.curlevel >= index_character.maxlevel)
         {
             Update_btn(false, levelup_btn, levelup_O, levelup_X);
         }
@@ -215,6 +216,14 @@ public class Character_UI : MonoBehaviour
     public void Inhance_btn() //캐릭터 강화 버튼
     {
         int gold_req, ark_req;
+
+        if (index_character.maxlevel <= index_character.curlevel)
+        {
+            levelup_done.SetActive(true);
+            return;
+        }
+
+        levelup_done.SetActive(false);
 
         if (index_character.CanLevelup(MoneyManager.instance.gold, MoneyManager.instance.ark, out gold_req, out ark_req))
         {
