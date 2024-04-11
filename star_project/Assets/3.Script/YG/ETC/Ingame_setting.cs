@@ -10,9 +10,6 @@ public class Ingame_setting : MonoBehaviour
     [SerializeField] private Sprite on_sprite;
     [SerializeField] private Sprite off_sprite;
 
-    //추가할 예정
-    private bool on_haptic = true;
-
     public void Start()
     {
         First_setting();
@@ -40,7 +37,6 @@ public class Ingame_setting : MonoBehaviour
                 Sound_change(false);
                 break;
             case 2:
-                Debug.Log("진동 기능 준비중");
                 AudioManager.instance.Switchmode_vibration();
                 break;
         }
