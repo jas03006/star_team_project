@@ -12,6 +12,9 @@ public class SettingUI_TG : MonoBehaviour
     [SerializeField] private Toggle bgm_toggle;
     [SerializeField] private Toggle sfx_toggle;
     [SerializeField] private Toggle haptic_toggle;
+    [SerializeField] private GameObject bgm_image_gameobject;
+    [SerializeField] private GameObject sfx_image_gameobject;
+    [SerializeField] private GameObject haptic_image_gameobject;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,28 +25,34 @@ public class SettingUI_TG : MonoBehaviour
     {
         if (AudioManager.instance.playing_bgm)
         {
-            bgm_toggle.isOn = true;
+            bgm_toggle.SetIsOnWithoutNotify(true);
+            bgm_image_gameobject.SetActive(true);
         }
         else {
-            bgm_toggle.isOn = false;
+            bgm_toggle.SetIsOnWithoutNotify(false);
+            bgm_image_gameobject.SetActive(false);
         }
 
         if (AudioManager.instance.playing_sfx)
         {
-            sfx_toggle.isOn = true;
-
+            sfx_toggle.SetIsOnWithoutNotify(true);
+            sfx_image_gameobject.SetActive(true);
         }
         else
         {
-            sfx_toggle.isOn = false;
+            sfx_toggle.SetIsOnWithoutNotify(false);
+            sfx_image_gameobject.SetActive(false);
         }
+
         if (AudioManager.instance.playing_vibration)
         {
-            haptic_toggle.isOn = true;
+            haptic_toggle.SetIsOnWithoutNotify(true);
+            haptic_image_gameobject.SetActive(true);
         }
         else
         {
-            haptic_toggle.isOn = false;
+            haptic_toggle.SetIsOnWithoutNotify(false);  
+            haptic_image_gameobject.SetActive(false);
         }
     }
 
@@ -58,7 +67,6 @@ public class SettingUI_TG : MonoBehaviour
                 Sound_change(false);
                 break;
             case 2:
-                Debug.Log("진동 기능 준비중");
                 AudioManager.instance.Switchmode_vibration();
                 break;
         }
