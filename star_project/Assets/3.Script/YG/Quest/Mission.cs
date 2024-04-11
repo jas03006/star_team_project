@@ -356,37 +356,4 @@ public class Mission_userdata
         criterion = 0;
         criterion_ = 0;
     }
-
-
-    public void Data_update()
-    {
-        //데이터에 넣기
-        Param param = new Param();
-        param.Add("quest_Info", BackendGameData_JGD.userData.quest_Info);
-
-        BackendReturnObject bro = null;
-
-        if (string.IsNullOrEmpty(BackendGameData_JGD.Instance.gameDataRowInDate))
-        {
-            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
-
-            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
-        }
-
-        else
-        {
-            Debug.Log($"{BackendGameData_JGD.Instance.gameDataRowInDate}의 게임정보 데이터 수정을 요청합니다.");
-
-            bro = Backend.GameData.UpdateV2("USER_DATA", BackendGameData_JGD.Instance.gameDataRowInDate, Backend.UserInDate, param);
-        }
-
-        if (bro.IsSuccess())
-        {
-            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
-        }
-        else
-        {
-            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
-        }
-    }
 }
