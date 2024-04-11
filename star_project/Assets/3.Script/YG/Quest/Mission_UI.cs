@@ -55,6 +55,7 @@ public class Mission_UI : MonoBehaviour
 
     private int index;
     [SerializeField] private Quest_Icon icon;
+    [SerializeField] private Color X_color;
 
     private void Start()
     {
@@ -104,6 +105,39 @@ public class Mission_UI : MonoBehaviour
                 break;
         }
 
+        List<Mission> missionsToEnd = new List<Mission>();
+        List<Mission> missionsToFirst = new List<Mission>();
+
+        foreach (Mission mis in missions)
+        {
+            if (QuestManager.instance.Mission2data(mis).is_clear)
+            {
+                missionsToEnd.Add(mis);
+            }
+            else if (QuestManager.instance.Mission2data(mis).is_accept)
+            {
+                missionsToFirst.Add(mis);
+            }
+        }
+
+        foreach (Mission mis in missionsToFirst)
+        {
+            missions.Remove(mis);
+        }
+
+        foreach (Mission mis in missionsToFirst)
+        {
+            missions.Insert(0, mis);
+        }
+
+        foreach (Mission mis in missionsToEnd)
+        {
+            missions.Remove(mis);
+        }
+
+        missions.AddRange(missionsToEnd);
+
+
         for (int i = 0; i < missionlist.Count; i++)
         {
             if (i+1 <= missions.Count)
@@ -114,10 +148,12 @@ public class Mission_UI : MonoBehaviour
 
             else
             {
+                missionlist[i].GetComponent<Image>().color = Color.white;
                 missionlist[i].SetActive(false);
             }
         }
     }
+    
 
     private void UI_updateL() //현재 선택한 미션 업데이트
     {
@@ -210,7 +246,7 @@ public class Mission_UI : MonoBehaviour
         }
 
         QuestManager.instance.Mission2data(cur_mission).is_accept = true;
-        QuestManager.instance.Mission2data(cur_mission).Data_update();
+        BackendGameData_JGD.Instance.GameDataUpdate();
         QuestManager.instance.cur_missiontypes.Add(cur_mission.criterion_type);
         Debug.Log("수락완료!");
 
@@ -250,7 +286,7 @@ public class Mission_UI : MonoBehaviour
         MoneyManager.instance.Get_Money(Money.ark, cur_mission.reward_ark);
         QuestManager.instance.Mission2data(cur_mission).get_rewarded = true;
         reward_btn.enabled = false;
-        QuestManager.instance.Mission2data(cur_mission).Data_update();
+        BackendGameData_JGD.Instance.GameDataUpdate();
         UI_updateL();
         icon.Remove(userdata);
     }

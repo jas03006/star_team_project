@@ -59,7 +59,7 @@ public class QuestManager : MonoBehaviour
 
         if (is_change)
         {
-            BackendGameData_JGD.userData.quest_Info.mission_userdata[0].Data_update();
+            BackendGameData_JGD.Instance.GameDataUpdate();
         }
     }
 
@@ -98,7 +98,7 @@ public class QuestManager : MonoBehaviour
 
                     Debug.Log("해당 미션 번호 : " + data.mission_id);
                     data.criterion += num;
-                    data.Data_update();
+                    BackendGameData_JGD.Instance.GameDataUpdate();
                     return;
                 }
             }
