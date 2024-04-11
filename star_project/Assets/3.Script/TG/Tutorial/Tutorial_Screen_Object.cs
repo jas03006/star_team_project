@@ -27,6 +27,8 @@ public class Tutorial_Screen_Object : MonoBehaviour
 
 
     public Button target_button; // 타겟이 되는 버튼 (클릭시 다음 단계로)
+    public string goal_object_parent_tag = string.Empty; // 타겟 버튼 클릭 시 active 변경 되어야하는 gomeobject의 부모의 tag ( 선택적, 버튼을 클릭하지 않더라도 해당 object가 active되어 있다면 다음 단계로)
+    public bool goal_should_on = true; // 골 오브젝트가 active되어야 하는지 deactive 되어야하는지 (선택)
     private UnityAction step_action; // 타겟 클릭 시 액션 (add listener로 동적으로 할당)
 
     private void Awake()
@@ -92,8 +94,17 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 screen.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.particular_touch:
-                //yield return new WaitForSeconds(delay_time);
-                step_action = () => { AudioManager.instance.SFX_Click(); Tutorial_TG.instance.step(); target_button?.onClick.RemoveListener(step_action); };
+                if (goal_object_parent_tag != string.Empty) {
+                    GameObject goal_object = GameObject.FindGameObjectWithTag(goal_object_parent_tag)?.transform.GetChild(0)?.gameObject;
+                    if (goal_object != null && goal_object.activeSelf == goal_should_on)
+                    {
+                        yield return new WaitForSeconds(0.3f);
+                        Tutorial_TG.instance.step();
+                        break;
+                    }
+                }
+                
+                step_action = () => { Tutorial_TG.instance.step(); target_button?.onClick.RemoveListener(step_action); };
                 target_button?.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.timeout:
