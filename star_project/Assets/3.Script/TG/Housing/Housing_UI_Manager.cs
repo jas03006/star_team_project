@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+//하우징 편집 모드 UI
 public class Housing_UI_Manager : MonoBehaviour
 {
     [SerializeField] private ObjectsDatabaseSO object_db;
@@ -31,24 +31,16 @@ public class Housing_UI_Manager : MonoBehaviour
     private int page_num=0;
     private int total_page_num=1;
 
-    private Dictionary<housing_itemID, Housing_Inven_BTN> id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>();
+    private Dictionary<housing_itemID, Housing_Inven_BTN> id2btn_dic = new Dictionary<housing_itemID, Housing_Inven_BTN>(); //ID에 따른 버튼 저장
 
-    public Camera camera;
+    public Camera camera; //편집 모드인 경우 플레이어 오브젝트 출력하지 않음
     public LayerMask default_mask;
     public LayerMask edit_mode_mask;
 
     public bool is_edit_mode = false;
     public bool is_move = false;
     public float ui_distance=0f;
-    float child_cnt = 1f;
-    // Start is called before the first frame update
-    void Start()
-    {
-       // init_housing_UI();
-
-    }
-
-    
+    float child_cnt = 1f;   
 
     public void init_housing_UI() {
         grid_renderer.enabled = false;        
@@ -72,7 +64,7 @@ public class Housing_UI_Manager : MonoBehaviour
             Destroy(button_container.GetChild(i).gameObject);
         }
     }
-
+    //하우징 인벤토리 화면 초기화
     public void init_housing_inventory(bool is_first_time =true)
     {
         if (is_first_time)
@@ -139,10 +131,13 @@ public class Housing_UI_Manager : MonoBehaviour
         }
     }
 
+    //오브젝트 설치 시 처리
     public void decrease_use_count(housing_itemID id) {
         id2btn_dic[id].use();
         sort();
     }
+
+    //오브젝트 회수 시 처리
     public void increase_use_count(housing_itemID id)
     {
         id2btn_dic[id].back();
@@ -151,7 +146,8 @@ public class Housing_UI_Manager : MonoBehaviour
     public bool can_use(housing_itemID id) { 
         return id2btn_dic[id].can_use(); ;
     }
-
+        
+    //꾸미기 버튼 클릭
     public void click_edit_btn() {
         is_edit_mode = true;
         foreach (GameObject ui in hide_UI_list) {
@@ -171,6 +167,8 @@ public class Housing_UI_Manager : MonoBehaviour
 
         init_housing_inventory(false);
     }
+
+    //저장하지 않고 나가기
     public void click_X_btn(bool is_cancel = true)
     {
         TCP_Client_Manager.instance.placement_system.cancel_placement();
@@ -197,7 +195,7 @@ public class Housing_UI_Manager : MonoBehaviour
             TCP_Client_Manager.instance.net_mov_obj_dict[key].show_UI();
         }
     }
-
+    //인벤토리 페이지 넘기기
     public void click_scroll_btn(bool is_right) {
         if (child_cnt <= btn_per_line) {
             return;
@@ -215,7 +213,7 @@ public class Housing_UI_Manager : MonoBehaviour
         }
         page_text.text = page_num.ToString();
     }
-    
+    //카테고리 버튼
     public void click_category_btn(int cate) {
         for (int i=0; i < cate_btn_arr.Length;i++) {
             cate_btn_arr[i].image.sprite = un_select_tab_sprite;
@@ -255,23 +253,19 @@ public class Housing_UI_Manager : MonoBehaviour
     }
     public int get_category(housing_itemID id_) {
         return 2 - (int)object_db.get_object(id_).category;
-        /*housing_itemID[] special_arr = { housing_itemID.ark_cylinder, housing_itemID.star_nest, housing_itemID.airship, housing_itemID .post_box};
-        if (special_arr.Contains(id_)) {
-            return 1;
-        }
-        else {
-            return 2;
-        }*/
     }
 
     #region object edit mode
     [Header("Edit Mode")]
 
-    public Net_Housing_Object now_focus_ob = null;
+    public Net_Housing_Object now_focus_ob = null; //현재 선택된 하우징 오브젝트
     public RectTransform edit_UI;
     [SerializeField] private Button delete_edit_BTN;
-    public Action delete_action;
-    private Coroutine edit_show_co=null;
+    public Action delete_action; //오브젝트 회수 액션
+    private Coroutine edit_show_co=null; //오브젝트 이동 시 UI가 따라가게 하는 코루틴
+    private Vector3Int origin_pos;
+    private int origin_id;
+    
     public void show_edit_UI(Net_Housing_Object ob) {
         edit_UI.gameObject.SetActive(true);
         now_focus_ob = ob;
@@ -314,6 +308,7 @@ public class Housing_UI_Manager : MonoBehaviour
         hide_edit_UI();
     }
 
+    //이동 버튼 누를 시
     public void click_down_move_btn() {
         if (is_move) {
             return;
@@ -321,21 +316,26 @@ public class Housing_UI_Manager : MonoBehaviour
         
         if (now_focus_ob != null) {
             is_move = true;
-            TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
-            TCP_Client_Manager.instance.placement_system.StartPlacement((int)now_focus_ob.object_enum);
+            origin_id = (int)now_focus_ob.object_enum;
+            origin_pos = TCP_Client_Manager.instance.placement_system.remove(now_focus_ob);
+            TCP_Client_Manager.instance.placement_system.StartPlacement(origin_id);
         }        
         
     }
 
-    public void click_up_move_btn()
+    public void click_up_move_btn(bool placement_success)
     {
         if (!is_move)
         {
             return;
         }
         is_move = false;
+        if (!placement_success) {
+            TCP_Client_Manager.instance.placement_system.place_structure_immediatly(origin_id, origin_pos);
+        }        
     }
 
+    //오브젝트 이동 시 UI가 따라가게 하는 코루틴
     public IEnumerator show_edit_UI_co() {
         Vector3 temp;
         while (now_focus_ob != null) {

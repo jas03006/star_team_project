@@ -12,13 +12,13 @@ public class SearchEngine_TG : MonoBehaviour
     [SerializeField] private Transform conatainer;
 
     private string input_text = string.Empty;
-    [SerializeField] UIManager_JGD uimanager; //자동 친구 추천의 경우, 정렬 방식이 달라지기 때문에 친구창에서 현재 선택된 탭이 자동 친구추천인지 알기 위해 참조
+    [SerializeField] UIManager_JGD uimanager; //램던 친구 추천의 경우, 정렬 방식이 달라지기 때문에 친구창에서 현재 선택된 탭이 자동 친구추천인지 알기 위해 참조
     Transform[] m_Children; //conatainer 의 자식 트랜스폼을 담을 배열
     private void OnEnable()
     {
         input.text = string.Empty;
 
-        if (m_Children !=null && uimanager != null && uimanager.now_selection == 1) {
+        if (m_Children !=null && uimanager != null && uimanager.now_selection == 1) { //랜덤 친구 추천의 경우, 10개의 결과만을 표시
             for (int i = 0; i < m_Children.Length; i++)
             {
                 m_Children[i].gameObject.SetActive(i < 10);
@@ -44,7 +44,7 @@ public class SearchEngine_TG : MonoBehaviour
     {
         input_text = input.text;
         bool is_random =false;
-        if (input_text == string.Empty && uimanager !=null &&uimanager.now_selection==1) {
+        if (input_text == string.Empty && uimanager !=null &&uimanager.now_selection==1) { //랜덤 친구 추천인 경우
             is_random = true;
         }
 

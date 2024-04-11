@@ -50,19 +50,19 @@ public class PlacementState : IBuildingState
         previewSystem.StopShowingPreview();
     }
 
-    public void OnAction(Vector3Int gridPosition)
+    public bool OnAction(Vector3Int gridPosition)
     {
         if (!is_init && !TCP_Client_Manager.instance.housing_ui_manager.can_use(id))
         {
             TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
-            return;
+            return false;
         }
 
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
         if (placementValidity == false)
         {
             TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
-            return;
+            return false;
         }
 
         int index = objectPlacer.PlaceObject(database.objectData[selectedObjectIndex].prefab, gird.CellToWorld(gridPosition) + new Vector3(gird.cellSize.x / 2f, 0, gird.cellSize.z / 2f), this);
@@ -74,9 +74,10 @@ public class PlacementState : IBuildingState
         if (Tutorial_TG.instance.get_type() == tutorial_type_TG.housing) {
             Tutorial_TG.instance.check_housing_condition();
         }
+        return true;
     }
 
-    private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
         GridData selectData = database.objectData[selectedObjectIndex].id == 0 ? floorData : furnitureData;
         return selectData.CanPlaceObjectAt(gridPosition, database.objectData[selectedObjectIndex].size);

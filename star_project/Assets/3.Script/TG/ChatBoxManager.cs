@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+//채팅을 담당하는 클래스
 public class ChatBoxManager : MonoBehaviour
 {
     [SerializeField] private GameObject chat_panel;
     [SerializeField] private GameObject hide_btn;
     [SerializeField] private GameObject show_btn;
-    [SerializeField] private Transform global_chat_box;
+
+    [SerializeField] private Transform global_chat_box; //전체 채팅
     [SerializeField] private Transform global_chat_UI;
     [SerializeField] private Scrollbar global_scroll_bar;
-    [SerializeField] private Transform local_chat_box;
+
+    [SerializeField] private Transform local_chat_box; // 로컬 (마이플래닛 내부) 채팅
     [SerializeField] private Transform local_chat_UI;
     [SerializeField] private Scrollbar local_scroll_bar;
-    [SerializeField] private GameObject chat_line_prefab;
-    [SerializeField] private GameObject chat_line_prefab_mine;
+
+    [SerializeField] private GameObject chat_line_prefab; //타인의 채팅 프리팹
+    [SerializeField] private GameObject chat_line_prefab_mine; //본인의 채팅 프리팹
     
     private List<GameObject> global_chat_line_list;
     private List<GameObject> local_chat_line_list;
+
     public TMP_Text chat_input;
     public TMP_InputField chat_input_field;
 
@@ -36,6 +42,7 @@ public class ChatBoxManager : MonoBehaviour
         
     }
 
+    //전체 채팅, 로컬 채팅 전환
     public void change_is_global(bool value_) {
         is_global_chat = value_;
     }
@@ -44,7 +51,7 @@ public class ChatBoxManager : MonoBehaviour
         global_chat_UI.gameObject.SetActive(is_global_chat);
         local_chat_UI.gameObject.SetActive(!is_global_chat);
     }
-    
+    //채팅 전송
     public void chat(string msg, bool is_global) {
 
         string[] msg_arr = msg.Split(":");

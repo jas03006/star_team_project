@@ -169,6 +169,16 @@ public class PlacementSystem : MonoBehaviour
         lastDetectedPostition = Vector3Int.zero;
         buildingState = null;
     }
+
+    public void place_structure_immediatly(int id, Vector3Int pos)
+    {
+        StopPlacement();
+        buildingState = new PlacementState((housing_itemID)id, grid, preview, database, floorData, furnitureData, objectPlacer, DateTime.MaxValue);
+        buildingState.OnAction(pos);
+        buildingState.EndState();
+        lastDetectedPostition = Vector3Int.zero;
+        buildingState = null;
+    }
     /*public void place_structure_init(housing_itemID id, Vector3Int gridPosition) {
         buildingState = new PlacementState((housing_itemID)id, grid, preview, database, floorData, furnitureData, objectPlacer);
         buildingState.OnAction(gridPosition);
@@ -188,19 +198,20 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
 
     }
-    public void remove(Net_Housing_Object ob)
+    public Vector3Int remove(Net_Housing_Object ob)
     {
-        remove(ob.transform.position);
+        return remove(ob.transform.position);
     }
-    public void remove(Vector3 position_)
+    public Vector3Int remove(Vector3 position_)
     {
+        Vector3Int grid_pos = grid.WorldToCell(position_);
         buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer, is_init: false);
         position_.y = 0;
-        buildingState.OnAction( grid.WorldToCell(position_));
+        buildingState.OnAction(grid_pos);
         buildingState.EndState();
         lastDetectedPostition = Vector3Int.zero;
         buildingState = null;
-        
+        return grid_pos;
     }
 
     public void StartRemoving()
@@ -223,25 +234,32 @@ public class PlacementSystem : MonoBehaviour
         }
 
         Vector3 mousePosition = inputManager.GetSelectedPosition();
-        
+
 
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
         //Debug.Log($"mousePosition: {mousePosition} /gridPosition: {gridPosition} ");
 
-        buildingState?.OnAction(gridPosition);
-        TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
+        if (buildingState != null) {
+            TCP_Client_Manager.instance.housing_ui_manager.click_up_move_btn(buildingState.OnAction(gridPosition));
+        }
+        
     }
 
     public bool cancel_placement() {
-        TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
-        TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
+                
         if (buildingState == null)
+        {
+            TCP_Client_Manager.instance.housing_ui_manager.is_move = false;
+            TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
             return false;
+        }
         buildingState.EndState();
         inputManager.Onclicked -= PlaceStructure;
         inputManager.OnExit -= StopPlacement;
         lastDetectedPostition = Vector3Int.zero;
         buildingState = null;
+        TCP_Client_Manager.instance.housing_ui_manager.click_up_move_btn(false);
+        TCP_Client_Manager.instance.housing_ui_manager.hide_edit_UI();
         return true;
     }
 

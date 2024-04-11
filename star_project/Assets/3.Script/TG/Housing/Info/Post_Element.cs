@@ -7,12 +7,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+//우체통 좌측 우편리스트에 표기 될 우편 오브젝트
 public class Post_Element : MonoBehaviour
 {
-    string separator = "%^";
+    string separator = "%^"; //우편 정보 스트링에서 수령 가능 재화 정보를 담는 구역을 표시해주는 문자열
     public Post post;
     public PostType post_type;
-    public Dictionary<Money, int> item_dic= new Dictionary<Money, int>();
+    public Dictionary<Money, int> item_dic= new Dictionary<Money, int>(); //수령 가능 재화 정보
     public string item_str;
     public string date_str;
     public string content_str = string.Empty;
@@ -62,6 +63,8 @@ public class Post_Element : MonoBehaviour
         date_str = post.inDate.Split(".")[0].Replace("T"," ");
         date.text = date_str;
     }
+
+    // 우편 정보에서 수령 가능 재화 정보 추출
     public void parse_reward() {
         string[] arr = post.content.Split(separator);
         content_str = arr[0];
@@ -74,6 +77,7 @@ public class Post_Element : MonoBehaviour
         }
     }
 
+    //우편 수령 여부 저장
     public void receive(){
         if (is_received) {
             return;

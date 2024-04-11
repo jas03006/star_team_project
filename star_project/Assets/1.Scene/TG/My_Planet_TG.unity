@@ -11358,7 +11358,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6f75e7fa20e54ad4b8943e34304d93fc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 746008c851164bc48b55f790b31aa6fc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -34271,6 +34271,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1571544275}
+        m_TargetAssemblyTypeName: SettingUI_TG, Assembly-CSharp
+        m_MethodName: update_UI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &920050019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45578,7 +45590,6 @@ GameObject:
   - component: {fileID: 1301073580}
   - component: {fileID: 1301073582}
   - component: {fileID: 1301073581}
-  - component: {fileID: 1301073583}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -45648,19 +45659,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301073579}
   m_CullTransparentMesh: 1
---- !u!114 &1301073583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301073579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ddb561a16025be4e88c12d8295bd3fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  test_prefab: {fileID: 2863120625191159875, guid: d38b8e22bf7435f418a3fd2340f8ae27, type: 3}
 --- !u!1 &1312702740
 GameObject:
   m_ObjectHideFlags: 0
@@ -49465,6 +49463,7 @@ MonoBehaviour:
   title_text: {fileID: 715427109}
   nickname_text: {fileID: 741474511}
   planet_name_text: {fileID: 508676862}
+  intro_tag: {fileID: 959330377}
   intro_text: {fileID: 249501183}
   level_profile_text: {fileID: 1420773042}
   level_profile_image: {fileID: 667326055}
@@ -82852,7 +82851,6 @@ MonoBehaviour:
   levelup_X: {fileID: 21300000, guid: 7ae98d13a68b8974a98897a49adbed8d, type: 3}
   select_border: {fileID: 21300000, guid: d9f4fd6e77382104aace22c7d2368b6d, type: 3}
   notselect_border: {fileID: 21300000, guid: b00fa245258da3347a74603f4681d297, type: 3}
-  donepannel: {fileID: 0}
   next_hp: {fileID: 5319348288697113585}
   cur_hp: {fileID: 4061334881324615786}
   next_level: {fileID: 7271619645324347969}
