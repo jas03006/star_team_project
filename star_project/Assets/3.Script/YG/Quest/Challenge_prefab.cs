@@ -72,6 +72,8 @@ public class Challenge_prefab : MonoBehaviour
         if (challenge.userdata.state != challenge_state.can_reward)
             return;
 
+        //challenge.userdata.state = challenge_state.complete;
+        challenge.userdata.is_clear = true;
         Debug.Log(challenge.userdata.state + "변경완료");
 
         Debug.Log("Get_reward_btn");
