@@ -24,7 +24,7 @@ public class ItemID_JGD : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-         if (collision.CompareTag("Player"))
+         if (collision.CompareTag("Player"))//플레이어와 닿았을경우 벽 움직이기
         {
             Scanner();
             if (obstacles.Count == 0)

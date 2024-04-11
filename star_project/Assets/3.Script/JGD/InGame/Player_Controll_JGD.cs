@@ -8,17 +8,17 @@ using UnityEngine.UI;
 
 public class Player_Controll_JGD : MonoBehaviour
 {
-    private bool isMove = true;
-    public bool invincibility = false;
-    public bool Shild = false;
-    private int PlayerNumber = 0;
-    [SerializeField] GameObject cameraCon;
-    [SerializeField] GameObject Itemmanager;
-    [SerializeField] ItemManager itemManager;
-    [SerializeField] private float Jump;
-    [SerializeField] public float Speed;
+    private bool isMove = true; //움직임 컨트롤
+    public bool invincibility = false;   //무적판정
+    public bool Shild = false; //쉴드아이템
+    private int PlayerNumber = 0;//캐릭터 종류
+    [SerializeField] GameObject cameraCon;  //메인카메라
+    [SerializeField] GameObject Itemmanager; 
+    [SerializeField] ItemManager itemManager; //아이템 관련
+    [SerializeField] private float Jump;   //올라가는 속도
+    [SerializeField] public float Speed;   //이동속도
     Rigidbody2D rigi;
-    [SerializeField] TMP_Text ScoreTxt;
+    [SerializeField] TMP_Text ScoreTxt;  //스코어
     private int PlayerLevel;
     public double MaxHp = 100;
     public double currentHp;
@@ -41,7 +41,6 @@ public class Player_Controll_JGD : MonoBehaviour
     [SerializeField] private Sprite Alphabet_BackGround;
     [Header("PlayerHitByCar")]
     private bool isHitOn = true;
-    [SerializeField] private float DamageTime;
     public int Player_Alphabet_Count = 0;
 
     [SerializeField] public GameObject shield;
@@ -60,9 +59,9 @@ public class Player_Controll_JGD : MonoBehaviour
         character = GetComponent<SpriteRenderer>();
         settingUI = GetComponent<SettingUI_TG>();
     }
-    private void Start()
+    private void Start()//Player정보 초기 설정
     {
-        Init();
+        Init();// Player 정보 받아오기
         for (int i = 0; i < endgame.ClearData.Count; i++)
         {
             Alphabet.Add(-1);
@@ -76,24 +75,24 @@ public class Player_Controll_JGD : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Itemmanager.transform.position = this.transform.position;
-        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)
+        Itemmanager.transform.position = this.transform.position;//아이템 사용위치
+        if (this.transform.position.x >= cameraCon.transform.position.x && cameraCon.transform.position.x < 84f)//카메라 따라가기
         {
             cameraCon.transform.position = new Vector3(this.transform.position.x, cameraCon.transform.position.y, cameraCon.transform.position.z);
         }
         Player_Progress.value = this.transform.position.x;
-        if (isMove)
+        if (isMove)//움직임
         {
             this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
         }
-        if (Input.GetMouseButton(0) && isMove && !InputManager.IsPointerOverUI())
+        if (Input.GetMouseButton(0) && isMove && !InputManager.IsPointerOverUI())//Player 올라가는 속도
         {
             rigi.velocity = Vector2.up *Jump;
         }
     }
    
 
-    private void Init()
+    private void Init() //차트에서 Player정보 받아오기
     {
         cur_character = BackendChart_JGD.chartData.character_list[BackendGameData_JGD.userData.character];
         character.sprite = SpriteManager.instance.Num2Sprite(cur_character.sprite);
@@ -123,7 +122,7 @@ public class Player_Controll_JGD : MonoBehaviour
 
 
     Coroutine now_damage_co = null;
-    private IEnumerator OnDamage(int num, Collider2D collision)
+    private IEnumerator OnDamage(int num, Collider2D collision) //Player 피격
     {
         if (!invincibility && !Shild)
         {
@@ -140,7 +139,6 @@ public class Player_Controll_JGD : MonoBehaviour
             if (AudioManager.instance.playing_vibration)
             {
                 Handheld.Vibrate();
-                Debug.Log("진동왔슈");
             }
             if (currentHp <= 0)
             {
@@ -176,16 +174,16 @@ public class Player_Controll_JGD : MonoBehaviour
         }
         now_damage_co = null;
     }
-    private IEnumerator OnDamageEffect_co()
+    private IEnumerator OnDamageEffect_co() //Player 피격 이펙트
     {
         DamageEffect.transform.position = this.transform.position;
         DamageEffect.SetActive(true);
         yield return new WaitForSeconds(1f);
         DamageEffect.SetActive(false);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)//아이템 및 장애물 닿았을 경우 행동
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))//알파벳일경우
         {
             AudioManager.instance.SFX_collect_item();
             for (int i = 0; i < endgame.ClearData.Count; i++)
@@ -202,7 +200,7 @@ public class Player_Controll_JGD : MonoBehaviour
             Destroy(collision.gameObject);
             return;
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))//아이템일경우
         {
             switch (collision.gameObject.GetComponent<ItemID_JGD>().obstacle_ID)
             {
@@ -312,7 +310,7 @@ public class Player_Controll_JGD : MonoBehaviour
             return;
         }
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
-        {
+        {//아이템일경우
             switch (collision.gameObject.GetComponentInParent<ItemID_JGD>().obstacle_ID)
             {
                 case Obstacle_ID.NomalWall:
@@ -428,7 +426,7 @@ public class Player_Controll_JGD : MonoBehaviour
             return;
         }
     }
-    private void ItemChangeSlot1(int Num)
+    private void ItemChangeSlot1(int Num)//아이템 먹을경우 슬롯에 추가
     {
         ItemInven[0] = Num;
         PlayerItem.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[0]);
@@ -438,7 +436,7 @@ public class Player_Controll_JGD : MonoBehaviour
         ItemInven[1] = Num;
         PlayerItem2.sprite = SpriteManager.instance.Num2Sprite(4000 + ItemInven[1]);
     }
-    public void UseItem()
+    public void UseItem()//아이템 사용
     {
         int slot1 = ItemInven[1];
         int slot2 = 0;
@@ -490,18 +488,4 @@ public class Player_Controll_JGD : MonoBehaviour
                 break;
         }
     }
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
-    //    {
-    //        if (isMove)
-    //        {
-    //            if (now_damage_co != null)
-    //            {
-    //                StopCoroutine(now_damage_co);
-    //            }
-    //            now_damage_co = StartCoroutine(OnDamage(20, collision));
-    //        }
-    //    }
-    //}
 }

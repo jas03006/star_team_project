@@ -18,10 +18,6 @@ public class Press_Any_Key : MonoBehaviour
         image = this.GetComponent<Image>();
     }
 
-    //private void Start()
-    //{
-    //    PressNext = StartCoroutine(Press());
-    //}
     public void StartAnyKeyco()
     {
         if (PressNext != null)
@@ -30,7 +26,7 @@ public class Press_Any_Key : MonoBehaviour
         }
         PressNext = StartCoroutine(Press());
     }
-    private IEnumerator Press()
+    private IEnumerator Press() //글자 깜빡거리기
     {
         num = 0f;
         num2 = 1f;
