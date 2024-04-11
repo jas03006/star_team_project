@@ -75,7 +75,7 @@ public class Character
         goldRequired = chartdata.gold;
         arkRequired = chartdata.ark;
 
-        if (gold > goldRequired && ark > arkRequired)
+        if (gold > goldRequired && ark >= arkRequired)
             return true;
         else
             return false;
