@@ -13,9 +13,9 @@ public class SettingUI_TG : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        update_UI();
+       // update_UI();
     }
-
+    
     public void update_UI()
     {
         if (AudioManager.instance.playing_bgm)
