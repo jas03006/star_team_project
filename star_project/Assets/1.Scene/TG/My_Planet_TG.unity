@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.6739622, g: 0.46582264, b: 0.81740475, a: 1}
+  m_IndirectSpecularColor: {r: 0.6739509, g: 0.4657923, b: 0.817404, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -40877,9 +40877,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
+      propertyPath: goal_object
+      value: 
+      objectReference: {fileID: 626406446}
+    - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
       propertyPath: target_button
       value: 
       objectReference: {fileID: 1482546166}
+    - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
+      propertyPath: goal_should_on
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
+      propertyPath: goal_object_parent_tag
+      value: star_nest_UI
+      objectReference: {fileID: 0}
     - target: {fileID: 2315644896908308666, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -49260,6 +49272,8 @@ MonoBehaviour:
   start_pos: {fileID: 2036481907}
   end_pos: {fileID: 938483802}
   target_button: {fileID: 0}
+  goal_object_parent_tag: 
+  goal_should_on: 1
 --- !u!1 &1452538250
 GameObject:
   m_ObjectHideFlags: 0
@@ -72851,6 +72865,8 @@ MonoBehaviour:
   start_pos: {fileID: 1411269184859165313}
   end_pos: {fileID: 6501748948823395422}
   target_button: {fileID: 0}
+  goal_object_parent_tag: 
+  goal_should_on: 1
 --- !u!114 &695619232522782841 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
@@ -72886,6 +72902,8 @@ MonoBehaviour:
   start_pos: {fileID: 1411269184483416724}
   end_pos: {fileID: 6501748948716864587}
   target_button: {fileID: 0}
+  goal_object_parent_tag: 
+  goal_should_on: 1
 --- !u!114 &695619232730286273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72910,6 +72928,8 @@ MonoBehaviour:
   start_pos: {fileID: 1411269184288520410}
   end_pos: {fileID: 6501748948387489285}
   target_button: {fileID: 0}
+  goal_object_parent_tag: 
+  goal_should_on: 1
 --- !u!114 &695619233147720295 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
@@ -126242,6 +126262,8 @@ MonoBehaviour:
   start_pos: {fileID: 8526967257188559400}
   end_pos: {fileID: 4610226326086055159}
   target_button: {fileID: 0}
+  goal_object_parent_tag: 
+  goal_should_on: 1
 --- !u!33 &7821091290442690795
 MeshFilter:
   m_ObjectHideFlags: 0
