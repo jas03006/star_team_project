@@ -19,6 +19,9 @@ public class Challenge_prefab : MonoBehaviour
     [SerializeField] Sprite can_reward;
     [SerializeField] Sprite complete;
 
+    [SerializeField] Sprite O;
+    [SerializeField] Sprite X;
+
     Quest_Icon icon;
 
     public void Update_UI()
@@ -31,7 +34,11 @@ public class Challenge_prefab : MonoBehaviour
         {
             if (challenge.userdata.state == challenge_state.complete)
             {
-                gameObject.SetActive(false);
+                GetComponent<Image>().sprite = X;
+            }
+            else
+            {
+                GetComponent<Image>().sprite = O;
             }
             if(challenge.userdata.state == challenge_state.incomplete)
             {
