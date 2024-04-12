@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 게임 내 필요한 오디오 소스를 가져올 수 있는 클래스
+/// 오디오 소스마다 메서드를 만들어서 바로 가져올수 있게 해놓음.
+/// </summary>
 public class AudioManager : MonoBehaviour
 {
 
@@ -8,7 +11,7 @@ public class AudioManager : MonoBehaviour
      메서드명
     BGM = BGM_myplanet() or BGM_catchingstar()
     SFX = SFX_Clip이름 (ex:SFX_chapter_open)
-    ETC = Switchmode_bgm() or Switchmode_sfx()
+    ETC = 주석참조
      */
     public static AudioManager instance;  
     public bool playing_bgm = true;
@@ -244,24 +247,24 @@ public class AudioManager : MonoBehaviour
 
     #endregion
     #region ETC
-    public bool Switchmode_bgm()
+    public bool Switchmode_bgm()//환경설정에서 bgm on/off시 실행
     {
         playing_bgm = !playing_bgm;
         return playing_bgm;
     }
 
-    public bool Switchmode_sfx()
+    public bool Switchmode_sfx()//환경설정에서 sfx on/off시 실행
     {
         playing_sfx = !playing_sfx;
         return playing_sfx;
     }
-    public bool Switchmode_vibration()
+    public bool Switchmode_vibration()//환경설정에서 진동모드 on/off시 실행
     {
         playing_vibration = !playing_vibration;
         return playing_vibration;
     }
 
-    public bool isPlaying(bool isBGM)
+    public bool isPlaying(bool isBGM) //onoff상태확인 - true일경우 BGM, false일경우 sfx 
     {
         if (isBGM)
         {

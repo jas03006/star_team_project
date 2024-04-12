@@ -7,6 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 게임 내에서 필요한 sprite를 저장하는 스크럽터블 오브젝트.
 /// SpriteManager에서 데이터를 불러와서 사용함.
+/// 만들어진 에셋 참조.
 /// </summary>
 [CreateAssetMenu]
 public class SpriteDataBaseSO : ScriptableObject

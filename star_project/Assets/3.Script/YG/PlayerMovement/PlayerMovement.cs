@@ -30,7 +30,7 @@ public class PlayerMovement : Player_Network_TG
     Tween now_tween = null;
 
     public int character=-1;
-    [SerializeField] private MeshRenderer renderer;
+    [SerializeField] private MeshRenderer renderer_;
     private void OnEnable()
     {
         find_grid();
@@ -66,12 +66,12 @@ public class PlayerMovement : Player_Network_TG
     }
 
     public void update_model() {
-        renderer.material = SpriteManager.instance.Num2Material(character);
+        renderer_.material = SpriteManager.instance.Num2Material(character);
     }
     public void update_model(int char_id)
     {
         character = char_id;
-        renderer.material = SpriteManager.instance.Num2Material(character);
+        renderer_.material = SpriteManager.instance.Num2Material(character);
     }
 
     private void FixedUpdate()

@@ -24,7 +24,6 @@ using System;
 public class UserData
 {
     int Stage_ID;
-    bool is_clear = false;
     bool is_word_clear;
     int top_score;
     

@@ -16,7 +16,7 @@ public class GridData
             if (placedObjects.ContainsKey(pos))
             {
                 throw new Exception($"Dictionary already contains this cell position {pos}");
-                return;
+                //return;
             }
             placedObjects[pos] = data; 
         }
