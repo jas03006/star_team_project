@@ -6,13 +6,13 @@ using UnityEngine;
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
-
     /*
      메서드명
     BGM = BGM_myplanet() or BGM_catchingstar()
     SFX = SFX_Clip이름 (ex:SFX_chapter_open)
     ETC = 주석참조
      */
+
     public static AudioManager instance;  
     public bool playing_bgm = true;
     public bool playing_sfx = true;

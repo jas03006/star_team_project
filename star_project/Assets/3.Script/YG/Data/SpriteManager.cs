@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
 /// SpriteDataBaseSO에서 데이터를 불러와서 게임 내에서 sprite를 가져올때 사용함.
-/// 
 /// </summary>
 
 public class SpriteManager : MonoBehaviour

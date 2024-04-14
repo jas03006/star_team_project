@@ -1,19 +1,24 @@
 using BackEnd;
 using TMPro;
 using UnityEngine;
-
-public enum Money
+/// <summary>
+/// Game 씬에서 환경설정을 진행하고 UI를 출력하는 클래스.
+/// 싱글턴이며 
+/// </summary>
+public enum Money//게임 내 재화
 {
     ark = 0, gold, ruby
 }
 public class MoneyManager : MonoBehaviour
 {
-    public static MoneyManager instance;
+    public static MoneyManager instance; //싱글턴
 
+    [Header("Text")] //각 재화를 출력해주는 텍스트 컴포넌트
     [SerializeField] private TMP_Text ark_text;
     [SerializeField] private TMP_Text gold_text;
     [SerializeField] private TMP_Text ruby_text;
 
+    //각 재화별로 최소 0으로 제한하고 변경 시 UI 업데이트
     public int ark
     {
         get
@@ -79,7 +84,7 @@ public class MoneyManager : MonoBehaviour
     }
     int ruby_;
 
-    private void Awake()
+    private void Awake()//싱글턴
     {
         if (instance == null)
         {
@@ -94,19 +99,15 @@ public class MoneyManager : MonoBehaviour
 
     private void Start()
     {
+        //데이터 받아오기
         ark = BackendGameData_JGD.userData.ark;
         gold = BackendGameData_JGD.userData.gold;
         ruby = BackendGameData_JGD.userData.ruby;
     }
 
-    public void update_UI()
+    public void Get_Money(Money money, int num)//재화 추가시 실행됨
     {
-
-        gold_text.text = gold.ToString();
-        ruby_text.text = ruby.ToString();
-    }
-    public void Get_Money(Money money, int num)
-    {
+        //매개변수 : money = 재화 종류, num = 액수
         switch (money)
         {
             case Money.ark:
@@ -123,7 +124,7 @@ public class MoneyManager : MonoBehaviour
         }
         Data_update();
     }
-    public void Get_Money(int gold_ = 0, int ark_ = 0, int ruby_ = 0)
+    public void Get_Money(int gold_ = 0, int ark_ = 0, int ruby_ = 0)//재화 추가시 실행됨2
     {
         if (gold_ == 0 && ark_ == 0 && ruby_ == 0)
         {
@@ -135,10 +136,8 @@ public class MoneyManager : MonoBehaviour
 
         Data_update();
     }
-    public void Spend_Money(Money money, int num)
+    public void Spend_Money(Money money, int num)//재화 사용시 실행됨
     {
-        //아크 돈 마이너스 시키기
-        //데이터 넣기
         switch (money)
         {
             case Money.ark:
@@ -155,7 +154,7 @@ public class MoneyManager : MonoBehaviour
         }
         Data_update();
     }
-    public void Spend_Money(int gold_ = 0, int ark_ = 0, int ruby_ = 0)
+    public void Spend_Money(int gold_ = 0, int ark_ = 0, int ruby_ = 0)//재화 사용시 실행됨2
     {
         if (gold_ == 0 && ark_ == 0 && ruby_ == 0)
         {
@@ -168,7 +167,7 @@ public class MoneyManager : MonoBehaviour
         Data_update();
     }
 
-    public int Check_Money(Money money)
+    public int Check_Money(Money money)//가진 재화 확인 시 사용
     {
         switch (money)
         {
@@ -182,7 +181,7 @@ public class MoneyManager : MonoBehaviour
                 return 0;
         }
     }
-    public void Data_update()
+    public void Data_update() //변경된 재화 DB에 전송
     {
         //데이터에 넣기
         BackendGameData_JGD.userData.ark = ark;

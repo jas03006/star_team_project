@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
 /// Myplanet씬 및 Stage씬에서 캐릭터를 관리하는 스크립트.
-/// 이 스크립트는 UI를 통해 캐릭터 정보를 표시하고, 캐릭터 선택 및 업그레이드 등의 기능을 관리함.
+/// UI를 통해 캐릭터 정보를 표시하고, 캐릭터 선택 및 업그레이드 등의 기능을 관리함.
 /// </summary>
 public class Character_UI : MonoBehaviour
 {

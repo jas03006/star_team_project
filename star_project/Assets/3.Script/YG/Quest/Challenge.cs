@@ -2,31 +2,21 @@ using BackEnd;
 using LitJson;
 using UnityEngine;
 
-public enum Clear_type
-{
-    none = -1,
-    first_connection = 0,
-    clear_tutorial = 1,
-    buy = 2,
-    attendance = 3,
-    get_star = 4,
-    catchingstar_clear = 5,
-    make_word = 6,
-    add_friend = 7,
-    visit_friendplanet = 8,
-    proxy_harvesting = 9,
-    upgrade_starnest = 10
-}
 
+/// <summary>
+/// 업적 정보를 저장하는 클래스.
+/// 뒤끝DB에서 차트 데이터를 불러와 저장함.
+/// 업적 보상 수령, 클리어 여부 체크 및 플레이어 정보 업데이트도 이 클래스에서 진행함.
+/// </summary>
 public class Challenge : Quest
 {
     public Challenge_userdata userdata;
 
     //차트
-    public challenge_cate challenge_cate;
-    public Clear_type clear_type;
-    public int id;
-    public int CP; //reward
+    public challenge_cate challenge_cate; //업적 카테고리
+    public Clear_type clear_type;//업적 종류
+    public int id; //업적별 고유 id
+    public int CP; //업적 완료 시 지급되는 CP의 액수
 
     public Challenge(JsonData jsonData, int index)
     {
@@ -44,7 +34,7 @@ public class Challenge : Quest
         sub_text = jsonData["sub_text"].ToString();
     }
 
-    public void Get_reward()
+    public void Get_reward() //업적 보상 수령
     {
         //완료O, 보상수령X상태가 아니면 return
         if (userdata.state != challenge_state.can_reward)
@@ -59,7 +49,7 @@ public class Challenge : Quest
 
     }
 
-    public void Data_update()
+    public void Data_update()//Challenge 데이터 업데이트
     {
         Param param = new Param();
         param.Add("CP", BackendGameData_JGD.userData.CP);
@@ -91,7 +81,7 @@ public class Challenge : Quest
         }
     }
 
-    public bool Check_clear()
+    public bool Check_clear()//클리어 여부 확인
     {
         if (userdata.criterion >= goal && userdata.state == challenge_state.incomplete)
         {
@@ -106,10 +96,10 @@ public class Challenge : Quest
 
 public class Challenge_userdata
 {
-    public Clear_type clear_Type;
-    public bool is_clear;
-    public int CP; //challenge point
-    public bool get_rewarded;
+    public Clear_type clear_Type;//업적 종류
+    public bool is_clear;//클리어 여부
+    public int CP; //챌린지 포인트
+    public bool get_rewarded;//보상 수령 여부
     public int criterion //현재 수치
     {
         get
@@ -130,7 +120,7 @@ public class Challenge_userdata
     private int criterion_;
     public challenge_state state;
 
-    public Challenge_userdata(JsonData jsonData)
+    public Challenge_userdata(JsonData jsonData)//기존 회원 - 데이터 불러오기
     {
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         CP = int.Parse(jsonData["CP"].ToString());
@@ -139,7 +129,7 @@ public class Challenge_userdata
         state = (challenge_state)int.Parse(jsonData["state"].ToString());
     }
 
-    public Challenge_userdata()
+    public Challenge_userdata()//신규 회원 - 데이터 생성
     {
         is_clear = false;
         CP = 0;
@@ -148,7 +138,7 @@ public class Challenge_userdata
         state = challenge_state.incomplete;
     }
 
-    public void Data_update()
+    public void Data_update()//challenge 데이터 업데이트
     {
         //데이터에 넣기
         Param param = new Param();
@@ -181,22 +171,33 @@ public class Challenge_userdata
             Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
         }
     }
-
-    public class Challenge_info
-    {
-        public bool is_clear;
-        public bool get_rewarded;
-
-        public Challenge_info()
-        {
-            is_clear = false;
-            get_rewarded = false;
-        }
-
-        public Challenge_info(JsonData jsondata)
-        {
-            is_clear = bool.Parse(jsondata["is_clear"].ToString());
-            get_rewarded = bool.Parse(jsondata["get_rewarded"].ToString());
-        }
-    }
+}
+public enum Clear_type //업적 종류
+{
+    none = -1,
+    first_connection = 0,
+    clear_tutorial = 1,
+    buy = 2,
+    attendance = 3,
+    get_star = 4,
+    catchingstar_clear = 5,
+    make_word = 6,
+    add_friend = 7,
+    visit_friendplanet = 8,
+    proxy_harvesting = 9,
+    upgrade_starnest = 10
+}
+public enum challenge_cate //업적 카테고리
+{
+    none = -1,
+    common,
+    play,
+    community
+}
+public enum challenge_state //업적 상태
+{
+    none = -1,
+    incomplete,//완료X, 보상수령X
+    can_reward,//완료O, 보상수령X
+    complete//완료O, 보상수령O
 }

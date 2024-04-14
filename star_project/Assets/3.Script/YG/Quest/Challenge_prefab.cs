@@ -30,16 +30,19 @@ public class Challenge_prefab : MonoBehaviour
         contents_text.text = challenge.contents;
         sub_text.text = challenge.sub_text;
 
+        Debug.Log(challenge.title + challenge.userdata.state);
+
+        if (challenge.userdata.state == challenge_state.complete)
+        {
+            GetComponent<Image>().sprite = X;
+        }
+        else
+        {
+            GetComponent<Image>().sprite = O;
+        }
+
         if (challenge.userdata.criterion >= challenge.goal)
         {
-            if (challenge.userdata.state == challenge_state.complete)
-            {
-                GetComponent<Image>().sprite = X;
-            }
-            else
-            {
-                GetComponent<Image>().sprite = O;
-            }
             if(challenge.userdata.state == challenge_state.incomplete)
             {
                 challenge.userdata.state = challenge_state.can_reward;
@@ -95,20 +98,5 @@ public class Challenge_prefab : MonoBehaviour
             icon = FindObjectOfType<Quest_Icon>();
         }
         icon.Remove(null,challenge.userdata);
-    }
-
-    public void criterionUp_btn() //기준치상승 버튼 클릭시 호출 - 예시
-    {
-        if (challenge.userdata.state == challenge_state.incomplete)
-        {
-            challenge.userdata.criterion++;//기준치 증가
-            challenge.userdata.Data_update();
-        }
-
-        if (challenge.Check_clear()) //클리어했다면
-        {
-            Update_UI_state();//state UI 업데이트
-        }
-        
     }
 }

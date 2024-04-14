@@ -5,11 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어 별로 스테이지 진행 상황을 저장하기 위해 만든 클래스.
+/// 5개의 은하가 있으며 각 은하별로 5개의 스테이지가 있음.
+/// 상속구조 : Catchingstar_info(전체를 감싸고 있는 클래스) -> Galaxy_info(각 은하별 정보를 담고있는 클래스) -> starinfo(각 스테이지 별 정보를 담고있는 클래스)
+/// </summary>
 public class Catchingstar_info
 {
-    public List<Galaxy_info> galaxy_Info_list = new List<Galaxy_info>();
+    public List<Galaxy_info> galaxy_Info_list = new List<Galaxy_info>();//각 은하 별 진행 상황 저장
 
-    public Catchingstar_info()
+    public Catchingstar_info() //신규 회원 - 데이터 생성
     {
         for (int i = 0; i < 5; i++)
         {
@@ -17,7 +22,7 @@ public class Catchingstar_info
         }
     }
 
-    public Catchingstar_info(JsonData jsonData)
+    public Catchingstar_info(JsonData jsonData) //기존 회원 - 데이터 불러오기
     {
         foreach (JsonData json in jsonData["galaxy_Info_list"])
         {
@@ -25,7 +30,7 @@ public class Catchingstar_info
         }
     }
 
-    public void Data_update()
+    public void Data_update() //캐칭스타 데이터 업데이트
     {
         //데이터에 넣기
         Param param = new Param();
@@ -57,7 +62,7 @@ public class Catchingstar_info
         }
     }
 
-    public int[] Check_stage_progress()
+    public int[] Check_stage_progress() //클리어 한 마지막 스테이지를 확인
     {
         int[] result = {1,1};
         for (int i = 0; i < galaxy_Info_list.Count; i++)
@@ -76,20 +81,20 @@ public class Catchingstar_info
     }
 }
 
-public enum Galaxy_state //은하별 미션 완료상태
+public enum Galaxy_state //은하별 미션상태
 {
     incomplete = 0,
     can_reward,
     complete
 }
 
-public class Galaxy_info
+public class Galaxy_info //은하 정보를 담은 클래스 
 {
-    public bool is_clear = false;
-    public List<Star_info> star_Info_list = new List<Star_info>();
-    public List<Galaxy_state> mission_state = new List<Galaxy_state>();
+    public bool is_clear = false; //은하 클리어 여부
+    public List<Star_info> star_Info_list = new List<Star_info>(); //각 스테이지 정보 저장
+    public List<Galaxy_state> mission_state = new List<Galaxy_state>(); //은하 미션 진행도
 
-    public Galaxy_info()
+    public Galaxy_info()//신규 회원 - 데이터 생성
     {
         //star_Info_list
         for (int i = 0; i < 5; i++)
@@ -106,7 +111,7 @@ public class Galaxy_info
         is_clear = false;
     }
 
-    public Galaxy_info(JsonData jsonData)
+    public Galaxy_info(JsonData jsonData) //기존 회원 - 데이터 불러오기
     {
         //star_Info_list
         foreach (JsonData json in jsonData["star_Info_list"])
@@ -125,20 +130,20 @@ public class Galaxy_info
     }
 }
 
-public class Star_info
+public class Star_info //스테이지 정보를 담은 클래스 
 {
-    public bool is_clear;
-    public int star;
-    public bool get_housing;
+    public bool is_clear; //클리어 여부
+    public int star; //레드스타 갯수
+    public bool get_housing; //하우징 아이템 획득 여부
 
-    public Star_info()
+    public Star_info()//신규 회원 - 데이터 생성
     {
         is_clear = false;
         star = 0;
         get_housing = false;
     }
 
-    public Star_info(JsonData jsonData)
+    public Star_info(JsonData jsonData)//기존 회원 - 데이터 불러오기
     {
         is_clear = bool.Parse(jsonData["is_clear"].ToString());
         star = int.Parse(jsonData["star"].ToString());

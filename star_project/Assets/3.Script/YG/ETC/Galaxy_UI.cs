@@ -4,57 +4,53 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+/// <summary>
+/// stage씬에서 각 은하 캔버스가 가지고 있음.
+/// 각각 은하별 정보를 UI로 출력해주는 클래스. 
+/// </summary>
 public class Galaxy_UI : MonoBehaviour
 {
-    public Galaxy_info data;
-    public int galaxy_index;
+    public Galaxy_info data; //은하 별 데이터
+    public int galaxy_index; //0~4까지의 값을 가짐. ex) 0의 경우 첫번째 은하의 정보를 출력함
 
-    [Header("Mission State")]
-    [SerializeField] private Sprite state_X;
-    [SerializeField] private Sprite state_X_bar;
-    [SerializeField] private Sprite state_O;
-    [SerializeField] private Sprite state_O_bar;
 
-    public int collect_point;
+    public int collect_point; //은하 별 가진 레드스타 포인트. 다음 스테이지 해금 및 스테이지 별 미션에서 활용함.
+    private int interval = 5; //미션 클리어 간격
 
-    [SerializeField] private TMP_Text collect_text;
+    [SerializeField] private TMP_Text collect_text; //collect_point 출력
+
+    [Header("Mission State")]//미션 진행 상태에 따라 변경될 이미지 컴포넌트.
     [SerializeField] private List<Image> mission_image = new List<Image>();
     [SerializeField] private List<Image> mission_btn = new List<Image>();
     [SerializeField] private List<Image> check = new List<Image>();
     [SerializeField] private List<Button> statebutton = new List<Button>();
 
-    [Header("Star_info")] //너무 고봉밥 + 중복이라 따로 클래스로 뺌
+    [Header("Sprite")]//컴포넌트에 들어갈 스프라이트.
+    [SerializeField] private Sprite state_X;
+    [SerializeField] private Sprite state_X_bar;
+    [SerializeField] private Sprite state_O;
+    [SerializeField] private Sprite state_O_bar;
+
+    [Header("Star_info")] //스테이지 별 정보
     [SerializeField] private List<Star_UI> Star_UI_list = new List<Star_UI>();
-
-    private void Start()
-    {
-        //SceneManager.sceneLoaded += OnSceneLoaded;
-        //Test();
-    }
-
-    //private void Test()
-    //{
-    //    int[]result = BackendGameData_JGD.userData.catchingstar_info.Check_stage_progress();
-    //    Debug.Log($"현재 저장된 스테이지 : {result[0]}번째 은하 {result[1]}번째 스테이지");
-    //}
 
     private void Awake()
     {
+        //데이터 받아오기
         data = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index];
     }
     
 
     public void Update_data_UI()
     {
-        Update_MissionState(collect_point, data.mission_state);
+        Check_collect();
         Update_Starinfo(data.star_Info_list);
+
         collect_text.text = collect_point.ToString();
     }
 
     public void Collect_update() //collect 설정
     {
-        Debug.Log("Collect_update()");
         collect_point = 0;
 
         for (int i = 0; i < data.star_Info_list.Count; i++)
@@ -64,15 +60,7 @@ public class Galaxy_UI : MonoBehaviour
 
         collect_text.text = collect_point.ToString();
     }
-
-    private void Update_MissionState(int collect, List<Galaxy_state> state)
-    {
-        //스프라이트 바꾸고 버튼클릭 바꾸기
-        Check_collect(collect, 5);
-
-    }
-
-    private void Update_Starinfo(List<Star_info> star_info)
+    private void Update_Starinfo(List<Star_info> star_info) //각 스테이지 UI 업데이트
     {
         bool pre = true;
 
@@ -95,9 +83,8 @@ public class Galaxy_UI : MonoBehaviour
         }
     }
 
-    private void Check_collect(int collect, int interval)
+    private void Check_collect() //현재 미션 UI 업데이트
     {
-        Debug.Log("Check_collect");
         List<Galaxy_state> mission_state = BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state;
 
         for (int i = 0; i < check.Count; i++)
@@ -106,7 +93,7 @@ public class Galaxy_UI : MonoBehaviour
         }
 
         //btn
-        int tmp = collect;
+        int tmp = collect_point;
         for (int i = 0; i < mission_btn.Count; i++)
         {
             if (tmp >= interval)
@@ -137,7 +124,7 @@ public class Galaxy_UI : MonoBehaviour
         }
 
         //image
-        int tmp2 = collect;
+        int tmp2 = collect_point;
         for (int i = 0; i < mission_image.Count; i++)
         {
             if (tmp2 > 0)
@@ -162,7 +149,7 @@ public class Galaxy_UI : MonoBehaviour
     {
         MoneyManager.instance.Get_Money((Money)money, 100);
     }
-    public void Statechange_btn(int index)
+    public void Statechange_btn(int index) 
     {
         statebutton[index].interactable = false;
         BackendGameData_JGD.userData.catchingstar_info.galaxy_Info_list[galaxy_index].mission_state[index] = Galaxy_state.complete;
