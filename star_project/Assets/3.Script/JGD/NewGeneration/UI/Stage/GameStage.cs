@@ -29,7 +29,7 @@ public class GameStage : MonoBehaviour
         UsingItemBtn.interactable = false;
         StartCoroutine(StageStart_controller());
     }
-    private IEnumerator StageStart_controller()
+    private IEnumerator StageStart_controller()//스테이지 시작 3초카운트
     {
         Time.timeScale = 0;
         float Timer = 0;
@@ -45,23 +45,23 @@ public class GameStage : MonoBehaviour
         UsingItemBtn.interactable = true;
         Time.timeScale = 1;
     }
-    public void ComeBakeHome()
+    public void ComeBakeHome() //마이플레닛 가기
     {
         Time.timeScale = 1;
         //SceneManager.LoadScene("My_Planet_TG");
         TCP_Client_Manager.instance.go_myplanet();
     }
-    public void StgageSelect_Btn()
+    public void StgageSelect_Btn() //스테이지 선택
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(nextScene.ToString());
     }
-    public void StageSelect(string stage)
+    public void StageSelect(string stage) //스테이지씬으로
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(stage);
     }
-    public void NextSceneSelect()
+    public void NextSceneSelect() //다음 스테이지
     {
         Time.timeScale = 1;
         LevelSelectMenuManager_JGD.currLevel++;
@@ -74,12 +74,12 @@ public class GameStage : MonoBehaviour
             SceneManager.LoadScene("Stage");
         }
     }
-    public void RestartGame()
+    public void RestartGame() //다시하기
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Game");
     }
-    public void TimeControll()
+    public void TimeControll() //일시정지 
     {
         if (Timestop)
         {
@@ -94,7 +94,7 @@ public class GameStage : MonoBehaviour
             Timestop = true;
         }
     }
-    public void Btn_Click_Sound()
+    public void Btn_Click_Sound()//버튼 클릭 사운드
     {
         AudioManager.instance.SFX_Click();
     }
