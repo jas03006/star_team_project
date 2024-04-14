@@ -40,7 +40,7 @@ public class FriendList_JGD : MonoBehaviour
         return friend_dic.ContainsKey(nickname_);
     }
 
-    public void GetFriendList(bool is_airship = false)
+    public void GetFriendList(bool is_airship = false) //친구목록 가져오기
     {
         var bro = Backend.Friend.GetFriendList();
 
@@ -97,7 +97,7 @@ public class FriendList_JGD : MonoBehaviour
         QuestManager.instance.Check_challenge(Clear_type.add_friend);
 
     }
-    public void ClearFriendList()
+    public void ClearFriendList()//친구목록 초기화
     {
         int cnt= location.transform.childCount;
         for (int i =0; i < cnt; i++) {
@@ -105,7 +105,7 @@ public class FriendList_JGD : MonoBehaviour
         }
         friend_dic.Clear();
     }
-    public void KillMyFriend(string nickname, GameObject list)
+    public void KillMyFriend(string nickname, GameObject list) //친구삭제
     {
         KillMyFriend(nickname);
         Destroy(list);
@@ -119,7 +119,6 @@ public class FriendList_JGD : MonoBehaviour
             friend_dic.Remove(nickname);
         }
     }
-
     public void go_myplanet_btn() {
         // TCP_Client_Manager.instance.go_myplanet();
         TCP_Client_Manager.instance.join(TCP_Client_Manager.instance.my_player.object_id);
@@ -160,7 +159,7 @@ public class FriendList_JGD : MonoBehaviour
             airship_UI.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
-    public void ClearRecommendList()
+    public void ClearRecommendList()//랜덤 친구 추가 
     {
         int cnt = recommend_location.transform.childCount;
         for (int i = 0; i < cnt; i++)

@@ -74,7 +74,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             rigi.velocity = Vector2.up * Jump;
         }
     }
-    private IEnumerator OnDamage(int num)
+    private IEnumerator OnDamage(int num) //Player 데미지 
     {
         if (!invincibility)
         {
@@ -90,7 +90,7 @@ public class Tuto_Player_Controll : MonoBehaviour
         }
         now_damage_co = null;
     }
-    private IEnumerator OnDamageEffect_co()
+    private IEnumerator OnDamageEffect_co() //Player 데미지 이펙트
     {
         DamageEffect.transform.position = this.transform.position;
         DamageEffect.SetActive(true);
@@ -133,7 +133,7 @@ public class Tuto_Player_Controll : MonoBehaviour
             Player_CatchingStar_Count.text = PlayerScore.ToString();
             collision.gameObject.SetActive(false);
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Item")) //하트
         {
             currentHp = 100f;
             AudioManager.instance.SFX_collect_heart();
@@ -164,9 +164,9 @@ public class Tuto_Player_Controll : MonoBehaviour
             AudioManager.instance.SFX_collect_item();
             collision.gameObject.SetActive(false);
         }
-        //else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))
+        //else if (collision.gameObject.layer == LayerMask.NameToLayer("MoveWall"))  //움직이는 벽
         //{
-        //    //노란색 벽
+        //      
         //    if (now_damage_co != null)  
         //    {
         //        now_damage_co = null;
@@ -174,7 +174,7 @@ public class Tuto_Player_Controll : MonoBehaviour
         //    now_damage_co = StartCoroutine(OnDamage(0));
         //    collision.gameObject.SetActive(false);
         //}
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Alphabet"))  //알파벳
         {
             if (Tuto.progress == 10)
             {
@@ -209,7 +209,7 @@ public class Tuto_Player_Controll : MonoBehaviour
         }
 
     }
-    public void UsingItem()
+    public void UsingItem() //아이템 사용
     {
         if (ItemInven[1] == 1)
         {

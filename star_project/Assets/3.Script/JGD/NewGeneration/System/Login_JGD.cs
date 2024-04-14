@@ -26,7 +26,7 @@ public class Login_JGD : LoginBase_JGD
     [SerializeField] TMP_Text DoneX_text;
 
     [SerializeField] private SceneNames nextScene;
-    public void OnclickLoin()
+    public void OnclickLoin() //로그인 버튼
     {
         string message = string.Empty;
 
@@ -46,7 +46,7 @@ public class Login_JGD : LoginBase_JGD
         ResponseToLogin(inputFieldID.text, inputFieldPW.text);
     }
 
-    private void ResponseToLogin(string ID, string PW)
+    private void ResponseToLogin(string ID, string PW) 
     {
         //서버에 로그인 요청
         Backend.BMember.CustomLogin(ID, PW, callback =>
@@ -120,12 +120,12 @@ public class Login_JGD : LoginBase_JGD
             yield return null;
         }
     }
-    public void Login_Scene()
+    public void Login_Scene() //로그인 화면
     {
         Login.SetActive(true);
         Signup.SetActive(false);
     }
-    public void Signup_Scene()
+    public void Signup_Scene() //회원가입 화면
     {
         Login.SetActive(false);
         Signup.SetActive(true);
@@ -148,7 +148,7 @@ public class Login_JGD : LoginBase_JGD
         inputFieldPW.textComponent.SetAllDirty();
     }
 
-    public void show_result(bool success, string message = null)
+    public void show_result(bool success, string message = null) //로그인 결과
     {
         GameObject obj = success ? Done : DoneX;
 

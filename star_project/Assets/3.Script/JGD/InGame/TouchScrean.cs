@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TouchScrean : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //이미지 투명화된 곳 터치할수있게 하기
     public Image image;
     void Start()
     {

@@ -35,7 +35,7 @@ public class Inventory_JGD : MonoBehaviour
 
 
 
-    public void Reading()
+    public void Reading()// 아이템 추가
     {
         var HouseItem = Resources.Load<TextAsset>("JSON/HouseItemCount");
         var HouseName = Resources.Load<TextAsset>("JSON/ItemName");
