@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Stage005 : MonoBehaviour
-{
+{//아이템 : X좌표 : Y좌표 : 로테이션 : X스케일 : Y스케일 : 식별번호 : 거리
     [SerializeField] public List<string> StageList = new List<string>();
     [SerializeField] public int thisStage;          //스테이지 1~5 넘어올때 받아야함
     #region stage

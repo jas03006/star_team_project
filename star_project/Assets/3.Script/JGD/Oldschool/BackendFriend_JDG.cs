@@ -116,7 +116,7 @@ public class BackendFriend_JDG : MonoBehaviour
         return _requestFriendList[index].Item2;
     }
     public void reject_friend_request(int index) {
-        //친구요청 rjwjf하기 
+        //친구요청 거절하기 
         if (_requestFriendList.Count <= 0)
         {
             Debug.LogError("요청이 온 친구가 존재하지 않습니다.");
