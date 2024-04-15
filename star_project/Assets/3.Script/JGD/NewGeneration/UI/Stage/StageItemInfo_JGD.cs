@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
-public enum Obstacle_ID //아이템들
+public enum Obstacle_ID
 {
     None = -1,
     A,
@@ -101,9 +101,12 @@ public class StageItemInfo_JGD : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    private void Start()
+    {
+        Debug.Log("-완-");
+    }
     
-    public void ReadStage(string Stagenum) //스테이지 읽고 생성
+    public void ReadStage(string Stagenum)
     {
         List<string[]> list = new List<string[]>();
 
@@ -161,7 +164,7 @@ public class StageItemInfo_JGD : MonoBehaviour
             gameObject.GetComponent<ItemID_JGD>().distance = distance;
             if (gameObject.GetComponent<Item_game>() != null)
             {
-                gameObject.GetComponent<Item_game>().itemid_ = ObjectNum;
+                gameObject.GetComponent<Item_game>().itemid_ = ObjectNum;   // 이놈이 문제다
                 gameObject.GetComponent<Item_game>().Init();
                 
             }

@@ -9,6 +9,19 @@ using UnityEngine.SceneManagement;
 public class TestBtnAction : MonoBehaviour
 {
     [SerializeField] private SceneNames nextScene;
+    public void TestBTN()
+    {
+       // BackendChart_JGD.Instance.ChartGet("107516");
+        //Debug.Log("난 살아있어1");
+        //BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
+        //Debug.Log("난 살아있어2");
+        //BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
+        //Debug.Log("난 살아있어3");
+        //BackendGameData_JGD.userData.House_Item_ID_List.Add(new House_Item_Info_JGD());
+        //Debug.Log("난 살아있어4");
+        //user_DB_update();
+        //Debug.Log(BackendGameData_JGD.userData.House_Item_ID_List[0]);
+    }
     async void user_DB_update()
     {
         await Task.Run(() =>

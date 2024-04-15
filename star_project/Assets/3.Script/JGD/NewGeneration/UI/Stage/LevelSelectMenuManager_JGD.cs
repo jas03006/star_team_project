@@ -43,7 +43,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     [SerializeField] private Image character_image;
     [SerializeField] private Unlock_UI unlock_ui;
 
-    [SerializeField] private SceneNames nextScene;
+    [SerializeField] private SceneNames nextScene;  //만약 기존 구조가 아닌 게임씬을 여러개 만든다면 수정
 
     [SerializeField] private List<Image> case_sprite = new List<Image>();
     [SerializeField] private List<TMP_Text> case_text = new List<TMP_Text>();
@@ -57,7 +57,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
 
     [SerializeField] private List<Button> statebutton = new List<Button>();
 
-    private void OnEnable()//스테이지 진행도
+    private void OnEnable()
     {
 
         if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.clear)
@@ -191,7 +191,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     public void OnClickLevel(int levelNum) //스테이지 선택 버튼
     {
         currLevel = levelNum;
-        SceneManager.LoadScene(nextScene.ToString());
+        SceneManager.LoadScene(nextScene.ToString());//만약 게임씬을 여러개 만든다면 수정//////////////
     }
 
     public void OnClickBack()
@@ -199,7 +199,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Go_home() //마이플래닛 가기
+    public void Go_home()
     {
         TCP_Client_Manager.instance.go_myplanet();
     }
@@ -209,7 +209,7 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         MoneyManager.instance.Get_Money((Money)money, 100);
     }
 
-    public void Statechange_btn(int index) //스테이지 변경
+    public void Statechange_btn(int index)
     {
         Galaxy_UI_list[(int)galaxy].Statechange_btn(index);
     }

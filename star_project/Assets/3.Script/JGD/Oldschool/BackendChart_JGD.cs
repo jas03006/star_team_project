@@ -32,7 +32,7 @@ public class BackendChart_JGD : MonoBehaviour
         }
     }
 
-    public void ChartDataGet() //차트 가져오기
+    public void ChartDataGet()
     {
         chartData = new ChartData();
 
