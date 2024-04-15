@@ -67,7 +67,37 @@ public class ChallengeManager : MonoBehaviour
                     break;
             }
         }
+        All_SortChallengeList();
         cate = challenge_cate.common;
+    }
+
+    private void All_SortChallengeList()
+    {
+        SortChallengeList(challenge_common);
+        SortChallengeList(challenge_play);
+        SortChallengeList(challenge_community);
+    }
+
+    private void SortChallengeList(List<Challenge> list)
+    {
+        // get_rewarded가 true인 아이템들을 임시로 저장할 리스트
+        List<Challenge> rewardedChallenges = new List<Challenge>();
+
+        // get_rewarded가 true인 경우, rewardedChallenges에 추가하고 기존 리스트에서는 제거
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            if (list[i].userdata.state == challenge_state.complete)
+            {
+                rewardedChallenges.Add(list[i]);
+                list.RemoveAt(i);
+            }
+        }
+
+        // rewardedChallenges의 아이템들을 원래 리스트의 맨 뒤로 추가
+        foreach (Challenge challenge in rewardedChallenges)
+        {
+            list.Add(challenge);
+        }
     }
 
     private List<Challenge> Get_list()
@@ -126,6 +156,7 @@ public class ChallengeManager : MonoBehaviour
 
     public void Update_UI()
     {
+        All_SortChallengeList();
         List<Challenge> cur_list = Get_list();
 
         for (int i = 0; i < challengeprefab_script_list.Count; i++)
@@ -178,7 +209,6 @@ public class ChallengeManager : MonoBehaviour
             BackendGameData_JGD.Instance.GameDataUpdate();
             is_change=false;
         }
-
     }
 
     public void Make_prefab(Challenge challenge)
