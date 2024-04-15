@@ -5,30 +5,34 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+//마이플래닛에서의 플레이어 캐릭터
 public class PlayerMovement : Player_Network_TG
 {
     public LayerMask hitLayers;
-    public List<Node> finalPath;
+    public List<Node> finalPath; //이동을 위한 경로를 담는 리스트
 
     public Transform player;
     public Transform player_container;
 
-    public PathFinding pathFinding;
-    public GridSystem grid;
+    public PathFinding pathFinding; //이동을 위한 길찾기를 위한 class
+    public GridSystem grid; 
 
     private SpecialObjManager specialObjManager;
 
+    //이름, 칭호 표기를 위한 UI 변수
     public RectTransform name_tag_root;
     public TMP_Text title_tag;
     public TMP_Text name_tag;
 
+    //이모티콘 전송을 위한 멤버 변수
     [SerializeField] private GameObject emozi_box;
     [SerializeField] private Image emozi_image;
     private Coroutine now_emozi_co=null;
     
+    //DoTween을 이용한 움직임 관리를 위한 변수
     Tween now_tween = null;
 
+    //캐릭터 외형 변경을 위한 변수
     public int character=-1;
     [SerializeField] private MeshRenderer renderer_;
     private void OnEnable()
@@ -46,6 +50,8 @@ public class PlayerMovement : Player_Network_TG
         update_title();
         update_model();
     }
+
+    //칭호 업데이트
     public void update_title() {
         if (!is_guest)
         {
@@ -64,7 +70,7 @@ public class PlayerMovement : Player_Network_TG
             character = ud.character;
         }
     }
-
+    //캐릭터 외형 변경
     public void update_model() {
         renderer_.material = SpriteManager.instance.Num2Material(character);
     }
@@ -96,9 +102,9 @@ public class PlayerMovement : Player_Network_TG
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-
-
             Debug.DrawRay(ray.origin, ray.direction.normalized * 2000f, Color.red);
+
+            //드래그 체크를 위한 타이머 업데이트
             if (Input.GetMouseButtonDown(0))
             {
                 drag_timer = 0f;
@@ -108,25 +114,20 @@ public class PlayerMovement : Player_Network_TG
             }
 
             if (Input.GetMouseButtonUp(0))
-            {// Debug.Log("RightClick!");
-
+            {
                 if (drag_timer > drag_time_threshold) {
                     drag_timer = 0f;
                     return;
                 }
-             //if (!TCP_Client_Manager.instance.placement_system.cancel_placement())
-             // {
-                if (InputManager.IsPointerOverUI() )//&& !TCP_Client_Manager.instance.placement_system.inputManager.IsPointerOverClickableUI())
+                if (InputManager.IsPointerOverUI() ) //UI 클릭시 무반응
                 {
                 }
                 else {
-                    //Debug.Log("Move Click");
                     if (can_move())
                       {
                          RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG")))
+                        if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Interact_TG"))) //하우징 오브젝트 터치 시
                         {
-                           // Debug.Log("Interaction detect!");
 
                             Vector3 dest = hit.point;
                             dest.y = 0f;
@@ -138,9 +139,8 @@ public class PlayerMovement : Player_Network_TG
                             move(transform.position, dest, action);
                             AudioManager.instance.SFX_Click();
                         }
-                        else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG")))
+                        else if (Physics.Raycast(ray, out hit, 2000f, LayerMask.GetMask("Ground_TG") | LayerMask.GetMask("Placement_YG"))) //지면 터치 시
                         {
-                            //Debug.Log("check!");
                             Vector3 dest = hit.point;
                             dest.y = transform.position.y;
 
@@ -156,12 +156,6 @@ public class PlayerMovement : Player_Network_TG
             } 
         }
 
-        //SetStartandTargetPos();
-/*
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            move(pathFinding.StartPosition.position, pathFinding.TargetPosition.position);
-        }*/
     }
 
     public void find_grid() {
@@ -171,33 +165,12 @@ public class PlayerMovement : Player_Network_TG
     }
     
 
-    private void SetStartandTargetPos()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mouse = Input.mousePosition;
-
-            Ray castPoint = Camera.main.ScreenPointToRay(mouse);
-            RaycastHit hit;
-
-            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, hitLayers))
-            {
-                // this.transform.position = hit.point;
-                pathFinding.StartPosition = transform;
-                pathFinding.TargetPosition.position = hit.point;
-            }
-        }
-    }
 
     public override void move(Vector3 start_pos, Vector3 dest_pos, TweenCallback callback = null)
     {
-        //base.move(start_pos, dest_pos);
-        //finalPath = 
         finalPath =  pathFinding.FindPath(start_pos,dest_pos);
         
         if (finalPath != null) {
-            //Debug.Log("Move!");
-
             MovePlayer(callback);
         }
     }
@@ -235,13 +208,13 @@ public class PlayerMovement : Player_Network_TG
         }
         return result;
     }
-    public void look_user() {
+    public void look_user() { //카메라를 바라보게 회전
         Tween t = player_container.DOLookAt( transform.position-Camera.main.transform.forward,1f, axisConstraint: AxisConstraint.Y,up: Vector3.up);
     }
     public void stop_DOTween() {
         DOTween.Kill(this);
     }
-    private Vector3[] Path2MovePath() {
+    private Vector3[] Path2MovePath() { //이동 경로를 곡선 형태로 변환
         List<Vector3> smooth_path = new List<Vector3>();
 
         float divide_cnt = 5.0f;
@@ -251,7 +224,7 @@ public class PlayerMovement : Player_Network_TG
         Vector3 pivot2;
         Vector3 div0;
         Vector3 div1;
-        pivot0 = transform.position - new Vector3(0, 0.5f, 0);// grid.finalPath[0].position;
+        pivot0 = transform.position - new Vector3(0, 0.5f, 0);
         smooth_path.Add(pivot0);
         for (int i =-1; i < finalPath.Count-2; i++) {
             pivot1 = finalPath[i+1].position;
@@ -266,7 +239,7 @@ public class PlayerMovement : Player_Network_TG
             }
             pivot0 = smooth_path[smooth_path.Count-1];
         }
-        //smooth_path.Add(pivot0);
+        
         if (finalPath.Count >= 1) {
             smooth_path.Add(finalPath[finalPath.Count - 1].position);
         }        
@@ -279,19 +252,6 @@ public class PlayerMovement : Player_Network_TG
 
         return waypoints;
 
-    }
-
-   
-    private Vector3[] Path2array()
-    {
-        Vector3[] waypoints = new Vector3[grid.finalPath.Count];
-        
-        for (int i = 0; i < grid.finalPath.Count; i++)
-        {
-            waypoints[i] = grid.finalPath[i].position + new Vector3(0,0.5f,0);
-        }
-
-        return waypoints;
     }
 
     public void show_emozi_net(int id_) {

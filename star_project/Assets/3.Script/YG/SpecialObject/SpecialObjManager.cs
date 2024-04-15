@@ -7,7 +7,7 @@ public interface IObject
 {
     void Interactive();
 }
-
+//하우징 오브젝트 상호작용 관리를 위한 매니저
 public class SpecialObjManager : MonoBehaviour
 {
     [SerializeField] Harvesting harvesting;
