@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Goods_UI : MonoBehaviour
 {
-    public Goods goods
+    public Goods goods//상품 데이터
     {
         get { return goods_; }
         set

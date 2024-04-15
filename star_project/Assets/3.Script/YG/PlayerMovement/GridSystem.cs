@@ -37,7 +37,7 @@ public class GridSystem : MonoBehaviour
         
     }*/
 
-    public void init()
+    public void init()//초기세팅
     {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);

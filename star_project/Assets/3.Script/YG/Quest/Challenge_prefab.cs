@@ -30,8 +30,6 @@ public class Challenge_prefab : MonoBehaviour
         contents_text.text = challenge.contents;
         sub_text.text = challenge.sub_text;
 
-        Debug.Log(challenge.title + challenge.userdata.state);
-
         if (challenge.userdata.state == challenge_state.complete)
         {
             GetComponent<Image>().sprite = X;

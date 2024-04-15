@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// 튜토리얼 첫번째 분기파트를 진행시키는 클래스
+/// </summary>
 public class Tutorial_YG : MonoBehaviour
 {
     [SerializeField] GameObject gameobject_50;//터치입력 받음
@@ -13,9 +16,9 @@ public class Tutorial_YG : MonoBehaviour
     [SerializeField] Button btn_50;
     [SerializeField] GameObject not_click;
 
-    [SerializeField] GameObject image_100;//터치입력 안받음
-    [SerializeField] GameObject image_100_btn;//터치입력 안받음
-    [SerializeField] Button btn_100;//터치입력 안받음
+    [SerializeField] GameObject image_100;
+    [SerializeField] GameObject image_100_btn;
+    [SerializeField] Button btn_100;
     [SerializeField] GameObject touch; //깜빡거릴 게임오브젝트
 
     [SerializeField] Button select_character;
@@ -64,11 +67,9 @@ public class Tutorial_YG : MonoBehaviour
         if (BackendGameData_JGD.userData.tutorial_Info.state != Tutorial_state.catchingstar_chapter)
         {
             is_tutorial = false;
-            Debug.Log("catchingstar_chapter 튜토리얼 스킵");
             return;
         }
-
-        Debug.Log("catchingstar_chapter 튜토리얼 시작!");
+        //초기세팅
 
         image_50 = gameobject_50.GetComponent<Image>();
         image_50.alphaHitTestMinimumThreshold = 0.5f;
@@ -170,7 +171,7 @@ public class Tutorial_YG : MonoBehaviour
         //Debug.Log("카운트" + count);
         image_100_btn.SetActive(false);
 
-        if (solo_timings.Contains(count))
+        if (solo_timings.Contains(count))//터치X
         {
             Debug.Log("solo_timings");
 
@@ -180,7 +181,7 @@ public class Tutorial_YG : MonoBehaviour
             StartCoroutine(Timecheck_nottouch_co(false));
         }
 
-        else if (together_timings.Contains(count))
+        else if (together_timings.Contains(count))//터치
         {
             Debug.Log("together_timings");
             image_100_btn.SetActive(true);
@@ -189,7 +190,7 @@ public class Tutorial_YG : MonoBehaviour
             StartCoroutine(Timecheck_touch_co(true));
         }
 
-        else
+        else//터치
         {
             Debug.Log("해당X");
             image_100.SetActive(false);
@@ -198,7 +199,7 @@ public class Tutorial_YG : MonoBehaviour
         }
     }
 
-    public void Tuto_clear()
+    public void Tuto_clear()//클리어 시 활성화
     {
         Debug.Log("Tuto_clear");
         BackendGameData_JGD.userData.tutorial_Info.state++;

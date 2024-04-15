@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum galaxy
+public enum galaxy//은하 단계
 {
     tutorial = -1,
     toy,
@@ -13,10 +13,14 @@ public enum galaxy
     school,
     emotion
 }
+/// <summary>
+/// 캐칭스타 진입 전 선택 은하,스테이지를 저장하고 전체 은하 캔버스를 관리하는 클래스.
+/// 기타 기능 : 은하 해금, 스테이지 진행도 체크, Stage 씬에서의 씬 이동, 튜토리얼 진행여부 체크
+/// </summary>
 public class LevelSelectMenuManager_JGD : MonoBehaviour
 {
     //성유경
-    public galaxy galaxy
+    public galaxy galaxy//현재 선택중인 은하
     {
         get { return galaxy_; }
         set
@@ -27,19 +31,21 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
     }
 
     private galaxy galaxy_;
-    private galaxy pre_galaxy;
+    private galaxy pre_galaxy;//바로 직전 선택한 은하
 
-    [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//오브젝트
+    [SerializeField] List<Canvas> Canvas_list = new List<Canvas>();//은하 캔버스 오브젝트
     [SerializeField] List<GameObject> stage_case = new List<GameObject>();
     [SerializeField] Canvas tutorial_canvas;//오브젝트
-    [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//스크립트
+    [SerializeField] List<Galaxy_UI> Galaxy_UI_list = new List<Galaxy_UI>();//은하 스크립트
     public static int currLevel; //현재 진행중인 스테이지 레벨
     public static int GalaxyLevel = 0; //현재 진행중인 은하 레벨
     public Sprite Clearscore;
 
-    [Header("unlock")]
-    private int[] unlock_conditions = { 12, 24, 36, 48 };
-    [SerializeField] private GameObject unlock_object;
+    [Header("unlock")]//은하 해금 관련
+    
+    //UI
+    private int[] unlock_conditions = { 12, 24, 36, 48 };//해금 레드스타 기준치
+    [SerializeField] private GameObject unlock_object;//해금 불가 시 출력되는 패널
     [SerializeField] private Image character_image;
     [SerializeField] private Unlock_UI unlock_ui;
 
@@ -87,7 +93,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         pre_galaxy = galaxy.toy;
         Select_galaxy_btn();
     }
-    #region 성유경
     public void Select_galaxy_btn(int index = -1)
     {
         if (index != -1)
@@ -185,8 +190,6 @@ public class LevelSelectMenuManager_JGD : MonoBehaviour
         Debug.Log("이미 해금돼서 넘김");
         unlock_object.SetActive(false);
     }
-
-    #endregion
 
     public void OnClickLevel(int levelNum) //스테이지 선택 버튼
     {
