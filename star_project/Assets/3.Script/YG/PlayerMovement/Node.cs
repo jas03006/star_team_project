@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// pathfinding 시 사용하는 노드 클래스.
+/// </summary>
 public class Node
 {
     public int gridX;

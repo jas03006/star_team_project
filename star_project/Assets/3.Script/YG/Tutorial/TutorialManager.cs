@@ -4,15 +4,17 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-public enum Tutorial_state
+/// <summary>
+/// 튜토리얼 진입 및 저장을 담당하는 클래스
+/// </summary>
+public enum Tutorial_state//튜토리얼 상태. 분기별로 나눔.
 {
-    catchingstar_chapter = 0,
-    catchingstar_play = 1,
-    myplanet = 2,
+    catchingstar_chapter = 0,//tutorial_YG에서 진행
+    catchingstar_play = 1,//tutorial 씬에서 진행
+    myplanet = 2,//tutorial_TG에서 진행
     clear
 }
-
+//
 public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager instance;
@@ -20,8 +22,8 @@ public class TutorialManager : MonoBehaviour
     //[SerializeField] private int cur_stage; //현재 스테이지
     //[SerializeField] private int stop_sec; //멈추는 시간
 
-    [SerializeField] public Tutorial_YG tutorial_YG;
-    [SerializeField] private Tutorial_TG tutorial_TG;
+    [SerializeField] public Tutorial_YG tutorial_YG; 
+    [SerializeField] private Tutorial_TG tutorial_TG; 
     [SerializeField] private Button catchingstar_go;
 
     [SerializeField] private Canvas canvas;
