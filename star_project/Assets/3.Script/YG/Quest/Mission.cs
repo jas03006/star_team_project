@@ -5,24 +5,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum MissionType
+public enum MissionType //미션 카테고리
 {
     none = -1,
     daily,
     week,
     month
 }
-
+/// <summary>
+/// 플레이어의 Quest 정보를 저장하는 클래스.
+/// </summary>
 public class Quest_info_YG
 {
     //mission
-    public List<int> missions = new List<int>();
+    public List<int> missions = new List<int>();//현재 진행중인 미션의 id
     public List<Mission_userdata> mission_userdata = new List<Mission_userdata>();//미션관련 데이터
 
     //challenge
     public List<challenge_state> challenge_states = new List<challenge_state>(); //cp 보상
     public Dictionary<Clear_type, int> challenge_dic = new Dictionary<Clear_type, int>();
-    //public List<Challenge_userdata> challenge_userdata = new List<Challenge_userdata>();//퀘스트 관련 데이터
 
     public Quest_info_YG() { }
     public Quest_info_YG(JsonData json) //데이터 있을때
@@ -90,7 +91,7 @@ public class Quest_info_YG
         }
     }
 
-    public void Random_mission(MissionType type)
+    public void Random_mission(MissionType type)//랜덤으로 미션 설정
     {
         Mission_userdata data = new Mission_userdata(type);
 

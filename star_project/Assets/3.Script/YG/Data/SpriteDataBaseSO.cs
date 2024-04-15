@@ -7,6 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 게임 내에서 필요한 sprite를 저장하는 스크럽터블 오브젝트.
 /// SpriteManager에서 데이터를 불러와서 사용함.
+/// 만들어진 에셋 참조.
 /// </summary>
 [CreateAssetMenu]
 public class SpriteDataBaseSO : ScriptableObject
@@ -20,7 +21,7 @@ public class SpriteDataBaseSO : ScriptableObject
 }
 
 [Serializable]
-public class Image_data
+public class Image_data //기타 이미지 데이터
 {
     [field: SerializeField]
     public int id { get; private set; }
@@ -29,7 +30,7 @@ public class Image_data
     public Sprite sprite { get; private set; }
 }
 [Serializable]
-public class HousingImage_data
+public class HousingImage_data //하우징 관련 이미지 데이터
 {
     [field: SerializeField]
     public housing_itemID id { get; private set; }
@@ -39,7 +40,7 @@ public class HousingImage_data
 }
 
 [Serializable]
-public class MoneyImage_data
+public class MoneyImage_data //재화 관련 이미지 데이터
 {
     [field: SerializeField]
     public Money id { get; private set; }

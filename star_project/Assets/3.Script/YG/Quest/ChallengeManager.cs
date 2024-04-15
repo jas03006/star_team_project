@@ -3,48 +3,43 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum challenge_cate
-{
-    none = -1,
-    common,
-    play,
-    community
-}
-public enum challenge_state
-{
-    none = -1,
-    incomplete,//완료X, 보상수령X
-    can_reward,//완료O, 보상수령X
-    complete//완료O, 보상수령O
-}
+/// <summary>
+/// 업적 데이터를 받아와 UI 출력해주는 클래스.
+/// </summary>
 public class ChallengeManager : MonoBehaviour
 {
-    challenge_cate cate;
+    challenge_cate cate;//현재 선택한 카테고리
 
+    [Header("Challenge_list")]//카테고리별 업적 정보
     List<Challenge> challenge_common = new List<Challenge>();
     List<Challenge> challenge_play = new List<Challenge>();
     List<Challenge> challenge_community = new List<Challenge>();
 
-    [SerializeField] List<Image> btn_image = new List<Image>();
+    [SerializeField] List<Image> btn_image = new List<Image>();//카테고리 선택버튼 이미지
 
-    [SerializeField] List<Challenge_prefab> challengeprefab_script_list = new List<Challenge_prefab>();
-    [SerializeField] List<GameObject> challengeprefab_list = new List<GameObject>();
+    [Header("Prefab")]
+    [SerializeField] List<Challenge_prefab> challengeprefab_script_list = new List<Challenge_prefab>();//프리펩 스크립트가 저장된 list
+    [SerializeField] List<GameObject> challengeprefab_list = new List<GameObject>();//생성된 프리펩 오브젝트가 저장된 list
+    [SerializeField] private GameObject prefab;//생성할 프리펩 오브젝트
+    [SerializeField] private GameObject content_zone; //프리펩 생성할 위치
 
-    [SerializeField] private GameObject prefab;
-    [SerializeField] private GameObject content_zone;
-
+    [Header("CP_UI")]
     [SerializeField] private TMP_Text CP;
     [SerializeField] private Slider CP_slider;
 
+    //미션 진행 상태에 따라 변경될 버튼 컴포넌트
     [SerializeField] List<Button> borders_btn = new List<Button>();
+    //미션 진행 상태에 따라 변경될 이미지 컴포넌트
     [SerializeField] List<Image> borders_img = new List<Image>();
 
+    //컴포넌트에 들어갈 스프라이트.
     [SerializeField] private Sprite border_O;
     [SerializeField] private Sprite border_X;
-    private bool is_change; 
+    private bool is_change; //true일 경우 DB에 변경된 데이터 전송
 
+    //순서대로 CP미션 달성 시 지급되는 아이템
     private housing_itemID[] cp_rewards = { housing_itemID.ailen, housing_itemID.dessert, housing_itemID.tundra, housing_itemID.frozen, housing_itemID.earth };
-
+    
 
     private void Start()
     {
@@ -198,7 +193,7 @@ public class ChallengeManager : MonoBehaviour
         challengeprefab_script_list.Add(challenge_prefab);
     }
 
-    public void Change_state(int index) //일반,플레이,커뮤니티에 달 버튼
+    public void Change_state(int index) //일반,플레이,커뮤니티 변경 버튼 클릭시 실행 
     {
         cate = (challenge_cate)index;
 
@@ -211,7 +206,7 @@ public class ChallengeManager : MonoBehaviour
         Update_UI();
     }
 
-    public void CP_reward(int index)
+    public void CP_reward(int index) //보상 버튼 클릭 시 실행됨.
     {
 
         if (BackendGameData_JGD.userData.quest_Info.challenge_states[index] != challenge_state.can_reward)

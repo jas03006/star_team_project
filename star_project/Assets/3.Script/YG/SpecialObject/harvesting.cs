@@ -39,7 +39,6 @@ public class Harvesting : Net_Housing_Object//, IObject
     private int[] btn_min = { 1, 30, 120, 720, 1440 };
     private int[] ark_reward = { 1, 10, 30, 100, 200 };
     public int selection = -1;
-    private HousingObjectInfo info = null;
 
     private void Update()
     {
