@@ -690,7 +690,7 @@ public class BackendGameData_JGD : MonoBehaviour
 
         BackendReturnObject bro = null;
 
-        if (string.IsNullOrEmpty(gameDataRowInDate))
+        if (string.IsNullOrEmpty(gameDataRowInDate)) 
         {
             Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청");
 
@@ -741,7 +741,7 @@ public class BackendGameData_JGD : MonoBehaviour
         return null;
     }
 
-    public UserData get_userdata_by_nickname(string nickname, string[] select)
+    public UserData get_userdata_by_nickname(string nickname, string[] select) //유저데이터 가져오기
     {
         //select = { "Housing_Info" };
         var n_bro = Backend.Social.GetUserInfoByNickName(nickname);
@@ -891,7 +891,7 @@ public class BackendGameData_JGD : MonoBehaviour
         return null;
     }
 
-    public void update_userdata_by_nickname(string nickname, string[] select, UserData user_data)
+    public void update_userdata_by_nickname(string nickname, string[] select, UserData user_data) // 유저데이터 업데이트
     {
         if (user_data == null)
         {

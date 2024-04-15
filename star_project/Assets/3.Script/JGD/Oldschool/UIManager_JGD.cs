@@ -27,19 +27,19 @@ public class UIManager_JGD : MonoBehaviour
     [SerializeField] TMP_InputField friend_request_input;
 
     public int now_selection = 0;
-    public void OpenFriend()
+    public void OpenFriend() //친구창 열기
     {
         FriendScreen.SetActive(true);
         FriendminiscreenOpen();
         friend_request_input.text = "";
         //BackendFriend_JDG.Instance.GetFriendList();
     }
-    public void CloseFriend()
+    public void CloseFriend() //친구창 닫기
     {
         
         FriendScreen.SetActive(false);
     }
-    public void DeletList()
+    public void DeletList() // 리스트 삭제
     {
         for (int i = 0; i < FriendList.transform.childCount; i++)
         {
@@ -68,7 +68,7 @@ public class UIManager_JGD : MonoBehaviour
         accept_btn.interactable = false;
     }
 
-    public void FriendminiscreenOpen()
+    public void FriendminiscreenOpen() 
     {
         now_selection = 0;
 
