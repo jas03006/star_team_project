@@ -29,29 +29,25 @@ public enum command_flag
 
 public class TCPManger 
 {
-    private string IPAdress = "13.125.236.235";
-    private string Port = "7777";
+    private string IPAdress = "13.125.236.235"; //특정 IP를 사용하려면 사용 (현재는 사용하지 않음)
+    private string Port = "7777"; //서버의 포트
 
-    private Net_Room_Manager net_room_manager;
+    private Net_Room_Manager net_room_manager; //room (마이플래닛)을 관리하는 매니저
 
-   
-    private bool is_server;
+    StreamReader reader; //서버 스트림 리더
+    StreamWriter writer; //서버 스트림 라이터
 
-    StreamReader reader;
-    StreamWriter writer;
+    private List<Client_Handler> client_handler_list; //연결 된 클라이언트 리스트
+    private Queue<Net_Request> request_queue; //받은 요청을 담는 큐
 
-    private List<Client_Handler> client_handler_list;
-    private Queue<Net_Request> request_queue;
-    //Thread thread;
-    Task task;
+    Task task; //각 클라이언트 별 tcp 연결을 위한 task
     CancellationTokenSource cts;
-    //Thread processing_thread;
-    Task processing_task;
+
+    Task processing_task; // 받은 요청을 처리하는 태스크
     CancellationTokenSource processing_cts;
 
-    private int respawn_flag = 7777;
-    //client
-    // private int now_room_id = -1;
+    private int respawn_flag = 7777; //마이플래닛 첫 참가 판별을 위한 값
+    
     public void start()
     {
         net_room_manager = new Net_Room_Manager();
@@ -60,12 +56,12 @@ public class TCPManger
 
         processing_cts = new CancellationTokenSource();
         processing_task = new Task(process_all_client_co, processing_cts.Token);
-        //processing_task.
+        
         processing_task.Start();
-        // StartCoroutine(process_all_client_co());
-        Server_open();
-        // process_all_client_co();
-        while (true) {
+
+        Server_open(); //tcp 서버 오픈
+        
+        while (true) { //일정 주기마다 클라이언트들의 연결 상태를 확인
             Thread.Sleep(1000);
             check_client_connections();
             status_Message();
@@ -73,8 +69,8 @@ public class TCPManger
     }
 
 
-    private Queue<string> log = new Queue<string>();
-    void status_Message()
+    private Queue<string> log = new Queue<string>(); //로그를 담는 큐
+    void status_Message() //서버 로그 출력
     {
         if (log.Count > 0)
         {
@@ -91,18 +87,15 @@ public class TCPManger
         //task.IsBackground = true;
         task.Start();
     }
-    private void ServerConnect()//서버를 열어주는 쪽-> 서버를 만드는 쪽
+    private void ServerConnect()
     {
-        //지속적으로 사용 -> update 문처럼 사용
-        //-> 메세지가 들어올 때마다 열어줌 
-        //흐름에다가 예외처리 -> try-catch
         try
         {
             TcpListener tcp =
                 new TcpListener(IPAddress.Any,//IPAddress.Parse(IPAdress),
                 int.Parse(Port));
             //TcpListener 객체 생성
-            tcp.Start();//서버가 시작 -> 서버가 열렸다
+            tcp.Start();
             log.Enqueue("Server Open");
             int id_ = 0;
             while (true)
@@ -118,7 +111,7 @@ public class TCPManger
                 id_++;
                 client_handler_list.Add(ch);
 
-                ch.start();
+                ch.start(); //해당 tcp 연결을 처리할 task 실행
             }
 
         }
@@ -132,13 +125,11 @@ public class TCPManger
 
     private void process_all_client_co()
     {
-        while (true)
+        while (true) //일정 주기 마다 대기중인 요청을 처리
         {
             Thread.Sleep(20);
             
             process_request();
-            //process_all_client();
-           // yield return null;
         }
     }
     private void process_all_client()
@@ -173,6 +164,7 @@ public class TCPManger
         client_handler_list.Remove(ch);
     }
 
+    //클라이언트 연결 상태 확인
     public void check_client_connections() {
         for (int i =0; i < client_handler_list.Count; i++) {
             
@@ -231,7 +223,6 @@ public class TCPManger
                     req.client.writer.WriteLine(req.msg + " " + net_room_manager.get_people_positions(host_id)); // 기존 참여자 위치 정보 전송
                     break;
                 case command_flag.exit: //게임에서 나가기
-                    //net_room_manager.room_RPC(int.Parse(cmd_arr[1]), req.msg);
                     net_room_manager.remove_from_room(req.client, req.client.room_id); //기존 있던 방에서 탈퇴
                     handler_remove(req.client);
                     req.client.close();
@@ -279,6 +270,7 @@ public class TCPManger
     #endregion
 
     #region RPC
+    //글로벌 상태에 있는 모든 클라이언트들에게 전송 (현재는 글로벌 상태가 따로 없음)
     public void global_world_RPC(string msg) {
         foreach (Client_Handler ch in client_handler_list)
         {
@@ -288,6 +280,7 @@ public class TCPManger
         }
     }
 
+    //모든 클라이언트에게 전송
     public void every_RPC(string msg)
     {
         foreach (Client_Handler ch in client_handler_list)
@@ -295,6 +288,8 @@ public class TCPManger
             ch.writer.WriteLine(msg);           
         }
     }
+
+    //특정 클라이언트에게 전송
     public void target_RPC(string uuid_, string msg)
     {
         foreach (Client_Handler ch in client_handler_list)
@@ -322,10 +317,6 @@ public class TCPManger
         processing_cts.Cancel();
         cts.Cancel();
 
-        /*thread.Abort();
-        thread.Join();
-        processing_thread.Abort();
-        processing_thread.Join();*/
         close_all_thread();
     }
     private void OnDestroy()

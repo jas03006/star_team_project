@@ -7,18 +7,19 @@ using System.IO;
 
 using System.Threading;
 using System.Numerics;
+//클라이언트 tcp 연결을 관리하는 handler
 public class Client_Handler
 {
     public int id = -1;
-    public string uuid = "-";
+    public string uuid = "-"; //클라이언트의 id
     public TcpClient client;
     public TCPManger manager;
     public StreamReader reader;
     public StreamWriter writer;
-    public string room_id = "-";
+    public string room_id = "-"; //현재 참가중인 마이플래닛 호스트의 id
     public Vector3 position;
     //private Thread listen_thread;
-    private Task listen_task;
+    private Task listen_task; //해당 클라이언트와 tcp 연결을 관리해주는 task
     CancellationTokenSource cts;
     public Client_Handler(TcpClient client_, TCPManger manager_)
     {
@@ -33,9 +34,6 @@ public class Client_Handler
 
     public void start()
     {
-        /*listen_thread = new Thread(process_client);
-        listen_thread.IsBackground = true;
-        listen_thread.Start();*/
          cts = new CancellationTokenSource();
         CancellationToken token = cts.Token;
         listen_task = new Task(process_client, token);
@@ -43,10 +41,10 @@ public class Client_Handler
 
     }
 
+    //클라이언트의 요청 listen
     public void process_client()
     {
         string readerData;
-        //float timer = 0f;
         try
         {
             while (client.Connected)
@@ -69,7 +67,6 @@ public class Client_Handler
         }
         Console.WriteLine($"Client {uuid} disconnected");
         manager.handler_remove(this);
-        //Thread.CurrentThread.Join();
     }
 
     public void close()
@@ -81,14 +78,6 @@ public class Client_Handler
                 cts.Cancel();
             }
             catch { }
-        }/*if (listen_thread != null)
-        {
-            try
-            {
-                listen_thread.Abort();
-                listen_thread.Join();
-            }
-            catch { }
-        }*/
+        }
     }
 }

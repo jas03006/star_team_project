@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Numerics;
 
+//마이플래닛 방의 정보를 표현하는 class
 public class Net_Room_Info
 {
     public string host_id;
     public List<Client_Handler> guest_list;
     public Client_Handler host;
-    public string data;
+    public string data; //기타 정보를 담을 string (위치 정보)
 
 
     public Net_Room_Info(string host_id_, Client_Handler client)
