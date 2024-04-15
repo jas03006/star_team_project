@@ -14,6 +14,7 @@ public enum harvest_state {
     complete
 }
 
+//수확 오브젝트 (아크실린더)
 public class Harvesting : Net_Housing_Object//, IObject
 {
     [SerializeField] private RectTransform root;
@@ -111,7 +112,7 @@ public class Harvesting : Net_Housing_Object//, IObject
         selection = -1;
         state = harvest_state.ready;
     }
-    public void process_state(TimeSpan remain_time) {
+    public void process_state(TimeSpan remain_time) { //상태에 따른 행동
         if (TCP_Client_Manager.instance.housing_ui_manager.is_edit_mode) {
             hide_all_UI();
             return;
@@ -126,7 +127,6 @@ public class Harvesting : Net_Housing_Object//, IObject
                 break;
             case harvest_state.processing:
                 show_processing_UI();
-                // processing_timer.text  = $"{(remain_time.TotalMinutes < 10 ? "0" : "")}{(int)remain_time.TotalMinutes}:{(remain_time.Seconds < 10 ? "0" : "")}{remain_time.Seconds}";
                 if (start_time == DateTime.MaxValue || start_time == DateTime.MinValue) {
                     processing_timer.text = "";
                 }
@@ -146,7 +146,7 @@ public class Harvesting : Net_Housing_Object//, IObject
         }
 
     }
-    public void update_state()
+    public void update_state() //시간 정보에 따른 상태 갱신
     {
         TimeSpan remain_time = end_time - DateTime.Now;
         if (start_time == DateTime.MaxValue)
@@ -162,7 +162,7 @@ public class Harvesting : Net_Housing_Object//, IObject
         }
         process_state(remain_time);
     }
-    private IEnumerator show_particle_co() {
+    private IEnumerator show_particle_co() { //수확 시 효과 표시
         complete_particle.Play();
         yield return new WaitForSeconds(1f);
         complete_particle.Stop();
@@ -172,12 +172,12 @@ public class Harvesting : Net_Housing_Object//, IObject
         if (state == harvest_state.complete) {
             StartCoroutine(show_particle_co());
             int reward = ark_reward[selection];
-            if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id)
+            if (TCP_Client_Manager.instance.now_room_id == TCP_Client_Manager.instance.my_player.object_id) //내 아크실린더 수확
             {
                 //TODO: 재화 획득
                 MoneyManager.instance.Get_Money(Money.ark, reward);
             }
-            else {
+            else { //대리 수확
 
                 MoneyManager.instance.Get_Money(Money.ark,(int) (reward*0.3f));
                 QuestManager.instance.Check_mission(Criterion_type.proxy_harvesting);
@@ -199,17 +199,12 @@ public class Harvesting : Net_Housing_Object//, IObject
                 postItem.TableName = "USER_DATA";
                if (BackendGameData_JGD.Instance.gameDataRowInDate == string.Empty)
                {
-                    
-                   //var bro_ = Backend.Social.GetUserInfoByNickName(Backend.UserNickName);
-                   //
-                   //string gamerIndate = bro_.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-
                     Where where = new Where();
-                    where.Equal("owner_inDate", Backend.UserInDate);// gamerIndate);
+                    where.Equal("owner_inDate", Backend.UserInDate);
 
                     var bro__ = Backend.GameData.Get("USER_DATA", where);
                     Debug.Log(bro__.FlattenRows()[0]["inDate"].ToString());
-                    BackendGameData_JGD.Instance.gameDataRowInDate = bro__.FlattenRows()[0]["inDate"].ToString(); //Backend.GameData.GetMyData("USER_DATA", new Where()).FlattenRows()[0]["inDate"].ToString();
+                    BackendGameData_JGD.Instance.gameDataRowInDate = bro__.FlattenRows()[0]["inDate"].ToString();
                    
                     postItem.RowInDate = bro__.FlattenRows()[0]["inDate"].ToString();
                }

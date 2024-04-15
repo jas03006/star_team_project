@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//플레이어와 상호작용 시 특정 행동을 하는 하우징 오브젝트 (현재는 회전)
 public class SpecialObj : Net_Housing_Object
 {
     private Coroutine now_interact_co = null;
