@@ -57,7 +57,7 @@ public class Tutorial_YG : MonoBehaviour
     int count_;
     bool is_blinking = false;
 
-    [SerializeField] int[] click = { 6, 18 };
+    [SerializeField] int[] click = { 6,13, 18 };
     [SerializeField] int[] solo_timings = { 7 }; //터치입력 안받는 오브젝트만 등장 시 카운트 타이밍
     [SerializeField] int[] together_timings = { 4, 5, 8, 9, 10, 11, 12, 16, 17 }; //둘다 등장 시 카운트 타이밍
 
@@ -98,12 +98,15 @@ public class Tutorial_YG : MonoBehaviour
         image_50.sprite = sprites[count];
         btn_50.interactable = false;
 
-        yield return new WaitForSeconds(click_time);
+        if (!click.Contains(count)) {
+            yield return new WaitForSeconds(click_time);
 
-        StartCoroutine(Blink_co());
+            StartCoroutine(Blink_co());
 
-        btn_50.interactable = true;
-        btn_100.interactable = true;
+            btn_50.interactable = true;
+            btn_100.interactable = true;
+        }
+        
     }
 
     private IEnumerator Timecheck_nottouch_co(bool together) //btn_100
