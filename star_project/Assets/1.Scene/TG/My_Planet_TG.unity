@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.6739509, g: 0.4657923, b: 0.817404, a: 1}
+  m_IndirectSpecularColor: {r: 0.6739623, g: 0.465823, b: 0.81740475, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -40002,6 +40002,10 @@ PrefabInstance:
       propertyPath: target_button
       value: 
       objectReference: {fileID: 1725452203}
+    - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
+      propertyPath: target_button_tag
+      value: Profile_X_Button
+      objectReference: {fileID: 0}
     - target: {fileID: 2315644896908308666, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -40887,6 +40891,10 @@ PrefabInstance:
     - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
       propertyPath: goal_should_on
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
+      propertyPath: target_button_tag
+      value: Profile_Button
       objectReference: {fileID: 0}
     - target: {fileID: 695619233178169527, guid: b91bd65da52512c4d96304dd09260f63, type: 3}
       propertyPath: goal_object_parent_tag
@@ -49272,6 +49280,7 @@ MonoBehaviour:
   start_pos: {fileID: 2036481907}
   end_pos: {fileID: 938483802}
   target_button: {fileID: 0}
+  target_button_tag: 
   goal_object_parent_tag: 
   goal_should_on: 1
 --- !u!1 &1452538250
@@ -50585,7 +50594,7 @@ GameObject:
   - component: {fileID: 1482546166}
   m_Layer: 0
   m_Name: Profile
-  m_TagString: Untagged
+  m_TagString: Profile_Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57124,7 +57133,7 @@ GameObject:
   - component: {fileID: 1725452203}
   m_Layer: 5
   m_Name: X
-  m_TagString: Untagged
+  m_TagString: Profile_X_Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72865,6 +72874,7 @@ MonoBehaviour:
   start_pos: {fileID: 1411269184859165313}
   end_pos: {fileID: 6501748948823395422}
   target_button: {fileID: 0}
+  target_button_tag: 
   goal_object_parent_tag: 
   goal_should_on: 1
 --- !u!114 &695619232522782841 stripped
@@ -72902,6 +72912,7 @@ MonoBehaviour:
   start_pos: {fileID: 1411269184483416724}
   end_pos: {fileID: 6501748948716864587}
   target_button: {fileID: 0}
+  target_button_tag: 
   goal_object_parent_tag: 
   goal_should_on: 1
 --- !u!114 &695619232730286273
@@ -72928,6 +72939,7 @@ MonoBehaviour:
   start_pos: {fileID: 1411269184288520410}
   end_pos: {fileID: 6501748948387489285}
   target_button: {fileID: 0}
+  target_button_tag: 
   goal_object_parent_tag: 
   goal_should_on: 1
 --- !u!114 &695619233147720295 stripped
@@ -126262,6 +126274,7 @@ MonoBehaviour:
   start_pos: {fileID: 8526967257188559400}
   end_pos: {fileID: 4610226326086055159}
   target_button: {fileID: 0}
+  target_button_tag: 
   goal_object_parent_tag: 
   goal_should_on: 1
 --- !u!33 &7821091290442690795
