@@ -27,6 +27,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
 
 
     public Button target_button; // 타겟이 되는 버튼 (클릭시 다음 단계로)
+    public string target_button_tag = string.Empty; // 타겟이 되는 버튼의 태그 (타겟이 싱글톤일 경우 사용)
     public string goal_object_parent_tag = string.Empty; // 타겟 버튼 클릭 시 active 변경 되어야하는 gomeobject의 부모의 tag ( 선택적, 버튼을 클릭하지 않더라도 해당 object가 active되어 있다면 다음 단계로)
     public bool goal_should_on = true; // 골 오브젝트가 active되어야 하는지 deactive 되어야하는지 (선택)
     private UnityAction step_action; // 타겟 클릭 시 액션 (add listener로 동적으로 할당)
@@ -78,7 +79,26 @@ public class Tutorial_Screen_Object : MonoBehaviour
     public void start_process() {
         StartCoroutine(process());
     }
-
+    
+    private bool check_goal(GameObject goal_object) {
+        if (goal_object_parent_tag != string.Empty)
+        {
+            if (goal_object != null && goal_object.activeSelf == goal_should_on)
+            {
+                target_button?.onClick.RemoveListener(step_action);
+                Tutorial_TG.instance.step();
+                return true;
+            }
+        }
+        return false;
+        
+    }
+    private IEnumerator check_goal_co() {
+        GameObject goal_object = GameObject.FindGameObjectWithTag(goal_object_parent_tag)?.transform.GetChild(0)?.gameObject;
+        while (goal_object != null && !check_goal(goal_object)) {
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
     //튜토리얼 타입에 따른 처리
     public IEnumerator process() {
 
@@ -94,7 +114,11 @@ public class Tutorial_Screen_Object : MonoBehaviour
                 screen.onClick.AddListener(step_action);
                 break;
             case tutorial_type_TG.particular_touch:
-                if (goal_object_parent_tag != string.Empty) {
+                if (target_button_tag != string.Empty) {
+                    target_button = GameObject.FindGameObjectWithTag(target_button_tag)?.GetComponent<Button>();
+                }
+                if (goal_object_parent_tag != string.Empty)
+                {
                     GameObject goal_object = GameObject.FindGameObjectWithTag(goal_object_parent_tag)?.transform.GetChild(0)?.gameObject;
                     if (goal_object != null && goal_object.activeSelf == goal_should_on)
                     {
@@ -103,7 +127,7 @@ public class Tutorial_Screen_Object : MonoBehaviour
                         break;
                     }
                 }
-                
+                StartCoroutine(check_goal_co());
                 step_action = () => { Tutorial_TG.instance.step(); target_button?.onClick.RemoveListener(step_action); };
                 target_button?.onClick.AddListener(step_action);
                 break;
